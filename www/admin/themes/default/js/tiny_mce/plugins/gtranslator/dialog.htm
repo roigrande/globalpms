@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{#gtranslator_dlg.title}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    
+    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+    
+    <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
+</head>
+<body>
+
+<form onsubmit="GtranslatorDialog.insert();return false;" action="#">
+    <p>
+        <label for="source">{#gtranslator_dlg.original_lang}:</label> 
+        <select id="source" name="source">           
+            <option value="es">{#gtranslator_dlg.spanish}</option>
+            <option value="gl">{#gtranslator_dlg.galician}</option>
+            <option value="en">{#gtranslator_dlg.english}</option>
+        </select> 
+       
+        {#gtranslator_dlg.to}
+       
+        <label for="target">{#gtranslator_dlg.target_lang}:</label> 
+        <select id="target" name="target">
+            <option value="es">{#gtranslator_dlg.spanish}</option>
+            <option value="gl">{#gtranslator_dlg.galician}</option>
+            <option value="en">{#gtranslator_dlg.english}</option>
+        </select>
+        
+        <input type="button" id="translate" name="translate" value="{#gtranslator_dlg.translate}" onclick="GtranslatorDialog.translate();" />
+        
+        <span id="msg"></span>
+    </p>
+    
+    <div>
+        <textarea id="content" rows="5" cols="10"></textarea>
+    </div>
+
+    <div class="mceActionPanel">
+        <div style="float: left">
+            <input type="button" id="insert" name="insert" value="{#insert}" onclick="GtranslatorDialog.insert();" />
+        </div>        
+
+        <div style="float: right">
+            <input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

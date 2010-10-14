@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2010-10-08 13:23:14
+<?php /* Smarty version 2.6.18, created on 2010-10-14 13:27:06
          compiled from worker/workers.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('block', 't', 'worker/workers.tpl', 20, false),array('block', 'acl', 'worker/workers.tpl', 28, false),array('function', 'cycle', 'worker/workers.tpl', 37, false),array('modifier', 'clearslash', 'worker/workers.tpl', 44, false),array('modifier', 'default', 'worker/workers.tpl', 70, false),array('modifier', 'escape', 'worker/workers.tpl', 201, false),array('modifier', 'strip', 'worker/workers.tpl', 295, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('block', 't', 'worker/workers.tpl', 20, false),array('block', 'acl', 'worker/workers.tpl', 28, false),array('function', 'cycle', 'worker/workers.tpl', 37, false),array('modifier', 'clearslash', 'worker/workers.tpl', 44, false),array('modifier', 'default', 'worker/workers.tpl', 70, false),array('modifier', 'escape', 'worker/workers.tpl', 202, false),array('modifier', 'strip', 'worker/workers.tpl', 296, false),)), $this); ?>
 <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "header.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -121,7 +121,8 @@ $this->_sections['c']['last']       = ($this->_sections['c']['iteration'] == $th
                 <td style="text-align:left;font-size: 11px;">
                          <?php echo ((is_array($_tmp=@$this->_tpl_vars['workers'][$this->_sections['c']['index']]->description)) ? $this->_run_mod_handler('default', true, $_tmp, '---') : smarty_modifier_default($_tmp, '---')); ?>
 
-                             <td style="text-align:center;">
+                </td>
+                                <td style="text-align:center;">
                         <a href="#" onClick="javascript:enviar(this, '_self', 'read', '<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->id; ?>
 ');" title="Modificar">
                                 <img src="<?php echo($this->image_dir); ?>edit.png" border="0" /></a>
@@ -289,7 +290,7 @@ unset($_smarty_tpl_vars);
 " />
             </td>
             <td valign="top"  nowrap="nowrap"  style="text-align:right;">
-                <label for="title"><?php $this->_tag_stack[] = array('t', array()); $_block_repeat=true;smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>Email 1<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>:</label>
+                <label for="title"><?php $this->_tag_stack[] = array('t', array()); $_block_repeat=true;smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>Email <?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>1:</label>
             </td>
             <td valign="top">
                 <input type="text" id="email1" name="email1" title="email1" size="40" value="<?php echo ((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['worker']->email1)) ? $this->_run_mod_handler('clearslash', true, $_tmp) : smarty_modifier_clearslash($_tmp)))) ? $this->_run_mod_handler('escape', true, $_tmp, 'html') : smarty_modifier_escape($_tmp, 'html')); ?>
@@ -329,7 +330,7 @@ unset($_smarty_tpl_vars);
                 <label for="title"><?php $this->_tag_stack[] = array('t', array()); $_block_repeat=true;smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>Description<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>:</label>
             </td>
             <td valign="top" rowspan="4">
-                <textarea name="description" id="description" title="Information" cols="38" rows="8"><?php echo ((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['worker']->description)) ? $this->_run_mod_handler('clearslash', true, $_tmp) : smarty_modifier_clearslash($_tmp)))) ? $this->_run_mod_handler('escape', true, $_tmp, 'html') : smarty_modifier_escape($_tmp, 'html')); ?>
+                <textarea name="description" id="description" title="description" cols="38" rows="8"><?php echo ((is_array($_tmp=((is_array($_tmp=$this->_tpl_vars['worker']->description)) ? $this->_run_mod_handler('clearslash', true, $_tmp) : smarty_modifier_clearslash($_tmp)))) ? $this->_run_mod_handler('escape', true, $_tmp, 'html') : smarty_modifier_escape($_tmp, 'html')); ?>
 </textarea>
             </td>
         </tr>

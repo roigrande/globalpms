@@ -1,4 +1,4 @@
-{* Botonera Customers -------------------------------------------- *}
+{* Botonera Workers -------------------------------------------- *}
 {if preg_match('/worker\.php/',$smarty.server.SCRIPT_NAME) && ($smarty.request.action eq "list") }
     <div id="title-menu"><h2>{$titulo_barra}</h2></div>
     <div id="menu-acciones-admin">

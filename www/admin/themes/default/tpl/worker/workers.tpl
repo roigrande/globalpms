@@ -68,7 +68,8 @@
                 </td>
                 <td style="text-align:left;font-size: 11px;">
                          {$workers[c]->description|default:'---'}
-             {*   </td>
+                </td>
+                {*
                 {acl isAllowed="USER_ADMIN"}
                      <td style="text-align:left;font-size: 11px;">
                              {$workers[c]->agent}
@@ -324,7 +325,7 @@
                 <input type="text" id="nif" name="nif" title="nif" size="10" maxlength="9" value="{$worker->nif|clearslash|escape:"html"}" />
             </td>
             <td valign="top"  nowrap="nowrap"  style="text-align:right;">
-                <label for="title">{t}Email 1{/t}:</label>
+                <label for="title">{t}Email {/t}1:</label>
             </td>
             <td valign="top">
                 <input type="text" id="email1" name="email1" title="email1" size="40" value="{$worker->email1|clearslash|escape:"html"}"/>
@@ -360,7 +361,7 @@
                 <label for="title">{t}Description{/t}:</label>
             </td>
             <td valign="top" rowspan="4">
-                <textarea name="description" id="description" title="Information" cols="38" rows="8">{$worker->description|clearslash|escape:"html"}</textarea>
+                <textarea name="description" id="description" title="description" cols="38" rows="8">{$worker->description|clearslash|escape:"html"}</textarea>
             </td>
         </tr>
  

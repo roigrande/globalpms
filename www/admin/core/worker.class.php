@@ -153,14 +153,14 @@ class Worker extends Resource
                                       `telf1`,`telf2`, `address`,
                                       `city` )
                 VALUES ( ?,?,? ,?,?,? ,?,?,? ,?)';
-//echo $sql;
+
         $data['pk_worker'] = $this->id;
 
         $values = array($data['pk_worker'],$data['nif'],$data['nss'],
                         $data['dob'],$data['email1'],$data['email2'],
                         $data['telf1'],$data['telf2'],$data['address'],
                         $data['city']);
-        //var_dump($values);
+       
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
             $GLOBALS['application']->logger->debug('Error: '.$error_msg);
@@ -180,7 +180,7 @@ class Worker extends Resource
     function read($id)
     {
         parent::read($id); // Read content of Content
-//echo 'read work';
+
         $sql = 'SELECT * FROM workers WHERE pk_worker = '.($id);
         $rs = $GLOBALS['application']->conn->Execute( $sql );
 
@@ -220,9 +220,7 @@ class Worker extends Resource
         $values = array($data['nif'], $data['nss'],$data['dob'], 
                         $data['email1'], $data['email2'], $data['telf1'],
                         $data['telf2'], $data['address'], $data['city']);
-        echo $sql;
-      //  var_dump($values);
-      //  die();
+      
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
             $GLOBALS['application']->logger->debug('Error: '.$error_msg);

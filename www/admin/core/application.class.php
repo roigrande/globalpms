@@ -11,28 +11,26 @@ function &MonitorContentStatus($db, $sql, $inputarray) {
     }
     
     $a=null;
-	return $a;
+    return $a;
 }
 
 
 class Application {    
-    var $conn        = null;
-    var $logger        = null;
-    var $workflow   = null;
-    var $errors     = array();
-
-    var $adodb         = null;
-    var $activerecord    = null;
-    var $smarty        = null;
-    var $log        = null;
-    var $menu        = null;
+    var $conn         = null;
+    var $logger       = null;
+    var $workflow     = null;
+    var $errors       = array();
+    var $adodb        = null;
+    var $activerecord = null;
+    var $smarty       = null;
+    var $log          = null;
+    var $menu         = null;
     var $pager        = null;
-    var $template    = null;
-    var $sesion        = null;
+    var $template     = null;
+    var $sesion       = null;
     var $cache        = null;
     var $image        = null;
-    
-    var $events     = array();
+    var $events       = array();
     
     /**
      * Semphore to access critic section
@@ -42,10 +40,10 @@ class Application {
 
     function Application() {        
         $this->adodb        = SITE_LIBS_PATH.'adodb5/adodb.inc.php';
-        $this->smarty        = SITE_LIBS_PATH.'smarty/Smarty.class.php';
-        $this->log            = SITE_LIBS_PATH.'Log.php';
+        $this->smarty       = SITE_LIBS_PATH.'smarty/Smarty.class.php';
+        $this->log          = SITE_LIBS_PATH.'Log.php';
         $this->pager        = SITE_LIBS_PATH.'Pager/Pager.php';
-        $this->template        = SITE_LIBS_PATH.'template.class.php';      
+        $this->template     = SITE_LIBS_PATH.'template.class.php';      
     }
 
     function __construct() {

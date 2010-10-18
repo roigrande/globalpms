@@ -56,136 +56,57 @@ if( isset($_REQUEST['action']) ) {
         break;
 
         case 'read': {
-            //habrá que tener en cuenta el tipo
-//            if(!Acl::_('CUSTOMER_ADMIN')) {
-//                Acl::deny();
-//            }
-            $worker = new Worker( $_REQUEST['id'] );
-          
-            //$user = new User($worker->fk_creator);
-            //$tpl->assign('user', $user->name);
-           // var_dump($worker);
-            $tpl->assign('worker', $worker);
 
- 
+            $worker = new Worker( $_REQUEST['id'] );         
+            $tpl->assign('worker', $worker);
 
         } break;
         
         case 'create': {
-//            if(!Acl::_('CUSTOMER_ADMIN')) {
-//                Acl::deny();
-//            }
-           $worker = new worker();
-         //    if(empty($_POST['fk_creator']))
-         //     $_POST['fk_creator'] = $_SESSION['userid'];
-             if($worker->create( $_POST )) {
+
+            $worker = new worker();
+            if($worker->create( $_POST )) {
                 Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&'.$query_string);
             } else {
                 $tpl->assign('errors', $worker->errors);
-           }
+            }
 
 
         } break;
        
  
-        case 'update': {/*
-            if(!Acl::_('CUSTOMER_ADMIN')) {
-                Acl::deny();
-            }
-            */
+        case 'update': {
+            
             $worker = new Worker($_REQUEST['id']);
-   //        if(empty($_REQUEST['fk_creator']))
-    //            $_REQUEST['fk_creator'] = $worker->fk_creator; //don't change.
-         
             $worker->update( $_REQUEST );
             Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&'.$query_string);
 
            } break;
 
-//
-        case 'validate':
 
-//            if(!Acl::_('CUSTOMER_ADMIN')) {
-//                Acl::deny();
-//            }
-            echo "validate2";
+        case 'validate':
+           
             if(empty($_POST["id"])) {
                
                 $worker = new worker();
                 if(!$worker->create( $_POST ))
-
-                        $tpl->assign('errors', $tracking->errors);
+                    $tpl->assign('errors', $tracking->errors);
             } else {
-                
                 $worker = new Worker($_POST["id"]);
-               var_dump($worker);
                 $worker->update( $_REQUEST );
-
             }
 
             Application::forward($_SERVER['SCRIPT_NAME'].'?action=read&id='.$worker->id);
         break;
 
         case 'delete': {
-       /*     if(!Acl::_('CUSTOMER_ADMIN')) {
-                Acl::deny();
-            }
-        *
-        */
+    
             $msg='';
             $worker = new Worker($_POST['id']);
-            var_dump($worker);
                 $worker->delete( $_POST['id'] );
-                $msg="El Puto trabajador se ha eliminado correctamente ";
-
-
+                $msg="El trabajador se ha eliminado correctamente ";
             Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&id_del='.$_POST['id'].'&msg='.$msg.'&'.$query_string);
         } break;
-//
-//
-//
-//
-//        case 'mdelete':
-//            if(isset($_REQUEST['selected_fld']) && count($_REQUEST['selected_fld'])>0){
-//                $fields = $_REQUEST['selected_fld'];
-//                if(is_array($fields)) {
-//                    $msg = "";
-//
-//                    foreach($fields as $i ) {
-//                        $worker = new Customer($i);
-//                        $customtracks = CustomerTracking::get_tracks($i);
-//                        if(!empty($customtracks)){
-//                            $msg.= "<h3> No se puede eliminar $worker->name tiene incidencias asociadas: ".implode(', ', $customtracks).'</h3>';
-//                        }else{
-//
-//                            $worker->delete( $i,$_SESSION['userid'] );
-//                        }
-//                    }
-//                    if(!empty($msg)){ $msg.= '<h3>Eliminelos uno a uno. </h3>';}
-//
-//                 }
-//            }
-//
-//            Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&msg='.$msg.'&page='.$_REQUEST['page'].'&'.$query_string);
-//        break;
-//
-//
-//
-//        case 'check_tfno': {
-//
-//            $html_out='';
-//            $cm = new ContentManager();
-//            $trackings = $cm->find('worker', 'fk_content_type=1 AND telf1 ="'.$_REQUEST['tfno'].'"', 'ORDER BY  contents.name ASC ');
-//
-//            if(!empty($trackings)) {
-//                $html_out= "Ya existe un cliente con ese telefono  ";
-//            }
-//
-//            Application::ajax_out($html_out);
-//
-//
-//        } break;
-//
 
         default: {
             Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&'.$query_string);

@@ -52,16 +52,7 @@
                     <img border="0" src="{php}echo($this->image_dir);{/php}customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
                 </a>
             </li>
-            {*
-            {if ($smarty.request.action eq "read")}
-                 <li>
-                    <a href="#" class="admin_add" onClick="saveTracking(this, '_self', 'validate', '{$worker->id}', 'formulario'); javascript:sendFormValidate(this, '_self', 'validate', '{$worker->id}', 'formulario');" value="save trackings" title="save trackings">
-                        <img border="0" src="{php}echo($this->image_dir);{/php}article_add.gif" title="Save trackings" alt="Save trackings" ><br />Guardar incidencia y cliente
-                    </a>
-                </li>
-            {/if}
-            *}
-            </ul>
+        </ul>
     </div>
  {* Botonera tracking -------------------------------------------- *}
 {elseif preg_match('/tracking\.php/',$smarty.server.SCRIPT_NAME) && ($smarty.request.action eq "list")}

@@ -32,14 +32,14 @@ class Resource {
     var $pk_resource; //id
     var $fk_resource_type = null;
     var $name = null;
-    var $description = null;
-    var $metadata = null;
+    var $status = null;
     var $created = null;
     var $changed = null;
-    var $picture = null;
+    var $metadata = null;
+    var $description = null;
+    var $image = null;
    
     function Resource($id=null) {
-  //      $this->cache = new MethodCacheManager($this, array('ttl' => 30));
 
         if(!is_null($id)) {
             $this->read($id);
@@ -51,25 +51,22 @@ class Resource {
     }
 
     function create( $data ) {
-        $data['created'] = date("Y-m-d H:i:s");
-        $data['changed'] = date("Y-m-d H:i:s");
-        $data['available'] = isset($data['available'])? $data['available'] : `available` ;
-        
-
-
-    
-        $fk_resource_type ='1'; // $GLOBALS['application']->conn->GetOne('SELECT * FROM `resource_types` WHERE name = '. $this->resource_type.'"');
-
-        $sql = "INSERT INTO resources (`fk_resource_type`, `name`, `available`,
+        $data['created']   = date("Y-m-d H:i:s");
+        $data['changed']   = date("Y-m-d H:i:s");
+        $data['status']    = isset($data['status'])? $data['status'] : `available` ;
+        $data['image']     = '';
+       
+        $fk_resource_type=$GLOBALS['application']->conn->GetOne('SELECT * FROM `resource_types` WHERE name = "'. $this->resource_type.'"');
+      
+        $sql = "INSERT INTO resources (`fk_resource_type`, `name`, `status`,
                                        `created`,`changed`, `metadata`,
                                        `description`,`image`)".
                    " VALUES (?,?,?, ?,?,?, ?,?)";
-//echo $sql;
 
-        $values = array($fk_resource_type, $data['name'], $data['available'],
+        $values = array($fk_resource_type, $data['name'], $data['status'],
                         $data['created'],$data['changed'], $data['metadata'],
                         $data['description'], $data['image']);
-//var_dump($values);
+
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
             $GLOBALS['application']->logger->debug('Error: '.$error_msg);
@@ -130,17 +127,18 @@ class Resource {
         // $GLOBALS['application']->dispatch('onBeforeUpdate', $this);
         $data['changed'] = date("Y-m-d H:i:s");
         $name_type = $this->resource_type;
-         $this->read( $data['id']); //????
+        $this->read( $data['id']); //????
         echo $name_type;
 
         $sql = "UPDATE resources SET `name`=?,`changed`=?, `description`=?,
-                                    `metadata`=?
+                                     `metadata`=?, `status`=?
 
                     WHERE pk_resource=".($data['id']);
         //echo $sql;
 
 
-        $values = array( $data['name'], $data['changed'], $data['description'], $data['metadata']);
+        $values = array( $data['name'], $data['changed'], $data['description'],
+                         $data['metadata'],$data['status']);
         //var_dump($data);
         
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {

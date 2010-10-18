@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2010-10-14 13:17:26
+<?php /* Smarty version 2.6.18, created on 2010-10-18 12:29:07
          compiled from botonera_up.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('block', 'acl', 'botonera_up.tpl', 6, false),array('block', 't', 'botonera_up.tpl', 27, false),)), $this); ?>
@@ -61,7 +61,7 @@ customers_add.png" title="Nuevo" alt="Nuevo"><br />Nuevo Trabajador
                     <img border="0" src="<?php echo($this->image_dir); ?>customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
                 </a>
             </li>
-                        </ul>
+        </ul>
     </div>
  <?php elseif (preg_match ( '/tracking\.php/' , $_SERVER['SCRIPT_NAME'] ) && ( $_REQUEST['action'] == 'list' )): ?>
     <div id="title-menu"><h2><?php echo $this->_tpl_vars['titulo_barra']; ?>

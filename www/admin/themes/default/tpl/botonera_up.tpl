@@ -34,9 +34,9 @@
             </li>           
             <li>
                
-                {if isset($worker->id) }
-                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '{$worker->id}', 'formulario');">
-                       <img border="0" src="{php}echo($this->image_dir);{/php}save.gif" title="Guardar y salir" alt="Guardar y salir"><br />Guardar y salir
+                {if isset($worker->pkResource) }
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '{$worker->pkResource}', 'formulario');">
+                       <img border="0" src="{php}echo($this->image_dir);{/php}save.gif" title="Guardar y salir" alt="Guardar y salir"><br /> Guardar y salir
                    </a>
                 
                 {else}
@@ -48,7 +48,7 @@
               
             </li>
             <li>
-                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '{$worker->id}', 'formulario');" value="Validar" title="Validar">
+                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '{$worker->pkResource}', 'formulario');" value="Validar" title="Validar">
                     <img border="0" src="{php}echo($this->image_dir);{/php}customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
                 </a>
             </li>

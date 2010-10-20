@@ -1,111 +1,97 @@
 <?php
 /**
- * worker, class to manage one Worker
+ * material, class to manage one Material
  *
- * @package 
+ * @package
  * @version 0.1
  * @author Roi Grande <roi@openhost.es>
- * 
+ *
  * @copyright Copyright (c) 2009, ROI S.L.
  */
 
 /**
- * Worker class
+ * Material class
  *
  * Class use MethodCacheManager for better performance
  *
  * @package OpenNeMas
  * @version 0.1
  */
-class Worker extends Resource
+class Material extends Resource
 {
-
     /**
      * @access public
      * @var int
      */
 
-    public $pk_worker = null;
+    public $pk_material = null;
 
     /**
      * @access public
      * @var varchar
      */
 
-    public $metadata = null;
+    public $price = null;
 
     /**
      * @access public
      * @var varchar
      */
 
-       
-    public $nif= null;
+    public $type = null;
 
     /**
      * @access public
      * @var varchar
      */
 
-    public $nss = null;
+    public $num= null;
 
     /**
      * @access public
      * @var varchar
      */
 
-    public $dob= null;
+     public $numAvailable = null;
 
     /**
      * @access public
      * @var varchar
      */
 
-    public $email1 = null;
+     public $store = null;
 
     /**
      * @access public
      * @var varchar
      */
-    public $email2 = null;
-
-    /**
-     * @access public
-     * @var varchar
-     */
-
-    public $telf1 = null;
+     
+    public $pk_provider = null;
 
     /**
      * @access public
      * @var varchar
      */
 
-    public $telf2 = null;
+    public $pk_invoice = null;
+
+    /**
+     * @access public
+     * @var varchar
+     */
+     public $dob = null;
 
     /**
      * @access public
      * @var varchar
      */
 
-    public $address = null;
 
-    /**
-     * @access public
-     * @var varchar
-     */
-
-    public $city = null;
-
-    /**
-     * @access public
-     * @var varchar
-     */
     /**
      * Constructor
      *
-     * @see Customer::Customer()
-     * @param int $id Customer ID
+     * @see Material::Material()
+     * @param int $id Material ID
     */
     function __construct($id=null)
     {
@@ -114,20 +100,20 @@ class Worker extends Resource
         if(is_numeric($id)) {
             $this->read($id);
         }
-        $this->resource_type = 'worker';
+        $this->resource_type = 'material';
     }
 
-    
+
 
     /**
      * Singleton pattern
      *
-     * @return Customer, instance of Customer
+     * @return Material, instance of Material
     */
     static function getInstance()
     {
         if( is_null(self::$instance) ) {
-            $instance = new worker();
+            $instance = new material();
 
             self::$instance = $instance;
             return self::$instance;
@@ -141,26 +127,23 @@ class Worker extends Resource
      * Create
      *
      * @param array $data
-     * @return Customer
+     * @return Material
      */
     function create($data)
     {
 
         parent::create($data);
-//pk_worker 	nif 	nss 	dob 	email1 	email2 	telf1 	telf2 	address 	city
-        $sql = 'INSERT INTO workers ( `pk_worker`,`nif`,`nss`,
-                                      `dob`,`email1`,`email2`,
-                                      `telf1`,`telf2`, `address`,
-                                      `city` )
-                VALUES ( ?,?,? ,?,?,? ,?,?,? ,?)';
-echo $sql;
-        $data['pk_worker'] = $this->id;
+        $sql = 'INSERT INTO materials ( `pk_material`,`type`,`price`,
+                                      `num`,`numavailable`,`store`,
+                                      `pk_provide`,`invoice`, `dob`)
+                VALUES ( ?,?,? ,?,?,? ,?,?,?)';
 
-        $values = array($data['pk_worker'],$data['nif'],$data['nss'],
-                        $data['dob'],$data['email1'],$data['email2'],
-                        $data['telf1'],$data['telf2'],$data['address'],
-                        $data['city']);
-        //var_dump($values);
+        $data['pk_material'] = $this->id;
+
+        $values = array($data['pk_material'],$data['type'],$data['price'],
+                        $data['num'],$data['num_available'],$data['store'],
+                        $data['pk_provide'],$data['invoice'],$data['dob']);
+
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
             $GLOBALS['application']->logger->debug('Error: '.$error_msg);
@@ -173,15 +156,15 @@ echo $sql;
     }
 
     /**
-     * Read content for a worker
+     * Read content for a material
      *
-     * @param int $id Workers Id
+     * @param int $id Materials Id
     */
     function read($id)
     {
         parent::read($id); // Read content of Content
-echo 'read work';
-        $sql = 'SELECT * FROM workers WHERE pk_worker = '.($id);
+
+        $sql = 'SELECT * FROM materials WHERE pk_material = '.($id);
         $rs = $GLOBALS['application']->conn->Execute( $sql );
 
         if (!$rs) {
@@ -191,7 +174,7 @@ echo 'read work';
 
             return;
         }
-   
+
 
         $this->load( $rs->fields );
 
@@ -201,28 +184,26 @@ echo 'read work';
 
 
     /**
-     * Update Customer
+     * Update Material
      *
      * @param array $data
-     * @return Customer Return the instance to chaining method
+     * @return Material Return the instance to chaining method
     */
     function update($data)
     {
         parent::update($data);
 
-        $sql = "UPDATE workers SET `nif`=?, `nss`=?, `dob`=?,
+        $sql = "UPDATE materials SET `nif`=?, `nss`=?, `dob`=?,
                                    `email1`=?, `email2`=?,`telf1`=?,
                                    `telf2`=?, `address`=?, `city`=?
-                               WHERE pk_worker=".($data['id']);
+                               WHERE pk_material=".($data['id']);
 
 
 
-        $values = array($data['nif'], $data['nss'],$data['dob'], 
+        $values = array($data['nif'], $data['nss'],$data['dob'],
                         $data['email1'], $data['email2'], $data['telf1'],
                         $data['telf2'], $data['address'], $data['city']);
-        echo $sql;
-        var_dump($values);
-      //  die();
+
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
             $GLOBALS['application']->logger->debug('Error: '.$error_msg);
@@ -235,16 +216,16 @@ echo 'read work';
     }
 
     /**
-     * Update worker
+     * Update material
      *
-     * @param int $id Customers Id
+     * @param int $id Materials Id
      * @return bool
     */
     function delete($id)
     {
         parent::delete($id);
 
-        $sql = 'DELETE FROM workers WHERE pk_worker ='.($id);
+        $sql = 'DELETE FROM materials WHERE pk_material ='.($id);
 echo $sql;
         if($GLOBALS['application']->conn->Execute($sql)===false) {
 
@@ -252,7 +233,7 @@ echo $sql;
             $GLOBALS['application']->logger->debug('Error: '.$error_msg);
             $GLOBALS['application']->errors[] = 'Error: '.$error_msg;
             return false;
-        
+
              }
 	return true;
     }

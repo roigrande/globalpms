@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.18, created on 2010-10-18 13:30:01
+<?php /* Smarty version 2.6.18, created on 2010-10-20 12:34:57
          compiled from worker/workers.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('block', 't', 'worker/workers.tpl', 17, false),array('block', 'acl', 'worker/workers.tpl', 25, false),array('function', 'cycle', 'worker/workers.tpl', 34, false),array('modifier', 'clearslash', 'worker/workers.tpl', 42, false),array('modifier', 'default', 'worker/workers.tpl', 73, false),array('modifier', 'escape', 'worker/workers.tpl', 128, false),array('modifier', 'strip', 'worker/workers.tpl', 149, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('block', 't', 'worker/workers.tpl', 17, false),array('block', 'acl', 'worker/workers.tpl', 25, false),array('function', 'cycle', 'worker/workers.tpl', 34, false),array('modifier', 'clearslash', 'worker/workers.tpl', 42, false),array('modifier', 'default', 'worker/workers.tpl', 68, false),array('modifier', 'escape', 'worker/workers.tpl', 123, false),array('modifier', 'strip', 'worker/workers.tpl', 144, false),)), $this); ?>
 <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "header.tpl", 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
@@ -72,29 +72,16 @@ $this->_sections['c']['last']       = ($this->_sections['c']['iteration'] == $th
             <td style="text-align:center;font-size: 11px;;">
                 <input type="checkbox" class="minput" id="selected_<?php echo $this->_sections['c']['iteration']; ?>
 " name="selected_fld[]"
-                value="<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pk_worker; ?>
+                value="<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pkWorker; ?>
 " />
             </td>
-                <td  id="info_<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pk_worker; ?>
-" style="font-size: 11px;cursor:pointer;cursor: hand;">
 
-            <td  id="info_<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pk_worker; ?>
+            
+            <td  id="info_<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pkWorker; ?>
 " style="font-size: 11px;cursor:pointer;cursor: hand;">
                 <?php echo ((is_array($_tmp=$this->_tpl_vars['workers'][$this->_sections['c']['index']]->name)) ? $this->_run_mod_handler('clearslash', true, $_tmp) : smarty_modifier_clearslash($_tmp)); ?>
 
-                        <?php echo '
-                            <script type="text/javascript" language="javascript">
-                            new Tip('; ?>
-'info_<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pk_worker; ?>
-', 'Apellidos: <?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->surname; ?>
- <br>Ciudad: <?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->city; ?>
- <br>Fecha de nacimiento:  <?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->obd; ?>
-', <?php echo '
-                            {title: \'Más información\'
-                            });
-                            </script>
-                        '; ?>
-
+                
             </td>
 
             <td style="text-align:left;font-size: 11px;">
@@ -117,7 +104,8 @@ $this->_sections['c']['last']       = ($this->_sections['c']['iteration'] == $th
 
             </td>
 
-             <td style="text-align:left;font-size: 11px;">
+
+            <td style="text-align:left;font-size: 11px;">
                 <?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->dob; ?>
 
             </td>
@@ -128,14 +116,14 @@ $this->_sections['c']['last']       = ($this->_sections['c']['iteration'] == $th
             </td>
 
             <td style="text-align:center;">
-                <a href="#" onClick="javascript:enviar(this, '_self', 'read', '<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->id; ?>
-');" title="Modificar">
-                <img src="<?php echo($this->image_dir); ?>edit.png" border="0" /></a>
+                <a href="#" onClick="javascript:enviar(this, '_self', 'read', '<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pkResource; ?>
+');" title="Modificar ">
+                <img src="<?php echo ($this->image_dir); ?>edit.png" border="0" /></a> 
             </td>
 
             <?php $this->_tag_stack[] = array('acl', array('isAllowed' => 'USER_ADMIN')); $_block_repeat=true;smarty_block_acl($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>
                 <td style="text-align:center;">
-                    <a href="#" onClick="javascript:confirmar(this, '<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->id; ?>
+                    <a href="#" onClick="javascript:confirmar(this, '<?php echo $this->_tpl_vars['workers'][$this->_sections['c']['index']]->pkResource; ?>
 ');" title="Eliminar">
                     <img src="<?php echo($this->image_dir); ?>trash.png" border="0" /></a>
                 </td>

@@ -26,6 +26,7 @@ require_once(SITE_ADMIN_PATH.'core/resource_manager.class.php');
 require_once(SITE_ADMIN_PATH.'core/resource.class.php');
 require_once(SITE_ADMIN_PATH.'core/worker.class.php');
 require_once(SITE_ADMIN_PATH.'core/user.class.php');
+require_once(SITE_ADMIN_PATH.'core/string_utils.class.php');
  
 if(!isset($_REQUEST['page']) || empty($_REQUEST['page']) ) {
     $_REQUEST['page']=1;
@@ -56,8 +57,8 @@ if( isset($_REQUEST['action']) ) {
         break;
 
         case 'read': {
-
-            $worker = new Worker( $_REQUEST['id'] );         
+            
+            $worker = new Worker( $_REQUEST['id'] );
             $tpl->assign('worker', $worker);
 
         } break;
@@ -85,10 +86,9 @@ if( isset($_REQUEST['action']) ) {
 
 
         case 'validate':
-           
             if(empty($_POST["id"])) {
                
-                $worker = new worker();
+                $worker = new Worker();
                 if(!$worker->create( $_POST ))
                     $tpl->assign('errors', $tracking->errors);
             } else {
@@ -96,13 +96,13 @@ if( isset($_REQUEST['action']) ) {
                 $worker->update( $_REQUEST );
             }
 
-            Application::forward($_SERVER['SCRIPT_NAME'].'?action=read&id='.$worker->id);
+            Application::forward($_SERVER['SCRIPT_NAME'].'?action=read&id='.$worker->pkResource);
         break;
 
         case 'delete': {
     
             $msg='';
-            $worker = new Worker($_POST['id']);
+                $worker = new Worker($_POST['id']);
                 $worker->delete( $_POST['id'] );
                 $msg="El trabajador se ha eliminado correctamente ";
             Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&id_del='.$_POST['id'].'&msg='.$msg.'&'.$query_string);

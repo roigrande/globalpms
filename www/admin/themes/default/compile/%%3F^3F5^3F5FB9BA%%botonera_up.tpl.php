@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2010-10-18 12:29:07
+<?php /* Smarty version 2.6.18, created on 2010-10-20 12:34:57
          compiled from botonera_up.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('block', 'acl', 'botonera_up.tpl', 6, false),array('block', 't', 'botonera_up.tpl', 27, false),)), $this); ?>
@@ -41,10 +41,10 @@ customers_add.png" title="Nuevo" alt="Nuevo"><br />Nuevo Trabajador
             </li>           
             <li>
                
-                <?php if (isset ( $this->_tpl_vars['worker']->id )): ?>
-                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '<?php echo $this->_tpl_vars['worker']->id; ?>
+                <?php if (isset ( $this->_tpl_vars['worker']->pkResource )): ?>
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '<?php echo $this->_tpl_vars['worker']->pkResource; ?>
 ', 'formulario');">
-                       <img border="0" src="<?php echo($this->image_dir); ?>save.gif" title="Guardar y salir" alt="Guardar y salir"><br />Guardar y salir
+                       <img border="0" src="<?php echo($this->image_dir); ?>save.gif" title="Guardar y salir" alt="Guardar y salir"><br /> Guardar y salir
                    </a>
                 
                 <?php else: ?>
@@ -56,7 +56,7 @@ customers_add.png" title="Nuevo" alt="Nuevo"><br />Nuevo Trabajador
               
             </li>
             <li>
-                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '<?php echo $this->_tpl_vars['worker']->id; ?>
+                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '<?php echo $this->_tpl_vars['worker']->pkResource; ?>
 ', 'formulario');" value="Validar" title="Validar">
                     <img border="0" src="<?php echo($this->image_dir); ?>customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
                 </a>

@@ -34,19 +34,13 @@
         <tr {cycle values="class=row0,class=row1"}>
             <td style="text-align:center;font-size: 11px;;">
                 <input type="checkbox" class="minput" id="selected_{$smarty.section.c.iteration}" name="selected_fld[]"
-                value="{$workers[c]->pk_worker}" />
+                value="{$workers[c]->pkWorker}" />
             </td>
-                <td  id="info_{$workers[c]->pk_worker}" style="font-size: 11px;cursor:pointer;cursor: hand;">
 
-            <td  id="info_{$workers[c]->pk_worker}" style="font-size: 11px;cursor:pointer;cursor: hand;">
+            
+            <td  id="info_{$workers[c]->pkWorker}" style="font-size: 11px;cursor:pointer;cursor: hand;">
                 {$workers[c]->name|clearslash}
-                        {literal}
-                            <script type="text/javascript" language="javascript">
-                            new Tip({/literal}'info_{$workers[c]->pk_worker}', 'Apellidos: {$workers[c]->surname} <br>Ciudad: {$workers[c]->city} <br>Fecha de nacimiento:  {$workers[c]->obd}', {literal}
-                            {title: 'Más información'
-                            });
-                            </script>
-                        {/literal}
+                
             </td>
 
             <td style="text-align:left;font-size: 11px;">
@@ -65,7 +59,8 @@
                 {$workers[c]->telf2}
             </td>
 
-             <td style="text-align:left;font-size: 11px;">
+
+            <td style="text-align:left;font-size: 11px;">
                 {$workers[c]->dob}
             </td>
 
@@ -74,13 +69,13 @@
             </td>
 
             <td style="text-align:center;">
-                <a href="#" onClick="javascript:enviar(this, '_self', 'read', '{$workers[c]->id}');" title="Modificar">
-                <img src="{php}echo($this->image_dir);{/php}edit.png" border="0" /></a>
+                <a href="#" onClick="javascript:enviar(this, '_self', 'read', '{$workers[c]->pkResource}');" title="Modificar ">
+                <img src="{php}echo ($this->image_dir);{/php}edit.png" border="0" /></a> 
             </td>
 
             {acl isAllowed="USER_ADMIN"}
                 <td style="text-align:center;">
-                    <a href="#" onClick="javascript:confirmar(this, '{$workers[c]->id}');" title="Eliminar">
+                    <a href="#" onClick="javascript:confirmar(this, '{$workers[c]->pkResource}');" title="Eliminar">
                     <img src="{php}echo($this->image_dir);{/php}trash.png" border="0" /></a>
                 </td>
             {/acl}

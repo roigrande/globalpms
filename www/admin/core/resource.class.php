@@ -29,8 +29,8 @@
  */
 class Resource {
 
-    var $pk_resource; //id
-    var $fk_resource_type = null;
+    var $pkResource; //id
+    var $fkResourceType = null;
     var $name = null;
     var $status = null;
     var $created = null;
@@ -39,15 +39,15 @@ class Resource {
     var $description = null;
     var $image = null;
    
-    function Resource($id=null) {
+    function Resource($pkResource=null) {
 
-        if(!is_null($id)) {
-            $this->read($id);
+        if(!is_null($pkResource)) {
+            $this->read($pkResource);
         }
     }
 
-    function __construct($id=null){
-        $this->Resource($id);
+    function __construct($pkResource=null){
+        $this->Resource($pkResource);
     }
 
     function create( $data ) {
@@ -56,14 +56,14 @@ class Resource {
         $data['status']    = isset($data['status'])? $data['status'] : `available` ;
         $data['image']     = '';
        
-        $fk_resource_type=$GLOBALS['application']->conn->GetOne('SELECT * FROM `resource_types` WHERE name = "'. $this->resource_type.'"');
+        $fkResourceType=$GLOBALS['application']->conn->GetOne('SELECT * FROM `resource_types` WHERE name = "'. $this->resourceType.'"');
       
         $sql = "INSERT INTO resources (`fk_resource_type`, `name`, `status`,
                                        `created`,`changed`, `metadata`,
                                        `description`,`image`)".
                    " VALUES (?,?,?, ?,?,?, ?,?)";
 
-        $values = array($fk_resource_type, $data['name'], $data['status'],
+        $values = array($fkResourceType, $data['name'], $data['status'],
                         $data['created'],$data['changed'], $data['metadata'],
                         $data['description'], $data['image']);
 
@@ -75,15 +75,15 @@ class Resource {
             return false;
         }
         
-        $this->id = $GLOBALS['application']->conn->Insert_ID();
+        $this->pkResource = $GLOBALS['application']->conn->Insert_ID();
 
 
         return true;
     }
 
-    function read($id) {
-
-        $sql = 'SELECT * FROM resources  WHERE pk_resource = '.($id).' ';
+    function read($pkResource) {
+        
+        $sql = 'SELECT * FROM resources  WHERE pk_resource = '.($pkResource).' ';
         $rs = $GLOBALS['application']->conn->Execute( $sql );
         if (!$rs) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
@@ -93,53 +93,52 @@ class Resource {
             return false;
         }
        
-        // Load object properties
         $this->load( $rs->fields );
-
     }
 
-
+    
     // FIXME: check funcionality
     function load($properties) {
         if(is_array($properties)) {
             foreach($properties as $k => $v) {
                 if( !is_numeric($k) ) {
-                    $this->{$k} = $v;
+                    $cc= String_Utils::to_camel_case($k);
+                    $this->{$cc} = $v;
                 }
             }
         }elseif(is_object($properties)) {
             $properties = get_object_vars($properties);
             foreach($properties as $k => $v) {
                 if( !is_numeric($k) ) {
-                    $this->{$k} = $v;
+                    $cc= String_Utils::to_camel_case($k);
+                    $this->{$cc} = $v;
                 }
             }
-        }
+          }
 
         // Special properties
-        $this->id = $this->pk_resource;
+        $this->id = $this->pkResource;
 
-              //$this->category_name = $this->loadCategoryName($this->pk_resource);
+            
     }
 
 
     function update($data) {
         // $GLOBALS['application']->dispatch('onBeforeUpdate', $this);
         $data['changed'] = date("Y-m-d H:i:s");
-        $name_type = $this->resource_type;
+        $nameType        = $this->resourceType;
+        
         $this->read( $data['id']); //????
-        echo $name_type;
+        
 
-        $sql = "UPDATE resources SET `name`=?,`changed`=?, `description`=?,
+        $sql    = "UPDATE resources SET `name`=?,`changed`=?, `description`=?,
                                      `metadata`=?, `status`=?
 
-                    WHERE pk_resource=".($data['id']);
-        //echo $sql;
-
-
+                   WHERE pk_resource=".($data['id']);
+       
         $values = array( $data['name'], $data['changed'], $data['description'],
                          $data['metadata'],$data['status']);
-        //var_dump($data);
+       
         
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
@@ -157,8 +156,8 @@ class Resource {
 
 
     //Elimina de la BD
-    function delete($id) {
-        $sql = 'DELETE FROM resources WHERE pk_resource='.($id);
+    function delete($pkResource) {
+        $sql = 'DELETE FROM resources WHERE pk_resource='.($pkResource);
 
         if($GLOBALS['application']->conn->Execute($sql)===false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
@@ -242,39 +241,39 @@ class Resource {
      * @return object Instance of an specific object in function of resource type
     */
 
-    public static function get($pk_resource)
-    {
-        $sql  = 'SELECT `resource_types`.name FROM `resources`, `resource_types` WHERE pk_resource=? AND fk_resource_type=pk_resource_type';
-        $type = $GLOBALS['application']->conn->GetOne($sql, array($pk_resource));
-
-        if($type === false) {
-            return null;
-        }
-
-        $type = ucfirst( $type );
-        try {
-            return new $type($pk_resource);
-        } catch(Exception $e) {
-            return null;
-        }
-    }
-
-    // FIXME: mover a un novo script que cargue todo o sistema por defecto "bootstrap"
-    function __autoload($className) {
-        $filename = strtolower($className);
-        if( file_exists(dirname(__FILE__).'/'.$filename.'.class.php') ) {
-            require dirname(__FILE__).'/'.$filename.'.class.php';
-
-        } else{
-
-            // Try convert MethodCacheManager to method_cache_manager
-            $filename = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $className));
-
-            if( file_exists(dirname(__FILE__).'/'.$filename.'.class.php') ) {
-                require dirname(__FILE__).'/'.$filename.'.class.php';
-            }
-        }
-
-
-    }
+//    public static function get($pk_resource)
+//    {
+//        $sql  = 'SELECT `resource_types`.name FROM `resources`, `resource_types` WHERE pk_resource=? AND fk_resource_type=pk_resource_type';
+//        $type = $GLOBALS['application']->conn->GetOne($sql, array($pk_resource));
+//
+//        if($type === false) {
+//            return null;
+//        }
+//
+//        $type = ucfirst( $type );
+//        try {
+//            return new $type($pk_resource);
+//        } catch(Exception $e) {
+//            return null;
+//        }
+//    }
+//
+//    // FIXME: mover a un novo script que cargue todo o sistema por defecto "bootstrap"
+//    function __autoload($className) {
+//        $filename = strtolower($className);
+//        if( file_exists(dirname(__FILE__).'/'.$filename.'.class.php') ) {
+//            require dirname(__FILE__).'/'.$filename.'.class.php';
+//
+//        } else{
+//
+//            // Try convert MethodCacheManager to method_cache_manager
+//            $filename = strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $className));
+//
+//            if( file_exists(dirname(__FILE__).'/'.$filename.'.class.php') ) {
+//                require dirname(__FILE__).'/'.$filename.'.class.php';
+//            }
+//        }
+//
+//
+//    }
 }

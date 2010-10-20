@@ -25,20 +25,12 @@ class Worker extends Resource
      * @var int
      */
 
-    public $pk_worker = null;
+    public $pkWorker = null;
 
     /**
      * @access public
      * @var varchar
      */
-
-    public $metadata = null;
-
-    /**
-     * @access public
-     * @var varchar
-     */
-
        
     public $nif= null;
 
@@ -101,11 +93,12 @@ class Worker extends Resource
      * @access public
      * @var varchar
      */
+
     /**
      * Constructor
      *
-     * @see Customer::Customer()
-     * @param int $id Customer ID
+     * @see Worker::Worker()
+     * @param int $id Worker ID
     */
     function __construct($id=null)
     {
@@ -114,7 +107,7 @@ class Worker extends Resource
         if(is_numeric($id)) {
             $this->read($id);
         }
-        $this->resource_type = 'worker';
+        $this->resourceType = 'worker';
     }
 
     
@@ -122,12 +115,12 @@ class Worker extends Resource
     /**
      * Singleton pattern
      *
-     * @return Customer, instance of Customer
+     * @return Worker, instance of Worker
     */
     static function getInstance()
     {
         if( is_null(self::$instance) ) {
-            $instance = new worker();
+            $instance = new Worker();
 
             self::$instance = $instance;
             return self::$instance;
@@ -141,7 +134,7 @@ class Worker extends Resource
      * Create
      *
      * @param array $data
-     * @return Customer
+     * @return Worker
      */
     function create($data)
     {
@@ -153,10 +146,10 @@ class Worker extends Resource
                                       `telf1`,`telf2`, `address`,
                                       `city` )
                 VALUES ( ?,?,? ,?,?,? ,?,?,? ,?)';
+        var_dump($data);
+        $data['pkWorker'] = $this->pkResource;
 
-        $data['pk_worker'] = $this->id;
-
-        $values = array($data['pk_worker'],$data['nif'],$data['nss'],
+        $values = array($data['pkWorker'],$data['nif'],$data['nss'],
                         $data['dob'],$data['email1'],$data['email2'],
                         $data['telf1'],$data['telf2'],$data['address'],
                         $data['city']);
@@ -201,10 +194,10 @@ class Worker extends Resource
 
 
     /**
-     * Update Customer
+     * Update Worker
      *
      * @param array $data
-     * @return Customer Return the instance to chaining method
+     * @return Worker Return the instance to chaining method
     */
     function update($data)
     {
@@ -213,7 +206,7 @@ class Worker extends Resource
         $sql = "UPDATE workers SET `nif`=?, `nss`=?, `dob`=?,
                                    `email1`=?, `email2`=?,`telf1`=?,
                                    `telf2`=?, `address`=?, `city`=?
-                               WHERE pk_worker=".($data['id']);
+                               WHERE pk_worker=".($data['pkResource']);
 
 
 
@@ -235,7 +228,7 @@ class Worker extends Resource
     /**
      * Update worker
      *
-     * @param int $id Customers Id
+     * @param int $id Workers Id
      * @return bool
     */
     function delete($id)

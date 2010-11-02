@@ -14,7 +14,7 @@ Application::import_libs('*');
 $app = Application::load();
 
 $tpl = new TemplateAdmin(TEMPLATE_ADMIN);
-
+ 
 if( isset($_REQUEST['action'])){
 	switch($_REQUEST['action']) {
 
@@ -25,9 +25,9 @@ if( isset($_REQUEST['action'])){
             $captcha = (isset($_REQUEST['captcha']))? $_REQUEST['captcha']: null;
             
             $result = $user->login($_REQUEST['login'], $_REQUEST['password'], $token, $captcha);
-
+            
             if ($result === true) { // must be same type (===)
-                
+ 
                 if( isset($_REQUEST['rememberme']) ) {
                     // Use long expression of setcookie to have more security
                     /*
@@ -57,8 +57,9 @@ if( isset($_REQUEST['action'])){
                 $_SESSION['email']      = $user->email;                
                 // SYS_NAME_GROUP_ADMIN defined into config.inc.php
                 $_SESSION['isAdmin']    = ( User_group::getGroupName($user->fk_user_group)==SYS_NAME_GROUP_ADMIN ); 
-                $_SESSION['privileges'] = Privilege::get_privileges_by_user($user->id);
-                $_SESSION['accesscategories'] = $user->get_access_categories_id();
+
+//      $_SESSION['privileges'] = Privilege::get_privileges_by_user($user->id);
+           //     $_SESSION['accesscategories'] = $user->get_access_categories_id();
                 
                 // Method authentication: database|google_clientlogin
                 $_SESSION['authMethod'] = $user->authMethod;
@@ -89,6 +90,7 @@ if( isset($_REQUEST['action'])){
 	}
 }
 
-
+ 
+var_dump($_POST);
 $tpl->display('login.tpl');
 

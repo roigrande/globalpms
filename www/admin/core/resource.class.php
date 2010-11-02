@@ -55,9 +55,11 @@ class Resource {
         $data['changed']   = date("Y-m-d H:i:s");
         $data['status']    = isset($data['status'])? $data['status'] : `available` ;
         $data['image']     = '';
-       
+        echo "create resource";
+        echo $this->resourceType;
         $fkResourceType=$GLOBALS['application']->conn->GetOne('SELECT * FROM `resource_types` WHERE name = "'. $this->resourceType.'"');
-      
+
+
         $sql = "INSERT INTO resources (`fk_resource_type`, `name`, `status`,
                                        `created`,`changed`, `metadata`,
                                        `description`,`image`)".
@@ -85,6 +87,8 @@ class Resource {
         
         $sql = 'SELECT * FROM resources  WHERE pk_resource = '.($pkResource).' ';
         $rs = $GLOBALS['application']->conn->Execute( $sql );
+       echo $sql;
+//        var_dump($rs);
         if (!$rs) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
             $GLOBALS['application']->logger->debug('Error: '.$error_msg);

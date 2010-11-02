@@ -24,7 +24,7 @@ $tpl->assign('titulo_barra', 'Gesti&oacute;n de Clientes');
 
 require_once(SITE_ADMIN_PATH.'core/resource_manager.class.php');
 require_once(SITE_ADMIN_PATH.'core/resource.class.php');
-require_once(SITE_ADMIN_PATH.'core/worker.class.php');
+require_once(SITE_ADMIN_PATH.'core/material.class.php');
 require_once(SITE_ADMIN_PATH.'core/user.class.php');
 require_once(SITE_ADMIN_PATH.'core/string_utils.class.php');
  
@@ -33,7 +33,7 @@ if(!isset($_REQUEST['page']) || empty($_REQUEST['page']) ) {
 }
 
 $query_string = '';
-// Workers
+// Materials
 
 if( isset($_REQUEST['action']) ) {
     switch($_REQUEST['action']) {
@@ -44,8 +44,8 @@ if( isset($_REQUEST['action']) ) {
             $filters = ' 1=1 ';
             $_order='ORDER BY 1';
             $fields='*';
-            $workers = $cm->find('worker', $filters , $_order , $fields);
-            $tpl->assign('workers', $workers);
+            $materials = $cm->find('material', $filters , $_order , $fields);
+            $tpl->assign('materials', $materials);
 
         } break;
         
@@ -57,18 +57,19 @@ if( isset($_REQUEST['action']) ) {
 
         case 'read': {
            
-            $worker = new Worker( $_REQUEST['id'] );
-            $tpl->assign('worker', $worker);
+            $material = new Material( $_REQUEST['id'] );
+            $tpl->assign('material', $material);
 
         } break;
         
         case 'create': {
 
-            $worker = new worker();
-            if($worker->create( $_POST )) {
+            $material = new material();
+           
+            if($material->create( $_POST )) {
                 Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&'.$query_string);
             } else {
-                $tpl->assign('errors', $worker->errors);
+                $tpl->assign('errors', $material->errors);
             }
 
 
@@ -77,9 +78,9 @@ if( isset($_REQUEST['action']) ) {
  
         case 'update': {
            
-            $worker = new Worker($_REQUEST['id']);
+            $material = new Material($_REQUEST['id']);
 
-            $worker->update( $_REQUEST );
+            $material->update( $_REQUEST );
             Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&'.$query_string);
 
            } break;
@@ -88,22 +89,22 @@ if( isset($_REQUEST['action']) ) {
         case 'validate':
             if(empty($_POST["id"])) {
                
-                $worker = new Worker();
-                if(!$worker->create( $_POST ))
+                $material = new Material();
+                if(!$material->create( $_POST ))
                     $tpl->assign('errors', $tracking->errors);
             } else {
-                $worker = new Worker($_POST["id"]);
-                $worker->update( $_REQUEST );
+                $material = new Material($_POST["id"]);
+                $material->update( $_REQUEST );
             }
 
-            Application::forward($_SERVER['SCRIPT_NAME'].'?action=read&id='.$worker->pkResource);
+            Application::forward($_SERVER['SCRIPT_NAME'].'?action=read&id='.$material->pkResource);
         break;
 
         case 'delete': {
     
             $msg='';
-                $worker = new Worker($_POST['id']);
-                $worker->delete( $_POST['id'] );
+                $material = new Material($_POST['id']);
+                $material->delete( $_POST['id'] );
                 $msg="El trabajador se ha eliminado correctamente ";
             Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&id_del='.$_POST['id'].'&msg='.$msg.'&'.$query_string);
         } break;
@@ -118,11 +119,10 @@ if( isset($_REQUEST['action']) ) {
     Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$_REQUEST['page'].'&'.$query_string);
 }
 
-//LOAD THE TEMPLATES//////////
-
 if (( $_REQUEST['action'] )=="list"){
-    $tpl->display('worker/workers_list.tpl');
+
+    $tpl->display('material/materials_list.tpl');
 
 }else{
-    $tpl->display('worker/workers_create_update.tpl');
+    $tpl->display('material/materials_create_update.tpl');
 }

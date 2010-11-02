@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.18, created on 2010-10-20 12:34:57
+<?php /* Smarty version 2.6.18, created on 2010-11-02 11:27:48
          compiled from botonera_up.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('block', 'acl', 'botonera_up.tpl', 6, false),array('block', 't', 'botonera_up.tpl', 27, false),)), $this); ?>
@@ -38,11 +38,72 @@ customers_add.png" title="Nuevo" alt="Nuevo"><br />Nuevo Trabajador
 );" value="Cancelar" title="Cancelar">
                     <img border="0" src="<?php echo($this->image_dir); ?>cancel.png" title="Cancelar" alt="Cancelar" ><br />Cancelar
                 </a>
+            </li>
+            <li>
+
+                <?php if (isset ( $this->_tpl_vars['worker']->pkResource )): ?>
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '<?php echo $this->_tpl_vars['worker']->pkResource; ?>
+', 'formulario');">
+                       <img border="0" src="<?php echo($this->image_dir); ?>save.gif" title="Guardar y salir" alt="Guardar y salir"><br /> Guardar y salir
+                   </a>
+
+                <?php else: ?>
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'create', '0', 'formulario');">
+                       <img border="0" src="<?php echo($this->image_dir); ?>save.gif" title="Guardar y salir" alt="Guardar y salir"><br />Guardar y salir
+                   </a>
+                <?php endif; ?>
+
+
+            </li>
+            <li>
+                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '<?php echo $this->_tpl_vars['worker']->pkResource; ?>
+', 'formulario');" value="Validar" title="Validar">
+                    <img border="0" src="<?php echo($this->image_dir); ?>customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
+                </a>
+            </li>
+        </ul>
+    </div>
+<?php elseif (preg_match ( '/material\.php/' , $_SERVER['SCRIPT_NAME'] ) && ( $_REQUEST['action'] == 'list' )): ?>
+    <div id="title-menu"><h2><?php echo $this->_tpl_vars['titulo_barra']; ?>
+</h2></div>
+    <div id="menu-acciones-admin">
+        <ul>
+            <?php $this->_tag_stack[] = array('acl', array('isAllowed' => 'USER_ADMIN')); $_block_repeat=true;smarty_block_acl($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>
+                <li>
+                    <a href="#" class="admin_add" onClick="javascript:enviar2(this, '_self', 'mdelete', 0);" name="submit_mult" value="Eliminar" title="Eliminar">
+                        <img border="0" src="<?php echo($this->image_dir); ?>trash_button.gif" title="Eliminar" alt="Eliminar"><br />Eliminar
+                    </a>
+                </li>
+            <?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_acl($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>
+            <li>
+                <button type="button" style="cursor:pointer; background-color: #e1e3e5; border: 0px;" onClick="javascript:checkAll(this.form['selected_fld[]'],'select_button');">
+                    <img id="select_button" class="icon" src="<?php echo($this->image_dir); ?>select_button.png" title="Seleccionar Todo" alt="Seleccionar Todo"  status="0">
+                </button>
+            </li>
+            <li>
+                <a class="admin_add" onclick="enviar(this, '_self', 'new', 0);" onmouseover="return escape('<u>N</u>uevo cliente');" accesskey="N" tabindex="1">
+                    <img border="0" src="<?php echo $this->_tpl_vars['params']['IMAGE_DIR']; ?>
+customers_add.png" title="Nuevo" alt="Nuevo"><br /><?php $this->_tag_stack[] = array('t', array()); $_block_repeat=true;smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>Nuevo material<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+<?php elseif (preg_match ( '/material\.php/' , $_SERVER['SCRIPT_NAME'] ) && ( ( $_REQUEST['action'] == 'new' ) || ( $_REQUEST['action'] == 'read' ) )): ?>
+    <div  id="title-menu"><h2><?php $this->_tag_stack[] = array('t', array()); $_block_repeat=true;smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?><?php echo $_REQUEST['action']; ?>
+ customer<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_t($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?></h2></div>
+    <div id="menu-acciones-admin">
+        <ul>
+            <li>
+                <a href="#" class="admin_add" onClick="enviar(this, '_self', 'list', <?php echo $_REQUEST['page']; ?>
+);" value="Cancelar" title="Cancelar">
+                    <img border="0" src="<?php echo($this->image_dir); ?>cancel.png" title="Cancelar" alt="Cancelar" ><br />Cancelar
+                </a>
             </li>           
             <li>
                
-                <?php if (isset ( $this->_tpl_vars['worker']->pkResource )): ?>
-                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '<?php echo $this->_tpl_vars['worker']->pkResource; ?>
+                <?php if (isset ( $this->_tpl_vars['material']->pkResource )): ?>
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '<?php echo $this->_tpl_vars['material']->pkResouce; ?>
 ', 'formulario');">
                        <img border="0" src="<?php echo($this->image_dir); ?>save.gif" title="Guardar y salir" alt="Guardar y salir"><br /> Guardar y salir
                    </a>
@@ -56,7 +117,7 @@ customers_add.png" title="Nuevo" alt="Nuevo"><br />Nuevo Trabajador
               
             </li>
             <li>
-                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '<?php echo $this->_tpl_vars['worker']->pkResource; ?>
+                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '<?php echo $this->_tpl_vars['material']->id; ?>
 ', 'formulario');" value="Validar" title="Validar">
                     <img border="0" src="<?php echo($this->image_dir); ?>customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
                 </a>

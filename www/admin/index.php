@@ -4,6 +4,7 @@ require_once('./session_bootstrap.php');
 $sessions = $GLOBALS['Session']->getSessions();
 
 // FIXME: está páxina ten que pasar a ser unha template Smarty
+// Prueba
 require_once('core/privileges_check.class.php');
 require_once('core/method_cache_manager.class.php');
 require_once('core/user.class.php');
@@ -16,7 +17,6 @@ if(isset($_SESSION['authGmail'])) {
     $user = new User();
     $mailbox = $user->cache->parseGmailInbox(base64_decode($_SESSION['authGmail']));        
 }
-
 // Control de sesiones de usuarios
 //require_once('core/user.class.php');
 
@@ -70,7 +70,7 @@ TPLADMIN;
                 }
                 
                 $html .= '</table>';
-                echo( $html );
+                //echo( $html );
             break;                                    
         
             case 'list':

@@ -23,9 +23,9 @@ define ('CHARSET', "text/html; charset=UTF-8");
 //SITE_SEPARATOR (SS)
 define ('SS', "/");
 
-define ('SITE', "rumgest.roi");
+define ('SITE', "globalpms.es");
 define ('SITE_NAME', "Gestor de recursos para eventos");
-define ('SITE_PATH',  "/var/www/rumgest/trunk/www" );
+define ('SITE_PATH',  "/var/www/globalpms/trunk/www" );
 define ('SITE_ADMIN_DIR', "admin");
 define ('SITE_ADMIN_TMP_DIR', "tmp");
 define ('SITE_ADMIN_PATH', SITE_PATH.SS.SITE_ADMIN_DIR.SS);
@@ -70,7 +70,7 @@ define ('BD_TYPE', "mysql");
 define ('BD_HOST', "localhost");
 define ('BD_USER', "root");
 define ('BD_PASS', "hola");
-define ('BD_INST', "bdcmp");
+define ('BD_INST', "bdglobalpms");
 define ('BD_DSN', BD_TYPE."://".BD_USER.":".BD_PASS."@".BD_HOST."/".BD_INST);
 
 /* [ SYSTEM CONFIGURATION ] ********************************************************* */
@@ -79,7 +79,7 @@ define ('SYS_LOG_VERBOSE', "0");
 define ('SYS_LOG_INFO', "1");
 
 //define ('SYS_LOG', SITE_ADMIN_PATH."/log.txt");
-define ('SYS_LOG', '/var/lib/opennemas/rumgest/log/application.log');
+define ('SYS_LOG', '/var/lib/opennemas/'.SITE.'/log/application.log');
 define ('LOG_ENABLE', 1);
 
 define ('SYS_SESSION_TIME', "15");

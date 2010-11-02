@@ -18,7 +18,7 @@ class MethodCacheManager {
         
         if(in_array($method, $class_methods)) {                
             $key = $this->classname.$method.md5(serialize($args));
-            
+         
             if(false === ($result = apc_fetch($key))) {
                 $result = call_user_func_array(array($this->object, $method), $args);
                 apc_store($key, serialize($result), $this->ttl);

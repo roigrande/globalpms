@@ -171,7 +171,7 @@ class ParserXML {
         $this->xmlparser = xml_parser_create();
 
         // Asignar funciones para manejar los elementos
-        xml_set_object($this->xmlparser, &$this);
+        xml_set_object($this->xmlparser, $this);
         xml_parser_set_option ( $this->xmlparser, XML_OPTION_CASE_FOLDING, 0);
         xml_set_element_handler($this->xmlparser,"tag_open","tag_close");
         xml_set_character_data_handler($this->xmlparser,"cdata");

@@ -277,6 +277,7 @@ class User
     public function login($login, $password, $loginToken=null, $loginCaptcha=null)
     {
         $result = false;
+        echo $login."-".$password;
         
         if($this->isValidEmail($login)) {
             $result = $this->authGoogleClientLogin($login, $password, $loginToken=null, $loginCaptcha=null);

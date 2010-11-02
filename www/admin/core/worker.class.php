@@ -138,15 +138,16 @@ class Worker extends Resource
      */
     function create($data)
     {
-
+       
         parent::create($data);
+        
 //pk_worker 	nif 	nss 	dob 	email1 	email2 	telf1 	telf2 	address 	city
         $sql = 'INSERT INTO workers ( `pk_worker`,`nif`,`nss`,
                                       `dob`,`email1`,`email2`,
                                       `telf1`,`telf2`, `address`,
                                       `city` )
                 VALUES ( ?,?,? ,?,?,? ,?,?,? ,?)';
-        var_dump($data);
+    //    var_dump($data);
         $data['pkWorker'] = $this->pkResource;
 
         $values = array($data['pkWorker'],$data['nif'],$data['nss'],
@@ -206,9 +207,7 @@ class Worker extends Resource
         $sql = "UPDATE workers SET `nif`=?, `nss`=?, `dob`=?,
                                    `email1`=?, `email2`=?,`telf1`=?,
                                    `telf2`=?, `address`=?, `city`=?
-                               WHERE pk_worker=".($data['pkResource']);
-
-
+                               WHERE pk_worker=".($data['id']);
 
         $values = array($data['nif'], $data['nss'],$data['dob'], 
                         $data['email1'], $data['email2'], $data['telf1'],
@@ -236,7 +235,6 @@ class Worker extends Resource
         parent::delete($id);
 
         $sql = 'DELETE FROM workers WHERE pk_worker ='.($id);
-echo $sql;
         if($GLOBALS['application']->conn->Execute($sql)===false) {
 
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();

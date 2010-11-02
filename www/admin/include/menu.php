@@ -4,8 +4,8 @@ $menuXml = <<<MENUSTRING
 <?xml version="1.0"?>
 <menu>
     <submenu title="Recursos" link="index.php" target="centro">
-        <node title="Gestor de trabajadores" link="worker.php" target="centro" privilege="CUSTOMER_ADMIN" />
-        <node title="Gestor de Clientes" link="customers.php" target="centro" privilege="CUSTOMER_ADMIN" />
+        <node title="Gestor de Trabajadores" link="worker.php" target="centro" privilege="CUSTOMER_ADMIN" />
+        <node title="Gestor de Materiales" link="material.php" target="centro" privilege="CUSTOMER_ADMIN" />
         <node title="Gestor de Incidencias" link="tracking.php" target="centro" privilege="TRACKING_ADMIN" />
         <node title="Gestor de Sectores" link="category.php" target="centro" privilege="TRACKING_ADMIN" />
     </submenu>

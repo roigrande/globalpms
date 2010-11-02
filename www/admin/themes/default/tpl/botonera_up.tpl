@@ -31,11 +31,67 @@
                 <a href="#" class="admin_add" onClick="enviar(this, '_self', 'list', {$smarty.request.page});" value="Cancelar" title="Cancelar">
                     <img border="0" src="{php}echo($this->image_dir);{/php}cancel.png" title="Cancelar" alt="Cancelar" ><br />Cancelar
                 </a>
+            </li>
+            <li>
+
+                {if isset($worker->pkResource) }
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '{$worker->pkResource}', 'formulario');">
+                       <img border="0" src="{php}echo($this->image_dir);{/php}save.gif" title="Guardar y salir" alt="Guardar y salir"><br /> Guardar y salir
+                   </a>
+
+                {else}
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'create', '0', 'formulario');">
+                       <img border="0" src="{php}echo($this->image_dir);{/php}save.gif" title="Guardar y salir" alt="Guardar y salir"><br />Guardar y salir
+                   </a>
+                {/if}
+
+
+            </li>
+            <li>
+                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '{$worker->pkResource}', 'formulario');" value="Validar" title="Validar">
+                    <img border="0" src="{php}echo($this->image_dir);{/php}customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
+                </a>
+            </li>
+        </ul>
+    </div>
+{* Botonera Materials -------------------------------------------- *}
+{elseif preg_match('/material\.php/',$smarty.server.SCRIPT_NAME) && ($smarty.request.action eq "list") }
+    <div id="title-menu"><h2>{$titulo_barra}</h2></div>
+    <div id="menu-acciones-admin">
+        <ul>
+            {acl isAllowed="USER_ADMIN"}
+                <li>
+                    <a href="#" class="admin_add" onClick="javascript:enviar2(this, '_self', 'mdelete', 0);" name="submit_mult" value="Eliminar" title="Eliminar">
+                        <img border="0" src="{php}echo($this->image_dir);{/php}trash_button.gif" title="Eliminar" alt="Eliminar"><br />Eliminar
+                    </a>
+                </li>
+            {/acl}
+            <li>
+                <button type="button" style="cursor:pointer; background-color: #e1e3e5; border: 0px;" onClick="javascript:checkAll(this.form['selected_fld[]'],'select_button');">
+                    <img id="select_button" class="icon" src="{php}echo($this->image_dir);{/php}select_button.png" title="Seleccionar Todo" alt="Seleccionar Todo"  status="0">
+                </button>
+            </li>
+            <li>
+                <a class="admin_add" onclick="enviar(this, '_self', 'new', 0);" onmouseover="return escape('<u>N</u>uevo cliente');" accesskey="N" tabindex="1">
+                    <img border="0" src="{$params.IMAGE_DIR}customers_add.png" title="Nuevo" alt="Nuevo"><br />{t}Nuevo material{/t}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+{elseif preg_match('/material\.php/',$smarty.server.SCRIPT_NAME) && (($smarty.request.action eq "new")||($smarty.request.action eq "read")) }
+    <div  id="title-menu"><h2>{t}{$smarty.request.action} customer{/t}</h2></div>
+    <div id="menu-acciones-admin">
+        <ul>
+            <li>
+                <a href="#" class="admin_add" onClick="enviar(this, '_self', 'list', {$smarty.request.page});" value="Cancelar" title="Cancelar">
+                    <img border="0" src="{php}echo($this->image_dir);{/php}cancel.png" title="Cancelar" alt="Cancelar" ><br />Cancelar
+                </a>
             </li>           
             <li>
                
-                {if isset($worker->pkResource) }
-                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '{$worker->pkResource}', 'formulario');">
+                {if isset($material->pkResource) }
+                   <a href="#" onClick="javascript:sendFormValidate(this, '_self', 'update', '{$material->pkResouce}', 'formulario');">
                        <img border="0" src="{php}echo($this->image_dir);{/php}save.gif" title="Guardar y salir" alt="Guardar y salir"><br /> Guardar y salir
                    </a>
                 
@@ -48,7 +104,7 @@
               
             </li>
             <li>
-                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '{$worker->pkResource}', 'formulario');" value="Validar" title="Validar">
+                <a href="#" class="admin_add" onClick="sendFormValidate(this, '_self', 'validate', '{$material->id}', 'formulario');" value="Validar" title="Validar">
                     <img border="0" src="{php}echo($this->image_dir);{/php}customers_add.png" title="Guardar y continuar" alt="Guardar y continuar" ><br />Guardar y continuar
                 </a>
             </li>

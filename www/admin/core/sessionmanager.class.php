@@ -1,7 +1,7 @@
 <?php
 // TODO: mover a config.inc.php ¿?¿?¿?
-define('OPENNEMAS_BACKEND_SESSIONS',  '/var/lib/opennemas/rumgest/sessions/backend/');
-define('OPENNEMAS_FRONTEND_SESSIONS', '/var/lib/opennemas/rumgest/sessions/frontend/');
+define('OPENNEMAS_BACKEND_SESSIONS',  '/var/lib/opennemas/'.SITE.'/sessions/backend/');
+define('OPENNEMAS_FRONTEND_SESSIONS', '/var/lib/opennemas/'.SITE.'/sessions/frontend/');
 
 // En un .htaccess php_value session.save_path /var/lib/.../
 

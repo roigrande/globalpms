@@ -18,74 +18,59 @@
  * @version 0.1
  */
 class Material extends Resource
-{
+    {
     /**
-     * @access public
-     * @var int
-     */
+    * @access public
+    * @var int
+    */
 
-    public $pk_material = null;
+    public $pkMaterial = null;
 
     /**
-     * @access public
-     * @var varchar
-     */
+    * @access public
+    * @var varchar
+    */
+    public $fkType = null;
+
+    /**
+    * @access public
+    * @var varchar
+    */
 
     public $price = null;
 
     /**
-     * @access public
-     * @var varchar
-     */
+    * @access public
+    * @var varchar
+    */
 
-    public $type = null;
-
-    /**
-     * @access public
-     * @var varchar
-     */
-
-    public $num= null;
+    public $num= 0;
 
     /**
-     * @access public
-     * @var varchar
-     */
+    * @access public
+    * @var varchar
+    */
 
-     public $numAvailable = null;
-
-    /**
-     * @access public
-     * @var varchar
-     */
-
-     public $store = null;
+    public $numAvailable = 0;
 
     /**
-     * @access public
-     * @var varchar
-     */
-     
-    public $pk_provider = null;
+    * @access public
+    * @var varchar
+    */
+
+    public $store = null;
 
     /**
-     * @access public
-     * @var varchar
-     */
+    * @access public
+    * @var varchar
+    */
 
-    public $pk_invoice = null;
-
-    /**
-     * @access public
-     * @var varchar
-     */
-     public $dob = null;
+    public $invoice = null;
 
     /**
-     * @access public
-     * @var varchar
-     */
-
+    * @access public
+    * @var varchar
+    */
 
     /**
      * Constructor
@@ -96,11 +81,14 @@ class Material extends Resource
     function __construct($id=null)
     {
          parent::Resource($id);
-
+         echo "construct";
         if(is_numeric($id)) {
             $this->read($id);
         }
-        $this->resource_type = 'material';
+
+
+        $this->resourceType = 'material';
+        
     }
 
 
@@ -131,18 +119,24 @@ class Material extends Resource
      */
     function create($data)
     {
-
+       // echo create;
+       // die();
         parent::create($data);
-        $sql = 'INSERT INTO materials ( `pk_material`,`type`,`price`,
-                                      `num`,`numavailable`,`store`,
-                                      `pk_provide`,`invoice`, `dob`)
-                VALUES ( ?,?,? ,?,?,? ,?,?,?)';
+        
+        $sql = 'INSERT INTO materials ( `pk_material`,`fk_material_type`,`price`,
+                                      `num`,`num_available`,`store`,
+                                      `invoice`)
+                VALUES ( ?,?,? ,?,?,? ,?)';
 
-        $data['pk_material'] = $this->id;
-
-        $values = array($data['pk_material'],$data['type'],$data['price'],
-                        $data['num'],$data['num_available'],$data['store'],
-                        $data['pk_provide'],$data['invoice'],$data['dob']);
+        $data['pkMaterial']   = $this->pkResource;  if (( $data['numAvailable']=='0') || ( $data['numAvailable']=='')){
+            $data['numAvailable'] = $data['num'];
+        }
+        if ( $data['numAvailable']=='' ){
+            $data['numAvailable'] = $data['num'];
+        }
+       $values = array($data['pkMaterial'],$data['fkMaterialType'],$data['price'],
+                        $data['num'],$data['numAvailable'],$data['store'],
+                        $data['invoice']);
 
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();
@@ -162,9 +156,11 @@ class Material extends Resource
     */
     function read($id)
     {
+        echo "read";
         parent::read($id); // Read content of Content
 
         $sql = 'SELECT * FROM materials WHERE pk_material = '.($id);
+       // echo $sql;
         $rs = $GLOBALS['application']->conn->Execute( $sql );
 
         if (!$rs) {
@@ -193,16 +189,16 @@ class Material extends Resource
     {
         parent::update($data);
 
-        $sql = "UPDATE materials SET `nif`=?, `nss`=?, `dob`=?,
-                                   `email1`=?, `email2`=?,`telf1`=?,
-                                   `telf2`=?, `address`=?, `city`=?
-                               WHERE pk_material=".($data['id']);
+        $sql = "UPDATE materials SET `fk_material_Type`=?, `price`=?, `num`=?,
+                                     `num_available`=?, `store`=?,`invoice`=?
+                                 WHERE pk_material=".($data['id']);
 
+        if ( $data['numAvailable']=='' ){
+             $data['numAvailable'] = $data['num'];
+        }
 
-
-        $values = array($data['nif'], $data['nss'],$data['dob'],
-                        $data['email1'], $data['email2'], $data['telf1'],
-                        $data['telf2'], $data['address'], $data['city']);
+        $values = array($data['fk_material_type'], $data['price'],$data['num'],
+                        $data['numAvailable'], $data['store'], $data['invoice']);
 
         if($GLOBALS['application']->conn->Execute($sql, $values) === false) {
             $error_msg = $GLOBALS['application']->conn->ErrorMsg();

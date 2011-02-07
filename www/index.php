@@ -3,7 +3,5 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-header('Location: admin/index.php');
-
+include_once 'public/index.php';
 ?>

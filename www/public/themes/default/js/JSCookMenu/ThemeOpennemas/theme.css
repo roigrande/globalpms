@@ -1,0 +1,396 @@
+/* ThemeOpennemasMenu Style Sheet */
+
+.ThemeOpennemasMenu,.ThemeOpennemasSubMenuTable
+{
+    font-family: verdana, arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    
+    color: #004B8E;
+    background-color: #E3E3E3;
+
+    cursor: default;
+    white-space: nowrap;
+}
+
+.ThemeOpennemasMenu td {
+    vertical-align: middle;
+}
+
+.ThemeOpennemasMenu .ThemeOpennemasMainFolderText {
+    border-left:1px solid #004B8E;
+    color: #004B8E;
+    display: block;
+    height: 30px;
+    padding: 7px 5px 0px 5px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    width: 110px;    
+}
+
+.ThemeOpennemasSubMenuTable .ThemeOpennemasMenuItemText {
+    color: #FFF;
+    display: block;
+    height: 30px;
+    padding: 7px 5px 0px 5px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    width: 110px;
+}
+
+
+.ThemeOpennemasSubMenu
+{
+    position:    absolute;
+    visibility:    hidden;
+
+    /*
+       Netscape/Mozilla renders borders by increasing
+       their z-index.  The following line is necessary
+       to cover any borders underneath
+    */
+    z-index:    100;
+    border:        0;
+    padding:    0;
+
+    /* the following property is only useful in IE */
+    filter:progid:DXImageTransform.Microsoft.Shadow(color=#DEDEDE,Direction=135,Strength=4);
+}
+
+.ThemeOpennemasSubMenuTable
+{
+    border: 1px solid #004B8E;
+    -moz-opacity: 0.8;
+    opacity:.8;
+    filter: alpha(opacity=80);
+}
+
+.ThemeOpennemasMenuItem,.ThemeOpennemasMenuItemHover,.ThemeOpennemasMenuItemActive
+{
+    cursor:        default;
+    white-space:    nowrap;
+}
+
+
+
+.ThemeOpennemasMainItem,
+.ThemeOpennemasMenuItem
+{
+    background-color:    #E3E3E3;    
+}
+
+.ThemeOpennemasMainItemHover,
+.ThemeOpennemasMainItemActive,
+.ThemeOpennemasMenuItemHover,
+.ThemeOpennemasMenuItemActive
+{
+    background-color:    #E3E3E3;    
+}
+
+
+/* horizontal main menu sub components */
+/* panel doesn't really support horizontal menus */
+
+.ThemeOpennemasMainFolderLeft,.ThemeOpennemasMainItemLeft,
+.ThemeOpennemasMainFolderText,.ThemeOpennemasMainItemText,
+.ThemeOpennemasMainFolderRight,.ThemeOpennemasMainItemRight
+{
+    border:        0;
+    background-color:    inherit;
+    white-space:    nowrap;
+    
+    font-weight: bold;
+	font-family: Arial,Helvetica,sans-serif;
+    color: #004B8E;    
+}
+
+/* vertical main menu sub components */
+TD.ThemeOpennemasMainFolderLeft,TD.ThemeOpennemasMainItemLeft
+{
+    /*border-left:    1px solid #9C9A9C;*/
+
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TD.ThemeOpennemasMainFolderLeft,TD.ThemeOpennemasMainItemLeft,
+TD.ThemeOpennemasMainFolderText,TD.ThemeOpennemasMainItemText,
+TD.ThemeOpennemasMainFolderRight,TD.ThemeOpennemasMainItemRight
+{
+       
+    /*border-top:    1px solid #9C9A9C;
+    border-bottom:    1px solid #9C9A9C;*/
+
+    background-color:    inherit;
+    
+    font-weight: bold;
+	font-family: Arial,Helvetica,sans-serif;
+    color: #004B8E;
+}
+
+TD.ThemeOpennemasMainFolderLeft,TD.ThemeOpennemasMainItemLeft
+{
+    /*padding-right:    0px;
+    padding-left:    0px;*/
+    /*border-left:    1px solid #9C9A9C;*/
+
+    background-color:    inherit;
+    white-space:    nowrap;
+}
+
+TD.ThemeOpennemasMainFolderText,TD.ThemeOpennemasMainItemText
+{
+    /*padding-right:    10px;
+    padding-left:    10px;*/
+
+    background-color:    inherit;
+    white-space:    nowrap;
+}
+
+TD.ThemeOpennemasMainFolderRight,TD.ThemeOpennemasMainItemRight
+{
+    /*padding-right:    0px;
+    padding-left:    0px;*/
+    /*border-right:    1px solid #9C9A9C;*/
+
+    background-color:    inherit;
+    white-space:    nowrap;
+}
+
+TR.ThemeOpennemasMainItem TD.ThemeOpennemasMainFolderLeft
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    1px;
+    padding-right:    0px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMainItem TD.ThemeOpennemasMainItemLeft
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    1px;
+    padding-right:    0px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMainItem TD.ThemeOpennemasMainFolderText
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    10px;
+    padding-right:    10px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMainItem TD.ThemeOpennemasMainItemText
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    10px;
+    padding-right:    10px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMainItem TD.ThemeOpennemasMainItemRight
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    0px;
+    padding-right:    1px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMainItem TD.ThemeOpennemasMainFolderRight
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    0px;
+    padding-right:    1px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+/* sub menus sub components */
+
+.ThemeOpennemasMenuFolderLeft,.ThemeOpennemasMenuItemLeft
+{
+    /*padding-left:    0px;
+    padding-right:    0px;*/
+
+    /*border-left:    1px solid #9C9A9C;*/
+
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+.ThemeOpennemasMenuFolderLeft,.ThemeOpennemasMenuItemLeft,
+.ThemeOpennemasMenuFolderText,.ThemeOpennemasMenuItemText,
+.ThemeOpennemasMenuFolderRight,.ThemeOpennemasMenuItemRight
+{
+    /*border-top:    1px solid #9C9A9C;
+    border-bottom:    1px solid #9C9A9C;*/
+
+    background-color:    inherit;
+    white-space:    nowrap;
+}
+
+.ThemeOpennemasMenuFolderLeft,.ThemeOpennemasMenuItemLeft
+{
+    /*border-left:    1px solid #9C9A9C;*/
+
+    background-color:    inherit;
+    white-space:    nowrap;
+}
+
+.ThemeOpennemasMenuFolderText,.ThemeOpennemasMenuItemText
+{
+    background-color:    inherit;
+    white-space:    nowrap;
+}
+
+.ThemeOpennemasMenuFolderRight,.ThemeOpennemasMenuItemRight
+{
+    /*padding-right:    0px;
+    padding-left:    0px;*/
+    /*border-right:    1px solid #9C9A9C;*/
+
+    background-color:    inherit;
+    white-space:    nowrap;
+}
+
+TR.ThemeOpennemasMenuItem TD.ThemeOpennemasMenuFolderLeft
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    3px;
+    padding-right:    0px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMenuItem TD.ThemeOpennemasMenuItemLeft
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    3px;
+    padding-right:    0px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMenuItem TD.ThemeOpennemasMenuFolderText
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-right:    3px;
+    padding-left:    5px;*/
+
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMenuItem TD.ThemeOpennemasMenuItemText
+{
+    border:    0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMenuItem TD.ThemeOpennemasMenuItemRight
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    0px;
+    padding-right:    1px;*/
+
+    border:        0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+TR.ThemeOpennemasMenuItem TD.ThemeOpennemasMenuFolderRight
+{
+    /*padding-top:    3px;
+    padding-bottom:    3px;
+    padding-left:    0px;
+    padding-right:    1px;*/
+
+    border:        0;
+    white-space:    nowrap;
+    background-color:    inherit;
+}
+
+.ThemeOpennemasMenuSplit
+{
+    margin:        2px;
+    height:        1px;
+    overflow:    hidden;
+    background-color:    inherit;
+    /* border-top:    1px solid #9C9A9C; */
+}
+
+/* image shadow animation */
+
+/*
+    seq1:    image for normal
+    seq2:    image for hover and active
+
+    To use, in the icon field, input the following:
+    <img class="seq1" src="normal.gif" /><img class="seq2" src="hover.gif" />
+*/
+
+.ThemeOpennemasMenuItem img.seq1
+{
+    display:    inline;
+}
+
+.ThemeOpennemasMenuItemHover seq2,
+.ThemeOpennemasMenuItemActive seq2
+{
+    display:    inline;
+}
+
+.ThemeOpennemasMenuItem .seq2,
+.ThemeOpennemasMenuItemHover .seq1,
+.ThemeOpennemasMenuItemActive .seq1
+{
+    display:    none;
+}
+
+
+
+.ThemeOpennemasSubMenuTable .ThemeOpennemasMenuItem  {
+    background-color: #004b8e;
+    color: #fff;
+}
+
+.ThemeOpennemasSubMenuTable .ThemeOpennemasMenuItemHover {
+    color: #FFD700;
+    background-color: #004b8e;
+}

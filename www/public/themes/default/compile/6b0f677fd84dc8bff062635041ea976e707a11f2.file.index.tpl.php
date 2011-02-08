@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-07 11:12:46
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-08 16:17:23
          compiled from "/var/www/globalpms/trunk/www/public/themes/default/tpl/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:15436546514d4fc59edc9c09-62098671%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:7506549854d515e83850847-88973183%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '6b0f677fd84dc8bff062635041ea976e707a11f2' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public/themes/default/tpl/index.tpl',
-      1 => 1297073565,
+      1 => 1297178242,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '15436546514d4fc59edc9c09-62098671',
+  'nocache_hash' => '7506549854d515e83850847-88973183',
   'function' => 
   array (
   ),
@@ -26,7 +26,8 @@ $_smarty_tpl->decodeProperties(array (
     <link href="themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection">
     <link href="themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
     <!--[if lt IE 8]><link rel="stylesheet" href="themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    <link rel="stylesheet" type="text/css" href="admin/themes/default/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="themes/default/css/menu_horizontal.css"/>
     
 
 
@@ -41,10 +42,19 @@ $_smarty_tpl->decodeProperties(array (
                 </div>
             </div>
             <div class="span-18 last">
-                <div class="box">
-                    Cabeceradddddddddddddddddd
+                <div  id="elmenu">
+                    
+              <a href="#"><span>Texto del enlace</span></a>
 
-                </div>
+              <a href="#" class="seleccionado"><span>Texto del enlace</span></a>
+
+              <a href="#"><span>Texto del enlace</span></a>
+
+              <a href="#"><span>Texto del enlace</span></a>
+
+              </div>
+
+              
             </div>
         </div>
     </div>
@@ -68,10 +78,7 @@ $_smarty_tpl->decodeProperties(array (
                     marco principal2 2 2 2
                     marco principal
                     marco principal
-                    <?php echo $_smarty_tpl->getVariable('datos')->value;?>
-
-                    <?php echo $_smarty_tpl->getVariable('probando')->value;?>
-
+                    
                 </div>
             </div>
         </div>

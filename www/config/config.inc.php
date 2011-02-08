@@ -42,7 +42,7 @@ define ('SITE_URL', $protocol.SITE.SS);
 define ('SITE_URL_ADMIN', $protocol.SITE.'/admin/');
 define ('SITE_URL_PUBLIC', $protocol.SITE);
 
-define ('SITE_LIBS_PATH', SITE_PATH.SS."libs".SS);
+define ('SITE_LIBS_PATH', SITE_PATH.SS."libs");
 define ('SITE_PATH_WEB', "/");
 define ('SITE_TITLE', "OpenNemas - News Management System - Sistema de gestión de Noticias");
 define ('SITE_DESCRIPTION', "Gestor de todo tipo de producciones");

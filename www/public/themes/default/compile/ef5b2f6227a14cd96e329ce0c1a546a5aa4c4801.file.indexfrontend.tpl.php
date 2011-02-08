@@ -1,3 +1,22 @@
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-07 18:13:06
+         compiled from "/var/www/globalpms/trunk/www/public/themes/default/tpl/indexfrontend.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:20595701274d502822530af0-28819665%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'ef5b2f6227a14cd96e329ce0c1a546a5aa4c4801' => 
+    array (
+      0 => '/var/www/globalpms/trunk/www/public/themes/default/tpl/indexfrontend.tpl',
+      1 => 1297098781,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '20595701274d502822530af0-28819665',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+)); /*/%%SmartyHeaderCode%%*/?>
    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -41,7 +60,6 @@
     </div>
     <div class="container">
         <div class="span-6">
-            {* este ejemplo para mostar widgets *}
 
          </div>
         <div class="span-18 last">
@@ -60,8 +78,10 @@
                     marco principal2 2 2 2
                     marco principal
                     marco principal
-                    {$datos}
-                    {$probando}
+                    <?php echo $_smarty_tpl->getVariable('datos')->value;?>
+
+                    <?php echo $_smarty_tpl->getVariable('probando')->value;?>
+
                 </div>
             </div>
         </div>

@@ -1,4 +1,23 @@
-   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-08 16:16:29
+         compiled from "/var/www/globalpms/trunk/www/public/themes/default/tpl/contact.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:19217147624d515e4d958326-04998808%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '19858bb6aa4b05272431a42ff1d0ba67ab0950e5' => 
+    array (
+      0 => '/var/www/globalpms/trunk/www/public/themes/default/tpl/contact.tpl',
+      1 => 1297101540,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '19217147624d515e4d958326-04998808',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+)); /*/%%SmartyHeaderCode%%*/?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -41,7 +60,6 @@
     </div>
     <div class="container">
         <div class="span-6">
-            {* este ejemplo para mostar widgets *}
 
          </div>
         <div class="span-18 last">
@@ -52,16 +70,8 @@
             </div>
             <div class="span-18 last">
                 <div class="box">
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal2 2 2 2
-                    marco principal
-                    marco principal
-                    {$datos}
-                    {$probando}
+                    contact
+                    marco principal                  
                 </div>
             </div>
         </div>

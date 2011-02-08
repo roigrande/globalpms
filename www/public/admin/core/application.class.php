@@ -1,8 +1,5 @@
 <?php
-// Prevent direct access
-//if (ereg('application.class.php', $_SERVER['PHP_SELF'])) {
-  //  die();
-//}
+
 
 function &MonitorContentStatus($db, $sql, $inputarray) {
     if( preg_match('/content_status/', $sql) && preg_match('/^[ ]*update/i', $sql) ) {
@@ -39,11 +36,11 @@ class Application {
     public static $sem = null;
 
     function Application() {        
-        $this->adodb        = SITE_LIBS_PATH.'adodb5/adodb.inc.php';
-        $this->smarty       = SITE_LIBS_PATH.'smarty/Smarty.class.php';
-        $this->log          = SITE_LIBS_PATH.'Log/Log.php';
-        $this->pager        = SITE_LIBS_PATH.'Pager/Pager.php';
-        $this->template     = SITE_LIBS_PATH.'template.class.php';      
+        $this->adodb        = SITE_LIBS_PATH.'/adodb5/adodb.inc.php';
+        $this->smarty       = SITE_LIBS_PATH.'/smarty/Smarty.class.php';
+        $this->log          = SITE_LIBS_PATH.'/Log.php';
+        $this->pager        = SITE_LIBS_PATH.'/Pager/Pager.php';
+        $this->template     = SITE_LIBS_PATH.'/template.class.php';
     }
 
     function __construct() {
@@ -109,11 +106,11 @@ class Application {
      * @param array $packages Packages to include
      */
     function import_libs($packages=null) {
-        $libs = array(  'adodb'    => array(SITE_LIBS_PATH.'adodb5/adodb.inc.php'),
-                        'smarty'   => SITE_LIBS_PATH.'smarty/Smarty.class.php',
-                        'log'      => SITE_LIBS_PATH.'Log/Log.php',
-                        'pager'    => SITE_LIBS_PATH.'Pager/Pager.php',                        
-                        'template' => array(SITE_LIBS_PATH.'smarty/Smarty.class.php',  SITE_LIBS_PATH.'template.class.php'),
+        $libs = array(  'adodb'    => array(SITE_LIBS_PATH.'/adodb5/adodb.inc.php'),
+                        'smarty'   => SITE_LIBS_PATH.'/smarty/Smarty.class.php',
+                        'log'      => SITE_LIBS_PATH.'/Log/Log.php',
+                        'pager'    => SITE_LIBS_PATH.'/Pager/Pager.php',                        
+                        'template' => array(SITE_LIBS_PATH.'/smarty/Smarty.class.php',  SITE_LIBS_PATH.'/template.class.php'),
                      );
 
         if( is_null($packages) || $packages == '*' ) {

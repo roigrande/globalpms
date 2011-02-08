@@ -1,4 +1,4 @@
-   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -9,7 +9,7 @@
     <!--[if lt IE 8]><link rel="stylesheet" href="themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
     <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
     <link rel="stylesheet" type="text/css" href="themes/default/css/menu_horizontal.css"/>
-
+    
 
 
 </head>
@@ -23,26 +23,21 @@
                 </div>
             </div>
             <div class="span-18 last">
-                <div  id="elmenu">
-
-              <a href="#"><span>Texto del enlace</span></a>
-
-              <a href="#" class="seleccionado"><span>Texto del enlace</span></a>
-
-              <a href="#"><span>Texto del enlace</span></a>
-
-              <a href="#"><span>Texto del enlace</span></a>
-
-              </div>
-
-
+                <div class="box" id="menuh">             
+                    <ul>
+                    <li><a href="#menuh" id="primero">Inicio</a></li>
+                    <li><a href="#menuh">Noticias</a></li>
+                    <li><a href="#menuh">Contacto</a></li>
+                    <li><a href="#menuh">Acerca de nosotros</a></li>
+                    </ul> 
+                </div>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="span-6">
             {* este ejemplo para mostar widgets *}
-
+           
          </div>
         <div class="span-18 last">
             <div class="span-18 last">

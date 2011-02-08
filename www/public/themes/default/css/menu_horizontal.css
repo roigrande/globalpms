@@ -1,0 +1,82 @@
+
+        #elmenu {
+
+        position:absolute;
+
+        top:50px;
+
+        
+
+        }
+
+
+      #elmenu a {
+            display:block;
+            float:left;
+      }
+
+      #elmenu span {
+      display:block;
+      float:left;
+      background:transparent url('http://globalpms.es/public/themes/default/images/derecha.jpg') top right no-repeat;
+      padding-right:19px;
+      cursor:pointer;
+      padding-top:6px;
+      }
+
+      #elmenu a:link, #elmenu a:visited {
+
+      padding-left:19px;
+
+      line-height:30px;
+
+      border-bottom:2px solid #BABABA;
+
+      background:transparent url('http://globalpms.es/public/themes/default/images/relleno.jpg') 0px 0px no-repeat;
+  
+      color:#600000;
+
+      text-decoration:none;
+
+      font-weight:bold;
+
+      }
+
+      #elmenu a:hover {
+
+      background:transparent url('http://globalpms.es/public/themes/default/images/rellenohover.jpg') 0px 0px no-repeat;
+
+      border-bottom:2px solid #9A6802;
+
+      margin-top:6px;
+
+      line-height:24px;
+
+      }
+
+      .seleccionado {
+
+      background:transparent url('http://globalpms.es/public/themes/default/images/rellenoseleccionado.jpg') 0px 0px no-repeat !Important;
+
+      border-bottom:2px solid #225748 !Important;
+
+      margin-top:0px !Important;
+
+      line-height:30px !Important;
+
+      }
+
+      #contenido {
+
+      margin:5px;
+
+      margin-top:46px;
+
+      border:2px solid #BABABA;
+
+      padding-left:15px;
+
+      padding-right:15px;
+
+      }
+

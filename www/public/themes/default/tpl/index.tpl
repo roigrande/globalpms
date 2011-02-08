@@ -7,7 +7,8 @@
     <link href="themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection">
     <link href="themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
     <!--[if lt IE 8]><link rel="stylesheet" href="themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    <link rel="stylesheet" type="text/css" href="admin/themes/default/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="themes/default/css/menu_horizontal.css"/>
     
 
 
@@ -22,10 +23,19 @@
                 </div>
             </div>
             <div class="span-18 last">
-                <div class="box">
-                    Cabeceradddddddddddddddddd
+                <div  id="elmenu">
+                    
+              <a href="#"><span>Texto del enlace</span></a>
 
-                </div>
+              <a href="#" class="seleccionado"><span>Texto del enlace</span></a>
+
+              <a href="#"><span>Texto del enlace</span></a>
+
+              <a href="#"><span>Texto del enlace</span></a>
+
+              </div>
+
+              
             </div>
         </div>
     </div>
@@ -50,8 +60,7 @@
                     marco principal2 2 2 2
                     marco principal
                     marco principal
-                    {$datos}
-                    {$probando}
+                    
                 </div>
             </div>
         </div>

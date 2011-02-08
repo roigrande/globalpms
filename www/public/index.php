@@ -5,6 +5,10 @@
  */
 
 require_once 'bootstrap.php';
+//include_once 'login.php';
+
+$_REQUEST['action']="list";
+
 
 
 // example smarty and adobd
@@ -20,7 +24,12 @@ $sql = 'SELECT * FROM workers WHERE pk_worker = 2';
             return;
         }
         echo $rs;
-$tpl->assign('datos', $rs);
-$tpl->assign('probando', 'Gesti&oacute;n de Clientes');
-$tpl->display('index.tpl');
+
+if (( $_REQUEST['action'] )=="lis"){
+    $tpl->display('contact.tpl');
+
+}else{
+    $tpl->display('index.tpl');
+}
+
 ?>

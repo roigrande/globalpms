@@ -5,11 +5,11 @@
  */
 
 require_once 'bootstrap.php';
-//include_once 'login.php';
+require_once(SITE_ADMIN_PATH.'controllers/session_bootstrap.php');
+$sessions = $GLOBALS['Session']->getSessions();
 
+var_dump($GLOBALS['Session']);
 $_REQUEST['action']="list";
-
-
 
 // example smarty and adobd
 $tpl = new Template(TEMPLATE_PUBLIC);
@@ -23,7 +23,7 @@ $sql = 'SELECT * FROM workers WHERE pk_worker = 2';
 
             return;
         }
-        echo $rs;
+    
 
 if (( $_REQUEST['action'] )=="lis"){
     $tpl->display('contact.tpl');

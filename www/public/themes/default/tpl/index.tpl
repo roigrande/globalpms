@@ -8,8 +8,8 @@
     <link href="themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
     <!--[if lt IE 8]><link rel="stylesheet" href="themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
     <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
-    <link rel="stylesheet" type="text/css" href="themes/default/css/menu_horizontal.css"/>
-    
+    <!--<link rel="stylesheet" type="text/css" href="themes/default/css/menu_horizontal.css"/>
+    -->
 
 
 </head>

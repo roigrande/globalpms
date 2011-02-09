@@ -1,5 +1,6 @@
 <?php
-error_reporting(E_ALL);
+error_reporting(E_ALL|E_STRICT);
+ini_set("display_errors", 1);
 if (preg_match('/config\.inc\.php/', $_SERVER['PHP_SELF'])) {
 	die();
 }
@@ -56,6 +57,10 @@ define ('PATH_APP', SITE_ADMIN_PATH);
 /* [ SESION USUARIO ] ******************************************************** */
 $GLOBALS['USER_ID'] = NULL;
 $GLOBALS['conn'] = NULL;
+
+/* [ SESION ] ******************************************************** */
+define('OPENNEMAS_BACKEND_SESSIONS',  '/var/lib/opennemas/'.SITE.'/sessions/backend/');
+define('OPENNEMAS_FRONTEND_SESSIONS', '/var/lib/opennemas/'.SITE.'/sessions/frontend/');
 
 /* [ ESTABLECER INCLUDE_PATH ] *********************************************** */
 $slash		= (strtoupper(substr(PHP_OS, 0,3) == 'WIN'))? DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR:DIRECTORY_SEPARATOR;

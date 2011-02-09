@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-08 16:17:23
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-08 18:09:14
          compiled from "/var/www/globalpms/trunk/www/public/themes/default/tpl/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:7506549854d515e83850847-88973183%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:20512258884d5178ba7f1078-42304328%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '6b0f677fd84dc8bff062635041ea976e707a11f2' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public/themes/default/tpl/index.tpl',
-      1 => 1297178242,
+      1 => 1297184954,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '7506549854d515e83850847-88973183',
+  'nocache_hash' => '20512258884d5178ba7f1078-42304328',
   'function' => 
   array (
   ),
@@ -27,8 +27,8 @@ $_smarty_tpl->decodeProperties(array (
     <link href="themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
     <!--[if lt IE 8]><link rel="stylesheet" href="themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
     <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
-    <link rel="stylesheet" type="text/css" href="themes/default/css/menu_horizontal.css"/>
-    
+    <!--<link rel="stylesheet" type="text/css" href="themes/default/css/menu_horizontal.css"/>
+    -->
 
 
 </head>

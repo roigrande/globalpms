@@ -40,7 +40,7 @@ if(preg_match('@^/admin/@', $_SERVER['REQUEST_URI'])) {
 }
 
 define ('SITE_URL', $protocol.SITE.SS);
-define ('SITE_URL_ADMIN', $protocol.SITE.'/admin/');
+define ('SITE_URL_ADMIN', $protocol.SITE.'/public/admin/');
 define ('SITE_URL_PUBLIC', $protocol.SITE);
 
 define ('SITE_LIBS_PATH', SITE_PATH.SS."libs");

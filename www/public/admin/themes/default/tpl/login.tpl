@@ -5,16 +5,18 @@
     <title>..: Panel de Control - OpenNeMaS:..</title>
     
     <link rel="stylesheet" href="{$params.CSS_DIR}loginadmin.css" type="text/css" />
+
     
-    {scriptsection name="head"}
     <script type="text/javascript" language="javascript" src="{$params.JS_DIR}prototype.js"></script>
     <script type="text/javascript" language="javascript" src="{$params.JS_DIR}scriptaculous/scriptaculous.js"></script>
-    {/scriptsection}
+    
+   
+   
 </head>
 
 <body class="login">
   <div id="topbar">
-  	<a href="/" title="Estas perdido?">&larr; Voltar á páxina principal</a>
+  	<a href="/public/" title="Estas perdido?">&larr; Voltar á páxina principal</a>
   </div>
   <div id="login">
     <h1><a href=""><img src="{$params.IMAGE_DIR}logo-opennemas-big.png"></a></h1>

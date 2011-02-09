@@ -72,7 +72,7 @@ if( isset($_REQUEST['action'])){
                 Privileges_check::loadSessionExpireTime();                                                            
                 
                 //initHandleErrorPrivileges();
-                Application::forward(SITE_URL.'admin/index.php');
+                Application::forward(SITE_URL.'public/admin/index.php');
             } else {                
                 // Show google captcha
                 if(isset($result['token'])) {

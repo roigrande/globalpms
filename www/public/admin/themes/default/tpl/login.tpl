@@ -6,7 +6,6 @@
     
     <link rel="stylesheet" href="{$params.CSS_DIR}loginadmin.css" type="text/css" />
 
-    
     <script type="text/javascript" language="javascript" src="{$params.JS_DIR}prototype.js"></script>
     <script type="text/javascript" language="javascript" src="{$params.JS_DIR}scriptaculous/scriptaculous.js"></script>
     

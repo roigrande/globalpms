@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-09 12:54:30
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-09 13:23:19
          compiled from "/var/www/globalpms/trunk/www/public/admin//themes/default/tpl/login.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:4218898474d5280765f16d5-08792465%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1385786834d528737746e34-22633220%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'd6181fa082bf73ce7f5c909e84dae9594e5d4514' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public/admin//themes/default/tpl/login.tpl',
-      1 => 1297252468,
+      1 => 1297252908,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '4218898474d5280765f16d5-08792465',
+  'nocache_hash' => '1385786834d528737746e34-22633220',
   'function' => 
   array (
   ),
@@ -26,7 +26,6 @@ $_smarty_tpl->decodeProperties(array (
     <link rel="stylesheet" href="<?php echo $_smarty_tpl->getVariable('params')->value['CSS_DIR'];?>
 loginadmin.css" type="text/css" />
 
-    
     <script type="text/javascript" language="javascript" src="<?php echo $_smarty_tpl->getVariable('params')->value['JS_DIR'];?>
 prototype.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo $_smarty_tpl->getVariable('params')->value['JS_DIR'];?>

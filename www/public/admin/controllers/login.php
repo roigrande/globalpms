@@ -2,12 +2,12 @@
 //error_reporting(E_ALL);
 require_once '../../bootstrap.php';
 require_once(SITE_ADMIN_PATH.'controllers/session_bootstrap.php');
-require_once(SITE_ADMIN_CORE_PATH.'./user.class.php');
-require_once(SITE_ADMIN_CORE_PATH.'./user_group.class.php');
-require_once(SITE_ADMIN_CORE_PATH.'./content_category.class.php');
-require_once(SITE_ADMIN_CORE_PATH.'./privilege.class.php');
-require_once(SITE_ADMIN_CORE_PATH.'./privileges_check.class.php');
-require_once(SITE_ADMIN_CORE_PATH.'./method_cache_manager.class.php');
+require_once(SITE_CORE_PATH.'./user.class.php');
+require_once(SITE_CORE_PATH.'./user_group.class.php');
+require_once(SITE_CORE_PATH.'./content_category.class.php');
+require_once(SITE_CORE_PATH.'./privilege.class.php');
+require_once(SITE_CORE_PATH.'./privileges_check.class.php');
+require_once(SITE_CORE_PATH.'./method_cache_manager.class.php');
 
 $tpl = new TemplateAdmin(TEMPLATE_ADMIN);
  

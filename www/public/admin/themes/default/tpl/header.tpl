@@ -18,8 +18,6 @@
 
 <link rel="stylesheet" type="text/css" href="{$params.CSS_DIR}messageboard.css" media="screen" />
 
-
-{scriptsection name="head"}
 <script type="text/javascript" language="javascript" src="{$params.JS_DIR}prototype.js"></script>
 <script type="text/javascript" language="javascript" src="{$params.JS_DIR}prototype-date-extensions.js"></script>
 <script type="text/javascript" language="javascript" src="{$params.JS_DIR}scriptaculous/scriptaculous.js?load=effects,dragdrop,controls"></script>
@@ -28,7 +26,6 @@
 <script type="text/javascript" language="javascript" src="{$params.JS_DIR}datepicker.js"></script>
 <script type="text/javascript" language="javascript" src="{$params.JS_DIR}MessageBoard.js"></script>
 <script type="text/javascript" language="javascript" src="{$params.JS_DIR}validation.js"></script>
-{/scriptsection}
 
 {literal}
 <script language="javascript">

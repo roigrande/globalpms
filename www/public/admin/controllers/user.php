@@ -23,20 +23,21 @@
 require_once '../../bootstrap.php';
 require_once(SITE_ADMIN_PATH.'controllers/session_bootstrap.php');
 $sessions = $GLOBALS['Session']->getSessions();
-require_once(SITE_ADMIN_CORE_PATH.'/privileges_check.class.php');
-require_once(SITE_ADMIN_CORE_PATH.'/method_cache_manager.class.php');
-require_once(SITE_ADMIN_CORE_PATH.'/user.class.php');
-require_once(SITE_ADMIN_PATH.'core/user_group.class.php');
+require_once(SITE_CORE_PATH.'/privileges_check.class.php');
+require_once(SITE_CORE_PATH.'/method_cache_manager.class.php');
+require_once(SITE_CORE_PATH.'/user.class.php');
+require_once(SITE_CORE_PATH.'/user_group.class.php');
 
 $app = Application::load();
 
+/*
 // Check ACL {{{
 require_once(SITE_ADMIN_PATH.'core/privileges_check.class.php');
 if(!Acl::_('USER_ADMIN')) {
     Acl::deny();
 }
 // }}}
-
+*/
 $tpl = new TemplateAdmin(TEMPLATE_ADMIN);
 $tpl->assign('titulo_barra', 'Gesti&oacute;n de Usuarios');
 
@@ -50,10 +51,10 @@ if( isset($_REQUEST['action']) ) {
             $filters = (isset($_REQUEST['filter']))? $_REQUEST['filter']: null;            
             $users = $user->get_users($filters);            
             
-            $users = $cm->paginate_num($users,12);
+          //  $users = $cm->paginate_num($users,12);
             $tpl->assign('users', $users);
             
-            $tpl->assign('paginacion', $cm->pager);
+          //  $tpl->assign('paginacion', $cm->pager);
             
             $user_group = new User_group();
             $group      = $user_group->get_user_groups();
@@ -152,4 +153,4 @@ if( isset($_REQUEST['action']) ) {
     Application::forward($_SERVER['SCRIPT_NAME'].'?action=list&page='.$page);
 }
 
-$tpl->display('user.tpl');
+$tpl->display('user/user.tpl');

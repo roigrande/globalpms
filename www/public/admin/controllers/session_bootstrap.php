@@ -1,5 +1,5 @@
 <?php
-require_once(SITE_ADMIN_PATH.'core/sessionmanager.class.php');
+require_once(SITE_CORE_PATH.'sessionmanager.class.php');
 $GLOBALS['Session'] = SessionManager::getInstance(OPENNEMAS_BACKEND_SESSIONS);
 $GLOBALS['Session']->bootstrap();
 //echo "<br \>variable ".$_SESSION['userid']."<br \>";

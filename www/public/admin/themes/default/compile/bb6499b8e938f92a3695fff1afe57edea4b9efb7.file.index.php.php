@@ -1,4 +1,23 @@
-<?php
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-10 12:32:02
+         compiled from "index.php" */ ?>
+<?php /*%%SmartyHeaderCode:6963592744d53ccb2193cb9-22040921%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'bb6499b8e938f92a3695fff1afe57edea4b9efb7' => 
+    array (
+      0 => 'index.php',
+      1 => 1297337521,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '6963592744d53ccb2193cb9-22040921',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+)); /*/%%SmartyHeaderCode%%*/?>
+<<?php ?>?php
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -33,15 +52,14 @@ if( $action != null ) {
 
     switch($action) {
         case 'users': {
-                Application::forward($server.'controllers/user.php');
+            $tpl->display('users.tpl');
         } break;
         default :{
-            $tpl->display('index.tpl');
+            $tpl->display('index.php');
             } break;
     }
 } else {
-    $tpl->display('index.tpl');
-
+  echo"holaaaaaaaaaaaa";
+    $tpl->display('index.php');
 }
-
-?>
+?<?php ?>>

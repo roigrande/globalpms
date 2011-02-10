@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-03 13:08:13
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-10 12:19:07
          compiled from "/var/www/globalpms/trunk/www/public/admin//themes/default/tpl/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:17536107024d4a9aada80796-68882360%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:16825464394d53c9ab9d85e1-01353593%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     'bb5cacf1757df15e22972c961798a4dec73dc48b' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public/admin//themes/default/tpl/index.tpl',
-      1 => 1296734892,
+      1 => 1297336746,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '17536107024d4a9aada80796-68882360',
+  'nocache_hash' => '16825464394d53c9ab9d85e1-01353593',
   'function' => 
   array (
   ),
@@ -23,10 +23,10 @@ $_smarty_tpl->decodeProperties(array (
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>Global pms</title>
-    <link href="admin/themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection">
-    <link href="admin/themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
+    <link href="themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection">
+    <link href="themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
     <!--[if lt IE 8]><link rel="stylesheet" href="admin/themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    <link rel="stylesheet" type="text/css" href="admin/themes/default/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
 
 
 
@@ -42,8 +42,13 @@ $_smarty_tpl->decodeProperties(array (
             </div>
             <div class="span-18 last">
                 <div class="box">
-                    Cabecera
+                    <div  id="elmenu">
 
+                        <a href="index.php?action=index"><span>HOME</span></a>
+
+                        <a href="index.php?action=users"><span>USERS</span></a>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,8 +73,7 @@ $_smarty_tpl->decodeProperties(array (
                     marco principal
                     marco principal
                     marco principal
-                    <?php echo $_smarty_tpl->getVariable('probando')->value;?>
-
+                   
                 </div>
             </div>
         </div>

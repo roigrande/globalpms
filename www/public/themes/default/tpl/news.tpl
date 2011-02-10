@@ -50,14 +50,11 @@
             </div>
             <div class="span-18 last">
                 <div class="box">
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal2 2 2 2
-                    marco principal
-                    marco principal
+                    news
+                    news
+                    news
+                    news
+                    news
                     
                 </div>
             </div>

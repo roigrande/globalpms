@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-10 11:26:34
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-10 11:34:47
          compiled from "/var/www/globalpms/trunk/www/public/themes/default/tpl/news.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:12941978004d53bd5a6567b2-58142192%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:11054366604d53bf47d62117-07251142%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '95bd197accc76efd4e54e066f79790055c2ef93a' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public/themes/default/tpl/news.tpl',
-      1 => 1297333538,
+      1 => 1297334059,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '12941978004d53bd5a6567b2-58142192',
+  'nocache_hash' => '11054366604d53bf47d62117-07251142',
   'function' => 
   array (
   ),
@@ -68,14 +68,11 @@ $_smarty_tpl->decodeProperties(array (
             </div>
             <div class="span-18 last">
                 <div class="box">
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal
-                    marco principal2 2 2 2
-                    marco principal
-                    marco principal
+                    news
+                    news
+                    news
+                    news
+                    news
                     
                 </div>
             </div>

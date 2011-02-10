@@ -4,10 +4,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>Global pms</title>
-    <link href="admin/themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection">
-    <link href="admin/themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
+    <link href="themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection">
+    <link href="themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print">
     <!--[if lt IE 8]><link rel="stylesheet" href="admin/themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    <link rel="stylesheet" type="text/css" href="admin/themes/default/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
 
 
 
@@ -23,8 +23,13 @@
             </div>
             <div class="span-18 last">
                 <div class="box">
-                    Cabecera
+                    <div  id="elmenu">
 
+                        <a href="index.php?action=index"><span>HOME</span></a>
+
+                        <a href="index.php?action=users"><span>USERS</span></a>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,7 +55,7 @@
                     marco principal
                     marco principal
                     marco principal
-                    {$probando}
+                   
                 </div>
             </div>
         </div>

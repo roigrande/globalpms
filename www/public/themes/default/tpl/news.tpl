@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div id="cabecera">
+      <div id="cabecera">
         <div class="container ">
             <div class="span-6">
                 <div class="box">
@@ -23,13 +23,16 @@
                 </div>
             </div>
             <div class="span-18 last">
-                <div class="box" id="menuh">             
-                    <ul>
-                    <li><a href="#menuh" id="primero">Inicio</a></li>
-                    <li><a href="#menuh">Noticias</a></li>
-                    <li><a href="#menuh">Contacto</a></li>
-                    <li><a href="#menuh">Acerca de nosotros</a></li>
-                    </ul> 
+                <div  id="elmenu">
+
+                    <a href="index.php?action=index"><span>HOME</span></a>
+
+                    <a href="index.php?action=news"><span>NEWS</span></a>
+
+                    <a href="index.php?action=contact"><span>CONTACT</span></a>
+
+                    <a href="index.php?action=login"><span>LOGIN</span></a>
+
                 </div>
             </div>
         </div>
@@ -55,8 +58,7 @@
                     marco principal2 2 2 2
                     marco principal
                     marco principal
-                    {$datos}
-                    {$probando}
+                    
                 </div>
             </div>
         </div>

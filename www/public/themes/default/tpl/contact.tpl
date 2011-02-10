@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div id="cabecera">
+     <div id="cabecera">
         <div class="container ">
             <div class="span-6">
                 <div class="box">
@@ -25,17 +25,15 @@
             <div class="span-18 last">
                 <div  id="elmenu">
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=index"><span>HOME</span></a>
 
-              <a href="#" class="seleccionado"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=news"><span>NEWS</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=contact"><span>CONTACT</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=login"><span>LOGIN</span></a>
 
-              </div>
-
-
+                </div>
             </div>
         </div>
     </div>
@@ -52,8 +50,19 @@
             </div>
             <div class="span-18 last">
                 <div class="box">
-                    contact
-                    marco principal                  
+                   <FORM action="http://globalpms.es/public/index" method="post">
+                            <P>
+                            <LABEL for="nombre">Nombre: </LABEL>
+                                      <INPUT type="text" id="nombre"><BR>
+                            <LABEL for="apellido">Apellido: </LABEL>
+                                      <INPUT type="text" id="apellido"><BR>
+                            <LABEL for="email">email: </LABEL>
+                                      <INPUT type="text" id="email"><BR>
+                            <INPUT type="radio" name="sexo" value="Varón"> Varón<BR>
+                            <INPUT type="radio" name="sexo" value="Mujer"> Mujer<BR>
+                            <INPUT type="submit" value="Enviar"> <INPUT type="reset">
+                            </P>
+                    </FORM>
                 </div>
             </div>
         </div>

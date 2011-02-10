@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-08 18:09:14
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-10 11:26:24
          compiled from "/var/www/globalpms/trunk/www/public/themes/default/tpl/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:20512258884d5178ba7f1078-42304328%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:14899069754d53bd50f2d6a5-42050915%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '6b0f677fd84dc8bff062635041ea976e707a11f2' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public/themes/default/tpl/index.tpl',
-      1 => 1297184954,
+      1 => 1297333583,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '20512258884d5178ba7f1078-42304328',
+  'nocache_hash' => '14899069754d53bd50f2d6a5-42050915',
   'function' => 
   array (
   ),
@@ -43,21 +43,20 @@ $_smarty_tpl->decodeProperties(array (
             </div>
             <div class="span-18 last">
                 <div  id="elmenu">
-                    
-              <a href="#"><span>Texto del enlace</span></a>
+                 
+                    <a href="index.php?action=index"><span>HOME</span></a>
 
-              <a href="#" class="seleccionado"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=news"><span>NEWS</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=contact"><span>CONTACT</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
-
-              </div>
-
-              
+                    <a href="index.php?action=login"><span>LOGIN</span></a>
+                                        
+                </div>
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="span-6">
            

@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-08 16:16:29
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-10 11:26:37
          compiled from "/var/www/globalpms/trunk/www/public/themes/default/tpl/contact.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:19217147624d515e4d958326-04998808%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:17380582374d53bd5dc797f5-59727209%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '19858bb6aa4b05272431a42ff1d0ba67ab0950e5' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public/themes/default/tpl/contact.tpl',
-      1 => 1297101540,
+      1 => 1297333560,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '19217147624d515e4d958326-04998808',
+  'nocache_hash' => '17380582374d53bd5dc797f5-59727209',
   'function' => 
   array (
   ),
@@ -34,7 +34,7 @@ $_smarty_tpl->decodeProperties(array (
 </head>
 
 <body>
-    <div id="cabecera">
+     <div id="cabecera">
         <div class="container ">
             <div class="span-6">
                 <div class="box">
@@ -44,17 +44,15 @@ $_smarty_tpl->decodeProperties(array (
             <div class="span-18 last">
                 <div  id="elmenu">
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=index"><span>HOME</span></a>
 
-              <a href="#" class="seleccionado"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=news"><span>NEWS</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=contact"><span>CONTACT</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=login"><span>LOGIN</span></a>
 
-              </div>
-
-
+                </div>
             </div>
         </div>
     </div>
@@ -70,8 +68,19 @@ $_smarty_tpl->decodeProperties(array (
             </div>
             <div class="span-18 last">
                 <div class="box">
-                    contact
-                    marco principal                  
+                   <FORM action="http://globalpms.es/public/index" method="post">
+                            <P>
+                            <LABEL for="nombre">Nombre: </LABEL>
+                                      <INPUT type="text" id="nombre"><BR>
+                            <LABEL for="apellido">Apellido: </LABEL>
+                                      <INPUT type="text" id="apellido"><BR>
+                            <LABEL for="email">email: </LABEL>
+                                      <INPUT type="text" id="email"><BR>
+                            <INPUT type="radio" name="sexo" value="Varón"> Varón<BR>
+                            <INPUT type="radio" name="sexo" value="Mujer"> Mujer<BR>
+                            <INPUT type="submit" value="Enviar"> <INPUT type="reset">
+                            </P>
+                    </FORM>
                 </div>
             </div>
         </div>

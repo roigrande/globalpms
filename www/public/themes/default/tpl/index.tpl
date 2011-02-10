@@ -24,21 +24,20 @@
             </div>
             <div class="span-18 last">
                 <div  id="elmenu">
-                    
-              <a href="#"><span>Texto del enlace</span></a>
+                 
+                    <a href="index.php?action=index"><span>HOME</span></a>
 
-              <a href="#" class="seleccionado"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=news"><span>NEWS</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
+                    <a href="index.php?action=contact"><span>CONTACT</span></a>
 
-              <a href="#"><span>Texto del enlace</span></a>
-
-              </div>
-
-              
+                    <a href="index.php?action=login"><span>LOGIN</span></a>
+                                        
+                </div>
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="span-6">
             {* este ejemplo para mostar widgets *}

@@ -40,12 +40,12 @@ class Template extends Smarty
 				  "smarty_get_db_secure", "smarty_get_db_trusted"));*/
 
 		// Parent variables
-		$this->template_dir  = SITE_PATH.SS.'public'.SS.'themes'.SS.$theme.SS.'tpl/';
-		$this->compile_dir   = SITE_PATH.SS.'public'.SS.'themes'.SS.$theme.SS.'compile/';
-		$this->config_dir    = SITE_PATH.SS.'public'.SS.'themes'.SS.$theme.SS.'config/';
-		$this->cache_dir     = SITE_PATH.SS.'public'.SS.'themes'.SS.$theme.SS.'cache/';
-		$this->plugins_dir[] = SITE_PATH.SS.'public'.SS.'themes'.SS.$theme.SS.'plugins/';
-                $this->locale_dir    = SITE_PATH.SS.'public'.SS.'themes'.SS.$theme.SS.'locale/';
+		$this->template_dir  = SITE_PATH.SS.'themes'.SS.$theme.SS.'tpl/';
+		$this->compile_dir   = SITE_PATH.SS.'themes'.SS.$theme.SS.'compile/';
+		$this->config_dir    = SITE_PATH.SS.'themes'.SS.$theme.SS.'config/';
+		$this->cache_dir     = SITE_PATH.SS.'themes'.SS.$theme.SS.'cache/';
+		$this->plugins_dir[] = SITE_PATH.SS.'themes'.SS.$theme.SS.'plugins/';
+                $this->locale_dir    = SITE_PATH.SS.'themes'.SS.$theme.SS.'locale/';
 		$this->caching 		 = false;
 
 		// Template variables

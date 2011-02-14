@@ -36,8 +36,8 @@ if( $action != null ) {
         case 'users': {
                 Application::forward($server.'controllers/user.php');
         } break;
-        default :{
-            $tpl->display('index.tpl');
+        default :{         
+            $tpl->display('index.tpl');         
             } break;
     }
 } else {

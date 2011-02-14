@@ -26,13 +26,13 @@ define ('SS', "/");
 
 define ('SITE', "globalpms.es");
 define ('SITE_NAME', "Gestor de recursos para eventos");
-define ('SITE_PATH',  "/var/www/globalpms/trunk/www" );
+define ('SITE_PATH',  "/var/www/globalpms/trunk/www/public/" );
 define ('SITE_ADMIN_DIR', "admin");
 define ('SITE_ADMIN_TMP_DIR', "tmp");
-define ('SITE_ADMIN_CORE_DIR', "core");
-define ('SITE_ADMIN_PATH', SITE_PATH.SS."public".SS.SITE_ADMIN_DIR.SS);
+define ('SITE_CORE_DIR', "core");
+define ('SITE_ADMIN_PATH', SITE_PATH.SS.SITE_ADMIN_DIR.SS);
 define ('SITE_ADMIN_TMP_PATH', SITE_ADMIN_PATH.SITE_ADMIN_TMP_DIR.SS);
-define ('SITE_ADMIN_CORE_PATH', SITE_ADMIN_PATH.SITE_ADMIN_CORE_DIR.SS);
+define ('SITE_CORE_PATH', SITE_PATH.SITE_CORE_DIR.SS);
 
 $protocol = 'http://';
 if(preg_match('@^/admin/@', $_SERVER['REQUEST_URI'])) {
@@ -43,7 +43,7 @@ define ('SITE_URL', $protocol.SITE.SS);
 define ('SITE_URL_ADMIN', $protocol.SITE.'/public/admin/');
 define ('SITE_URL_PUBLIC', $protocol.SITE);
 
-define ('SITE_LIBS_PATH', SITE_PATH.SS."libs");
+define ('SITE_LIBS_PATH', SITE_PATH."../libs");
 define ('SITE_PATH_WEB', "/");
 define ('SITE_TITLE', "OpenNemas - News Management System - Sistema de gestión de Noticias");
 define ('SITE_DESCRIPTION', "Gestor de todo tipo de producciones");

@@ -17,15 +17,26 @@
 
             <link rel="stylesheet" type="text/css" href="{$smarty.const.TEMPLATE_ADMIN_PATH_WEB}css/admin.css" />
             <link rel="stylesheet" type="text/css" href="{$params.CSS_DIR}botonera.css"/>
-            <link rel="stylesheet" type="text/css" href="themes/default/css/index.css"/>
-
+            <link rel="stylesheet" type="text/css" href="{$params.CSS_DIR}index.css"/>
+            
+            <link rel="stylesheet" type="text/css" href="{$params.CSS_DIR}index.css"/>
+            <link rel="stylesheet" type="text/css" href="{$params.CSS_DIR}loginadmin.css"/>
+       
         {/block}
 
         <!-- Admin Blueprint -->
+        {block name="flexigrid"}
+
+        <link rel="stylesheet" type="text/css" href="../themes/default/css/flexigrid/flexigrid.css"/>
+        <script type="text/javascript" src="/public/admin/themes/default/js/jquery.js"></script>
+        <script type="text/javascript" src="/public/admin/themes/default/js/flexigrid/flexigrid.js"></script>
+
+        {/block}
+        <!-- Admin Blueprint -->
         {block name="blueprint-css"}
 
-            <link href="themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection"/>
-            <link href="themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print"/>
+            <link href="/public/themes/default/css/blueprint/screen.css" type="text/css" rel="stylesheet" media="screen, projection"/>
+            <link href="/public/themes/default/css/blueprint/print.css" type="text/css" rel="stylesheet" media="print"/>
             <!--[if lt IE 8]><link rel="stylesheet" href="admin/themes/default/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
 
         {/block}
@@ -34,7 +45,7 @@
         {block name="header-js"}
 
         <script type="text/javascript" language="javascript" src="{$params.JS_DIR}prototype.js"></script>
-
+        
         {/block}
 
     </head>
@@ -73,8 +84,9 @@
                     </div>
                     <div class="span-18 last">
                         <div class="box">
-                           admin
+                            {block name="body-main"}
 
+                            {/block}
                         </div>
                     </div>
                 </div>
@@ -117,6 +129,5 @@
                  </script>
                 {/if}
         {/block}
-
     </body>
 </html>

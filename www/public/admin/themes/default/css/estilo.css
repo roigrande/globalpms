@@ -1,0 +1,95 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: helvetica, tahoma, arial;
+	font-size: 12px;
+	text-align: left;
+	color: #748388;
+	background: #29343a;
+}
+
+#stylized{
+border:solid 2px #b7ddf2;
+background:#ebf4fb;
+margin:70px 200px 80px 0px;
+}
+.myform{
+margin:0 auto;
+width:500px;
+padding:14px;
+}
+
+#stylized h1 {
+font-size:14px;
+font-weight:bold;
+margin-bottom:8px;
+}
+#stylized p{
+font-size:11px;
+color:#666666;
+margin-bottom:20px;
+border-bottom:solid 1px #b7ddf2;
+padding-bottom:10px;
+}
+#stylized label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+}
+#stylized .small{
+color:#666666;
+display:block;
+font-size:11px;
+font-weight:normal;
+text-align:right;
+width:140px;
+}
+#stylized input{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+width:200px;
+margin:2px 0px 0px 10px;}
+#stylized select{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+width:130px;
+margin:2px 100px 20px 10px;
+}
+
+#stylized textarea{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #aacfe4;
+
+margin:2px 0px 20px 10px;
+}
+#stylized  .bt_plus{
+float:none;
+font-size:12px;
+padding:0px;
+
+width:20px;
+margin:5px 0 5px 3px ;
+
+}
+
+#stylized .boton{
+clear:both;
+margin-left:150px;
+width:125px;
+height:31px;
+background:#666666 url(img/button.png) no-repeat;
+text-align:center;
+line-height:31px;
+color:#FFFFFF;
+font-size:11px;
+font-weight:bold;
+}
+

@@ -67,6 +67,7 @@ if( $action != null ) {
             $_order='ORDER BY 1';
             $fields='*';
             $workers = $cm->find('worker', $filters , $_order , $fields);
+            Application::ajax_out(json_encode($workers));
             $tpl->assign('workers', $workers);
 
         } break;

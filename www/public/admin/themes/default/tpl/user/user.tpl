@@ -1,115 +1,75 @@
 {extends file="base/admin.tpl"}
 
-
 {block name="body-main" append}
 
-<b>Example 1</b>
-<p>
-The most basic example with the zero configuration, with a table converted into flexigrid
-(<a href="#" onclick="$(this).parent().next().toggle(); return false;">Show sample code</a>)
-</p>
-
-<table class="flexme1">
-	<thead>
-    		<tr>
-            	<th width="100">Col 1</th>
-            	<th width="100">Col 2</th>
-            	<th width="100">Col 3 is a long header name</th>
-            	<th width="300">Col 4</th>
-            </tr>
-    </thead>
-    <tbody>
-    		<tr>
-            	<td>This is data 1 with overflowing content</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-    		<tr>
-            	<td>This is data 1</td>
-            	<td>This is data 2</td>
-            	<td>This is data 3</td>
-            	<td>This is data 4</td>
-            </tr>
-
-    </tbody>
-</table>
-<br />
+<table class="flexme1"></table>
 
 
-
-<table id="flex1" style="display:none"></table>
-
-
+{literal}
 <script type="text/javascript">
-			$('.flexme1').flexigrid();
-</script>
+    $(document).ready(function(){
 
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+		$("#flexme1").flexigrid
+                    (
+                    {
+                    url: 'post3.php',
+                    dataType: 'json',
+                    colModel : [
+                            {display: 'Pk_user', name : 'pk_user', width : 100, sortable : true, align: 'center'},
+                            {display: 'Name', name : 'name', width : 100, sortable : true, align: 'left'},
+                            {display: 'Last Name', name : 'lastname', width : 100, sortable : true, align: 'left'},
+                            {display: 'First Name', name : 'firstname', width : 100, sortable : true, align: 'left'},
+                            {display: 'Email', name : 'email', width : 200, sortable : true, align: 'right'}
+                            ],
+                    buttons : [
+                            {name: 'Add', bclass: 'add', onpress : test},
+                            {name: 'Delete', bclass: 'delete', onpress : test},
+                            {separator: true}
+                            ],
+                    searchitems : [
+                            {display: 'Pk_user', name : 'pk_user'},
+                            {display: 'Name', name : 'name', isdefault: true}
+                            ],
+                    sortname: "pk_user",
+                    sortorder: "asc",
+                    usepager: true,
+                    title: 'Countries',
+                    useRp: true,
+                    rp: 15,
+                    showTableToggleBtn: true,
+                    width: 600,
+                    height: 200
+                    }
+                );
+
+                
+
+                function test(com,grid)
+                {
+                        if (com=='Delete')
+                                {
+                                        confirm('Delete ' + $('.trSelected',grid).length + ' items?')
+                                }
+                        else if (com=='Add')
+                                {
+                                        alert('Add New Item');
+                                }
+                }
+
+
+		$('b.top').click
+		(
+			function ()
+				{
+					$(this).parent().toggleClass('fh');
+				}
+		);
+       
+    });
+
 </script>
-<script type="text/javascript">
-_uacct = "UA-3875581-1";
-urchinTracker();
-</script>
+{/literal}
+
+
 
 {/block}

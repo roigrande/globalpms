@@ -1,23 +1,23 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-16 18:31:42
-         compiled from "/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1046522464d5569e3672a12-72377883%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-23 11:20:23
+         compiled from "/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/user/user_create_update.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:14357329514d64df6722b474-33865218%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '5650824f6d02ba4dd717090a1c12ccf16cb0b47e' => 
+    'ab0ad3a0a30dd11ce08768e1ba4a6f823e31b35e' => 
     array (
-      0 => '/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/index.tpl',
-      1 => 1297443297,
+      0 => '/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/user/user_create_update.tpl',
+      1 => 1298456421,
       2 => 'file',
     ),
     '7a0f52520c7f73509b725c10b0ac8462f8b23cee' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/base/admin.tpl',
-      1 => 1297683960,
+      1 => 1298454143,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1046522464d5569e3672a12-72377883',
+  'nocache_hash' => '14357329514d64df6722b474-33865218',
   'function' => 
   array (
   ),
@@ -56,14 +56,16 @@ index.css"/>
 loginadmin.css"/>
        
         
+      <link rel="stylesheet" type="text/css" href="<?php echo $_smarty_tpl->getVariable('params')->value['CSS_DIR'];?>
+estilo.css"/>
 
-        <!-- Admin Blueprint -->
+
+        <!-- Admin flexigrid -->
         
 
         <link rel="stylesheet" type="text/css" href="../themes/default/css/flexigrid/flexigrid.css"/>
         <script type="text/javascript" src="/public/admin/themes/default/js/jquery.js"></script>
         <script type="text/javascript" src="/public/admin/themes/default/js/flexigrid/flexigrid.js"></script>
-
         
         <!-- Admin Blueprint -->
         
@@ -76,10 +78,15 @@ loginadmin.css"/>
 
             <!-- JS Admin library -->
         
+            <script type="text/javascript" src="/public/admin/themes/default/js/utils_form.js"></script>
 
        
         
         
+
+<script type="text/javascript" src="/public/admin/themes/default/js/jqueryforms/jquery.form.js"></script>
+
+
 
     </head>
     <body>
@@ -119,6 +126,15 @@ loginadmin.css"/>
                             
 
                             
+
+
+<form id="myForm" action="contacto.php" method="post">
+    <label><?php echo $_smarty_tpl->getVariable('action')->value;?>
+</label> <input type="text" name="name" />
+    <label>Mensaje:</label> <textarea name="mensaje"></textarea>
+    <input type="submit" value="Enviar" /> <div id="ajax_loader"><img id="loader_gif" src="loader.gif" style=" display:none;"/></div>
+</form>
+
                         </div>
                     </div>
                 </div>
@@ -132,7 +148,36 @@ loginadmin.css"/>
                     </div>
                 </div>
             </div>
+    
+    
+        <script type="text/javascript">
         
+        // esperamos que el DOM cargue
+        $(document).ready(function() {
+            // definimos las opciones del plugin AJAX FORM
+            var opciones= {
+                               beforeSubmit: mostrarLoader, //funcion que se ejecuta antes de enviar el form
+                               success: mostrarRespuesta, //funcion que se ejecuta una vez enviado el formulario
+
+            };
+             //asignamos el plugin ajaxForm al formulario myForm y le pasamos las opciones
+            $('#myForm').ajaxForm(opciones) ;
+
+             //lugar donde defino las funciones que utilizo dentro de "opciones"
+             function mostrarLoader(){
+                      $("#loader_gif").fadeIn("slow");
+             };
+             function mostrarRespuesta (responseText){
+				           alert("Mensaje enviado: "+responseText);
+                          $("#loader_gif").fadeOut("slow");
+                          $("#ajax_loader").append("<br>Mensaje: "+responseText);
+             };
+
+        });
+
+    </script>
+    
+
       
     </body>
 </html>

@@ -1,23 +1,23 @@
-<?php /* Smarty version Smarty-3.0.6, created on 2011-02-16 18:31:42
-         compiled from "/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1046522464d5569e3672a12-72377883%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.0.6, created on 2011-02-23 11:04:21
+         compiled from "/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/user/users_list.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:18842321604d64dba53a6cf8-16989883%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '5650824f6d02ba4dd717090a1c12ccf16cb0b47e' => 
+    '94e48a7b07c1903f7b19245e3f1bb76433ccfa67' => 
     array (
-      0 => '/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/index.tpl',
-      1 => 1297443297,
+      0 => '/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/user/users_list.tpl',
+      1 => 1298455453,
       2 => 'file',
     ),
     '7a0f52520c7f73509b725c10b0ac8462f8b23cee' => 
     array (
       0 => '/var/www/globalpms/trunk/www/public//admin//themes/default/tpl/base/admin.tpl',
-      1 => 1297683960,
+      1 => 1298454143,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1046522464d5569e3672a12-72377883',
+  'nocache_hash' => '18842321604d64dba53a6cf8-16989883',
   'function' => 
   array (
   ),
@@ -57,13 +57,12 @@ loginadmin.css"/>
        
         
 
-        <!-- Admin Blueprint -->
+        <!-- Admin flexigrid -->
         
 
         <link rel="stylesheet" type="text/css" href="../themes/default/css/flexigrid/flexigrid.css"/>
         <script type="text/javascript" src="/public/admin/themes/default/js/jquery.js"></script>
         <script type="text/javascript" src="/public/admin/themes/default/js/flexigrid/flexigrid.js"></script>
-
         
         <!-- Admin Blueprint -->
         
@@ -76,6 +75,7 @@ loginadmin.css"/>
 
             <!-- JS Admin library -->
         
+            <script type="text/javascript" src="/public/admin/themes/default/js/utils_form.js"></script>
 
        
         
@@ -119,6 +119,12 @@ loginadmin.css"/>
                             
 
                             
+
+    <div class="box">
+    <table id="flex1" style="display:none"></table>
+    </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -132,7 +138,73 @@ loginadmin.css"/>
                     </div>
                 </div>
             </div>
-        
+    
+    
+    
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#flex1").flexigrid
+                (
+                {
+                url: 'post3.php',
+                dataType: 'json',
+                colModel : [
+                        {display: 'Pk_user', name : 'pk_user', width :100, sortable : true, align: 'center'},
+                        {display: 'Name', name : 'name', width : 100, sortable : true, align: 'left'},
+                        {display: 'Last Name', name : 'lastname', width : 100, sortable : true, align: 'left'},
+                        {display: 'First Name', name : 'firstname', width : 100, sortable : true, align: 'left'},
+                        {display: 'Email', name : 'email', width : 150, sortable : true, align: 'right'}
+                        ],
+                buttons : [
+                        {name: 'Add', bclass: 'add', onpress : test},
+                        {name: 'Delete', bclass: 'delete', onpress : test},
+                          {name: 'New', bclass: 'new', onpress : test},
+                        {separator: true}
+                        ],
+                searchitems : [
+                        {display: 'Pk_user', name : 'pk_user'},
+                        {display: 'Name', name : 'name', isdefault: true}
+                        ],
+                sortname: "pk_user",
+                sortorder: "asc",
+                usepager: true,
+                title: 'Users',
+                useRp: true,
+                rp: 15,
+                showTableToggleBtn: true,
+                width: 620,
+                height: 200
+                }
+                );
+
+                function test(com,grid)
+                {
+                        if (com=='Delete')
+                                {
+                                        confirm('Delete ' + $('.trSelected',grid).length + ' items?')
+                                }
+                        else if (com=='Add')
+                                {
+                                    location.href='user.php?action=update';
+                                }
+                        else if (com=='New')
+                                {
+                                    location.href='user.php?action=create';
+                                }
+
+                }
+
+                $('b.top').click
+                (
+                        function ()
+                                {
+                                        $(this).parent().toggleClass('fh');
+                                }
+                );
+            });
+        </script>
+    
+
       
     </body>
 </html>

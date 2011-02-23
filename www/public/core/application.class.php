@@ -169,9 +169,10 @@ class Application {
 
    
     // Devolver HTML para funciones ajax
-    function ajax_out($htmlout) {
+    static public function ajax_out($htmlout) {
         header("Cache-Control: no-cache");
         header("Pragma: nocache");
+        header("Content-type: text/x-json");
         echo $htmlout;
         exit(0);
     }

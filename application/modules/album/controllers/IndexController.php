@@ -22,11 +22,8 @@ class Album_IndexController extends Zend_Controller_Action
 
     function indexAction()
     {
-
-        $albums = new Album_Model_DbTable_Albums();
-        
-//        var_dump ($albums);
-        $this->view->albums = $albums->fetchAll();
+    	$albums = new Album_Model_DbTable_Albums();
+		$this->view->albums = $albums->fetchAll();
     }
 
     public function addAction()

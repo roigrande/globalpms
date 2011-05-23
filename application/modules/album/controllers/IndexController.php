@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends Zend_Controller_Action
+class Album_IndexController extends Zend_Controller_Action
 {
 //    function __construct()
 //	{
@@ -23,7 +23,8 @@ class IndexController extends Zend_Controller_Action
     function indexAction()
     {
 
-        $albums = new Application_Model_DbTable_Albums();
+        $albums = new Album_Model_DbTable_Albums();
+        
 //        var_dump ($albums);
         $this->view->albums = $albums->fetchAll();
     }

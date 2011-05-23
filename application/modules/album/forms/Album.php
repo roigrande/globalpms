@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Album extends Zend_Form {
+class Album_Form_Album extends Zend_Form {
 
     public function init() {
         $this->setName('album');

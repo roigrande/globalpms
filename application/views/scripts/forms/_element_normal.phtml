@@ -1,0 +1,9 @@
+<p>
+	<label><?=$this->translate($this->element->getLabel());?></label>
+	<?= $this->{$this->element->helper}(
+		        $this->element->getName(),
+		        $this->element->getValue(),
+		        $this->element->getAttribs()
+		    ) ?>	
+</p>
+<div class="clear"></div>

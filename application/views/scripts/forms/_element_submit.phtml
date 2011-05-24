@@ -1,0 +1,12 @@
+<div class="clear"></div>
+<p>
+	
+			<?= $this->{$this->element->helper}(
+		        $this->element->getName(),
+		        $this->element->getValue(),
+		        $this->element->getAttribs()
+		    ) ?>
+</p>		    
+<p>
+	<input class="button_back button" type="button"  onClick="history.back()" value="<?=$this->translate("Back");?>"/>
+</p>

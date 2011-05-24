@@ -1,0 +1,13 @@
+<label class="inline">
+		<span>
+			<span>
+				<em><?=$this->translate($this->element->getDescription());?></em>
+			</span>
+		</span>
+		<?= $this->{$this->element->helper}(
+			$this->element->getName(),
+			$this->translate($this->element->getLabel()),		
+	        $this->element->getValue(),
+	        $this->element->getAttribs()
+	    ) ?>
+</label>

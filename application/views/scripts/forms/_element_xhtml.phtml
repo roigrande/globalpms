@@ -1,0 +1,10 @@
+<div class="<?=$this->class;?>">
+	<label><?=$this->translate($this->element->getLabel());?></label>
+	<div class="inputs">
+		<?=(string)$this->element->getContent();?>
+		<?=$this->translate($this->element->getValue());?>									
+		<span class="system negative"><?php echo $this->formErrors($this->element->getMessages()) ?></span>
+		<div class="hint"><?php echo $this->element->getDescription() ?></div>
+	</div>
+</div>
+

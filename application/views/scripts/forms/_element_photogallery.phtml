@@ -1,0 +1,58 @@
+<div id="product_gallery">
+	<h3><?=$this->element->getAttrib('type')?>/<?=$this->element->getAttrib('path')?> Gallery</h3>
+	<div class="modules">
+		<div class="module">
+			<div class="module_top">
+				<?php 
+				$images=explode(',',$this->element->getValue());
+				$size=sizeof($images);
+				?>
+				<h5><?=$size;?> photos  <span> | width:590px; height:400px</span></h5>
+				<a href="#insertphoto-modal" rel="modal" title="s" class="edit_module add_module">Add a new photo</a> | 
+				<a href="#insertphoto-modal-jar" rel="modal" title="s" class="edit_module add_module">Add a new photo with resizing</a>
+				  
+			</div>
+			<?php //if($this->element->getValue()):?>
+			<div class="module_bottom">
+				<div class="gallery">
+					<div class="gallery_inner" id="containerIDgallery">
+					<?php 
+					$images=explode(',',$this->element->getValue());
+					//Zend_Debug::dump($this->element->getAttribs(), "attribs", true);
+					//Zend_Debug::dump($this->element->getAttrib('path'), "path", true);
+					//Zend_Debug::dump($this->element->getOption(), "options", true);
+
+					if(!empty($images[0]))
+					foreach($images as $image):
+					?>
+						<span id="containerID<?=$image?>">
+						<dl class="product">
+							<dt>
+								<strong><?=$image?></strong>
+								<a href="#"><img width="97" height="82" src="/assets/proyectos/<?=$this->element->getAttrib('type')?>/<?=$this->element->getAttrib('path')?>/<?=$image?>" alt="" /></a>
+							</dt>
+							<dd>
+								<em>356 Kb</em>
+								<ul>
+									<li><a href="#" class="edit_product">Edit</a></li>
+									<li>
+										<a class="delete_product" onClick="javascript:return confirm('Deseas borrar esta foto?');" href="javascript:getAjaxResponse('/projects/ajax/deletephoto/id/<?=$this->element->getAttrib('id')?>/foto/<?=$image?>','containerID<?=$image?>')" title="text example">
+										Delete</a>
+									</li>
+								</ul>
+							</dd>
+						</dl>	
+						</span>	
+					<?php endforeach;?>
+						<span id="containerIDnew">
+						<dl class="product">.
+						</dl>
+						</span>					
+					
+					</div>				
+				</div>			
+			</div>	
+			<?php //endif;?>
+		</div>		
+	</div>	
+</div>

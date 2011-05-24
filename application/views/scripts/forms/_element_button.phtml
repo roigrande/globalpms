@@ -1,0 +1,26 @@
+<ul>
+<li>
+	<span class="button">
+		<span>
+			<span>
+				<em><?=$this->translate($this->element->getLabel());?></em>
+			</span>
+		</span>
+		<?= $this->{$this->element->helper}(
+	        $this->element->getName(),
+	        $this->element->getValue(),
+	        $this->element->getAttribs()
+	    ) ?>
+		<input type="submit" name=""/>
+	</span>
+</li>
+<li>
+	<span class="button">
+		<span>
+			<span>
+				<a href="<?=$this->baseUrl("/");?>"><?=$this->translate("BACK TO SITE");?></a>
+			</span>
+		</span>
+	</span>
+</li>
+</ul>

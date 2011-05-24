@@ -2,24 +2,101 @@
 $this->title = "My Albums";
 $this->headTitle($this->title);
 ?>
-<p><a href="<?php echo $this->url(array('controller' => 'index',
+<!-- Table styles start -->           
+                <div class="container">
+                	<div class="conthead">
+                		<h2><?php echo $this->escape($this->title); ?></h2>
+                		<p><a href="<?php echo $this->url(array('controller' => 'index',
     'action' => 'add')); ?>">Add new album</a></p>
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Artist</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php foreach ($this->albums as $album) : ?>
-        <tr>
-            <td><?php echo $this->escape($album->title); ?></td>
-            <td><?php echo $this->escape($album->artist); ?></td>
-            <td>
-                <a href="<?php echo $this->url(array('controller' => 'index',
-        'action' => 'edit', 'id' => $album->id)); ?>">Edit</a>
-                <a href="<?php echo $this->url(array('controller' => 'index',
-                   'action' => 'delete', 'id' => $album->id)); ?>">Delete</a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+
+                		
+                    </div>
+                	<div class="contentbox">
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Artist</th>
+                                    <th>Actions</th>
+                                    <th><input name="" type="checkbox" value="" id="checkboxall" /></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($this->albums as $album) : ?>
+						        <tr>
+						            <td><?php echo $this->escape($album->title); ?></td>
+						            <td><?php echo $this->escape($album->artist); ?></td>
+						            <td>
+						                <a href="<?php echo $this->url(array('controller' => 'index',
+						        'action' => 'edit', 'id' => $album->id)); ?>">Edit</a>
+						                <a href="<?php echo $this->url(array('controller' => 'index',
+						                   'action' => 'delete', 'id' => $album->id)); ?>">Delete</a>
+						            </td>
+						            <td><input type="checkbox" value="" name="checkall" /></td>
+						        </tr>
+						    <?php endforeach; ?>
+                                <tr>
+                                    <td>Content Here</td>
+                                    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam.</td>
+                                    <td>
+                                        <a href="#" title=""><img src="/assets/images/icons/icon_edit.png" alt="Edit" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_approve.png" alt="Approve" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_unapprove.png" alt="Unapprove" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_delete.png" alt="Delete" /></a>
+                                    </td>
+                                    <td><input type="checkbox" value="" name="checkall" /></td>
+                                </tr>
+                                <tr class="alt">
+                                    <td>Content Here</td>
+                                    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam.</td>
+                                    <td>
+                                        <a href="#" title=""><img src="images/icons/icon_edit.png" alt="Edit" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_approve.png" alt="Approve" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_unapprove.png" alt="Unapprove" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_delete.png" alt="Delete" /></a>
+                                    </td>
+                                    <td><input type="checkbox" value="" name="checkall" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Content Here</td>
+                                    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam.</td>
+                                    <td>
+                                        <a href="#" title=""><img src="images/icons/icon_edit.png" alt="Edit" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_approve.png" alt="Approve" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_unapprove.png" alt="Unapprove" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_delete.png" alt="Delete" /></a>
+                                    </td>
+                                    <td><input type="checkbox" value="" name="checkall" /></td>
+                                </tr>
+                                 <tr class="alt">
+                                    <td>Content Here</td>
+                                    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam.</td>
+                                    <td>
+                                        <a href="#" title=""><img src="images/icons/icon_edit.png" alt="Edit" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_approve.png" alt="Approve" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_unapprove.png" alt="Unapprove" /></a>
+                                        <a href="#" title=""><img src="images/icons/icon_delete.png" alt="Delete" /></a>
+                                    </td>
+                                    <td><input type="checkbox" value="" name="checkall" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="extrabottom">
+                        	<ul class="pagination">
+                                <li class="text">Previous</li>
+                                <li class="page"><a href="#" title="">1</a></li>
+                                <li><a href="#" title="">2</a></li>
+                                <li><a href="#" title="">3</a></li>
+                                <li><a href="#" title="">4</a></li>
+                                <li class="text"><a href="#" title="">Next</a></li>
+                            </ul>
+                            <div class="bulkactions">
+                                <select>
+                                    <option>Select bulk action...</option>
+                                </select>
+                                <input type="submit" value="Apply" class="btn" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Table styles end --> 

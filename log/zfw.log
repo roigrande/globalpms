@@ -5,3 +5,8 @@
 2011-05-19T18:09:53+02:00 ALERT (1): alta cancion con titulo gin tonik
 2011-05-20T10:18:44+02:00 EMERG (0): alta cancion del artista f
 2011-05-23T17:29:05+02:00 ALERT (1): actualiza la informacion del title Lungsw
+2011-05-23T23:21:26+02:00 EMERG (0): alta cancion del artista e
+2011-05-23T23:21:34+02:00 EMERG (0): alta cancion del artista roi
+2011-05-23T23:22:46+02:00 ALERT (1): actualiza la informacion del title ehola2
+2011-05-23T23:22:55+02:00 ALERT (1): actualiza la informacion del title f343
+2011-05-23T23:23:49+02:00 NOTICE (5): elimnar el album con id 32

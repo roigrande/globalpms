@@ -1,12 +1,6 @@
-<?php
-$this->title = "My Albums";
-?>
-
 <div class="container">
-
-
     <div class="conthead">
-        <h1><?php echo $this->escape($this->title); ?></h1>
+        <h1><?php echo $this->escape($this->translate("My Albums")); ?></h1>
         <p><a href="<?php echo $this->url(array('controller' => 'index',
     'action' => 'add')); ?>">Add new album</a></p>
     </div>
@@ -14,10 +8,8 @@ $this->title = "My Albums";
         <table width="100%">
             <thead>
                 <tr>
-                    
-
                     <th></th>
-                    <th>Title</th>
+                    <th><?php echo $this->translate('Titles'); ?></th>
                     <th>Actions</th>
                     <th><input name="" type="checkbox" value="" id="checkboxall" /></th>
                 </tr>
@@ -29,10 +21,10 @@ $this->title = "My Albums";
                         <td><?php echo $this->escape($album->title); ?></td>
                         <td><?php echo $this->escape($album->artist); ?></td>
                         <td>
-                            <a href="<?php echo $this->url(array('controller' => 'index',
-                    'action' => 'edit', 'id' => $album->id)); ?>"><img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'index',
-                               'action' => 'delete', 'id' => $album->id)); ?>"><a href="#" title=""><img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a></a>
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'edit', 'id' => $album->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'id' => $album->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                         </td>
                         
                         <td><input type="checkbox" value="" name="checkall" /></td>

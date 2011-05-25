@@ -23,6 +23,7 @@ class Album_IndexController extends Zend_Controller_Action
     function indexAction()
     {
     	$albums = new Album_Model_DbTable_Albums();
+    	$this->view->title = "Albums list";
 		$this->view->albums = $albums->fetchAll();
     }
 
@@ -63,7 +64,9 @@ class Album_IndexController extends Zend_Controller_Action
 
     public function editAction()
     {
-        $form = new Album_Form_Album();
+        $this->view->title = "Edit album";
+
+    	$form = new Album_Form_Album();
         $form->submit->setLabel('Save');
         $this->view->form = $form;
 

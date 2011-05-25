@@ -1,11 +1,9 @@
 <?php
 $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
-$this->headTitle()->setSeparator(' - ');
-$this->headTitle('Zend Framework Tutorial');
 echo $this->doctype(); ?>
 <head>
 <?php echo $this->headMeta(); ?>
-<?php echo $this->headTitle(); ?>
+<?= $this->headTitle($this->escape($this->title)) ?>
 <?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/site.css'); ?>
 <!-- Calendar Styles -->
 <link href="/styles/fullcalendar.css" rel="stylesheet" type="text/css" />
@@ -26,9 +24,16 @@ echo $this->doctype(); ?>
     	<img src="/styles/images/logo.png" alt="AdminCP" class="logo" />
         <div id="searchbox">
         	<input type="text" class="searchinput" />
-            <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />
+            <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />        
     	</div>
+    	    <?php
+		   			include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');           
+		   			$form = new Default_Form_Languages();
+		   			echo $form;
+				?>
+    	
     </div>
+    
  <!-- Top header/black bar end -->   
     
 <!-- Left side bar start -->

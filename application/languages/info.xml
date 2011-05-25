@@ -17,18 +17,14 @@
    <tuv xml:lang="ru"><seg>Русский</seg></tuv>
    <tuv xml:lang="ca"><seg>Català</seg></tuv>
   </tu>
-  <tu tuid='SEE ALL NEWS'>
-   <tuv xml:lang="en"><seg>SEE ALL NEWS</seg></tuv>
-   <tuv xml:lang="es"><seg>TODAS LAS NOTICIAS</seg></tuv>   
+  <tu tuid='Titles'>
+   <tuv xml:lang="en"><seg>Title</seg></tuv>
+   <tuv xml:lang="es"><seg>Título</seg></tuv>   
   </tu>
-  <tu tuid='Latest News'>
-   <tuv xml:lang="en"><seg>Latest News</seg></tuv>
-   <tuv xml:lang="es"><seg>Noticias</seg></tuv>   
+  <tu tuid='My Albums'>
+   <tuv xml:lang="en"><seg>My Albums</seg></tuv>
+   <tuv xml:lang="es"><seg>Mis Álbumes</seg></tuv>   
   </tu>
-  <tu tuid='Contact Info'>
-   <tuv xml:lang="en"><seg>Contact Info</seg></tuv>
-   <tuv xml:lang="es"><seg>Contactanos</seg></tuv>   
-  </tu>
- 
+  
 
   </body>

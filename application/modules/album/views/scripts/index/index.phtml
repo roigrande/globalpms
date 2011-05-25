@@ -14,21 +14,7 @@ $this->title = "My Albums";
         <table width="100%">
             <thead>
                 <tr>
-                    <?php 
-                        $translate = new Zend_Translate(
-                            array(
-                                'adapter' => 'gettext',
-                                'content' => '/my/path/source-de.mo',                        
-                                'locale'  => 'de'
-                            )
-                        );
-                        $translate->addTranslation(
-                            array(
-                                'content' => '/path/to/translation/fr-source.mo',
-                                'locale'  => 'fr'
-                            )
-                        );
-                    ?>
+                    
 
                     <th></th>
                     <th>Title</th>

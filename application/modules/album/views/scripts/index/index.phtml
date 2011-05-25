@@ -1,0 +1,74 @@
+<?php
+$this->title = "My Albums";
+?>
+
+<div class="container">
+
+
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->title); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'index',
+    'action' => 'add')); ?>">Add new album</a></p>
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <?php 
+                        $translate = new Zend_Translate(
+                            array(
+                                'adapter' => 'gettext',
+                                'content' => '/my/path/source-de.mo',                        
+                                'locale'  => 'de'
+                            )
+                        );
+                        $translate->addTranslation(
+                            array(
+                                'content' => '/path/to/translation/fr-source.mo',
+                                'locale'  => 'fr'
+                            )
+                        );
+                    ?>
+
+                    <th></th>
+                    <th>Title</th>
+                    <th>Actions</th>
+                    <th><input name="" type="checkbox" value="" id="checkboxall" /></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->albums as $album) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($album->title); ?></td>
+                        <td><?php echo $this->escape($album->artist); ?></td>
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'index',
+                    'action' => 'edit', 'id' => $album->id)); ?>"><img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'index',
+                               'action' => 'delete', 'id' => $album->id)); ?>"><a href="#" title=""><img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a></a>
+                        </td>
+                        
+                        <td><input type="checkbox" value="" name="checkall" /></td>
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+        <div class="extrabottom">
+            <ul class="pagination">
+                <li class="text">Previous</li>
+                <li class="page"><a href="#" title="">1</a></li>
+                <li><a href="#" title="">2</a></li>
+                <li><a href="#" title="">3</a></li>
+                <li><a href="#" title="">4</a></li>
+                <li class="text"><a href="#" title="">Next</a></li>
+            </ul>
+            <div class="bulkactions">
+                <select>
+                    <option>Select bulk action...</option>
+                </select>
+                <input type="submit" value="Apply" class="btn" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

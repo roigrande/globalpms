@@ -26,11 +26,7 @@ echo $this->doctype(); ?>
         	<input type="text" class="searchinput" />
             <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />        
     	</div>
-    	    <?php
-		   			include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');           
-		   			$form = new Default_Form_Languages();
-		   			echo $form;
-				?>
+    	  
     	
     </div>
     
@@ -136,6 +132,13 @@ echo $this->doctype(); ?>
                 </li>
                 <li>
                 	<a href="#"><img src="/styles/images/icons/icon_lrg_support.png" alt="Support" /><br />Support</a>
+                </li>
+                <li> 
+                    <?php
+                    include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
+                    $form = new Default_Form_Languages();
+                    echo $form;
+                    ?>
                 </li>
             </ul>
 <!-- Top/large buttons end -->  

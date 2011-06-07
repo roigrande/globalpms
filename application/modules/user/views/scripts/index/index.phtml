@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Users")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'index',
+    'action' => 'add')); ?>">Add new user</a></p>
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th><?php echo $this->translate('User name'); ?></th>
+                    <th><?php echo $this->translate('Password'); ?></th>
+                    <th><?php echo $this->translate('Date'); ?></th>
+                    <th><?php echo $this->translate('Email'); ?></th>
+                    <th><?php echo $this->translate('Status'); ?></th>
+                    <th><?php echo $this->translate('Person_id?'); ?></th>
+                    <th><?php echo $this->translate('Validation code'); ?></th>
+                    <th><?php echo $this->translate('Phone'); ?></th>
+                    <th><?php echo $this->translate('Role'); ?></th>
+                                        
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    <th></th>
+                    <th><input name="" type="checkbox" value="" id="checkboxall" /></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->users as $user) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($user->user_name); ?></td>                         
+                        <td><?php echo $this->escape($user->password); ?></td>
+                        <td><?php echo $this->escape($user->date); ?></td>
+                        <td><?php echo $this->escape($user->email); ?></td>
+                        <td><?php echo $this->escape($user->status); ?></td>
+                        <td><?php echo $this->escape($user->person_id); ?></td>
+                        <td><?php echo $this->escape($user->validation_code); ?></td>
+                        <td><?php echo $this->escape($user->phone); ?></td>
+                        <td><?php echo $this->escape($user->roles_id); ?></td>
+                        
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'edit', 'id' => $user->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'id' => $user->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>
+                        
+                        <td><input type="checkbox" value="" name="checkall" /></td>
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+        <div class="extrabottom">
+            <ul class="pagination">
+                <li class="text">Previous</li>
+                <li class="page"><a href="#" title="">1</a></li>
+                <li><a href="#" title="">2</a></li>
+                <li><a href="#" title="">3</a></li>
+                <li><a href="#" title="">4</a></li>
+                <li class="text"><a href="#" title="">Next</a></li>
+            </ul>
+            <div class="bulkactions">
+                <select>
+                    <option>Select bulk action...</option>
+                </select>
+                <input type="submit" value="Apply" class="btn" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

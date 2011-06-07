@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Roles")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'role',
+    'action' => 'add')); ?>">Add new role</a></p>
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                    <th><?php echo $this->translate('Name'); ?></th>
+                    <th><?php echo $this->translate('Role Parent'); ?></th>
+                    <th><?php echo $this->translate('Prefered Uri'); ?></th>
+                    <th><?php echo $this->translate('Actions');?></th>
+                    <th><input name="" type="checkbox" value="" id="checkboxall" /></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->roles as $role) : ?>
+                    <tr>
+                
+                        <td><?php echo $this->escape($role->role_name); ?></td>
+                        <td><?php echo $this->escape($role->role_parents); ?></td>
+                        <td><?php echo $this->escape($role->prefered_uri); ?></td>
+                        
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'role','action' => 'edit', 'id' => $role->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'role','action' => 'delete', 'id' => $role->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>
+                        
+                        <td><input type="checkbox" value="" name="checkall" /></td>
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+        <div class="extrabottom">
+            <ul class="pagination">
+                <li class="text">Previous</li>
+                <li class="page"><a href="#" title="">1</a></li>
+                <li><a href="#" title="">2</a></li>
+                <li><a href="#" title="">3</a></li>
+                <li><a href="#" title="">4</a></li>
+                <li class="text"><a href="#" title="">Next</a></li>
+            </ul>
+            <div class="bulkactions">
+                <select>
+                    <option>Select bulk action...</option>
+                </select>
+                <input type="submit" value="Apply" class="btn" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

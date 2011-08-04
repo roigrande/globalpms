@@ -3,7 +3,7 @@ $this->title = "Delete Permission";
 $this->headTitle($this->title);
 ?>
 <p>Are you sure that you want to delete
-    '<?php echo $this->escape($this->permission['permission_name']); ?>' by
+    '<?php echo $this->escape($this->permission['permission']); ?>' by
     
 </p>
 <form action="<?php echo $this->url(array('action' => 'delete')); ?>" method="post">

@@ -3,6 +3,25 @@
         <h1><?php echo $this->escape($this->translate("My Roles")); ?></h1>
         <p><a href="<?php echo $this->url(array('controller' => 'role',
     'action' => 'add')); ?>">Add new role</a></p>
+             <ul id="topbtns">
+            	<li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'role','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Role" /><br />role</a>
+                </li>
+                <li>
+                        <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+                
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'permission','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_create.png" alt="Permission" /><br />Permission  </a>
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'module','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="Module" /><br />Module</a>
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'resource','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Resource" /><br />Resource</a>
+                </li>                
+            </ul>
+   
     </div>
     <div class="contentbox">
         <table width="100%">
@@ -13,7 +32,6 @@
                     <th><?php echo $this->translate('Role Parent'); ?></th>
                     <th><?php echo $this->translate('Prefered Uri'); ?></th>
                     <th><?php echo $this->translate('Actions');?></th>
-                    <th><input name="" type="checkbox" value="" id="checkboxall" /></th>
                 </tr>
             </thead>
 

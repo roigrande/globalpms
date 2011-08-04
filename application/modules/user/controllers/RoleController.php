@@ -25,7 +25,7 @@ class User_RoleController extends Zend_Controller_Action
                 
             if ($form->isValid($request->getPost())) {
                 $model = new User_Model_DbTable_Roles;
-                $model->save($form->getValues());
+                $model->addRole($form->getValues());
                 return $this->_helper->redirector('index');
                 
             }
@@ -66,7 +66,7 @@ class User_RoleController extends Zend_Controller_Action
             if ($form->isValid($formData)) {
                  $model_role = new User_Model_DbTable_Roles();       
                 
-                        $model_role->saveUpdate($form->getValues());
+                        $model_role->updateRole($form->getValues());
                
               
                 $this->_helper->redirector('index');

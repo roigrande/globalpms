@@ -52,8 +52,8 @@ class User_Form_Permission extends Zend_Form {
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty');
         
-        $role_id = new Zend_Form_Element_Select('role_id');
-        $role_id->setLabel('Role_id')
+        $roles_id = new Zend_Form_Element_Select('roles_id');
+        $roles_id->setLabel('Roles_id')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsRoles())
@@ -61,8 +61,8 @@ class User_Form_Permission extends Zend_Form {
                 ->setAttrib('size', 1)
         ;
         
-        $resource_id = new Zend_Form_Element_Select('resource_id');
-        $resource_id->setLabel('Resource_id')
+        $resources_id = new Zend_Form_Element_Select('resources_id');
+        $resources_id->setLabel('Resource_id')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsResources())
@@ -77,8 +77,8 @@ class User_Form_Permission extends Zend_Form {
                                 $permission,
                                 $name,
                                 $menu,
-                                $role_id,
-                                $resource_id,
+                                $roles_id,
+                                $resources_id,
                                 $submit));
     }
 

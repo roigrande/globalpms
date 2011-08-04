@@ -13,20 +13,11 @@ class User_Model_DbTable_Roles extends Zend_Db_Table_Abstract
         return $row->toArray();
     }
 
-    public function addRole($role_name,$rol_parent,$prefered_uri) {
-        
-        $this->insert($role_name,$rol_parent,$prefered_uri);
-    }
-
-    public function updateRole($id, $role) {
-        
-        $this->update($role, 'id = ' . (int) $id);
-    }
-
+    
     public function deleteRole($id) {
         
         $users = new User_Model_DbTable_Users;
-        //$users->deleteUsersRole($id);
+        $users->delete('roles_id =' . (int) $id);;
         $this->delete('id =' . (int) $id);
     }
     public function getTable(){
@@ -34,7 +25,7 @@ class User_Model_DbTable_Roles extends Zend_Db_Table_Abstract
         return $this->_name;
     }
     
-   public function save(array $data)
+    public function addRole(array $data)
     {
         //$table  = $this->getTable();
         $fields = $this->info(Zend_Db_Table_Abstract::COLS);
@@ -45,7 +36,7 @@ class User_Model_DbTable_Roles extends Zend_Db_Table_Abstract
         }
         return $this->insert($data);
     }
-    public function saveUpdate(array $data)
+    public function updateRole(array $data)
     {
         //$table  = $this->getTable();
         $fields = $this->info(Zend_Db_Table_Abstract::COLS);
@@ -56,5 +47,6 @@ class User_Model_DbTable_Roles extends Zend_Db_Table_Abstract
         }
         return $this->update($data,'id = ' . (int) $data['id']);
     }
+    
 }
 

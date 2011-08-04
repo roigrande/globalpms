@@ -1,12 +1,36 @@
+          
+
 <div class="container">
     <div class="conthead">
         <h1><?php echo $this->escape($this->translate("My Users")); ?></h1>
         <p><a href="<?php echo $this->url(array('controller' => 'index',
     'action' => 'add')); ?>">Add new user</a></p>
+        <ul id="topbtns">
+            	<li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'role','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Role" /><br />role</a>
+                </li>
+                <li>
+                        <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+                
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'permission','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_create.png" alt="Permission" /><br />Permission  </a>
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'module','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="Module" /><br />Module</a>
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'resource','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Resource" /><br />Resource</a>
+                </li>                
+            </ul>
     </div>
     <div class="contentbox">
         <table width="100%">
             <thead>
+                <tr>
+                    
+                </tr>
+                                    
                 <tr>
                     <th><?php echo $this->translate('User name'); ?></th>
                     <th><?php echo $this->translate('Password'); ?></th>
@@ -17,10 +41,8 @@
                     <th><?php echo $this->translate('Validation code'); ?></th>
                     <th><?php echo $this->translate('Phone'); ?></th>
                     <th><?php echo $this->translate('Role'); ?></th>
-                                        
                     <th><?php echo $this->translate('Actions'); ?></th>
-                    <th></th>
-                    <th><input name="" type="checkbox" value="" id="checkboxall" /></th>
+                    
                 </tr>
             </thead>
 

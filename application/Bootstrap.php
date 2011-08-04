@@ -72,5 +72,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $view;
     }
     
+protected function _initDatabase() {
+        $this->bootstrapDb();
+        $db = $this->getResource('db');
+        $db->setFetchMode(Zend_Db::FETCH_OBJ);
+        $db->query("SET NAMES 'utf8'");
+        $db->query("SET CHARACTER SET 'utf8'");
+        Zend_Registry::set("db", $db);
+        return $db;
+    }
 
 }

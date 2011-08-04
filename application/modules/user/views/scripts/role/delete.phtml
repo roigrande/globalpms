@@ -2,8 +2,8 @@
 $this->title = "Delete Role";
 $this->headTitle($this->title);
 ?>
-<p>Are you sure that you want to delete
-    '<?php echo $this->escape($this->role['role_name']); ?>' by
+<p>¿ Estas seguro de que quieres eliminar el rol "
+    '<?php echo $this->escape($this->role['role_name']); ?>' " es probocara eliminar todos los usuarios con ese rol
     
 </p>
 <form action="<?php echo $this->url(array('action' => 'delete')); ?>" method="post">

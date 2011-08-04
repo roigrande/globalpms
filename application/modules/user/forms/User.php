@@ -1,18 +1,8 @@
 <?php
 
 class User_Form_User extends Zend_Form {
-     public function _selectOptions() {
-        $roles = new User_Model_DbTable_Roles();
-        $roles=$roles->fetchAll();
-       // $array_role[]=
-        foreach ($roles as $role) {
-            $array_role[$role["id"]]=$role["role_name"];          
-            
-        }
-       
-        return $array_role;
- 
-     }
+
+     
     public function init() {
         $this->setName('user');
         $id = new Zend_Form_Element_Hidden('id');
@@ -78,7 +68,7 @@ class User_Form_User extends Zend_Form {
         $roles_id->setLabel('Role_id')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptions())
+                ->setmultiOptions($this->_selectOptionsRole())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
         ;
@@ -98,6 +88,15 @@ class User_Form_User extends Zend_Form {
                                 $roles_id,
                                 $submit));
     }
+    protected function _selectOptionsRole()
+    {                    
+            $sql="SELECT id, role_name
+                  FROM acl_roles";
+            $db=Zend_Registry::get('db');
+            $result = $db->fetchPairs($sql);
+            return $result;
+    }
+    
 
 }
 

@@ -1,0 +1,13 @@
+<module version="0.1.0">
+<name>prueba</name>
+<copyright></copyright>
+<developer></developer>
+<description></description>
+<config>
+        <modules>
+                <Prueba>
+                <active>true</active> 
+                <codePool>local</codePool> 
+            </Prueba>
+        </modules>
+</config>

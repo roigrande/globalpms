@@ -12,22 +12,6 @@ class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
         return $row->toArray();
     }
 
-    public function addUser($user_name, $email) {
-        $data = array(
-            'user_name' => $user_name,
-            'email' => $email,
-        );
-        $this->insert($data);
-    }
-
-    public function updateUser($id, $user_name, $email) {
-        $data = array(
-            'user_name' => $user_name,
-            'email' => $email,
-        );
-        $this->update($data, 'id = ' . (int) $id);
-    }
-
     public function deleteUser($id) {
         $this->delete('id =' . (int) $id);
     }

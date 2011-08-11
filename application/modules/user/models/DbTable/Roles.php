@@ -17,7 +17,8 @@ class User_Model_DbTable_Roles extends Zend_Db_Table_Abstract
     public function deleteRole($id) {
         
         $users = new User_Model_DbTable_Users;
-        $users->delete('roles_id =' . (int) $id);;
+        //TODO pasar a rol == hijo primero que se encuentre
+        $users->delete('roles_id =' . (int) $id);
         $this->delete('id =' . (int) $id);
     }
     public function getTable(){

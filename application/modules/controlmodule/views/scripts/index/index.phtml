@@ -1,0 +1,125 @@
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Modules")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'index',
+    'action' => 'add')); ?>">Add new module</a></p>
+        <ul id="topbtns">
+            	<li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'role','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Role" /><br />role</a>
+                </li>
+                <li>
+                        <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+                
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'permission','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_create.png" alt="Permission" /><br />Permission  </a>
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'module','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="Module" /><br />Module</a>
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'resource','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Resource" /><br />Resource</a>
+                </li>                
+            </ul>
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th><?php echo $this->translate('Module Folders'); ?></th>                    
+                    <th><?php echo $this->translate('Status'); ?></th>
+                    <th><?php echo $this->translate('Installation'); ?></th>
+                    <th><?php echo $this->translate('Options'); ?></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+                <?php 
+                //resources.frontController.moduleDirectory                        
+                $dir = APPLICATION_PATH."/modules/";
+                if (is_dir($dir)) {
+                    if ($dh = opendir($dir) ) {
+                        while (($file = readdir($dh)) !== false) {
+                            if ((filetype($dir . $file)=="dir") AND ($file!=".") AND ($file!="..")){
+                                $modules = new User_Model_DbTable_Modules();
+                                $instalado=false;
+                                if ($modules->fetchRow('module_name = "'.$file.'"'))
+                                {
+                                    $instalado=true;
+                                }
+                                ?>
+                    <tr>
+                
+                        <td><?php echo $this->escape($file); ?></td>
+                        
+                        <td><?php echo $this->escape($file); ?></td>
+                        <td><?php 
+                               if ($instalado){     
+                                    echo "instalado";
+                                }else{
+                                    echo "desinstalado";
+                                };
+                             ?></td>
+                        <td>
+                            <?php                            
+                            if (!$instalado){
+                            ?>
+                            
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'install', 'module_name' => $file)); ?>">
+                            install</a>
+                            
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'id' => $module->id)); ?>">
+                            active</a>
+                            
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'module_name' => $file)); ?>">
+                            <img src="/styles/images/icons/icon_delete.png" alt="Delete" />delete</a>            
+                        
+                            <?php                            
+                            }else{
+                            ?>
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'edit', 'id' => $module->id)); ?>">
+                            <img src="/styles/images/icons/icon_edit.png" alt="Edit" />editar</a>
+
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'desinstall', 'module_name' => $file)); ?>">
+                            desintalar</a>
+                            
+                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'id' => $module->id)); ?>">
+                            activar</a>
+                            
+                            <?php
+                            }
+                            ?>                                                     
+                        </td>
+                        
+                        
+                        <td><input type="checkbox" value="" name="checkall" /></td>
+                    </tr>
+                    
+                <?php   
+                            }
+                        }
+                    closedir($dh);
+                    }
+                };
+                ?>
+        </table>
+        <div class="extrabottom">
+            <ul class="pagination">
+                <li class="text">Previous</li>
+                <li class="page"><a href="#" title="">1</a></li>
+                <li><a href="#" title="">2</a></li>
+                <li><a href="#" title="">3</a></li>
+                <li><a href="#" title="">4</a></li>
+                <li class="text"><a href="#" title="">Next</a></li>
+            </ul>
+            <div class="bulkactions">
+                <select>
+                    <option>Select bulk action...</option>
+                </select>
+                <input type="submit" value="Apply" class="btn" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

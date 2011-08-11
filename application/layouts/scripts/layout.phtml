@@ -116,23 +116,11 @@ echo $this->doctype(); ?>
             <ul id="topbtns">
             	<li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
                 <li>
-                	<a href="#"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Calendar" /><br />Calendar</a>
-                </li>
-                <li>
-                	<a href="#"><img src="/styles/images/icons/icon_lrg_create.png" alt="Create" /><br />Create</a>
+                	<a href="<?php echo $this->url(array('module' => 'controlmodule','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="control de modulos" /><br />modulos</a>
                 </li>
                 <li>
                         <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
                 
-                </li>
-                <li>
-                	<a href="#"><img src="/styles/images/icons/icon_lrg_media.png" alt="Media" /><br />Media</a>
-                </li>
-                <li>
-                	<a href="#"><img src="/styles/images/icons/icon_lrg_comment.png" alt="Comment" /><br />Comment</a>
-                </li>
-                <li>
-                	<a href="#"><img src="/styles/images/icons/icon_lrg_support.png" alt="Support" /><br />Support</a>
                 </li>
                 <li> 
                     <?php

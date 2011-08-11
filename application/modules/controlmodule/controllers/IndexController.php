@@ -155,8 +155,7 @@ public function installAction()
             $model->desinstall($request->module_name);
 
             return $this->_helper->redirector('index');
-        
-        
+        }
     }
     
 

@@ -23,7 +23,9 @@ class Controlmodule_IndexController extends Zend_Controller_Action
     {
     	$modules = new Controlmodule_Model_DbTable_Modules();
     	$this->view->title = "Modules list";
-		$this->view->modules = $modules->fetchAll();
+        $this->view->modules = $modules->fetchAll();
+//        Zend_Debug::dump($modules,"model_role",true);
+//        die();
     }
     
     public function addAction()
@@ -31,44 +33,14 @@ class Controlmodule_IndexController extends Zend_Controller_Action
         $this->view->headTitle("Add New Module", 'APPEND');
         $request = $this->getRequest();
         $form = new Controlmodule_Form_Controlmodule();
-             
-
+                   
         if ($this->_request->isPost()) {
             $formData = $this->_request->getPost();
             if ($form->isValid($formData)) {
-                   
-                // success - do something with the uploaded file
-                $uploadedData = $form->getValues(); 
-                $fullFilePath = $form->file->getFileName();
                 
-                // chance the permission of the file
-                chmod ($fullFilePath,0777);
-                //
-                //        //create object
-                $zip = new ZipArchive();   
-
-                // open archive 
-                if ($zip->open($fullFilePath) !== TRUE) {
-                    die ("Could not open archive");
-                }
-                // extract
-                $zip->extractTo(APPLICATION_PATH.'/modules/');
-                               
-                // close archive
-                $zip->close();
-                
-                //delete file.zip
-                unlink($fullFilePath);
-                //chance permission for the module
-                $file=explode(".", $fullFilePath);
-                echo $file[0];
-                chmod ($file[0],0777);
-                
-//                Zend_Debug::dump($uploadedData, '$uploadedData');
-//                Zend_Debug::dump($fullFilePath, '$fullFilePath');
-//                    
-//                echo "done";
-//                exit;
+                $model_module = new Controlmodule_Model_DbTable_Modules();       
+                $model_module->addModule($form);
+               
                 return $this->_helper->redirector('index');
             } else {
                 $form->populate($formData);
@@ -79,33 +51,60 @@ class Controlmodule_IndexController extends Zend_Controller_Action
         $this->view->form = $form;   
               
     }
+    
 
     public function editAction()
     {
         $this->view->title = "Edit module";
 
-    	$form = new Controlmodule_Form_Module;
+    	$form = new Controlmodule_Form_Controlmodulexml;
         $form->submit->setLabel('Save');
         $this->view->form = $form;
-
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
-                 $model_module = new Controlmodule_Model_DbTable();       
-                
-                        $model_module->saveUpdate($form->getValues());
+                //si cambiamos name hay que cambiar la carpeta
+                Zend_Debug::dump($formData,"model_role",true);
+                $path = APPLICATION_PATH."/modules/".$formData["name"]."/info.xml";            
+                $config = new Zend_Config_Ini($path,
+                              null,
+                              array('skipExtends'        => true,
+                                   'allowModifications' => true));
+                $config->name=$formData[name];
+                $config->description=$formData["description"];
+                $config->version=$formData["version"];
+                $config->copyright=$formData["copyright"];
+                $config->developer=$formData["developer"];
+                $config->config->modules->codepool=$formData["codepool"];
+          
+                $writer = new Zend_Config_Writer_Xml();
+                $writer->write($path, $config);
+           
                
-              
-                $this->_helper->redirector('index');
+                 
+                 $this->_helper->redirector('index');
             } else {
                 $form->populate($formData);
             }
         } else {
-            $id = $this->_getParam('id', 0);
-            if ($id > 0) {
-                $modules = new Controlmodule_Model_DbTable_Modules();
-                $form->populate($modules->getModule($id));
-            }
+            $request = $this->getRequest();
+            $path = APPLICATION_PATH."/modules/".$request->module_name."/info.xml";
+            echo $path;
+        
+            $config = new Zend_Config_Ini($path);
+            Zend_Debug::dump($config, '$arrayinfo');
+            
+            
+            $arrayinfo["name"]=$config->name;
+            $arrayinfo["version"]=$config->version;
+            $arrayinfo["description"]=$config->description;      
+            $arrayinfo["copyright"]=$config->copyright;
+            $arrayinfo["developer"]=$config->developer;     
+            $arrayinfo["codepool"]=$config->config->modules->codepool;
+            Zend_Debug::dump($arrayinfo, '$arrayinfo');
+            
+            $this->view->form->populate($arrayinfo);
+                 
         }
     }
     
@@ -130,13 +129,11 @@ public function installAction()
     {
         $this->view->headTitle("Install Module", 'APPEND');
         $request = $this->getRequest();
-  
-        
-        
+     
         if ($request->isGet()) {
                 
-                $model = new Controlmodule_Model_DbTable_Modules;
-                $model->install($request->module_name);
+                $module = new Controlmodule_Model_DbTable_Modules;
+                $module->install($request->module_name);
                 
                 return $this->_helper->redirector('index');
                 
@@ -151,12 +148,42 @@ public function installAction()
 
         if ($request->isGet()) {
 
-            $model = new Controlmodule_Model_DbTable_Modules;
-            $model->desinstall($request->module_name);
+            $module = new Controlmodule_Model_DbTable_Modules;
+            $module->desinstall($request->module_name);
+
+            return $this->_helper->redirector('index');
+        }
+    }
+    public function backupAction() {
+        $this->view->headTitle("Backup Module", 'APPEND');
+        $request = $this->getRequest();
+            
+        if ($request->isGet()) {
+
+            $module = new Controlmodule_Model_DbTable_Modules;
+            $module->backup($request->module_name);
 
             return $this->_helper->redirector('index');
         }
     }
     
+    public function activateAction() {
+        $module= new Controlmodule_Model_DbTable_Modules;
+        $request = $this->getRequest();
+        $data['id']=$request->id;
+        $data['active']='1';
+        $module->saveUpdate($data);
+        return $this->_helper->redirector('index');
+        
+    }
+    
+    public function deactivateAction() {
+        $module= new Controlmodule_Model_DbTable_Modules;
+        $request = $this->getRequest();
+        $data['id']=$request->id;
+        $data['active']='0';
+        $module->saveUpdate($data);        
+        return $this->_helper->redirector('index');
+    }
 
 }

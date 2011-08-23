@@ -1,13 +1,10 @@
-<module version="0.1.0">
-<name>prueba</name>
-<copyright></copyright>
-<developer></developer>
-<description></description>
-<config>
-        <modules>
-                <Prueba>
-                <active>true</active> 
-                <codePool>local</codePool> 
-            </Prueba>
-        </modules>
-</config>
+<?xml version="1.0"?>
+<zend-config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+  <<?xml version>1.0?&gt;</<?xml version>
+  <<zend-config xmlns></<zend-config xmlns>
+  <name>prueba</name>
+  <description>j</description>
+  <version>lkjlkj</version>
+  <copyright>kljlk</copyright>
+  <developer>kljklj</developer>
+</zend-config>

@@ -12,7 +12,9 @@ class User_IndexController extends Zend_Controller_Action
     {
     	$users = new User_Model_DbTable_Users();
     	$this->view->title = "Users list";
-		$this->view->users = $users->fetchAll();
+	$this->view->users = $users->fetchAll();
+        
+                
     }
 
       public function addAction()

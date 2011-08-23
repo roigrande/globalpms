@@ -46,14 +46,21 @@
                                 $instalado=false;
                                 if ($modules->fetchRow('module_name = "'.$file.'"'))
                                 {
+                                    $module = new Controlmodule_Model_DbTable_Modules();
+                                    $module->getModulename($file);
+                                    $moduleid=$module->getModulename($file);                    
                                     $instalado=true;
                                 }
                                 ?>
                     <tr>
-                
                         <td><?php echo $this->escape($file); ?></td>
-                        
-                        <td><?php echo $this->escape($file); ?></td>
+                        <td><?php if ($moduleid['active'] && $instalado){
+                                    echo "activado"; 
+                                  }else{
+                                    echo "desactivado";
+                                    
+                                  };?>
+                        </td>
                         <td><?php 
                                if ($instalado){     
                                     echo "instalado";
@@ -63,31 +70,42 @@
                              ?></td>
                         <td>
                             <?php                            
-                            if (!$instalado){
-                            ?>
-                            
-                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'install', 'module_name' => $file)); ?>">
-                            install</a>
-                            
-                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'id' => $module->id)); ?>">
-                            active</a>
-                            
-                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'module_name' => $file)); ?>">
-                            <img src="/styles/images/icons/icon_delete.png" alt="Delete" />delete</a>            
-                        
-                            <?php                            
-                            }else{
-                            ?>
-                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'edit', 'id' => $module->id)); ?>">
-                            <img src="/styles/images/icons/icon_edit.png" alt="Edit" />editar</a>
+                            if (!$instalado) {
+                            ?>                                                
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'install', 'module_name' => $file)); ?>">
+                                install</a>
 
-                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'desinstall', 'module_name' => $file)); ?>">
-                            desintalar</a>
-                            
-                            <a href="<?php echo $this->url(array('controller' => 'index','action' => 'delete', 'id' => $module->id)); ?>">
-                            activar</a>
-                            
-                            <?php
+                                
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'delete', 'module_name' => $file)); ?>">
+                                <img src="/styles/images/icons/icon_delete.png" alt="Delete" />delete</a>            
+                                
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'backup', 'module_name' => $file)); ?>">
+                                Backup</a>            
+                                
+                                <?php
+                            } else {
+                                ?>
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'edit', 'module_name' => $file)); ?>">
+                                <img src="/styles/images/icons/icon_edit.png" alt="Edit" />editar</a>
+
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'desinstall', 'module_name' => $file)); ?>">
+                                desintalar</a>
+                                 
+                                <?php if ($moduleid['active']){
+                               ?>
+                                
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'deactivate', 'id' => $moduleid['id'])); ?>">
+                                desactivar </a>
+                                <?php    
+                                }else{                                        
+                                ?>                
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'activate', 'id' => $moduleid['id'])); ?>">
+                                activar </a>
+                                <?php
+
+                                    
+                                }
+
                             }
                             ?>                                                     
                         </td>

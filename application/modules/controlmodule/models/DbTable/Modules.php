@@ -3,7 +3,7 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract
 {
 
     protected $_name = 'acl_modules';
-
+                
     public function getModule($id) {
         $id = (int) $id;
         $row = $this->fetchRow('id = ' . $id);
@@ -15,11 +15,47 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract
 
     public function getModulename($modulename) {
         $row = $this->fetchRow("module_name =  '$modulename'");
-       // Zend_Debug::dump($row, $label = null, $echo = true);
+       
         if (!$row) {
             throw new Exception("Could not find row $modulename");
         }
         return $row->toArray();
+    }
+    
+    public function addModule($form) {
+       
+        $uploadedData = $form->getValues(); 
+        $fullFilePath = $form->file->getFileName();
+    
+        // chance the permission of the file
+        chmod ($fullFilePath,0777);
+        
+        //create object
+        $zip = new ZipArchive();   
+
+        // open archive 
+        if ($zip->open($fullFilePath) !== TRUE) {
+            die ("Could not open archive");
+        }
+        // extract
+        $zip->extractTo(APPLICATION_PATH.'/modules/');
+
+        // close archive
+        $zip->close();
+
+        //delete file.zip
+        unlink($fullFilePath);
+        
+        //chance permission for the module
+        $file=explode(".", $fullFilePath);
+        echo $file[0];
+        chmod ($file[0],0777);
+
+//                Zend_Debug::dump($uploadedData, '$uploadedData');
+//                Zend_Debug::dump($fullFilePath, '$fullFilePath');
+//                    
+//                echo "done";
+//                exit;
     }
 
     public function deleteModule($id) {
@@ -66,8 +102,7 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract
      
    public function save(array $data)
     {
-       
-       
+             
         $fields = $this->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
@@ -87,6 +122,37 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract
         }
         return $this->update($data,'id = ' . (int) $data['id']);
     }
+    public function backup($module_name) {
+       
+       ini_set('max_execution_time', 300);
+
+        // create object
+        $zip = new ZipArchive
+       ();
+
+        // open archive 
+        if ($zip->open(APPLICATION_PATH."/modules/".$module_name.".zip", ZIPARCHIVE::CREATE) !== TRUE) {
+            die ("Could not open archive");
+        }
+
+        // initialize an iterator
+        // pass it the directory to be processed
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(APPLICATION_PATH."/modules/".$module_name));
+        
+        // iterate over the directory
+        // add each file found to the archive
+        foreach ($iterator as $key=>$value) {
+            $zip->addFile(realpath($key), $key) or die ("ERROR: Could not add file: $key");        
+        }
+        
+        chmod (APPLICATION_PATH."/modules/".$module_name.".zip",777);
+                
+        // close and save archive
+        $zip->close();
+        //$this->deleteFolderModule($module_name);
+  
+            
+   }
   
  
 }

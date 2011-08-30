@@ -4,7 +4,7 @@ class User_Model_DbTable_Resources extends Zend_Db_Table_Abstract
 
     protected $_name = 'acl_resources';
 
-    public function getResource($id) {
+ public function getResource($id) {
         $id = (int) $id;
         $row = $this->fetchRow('id = ' . $id);
         if (!$row) {
@@ -25,8 +25,8 @@ class User_Model_DbTable_Resources extends Zend_Db_Table_Abstract
 
     public function deleteResource($id) {
         
-        $users = new User_Model_DbTable_Users;
-        //$users->deleteUsersResource($id);
+        $Permissions = new User_Model_DbTable_Permissions();
+        $Permissions->delete('resource_id =' . (int) $id);
         $this->delete('id =' . (int) $id);
     }
     public function getTable(){
@@ -55,6 +55,26 @@ class User_Model_DbTable_Resources extends Zend_Db_Table_Abstract
             }
         }
         return $this->update($data,'id = ' . (int) $data['id']);
+    }
+     /**
+     * Fetch all entries
+     * 
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function fetchEntries()
+    {        
+        return $this->getTable()->fetchAll('1')->toArray();
+    }
+     
+     /**
+     * Fetch all resource with module_id
+     * 
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function fetchResources($module_id)
+    {        
+        $select=$this->select()->where('module_id =' . (int) $module_id);
+        return $this->fetchAll($select)->toArray();
     }
 }
 

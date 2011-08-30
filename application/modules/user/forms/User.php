@@ -8,8 +8,8 @@ class User_Form_User extends Zend_Form {
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         
-        $user_name = new Zend_Form_Element_Text('user_name');
-        $user_name->setLabel('User_name')
+        $name = new Zend_Form_Element_Text('name');
+        $name->setLabel('name')
                 ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
@@ -64,8 +64,8 @@ class User_Form_User extends Zend_Form {
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty');
         
-        $roles_id = new Zend_Form_Element_Select('roles_id');
-        $roles_id->setLabel('Role_id')
+        $role_id = new Zend_Form_Element_Select('role_id');
+        $role_id->setLabel('Role_id')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsRole())
@@ -77,7 +77,7 @@ class User_Form_User extends Zend_Form {
         $submit->setAttrib('id', 'submitbutton');
 
         $this->addElements(array($id,
-                                $user_name,
+                                $name,
                                 $password,
                                 $date,
                                 $email,
@@ -85,12 +85,12 @@ class User_Form_User extends Zend_Form {
                                 $validation_code,
                                 $person_id,
                                 $phone,
-                                $roles_id,
+                                $role_id,
                                 $submit));
     }
     protected function _selectOptionsRole()
     {                    
-            $sql="SELECT id, role_name
+            $sql="SELECT id,name
                   FROM acl_roles";
             $db=Zend_Registry::get('db');
             $result = $db->fetchPairs($sql);

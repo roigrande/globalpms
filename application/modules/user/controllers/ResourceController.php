@@ -10,8 +10,9 @@ class User_ResourceController extends Zend_Controller_Action
     function indexAction()
     {
     	$resources = new User_Model_DbTable_Resources();
+        $modules = new User_Model_DbTable_Modules();
     	$this->view->title = "Resources list";
-		$this->view->resources = $resources->fetchAll();
+	$this->view->resources = $resources->fetchAll();
     }
 
     public function addAction()

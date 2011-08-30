@@ -39,8 +39,8 @@
                 <?php foreach ($this->roles as $role) : ?>
                     <tr>
                 
-                        <td><?php echo $this->escape($role->role_name); ?></td>
-                        <td><?php echo $this->escape($role->role_parents); ?></td>
+                        <td><?php echo $this->escape($role->name); ?></td>
+                        <td><?php echo $this->escape($role->role_parent); ?></td>
                         <td><?php echo $this->escape($role->prefered_uri); ?></td>
                         
                         <td>

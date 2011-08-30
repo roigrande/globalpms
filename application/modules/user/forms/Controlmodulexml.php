@@ -1,6 +1,6 @@
 <?php
 
-class Controlmodule_Form_Controlmodulexml extends Zend_Form {
+class User_Form_Controlmodulexml extends Zend_Form {
     public function init() {
         
         $this->setName('upload module');

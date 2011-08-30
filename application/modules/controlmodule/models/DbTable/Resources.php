@@ -1,9 +1,10 @@
 <?php
-class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
+class Controlmodule_Model_DbTable_Resources extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'acl_users';
 
-    public function getUser($id) {
+    protected $_name = 'acl_resources';
+
+    public function getResource($id) {
         $id = (int) $id;
         $row = $this->fetchRow('id = ' . $id);
         if (!$row) {
@@ -12,19 +13,28 @@ class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
         return $row->toArray();
     }
 
-    public function deleteUser($id) {
+    public function addResource($resource_name,$rol_parent,$prefered_uri) {
+        
+        $this->insert($resource_name,$rol_parent,$prefered_uri);
+    }
+
+    public function updateResource($id, $resource) {
+        
+        $this->update($resource, 'id = ' . (int) $id);
+    }
+
+    public function deleteResource($id) {
+        
+        $users = new User_Model_DbTable_Users;
+        //$users->deleteUsersResource($id);
         $this->delete('id =' . (int) $id);
     }
-    
-    
-    
     public function getTable(){
         
         return $this->_name;
-        
     }
     
-    public function save(array $data)
+   public function save(array $data)
     {
         //$table  = $this->getTable();
         $fields = $this->info(Zend_Db_Table_Abstract::COLS);
@@ -33,7 +43,6 @@ class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
                 unset($data[$field]);
             }
         }
-        $data['password']=hash('SHA256', $data['password']);
         return $this->insert($data);
     }
     public function saveUpdate(array $data)
@@ -45,12 +54,26 @@ class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
                 unset($data[$field]);
             }
         }
-        $data['password']=hash('SHA256', $data['password']);
         return $this->update($data,'id = ' . (int) $data['id']);
     }
-     public function fetchUsers($role_id)
+     /**
+     * Fetch all entries
+     * 
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function fetchEntries()
     {        
-        $select=$this->select()->where('role_id =' . (int) $role_id);
+        return $this->getTable()->fetchAll('1')->toArray();
+    }
+     
+     /**
+     * Fetch all resource with module_id
+     * 
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function fetchResources($module_id)
+    {        
+        $select=$this->select()->where('module_id =' . (int) $module_id);
         return $this->fetchAll($select)->toArray();
     }
 }

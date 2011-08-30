@@ -17,8 +17,36 @@ class User_Model_DbTable_Roles extends Zend_Db_Table_Abstract
     public function deleteRole($id) {
         
         $users = new User_Model_DbTable_Users;
-        //TODO pasar a rol == hijo primero que se encuentre
-        $users->delete('roles_id =' . (int) $id);
+        $roles = new User_Model_DbTable_Roles;
+        
+        //find the song of rol will delete
+        $rol =$roles->fetchRow('role_parent =' . (int) $id);
+        
+        //find the users with the rol will delete
+        $array=$users->fetchUsers($id);
+        foreach ($array as $value) {
+            $data["role_id"] = $rol["id"];
+            $data["id"] = $value["id"];
+        
+        $users->saveUpdate($data);
+        
+        }
+        
+        
+        $roles= new User_Model_DbTable_Roles;
+        
+        // Get the parent_role from the role i will delete
+        $role_parent=$roles->getRole($id);   
+        //find all the roles with the parent role = the role will delete
+        $arrayroles=$roles->fetchParentRoles($id);
+        //put new role parent the roles have the rol will delete
+        foreach ($arrayroles as $value) {
+            $datarole["role_parent"] = $role_parent["role_parent"];
+            $datarole["id"] = $value["id"];
+        
+        $roles->saveUpdate($datarole);
+        
+        }
         $this->delete('id =' . (int) $id);
     }
     public function getTable(){
@@ -47,6 +75,11 @@ class User_Model_DbTable_Roles extends Zend_Db_Table_Abstract
             }
         }
         return $this->update($data,'id = ' . (int) $data['id']);
+    }
+     public function fetchParentRoles($role_parent)
+    {        
+        $select=$this->select()->where('role_parent =' . (int) $role_parent);
+        return $this->fetchAll($select)->toArray();
     }
     
 }

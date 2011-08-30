@@ -1,84 +1,65 @@
 <?php
-class User_ModuleController extends Zend_Controller_Action
+class User_ModuleController extends Zend_Controller_Action//extends Zend_Controller_Action
 {
-
-    public function init()
+ public function init()
     {
         
     }
 
     function indexAction()
     {
-    	$modules = new User_Model_DbTable_Modules();
+    	$modules = new User_Model_Modules();
     	$this->view->title = "Modules list";
-		$this->view->modules = $modules->fetchAll();
-    }
+        $this->view->modules = $modules->getModules();
 
-    public function addAction()
-    {
-        $this->view->headTitle("Add New Module", 'APPEND');
-        $request = $this->getRequest();
-        
-            $form = new User_Form_Module();
-         
-        if ($this->getRequest()->isPost()) {
-                
-            if ($form->isValid($request->getPost())) {
-                $model = new User_Model_DbTable_Modules;
-                $model->save($form->getValues());
-                return $this->_helper->redirector('index');
-                
-            }
-        }
-        else {
-
-                    $form->populate($form->getValues());
-        }
-        $this->view->form = $form;   
-//               LOGS
-//                               
-//                //Inicializamos el log
-//                $logger = new Zend_Log();
-//                //Aqui ponemos las salida por archivo TODO pasar al application.ini
-//                $writer = new Zend_Log_Writer_Stream('../log/zfw.log');
-//                $logger->addWriter($writer);
-//                //Aqui indicamos que solo se mostraran los mensajes que sean iguales o superiores a criticos
-//                $filter = new Zend_Log_Filter_Priority(Zend_Log::INFO);
-//                $logger=$logger->addFilter($filter);
-                
-                //mensajes para log   
-//                $logger->emerg('alta cancion del artista '.$module);
-//                $logger->debug('alta cancion con titulo '.$title);
-                
-              
     }
+    
+   
 
     public function editAction()
     {
         $this->view->title = "Edit module";
 
-    	$form = new User_Form_Module;
+    	$form = new User_Form_Controlmodulexml;
         $form->submit->setLabel('Save');
         $this->view->form = $form;
-
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
-                 $model_module = new User_Model_DbTable_Modules();       
                 
-                        $model_module->saveUpdate($form->getValues());
+                
+                //si cambiamos name hay que cambiar la carpeta
+                Zend_Debug::dump($formData,"model_role",true);
+                $path = APPLICATION_PATH."/modules/".$formData["name"]."/info.xml";            
+                
+                $config = new Zend_Config(array(), true);
+                $config->info    = array();
+                $config->info->name=$formData["name"];
+                $config->info->description=$formData["description"];
+                $config->info->version=$formData["version"];
+                $config->info->copyright=$formData["copyright"];
+                $config->info->developer=$formData["developer"];
                
-              
+                
+                $writer = new Zend_Config_Writer_Xml(array('config'   => $config,
+                'skipExtends' => true,'filename' => $path));
+                $writer->write();                               
                 $this->_helper->redirector('index');
             } else {
                 $form->populate($formData);
             }
         } else {
-            $id = $this->_getParam('id', 0);
-            if ($id > 0) {
-                $modules = new User_Model_DbTable_Modules();
-                $form->populate($modules->getModule($id));
-            }
+            $request = $this->getRequest();
+            $path = APPLICATION_PATH."/modules/".$request->module_name."/info.xml";        
+            $config = new Zend_Config_Xml($path,'info');          
+            $arrayinfo["name"]=$config->name;
+            $arrayinfo["version"]=$config->version;
+            $arrayinfo["description"]=$config->description;      
+            $arrayinfo["copyright"]=$config->copyright;
+            $arrayinfo["developer"]=$config->developer;               
+            
+            $this->view->form->populate($arrayinfo);
+                 
         }
     }
     
@@ -88,26 +69,74 @@ public function deleteAction()
     if ($this->getRequest()->isPost()) {
         $del = $this->getRequest()->getPost('del');
         if ($del == 'Yes') {
-            $id = $this->getRequest()->getPost('id');
+            $module_name = $this->getRequest()->getPost('module_name');
             $modules = new User_Model_DbTable_Modules();
-            $modules->deleteModule($id);
-         
+            $modules->deleteFolderModule(APPLICATION_PATH."/modules/".$module_name."/");
+                
         }
         $this->_helper->redirector('index');
     } else {
-        $id = $this->_getParam('id', 0);
-        $modules = new User_Model_DbTable_Modules();
-        $this->view->module = $modules->getModule($id);
+        $module_name = $this->_getParam('module_name', 0);
+        $this->view->module = $module_name;
     }
 }
+public function installAction() {
+   
+        $request = $this->getRequest();     
+        if ($request->isGet()) {
+                
+                $module = new User_Model_DbTable_Modules;
+                $module->install($request->module_name);
+                
+                return $this->_helper->redirector('index');
+                
+            
+        }               
+    }
+    
+    public function desinstallAction() {
+        $this->view->headTitle("Install Module", 'APPEND');
+        $request = $this->getRequest();
 
+        if ($request->isGet()) {
+
+            $module = new User_Model_DbTable_Modules;
+            $module->desinstall($request->id);
+
+            return $this->_helper->redirector('index');
+        }
+    }
+    
+    public function backupAction() {
+        $this->view->headTitle("Backup Module", 'APPEND');
+        $request = $this->getRequest();
+            
+        if ($request->isGet()) {
+
+            $module = new User_Model_DbTable_Modules;
+            $module->backup($request->module_name);
+
+            return $this->_helper->redirector('index');
+        }
+    }
+    
+    public function activateAction() {
+        $module= new User_Model_DbTable_Modules;
+        $request = $this->getRequest();
+        $data['id']=$request->id;
+        $data['active']='1';
+        $module->saveUpdate($data);
+        return $this->_helper->redirector('index');
+        
+    }
+    
+    public function deactivateAction() {
+        $module= new User_Model_DbTable_Modules;
+        $request = $this->getRequest();
+        $data['id']=$request->id;
+        $data['active']='0';
+        $module->saveUpdate($data);        
+        return $this->_helper->redirector('index');
+    }
 }
-
-
-
-
-
-
-
-
 ?>

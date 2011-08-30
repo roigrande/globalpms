@@ -3,12 +3,14 @@ $this->title = "Delete Module";
 $this->headTitle($this->title);
 ?>
 <p>Are you sure that you want to delete
-    '<?php echo $this->escape($this->module['module_name']); ?>' by
+    '<?php echo $this->escape( $this->module); ?>' by
     
 </p>
 <form action="<?php echo $this->url(array('action' => 'delete')); ?>" method="post">
     <div>
         <input type="hidden" name="id" value="<?php echo $this->module['id']; ?>" />
+        <input type="hidden" name="module_name" value="<?php echo $this->module; ?>" />
+    
         <input type="submit" name="del" value="Yes" />
         <input type="submit" name="del" value="No" />
     </div>

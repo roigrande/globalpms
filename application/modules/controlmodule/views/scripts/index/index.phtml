@@ -3,24 +3,7 @@
         <h1><?php echo $this->escape($this->translate("My Modules")); ?></h1>
         <p><a href="<?php echo $this->url(array('controller' => 'index',
     'action' => 'add')); ?>">Add new module</a></p>
-        <ul id="topbtns">
-            	<li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'role','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Role" /><br />role</a>
-                </li>
-                <li>
-                        <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
-                
-                </li>
-                <li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'permission','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_create.png" alt="Permission" /><br />Permission  </a>
-                </li>
-                <li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'module','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="Module" /><br />Module</a>
-                </li>
-                <li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'resource','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Resource" /><br />Resource</a>
-                </li>                
-            </ul>
+ 
     </div>
     <div class="contentbox">
         <table width="100%">
@@ -35,26 +18,11 @@
 
             <tbody>
                 
-                <?php 
-                //resources.frontController.moduleDirectory                        
-                $dir = APPLICATION_PATH."/modules/";
-                if (is_dir($dir)) {
-                    if ($dh = opendir($dir) ) {
-                        while (($file = readdir($dh)) !== false) {
-                            if ((filetype($dir . $file)=="dir") AND ($file!=".") AND ($file!="..")){
-                                $modules = new User_Model_DbTable_Modules();
-                                $instalado=false;
-                                if ($modules->fetchRow('module_name = "'.$file.'"'))
-                                {
-                                    $module = new Controlmodule_Model_DbTable_Modules();
-                                    $module->getModulename($file);
-                                    $moduleid=$module->getModulename($file);                    
-                                    $instalado=true;
-                                }
-                                ?>
+                 <?php foreach ($this->modules as $module) : ?>
+                    
                     <tr>
-                        <td><?php echo $this->escape($file); ?></td>
-                        <td><?php if ($moduleid['active'] && $instalado){
+                        <td><?php echo $this->escape($module["name"]); ?></td>
+                        <td><?php if ($module['active']){
                                     echo "activado"; 
                                   }else{
                                     echo "desactivado";
@@ -62,7 +30,7 @@
                                   };?>
                         </td>
                         <td><?php 
-                               if ($instalado){     
+                               if ($module["install"]){     
                                     echo "instalado";
                                 }else{
                                     echo "desinstalado";
@@ -70,57 +38,51 @@
                              ?></td>
                         <td>
                             <?php                            
-                            if (!$instalado) {
+                            if (!$module["install"]) {
                             ?>                                                
-                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'install', 'module_name' => $file)); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'install', 'module_name' => $module["name"])); ?>">
                                 install</a>
-
-                                
-                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'delete', 'module_name' => $file)); ?>">
+                          
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'delete', 'module_name' => $module["name"])); ?>">
                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" />delete</a>            
                                 
-                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'backup', 'module_name' => $file)); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'backup', 'module_name' => $module["name"])); ?>">
                                 Backup</a>            
                                 
                                 <?php
                             } else {
                                 ?>
-                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'edit', 'module_name' => $file)); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'edit', 'module_name' => $module["name"])); ?>">
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" />editar</a>
 
-                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'desinstall', 'module_name' => $file)); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'desinstall', 'id' => $module["id"])); ?>">
                                 desintalar</a>
                                  
-                                <?php if ($moduleid['active']){
-                               ?>
+                                <?php if ($module['active']){
+                                ?>
                                 
-                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'deactivate', 'id' => $moduleid['id'])); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'deactivate', 'id' => $module['id'])); ?>">
                                 desactivar </a>
                                 <?php    
                                 }else{                                        
                                 ?>                
-                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'activate', 'id' => $moduleid['id'])); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'activate', 'id' => $module['id'])); ?>">
                                 activar </a>
+                                
                                 <?php
-
-                                    
-                                }
-
+                                                                    
+                                }?>
+                                <a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'backup', 'module_name' => $module["name"])); ?>">
+                                Backup</a>
+                                <?php
+                                
                             }
                             ?>                                                     
-                        </td>
-                        
-                        
-                        <td><input type="checkbox" value="" name="checkall" /></td>
+                        </td>                    
                     </tr>
                     
-                <?php   
-                            }
-                        }
-                    closedir($dh);
-                    }
-                };
-                ?>
+        <?php endforeach; ?>
+                
         </table>
         <div class="extrabottom">
             <ul class="pagination">

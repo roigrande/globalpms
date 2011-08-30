@@ -6,7 +6,7 @@ class User_Form_Permission extends Zend_Form {
         $roles=$roles->fetchAll();
        
         foreach ($roles as $role) {
-            $array_role[$role["id"]]=$role["role_name"];          
+            $array_role[$role["id"]]=$role["name"];          
             
         }
        
@@ -52,8 +52,8 @@ class User_Form_Permission extends Zend_Form {
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty');
         
-        $roles_id = new Zend_Form_Element_Select('roles_id');
-        $roles_id->setLabel('Roles_id')
+        $role_id = new Zend_Form_Element_Select('role_id');
+        $role_id->setLabel('Role_id')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsRoles())
@@ -61,8 +61,8 @@ class User_Form_Permission extends Zend_Form {
                 ->setAttrib('size', 1)
         ;
         
-        $resources_id = new Zend_Form_Element_Select('resources_id');
-        $resources_id->setLabel('Resource_id')
+        $resource_id = new Zend_Form_Element_Select('resource_id');
+        $resource_id->setLabel('Resource_id')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsResources())
@@ -77,8 +77,8 @@ class User_Form_Permission extends Zend_Form {
                                 $permission,
                                 $name,
                                 $menu,
-                                $roles_id,
-                                $resources_id,
+                                $role_id,
+                                $resource_id,
                                 $submit));
     }
 

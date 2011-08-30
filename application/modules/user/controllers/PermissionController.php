@@ -9,6 +9,7 @@ class User_PermissionController extends Zend_Controller_Action
 
     function indexAction()
     {
+        
     	$permissions = new User_Model_DbTable_Permissions();
     	$this->view->title = "Permissions list";
 		$this->view->permissions = $permissions->fetchAll();
@@ -59,6 +60,7 @@ class User_PermissionController extends Zend_Controller_Action
 
     	$form = new User_Form_Permission;
         $form->submit->setLabel('Save');
+
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -74,8 +76,10 @@ class User_PermissionController extends Zend_Controller_Action
                 $form->populate($formData);
             }
         } else {
+            
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
+               
                 $permissions = new User_Model_DbTable_Permissions();
                 $form->populate($permissions->getPermission($id));
             }

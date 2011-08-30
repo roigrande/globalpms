@@ -1,21 +1,22 @@
 <?php
 
 class User_Form_Module extends Zend_Form {
-    public function init() {
-        $this->setName('module');
-        $id = new Zend_Form_Element_Hidden('id');
-        $id->addFilter('Int');
-        $module_name = new Zend_Form_Element_Text('module_name');
-        $module_name->setLabel('Name')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('NotEmpty');
-        
-        $submit = new Zend_Form_Element_Submit('submit');
-        $submit->setAttrib('id', 'submitbutton');
+   public function init() {
+ 
+        $this->setName('upload module');
+       
+       
 
-        $this->addElements(array($id, $module_name, $submit));
+        $file = new Zend_Form_Element_File('file');
+        $file->setLabel('File')
+            ->setDestination(APPLICATION_PATH . '/modules/')
+            ->setRequired(true);
+
+        $submit = new Zend_Form_Element_Submit('submit');
+        $submit->setLabel('Upload');
+
+        $this->addElements(array( $file, $submit));
+
     }
 
 }

@@ -29,7 +29,9 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
 
         // chance the permission of the file
         chmod($fullFilePath, 0777);
-
+        Zend_Debug::dump($uploadedData,"uploadedData");
+        Zend_Debug::dump($fullFilePath,"fullfile");
+        
         //create object
         $zip = new ZipArchive();
 
@@ -38,8 +40,9 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
             die("Could not open archive");
         }
         // extract
-        $zip->extractTo(APPLICATION_PATH . '/modules/');
+       echo $zip->extractTo(APPLICATION_PATH . '/modules/');
 
+        
         // close archive
         $zip->close();
 
@@ -61,18 +64,25 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
     public function deleteFolderModule($carpeta) {
 
         $directorio = opendir($carpeta);
+        
         while ($archivo = readdir($directorio)) {
             if ($archivo != '.' && $archivo != '..') { //comprobamos si es un directorio o un archivo
                 if (is_dir($carpeta . '/' . $archivo)) {
+                   // Zend_Debug::dump($carpeta . '/' . $archivo,"carpeta");            
                     //si es un directorio, volvemos a llamar a la función para que elimine el contenido del mismo
-                    eliminar_recursivo_contenido_de_directorio($carpeta . '/' . $archivo);
+                    $this->deleteFolderModule($carpeta . '/' . $archivo);
+             
                     rmdir($carpeta . '/' . $archivo); //borrar el directorio cuando esté vacío
                 } else { //si no es un directorio, lo borramos
+          //          Zend_Debug::dump($carpeta . '/' . $archivo,"fichero");            
                     unlink($carpeta . '/' . $archivo);
+                    
                 }
             }
         }
+        
         closedir($directorio);
+        
         rmdir($carpeta);
     }
 
@@ -207,9 +217,10 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
         // iterate over the directory
         // add each file found to the archive
         foreach ($iterator as $key => $value) {
-            $zip->addFile(realpath($key), $key) or die("ERROR: Could not add file: $key");
+            $path=explode(APPLICATION_PATH."/modules/" , $key);
+            $zip->addFile(realpath($key), $path["1"]) or die("ERROR: Could not add file: $key");
         }
-
+        
         chmod(APPLICATION_PATH . "/modules/" . $module_name . ".zip", 777);
         //TODO cambiar permisos de carpeta via config
         //TODO hacer Download -->streaming         

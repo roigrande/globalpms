@@ -27,7 +27,25 @@ class Controlmodule_IndexController extends Zend_Controller_Action
 
     }
     
-   
+    public function addAction() {
+        $this->view->headTitle("Add New Module", 'APPEND');
+        $request = $this->getRequest();
+        $form = new Controlmodule_Form_Controlmodule();
+        if ($this->_request->isPost()) {
+            $formData = $this->_request->getPost();
+            if ($form->isValid($formData)) {
+              
+                $module = new Controlmodule_Model_DbTable_Modules;
+                $module->addModule($form);
+
+                return $this->_helper->redirector('index');
+            } else {
+
+                $form->populate($formData);
+            }
+        }
+        $this->view->form = $form;
+    }
 
     public function editAction()
     {
@@ -84,8 +102,8 @@ public function deleteAction()
         if ($del == 'Yes') {
             $module_name = $this->getRequest()->getPost('module_name');
             $modules = new Controlmodule_Model_DbTable_Modules();
-            $modules->deleteFolderModule(APPLICATION_PATH."/modules/".$module_name."/");
-                
+            $modules->deleteFolderModule(APPLICATION_PATH."/modules/".$module_name);
+              
         }
         $this->_helper->redirector('index');
     } else {
@@ -127,7 +145,7 @@ public function installAction() {
 
             $module = new Controlmodule_Model_DbTable_Modules;
             $module->backup($request->module_name);
-
+          
             return $this->_helper->redirector('index');
         }
     }

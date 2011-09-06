@@ -221,11 +221,11 @@ class Controlmodule_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
             $zip->addFile(realpath($key), $path["1"]) or die("ERROR: Could not add file: $key");
         }
         
-        chmod(APPLICATION_PATH . "/modules/" . $module_name . ".zip", 777);
         //TODO cambiar permisos de carpeta via config
         //TODO hacer Download -->streaming         
         // close and save archive
         $zip->close();
+       
         //$this->deleteFolderModule($module_name);
     }
 

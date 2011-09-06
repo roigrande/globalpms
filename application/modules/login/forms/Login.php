@@ -7,13 +7,13 @@ class Login_Form_Login extends Zend_Form
         $this->setName("login");
         $this->setMethod('post');
              
-        $this->addElement('text', 'username', array(
+        $this->addElement('text', 'email', array(
             'filters'    => array('StringTrim', 'StringToLower'),
             'validators' => array(
                 array('StringLength', false, array(0, 50)),
             ),
             'required'   => true,
-            'label'      => 'Username:',
+            'label'      => 'Email:',
         ));
 
         $this->addElement('password', 'password', array(

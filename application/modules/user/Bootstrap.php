@@ -3,7 +3,7 @@
 /**
  * Album module bootstrap
  *
- * @author     Agustín F. Calderón M. <agustincl@gmail.com>
+ * @author     Roi Grande Deza r0
  * @copyright  (c)2009 iPTours
  * @category   Acl.
  * @package    modules
@@ -13,5 +13,15 @@
  */
 class User_Bootstrap extends Zend_Application_Module_Bootstrap
 {   
-    
+ /**
+     * Initialize paginator
+     *
+     *  @return void
+     */
+    protected function _initViews(){
+            Zend_Paginator::setDefaultScrollingStyle('Elastic');
+            Zend_View_Helper_PaginationControl::setDefaultViewPartial(
+                    array('paginator.phtml','user')
+                );        
+            }    
 }

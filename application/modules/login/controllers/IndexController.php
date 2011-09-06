@@ -9,6 +9,7 @@ class Login_IndexController extends Zend_Controller_Action
     }
 
     public function indexAction() {
+        $this->_helper->layout->setLayout('login');  
         $form = new Login_Form_Login();
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -26,13 +27,29 @@ class Login_IndexController extends Zend_Controller_Action
     
     protected function _process($values)
     {
+        $adapter = new Zend_Auth_Adapter_DbTable(Zend_Registry::get('db'));
+        $adapter->setTableName('acl_users');
+        $adapter->setIdentityColumn('email');
+        $adapter->setCredentialColumn('password');
+        $adapter->setIdentity($values['email']);
+        $adapter->setCredential(hash('SHA256', $values['password']));
+        
         // Get our authentication adapter and check credentials
-        $adapter = $this->_getAuthAdapter();
-        $adapter->setIdentity($values['username']); 
-        $adapter->setCredential($values['password']);
-        Zend_Debug::dump( sha1(($values['password'])."ce8d96d579d389e783f95b3772785783ea1a9854"), $label="Server variables", $echo=true);        
+//        $adapter = $this->_getAuthAdapter();
+//        $adapter->setIdentity($values['name']); 
+//        $adapter->setCredential($values['password']);
+//        
+        //Zend_Debug::dump($adapter,"adapter");
+        //Zend_Debug::dump( sha1(($values['password'])."ce8d96d579d389e783f95b3772785783ea1a9854"), $label="Server variables", $echo=true);        
+        //$select = $adapter->getDbSelect();
+//        Zend_Debug::dump($select,"select");
+//        die();
+//         
+       
         $auth = Zend_Auth::getInstance();
+        
         $result = $auth->authenticate($adapter);
+         
         Zend_Debug::dump($result, $label="Server variables", $echo=true);
         if ($result->isValid()) {
             $user = $adapter->getResultRowObject();
@@ -43,21 +60,7 @@ class Login_IndexController extends Zend_Controller_Action
         return false;
        
     }
-    
-    protected function _getAuthAdapter() {
-        
-        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
-        
-        $authAdapter->setTableName('users')
-            ->setIdentityColumn('username')
-            ->setCredentialColumn('password')
-            ->setCredentialTreatment('SHA1(CONCAT(?,salt))');
-            
-        
-        return $authAdapter;
-    }
-    
+           
     public function logoutAction()
     {
         Zend_Auth::getInstance()->clearIdentity();

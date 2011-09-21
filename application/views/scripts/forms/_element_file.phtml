@@ -1,0 +1,28 @@
+<?php
+
+  // Zend_Debug::dump($this->element,'file') ;
+
+?>
+<div class="inputboxes">
+    <label><?= $this->translate($this->element->getLabel()); ?>:</label>
+
+    <?php
+    echo $this->{$this->element->helper}(
+            $this->element->getName(), $this->element->getValue(), $this->element->getAttribs()//,$this->element->getDestionation()
+    )
+    ?>
+    <img src="/styles/images/loading.gif" alt="Loading" />
+</div>
+<!--<div class="inputboxes">
+    <label for="correct" class="correcttxt">Correct: </label>
+
+    <input type="text" id="correct" class="inputbox correctbox"/>
+    <img src="images/icons/icon_tick_sq.png" class="att" alt="Correct" />
+</div>
+<div class="inputboxes">
+    <label for="error" class="errortxt">Error:</label>
+    <input type="text" id="error" class="inputbox errorbox"/>
+    <img src="images/icons/icon_close_sq.png" class="att" alt="Error" />
+</div>
+
+-->

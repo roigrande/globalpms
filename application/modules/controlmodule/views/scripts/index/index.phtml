@@ -18,7 +18,7 @@
 
             <tbody>
                 
-                 <?php foreach ($this->modules as $module) : ?>
+                 <?php foreach ($this->paginator as $module) : ?>
                     
                     <tr>
                         <td><?php echo $this->escape($module["name"]); ?></td>
@@ -84,21 +84,8 @@
         <?php endforeach; ?>
                 
         </table>
-        <div class="extrabottom">
-            <ul class="pagination">
-                <li class="text">Previous</li>
-                <li class="page"><a href="#" title="">1</a></li>
-                <li><a href="#" title="">2</a></li>
-                <li><a href="#" title="">3</a></li>
-                <li><a href="#" title="">4</a></li>
-                <li class="text"><a href="#" title="">Next</a></li>
-            </ul>
-            <div class="bulkactions">
-                <select>
-                    <option>Select bulk action...</option>
-                </select>
-                <input type="submit" value="Apply" class="btn" />
-            </div>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
         </div>
     </div>
 </div>

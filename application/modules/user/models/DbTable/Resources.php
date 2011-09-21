@@ -1,80 +1,52 @@
 <?php
+/**
+ * This is the DbTable class for the Banners table.
+ */
 class User_Model_DbTable_Resources extends Zend_Db_Table_Abstract
 {
+    /** Table name */
+    protected $_name    = 'acl_resources';
+    /** Primary key */
+    protected $_primary = 'id';
 
-    protected $_name = 'acl_resources';
-
- public function getResource($id) {
-        $id = (int) $id;
-        $row = $this->fetchRow('id = ' . $id);
-        if (!$row) {
-            throw new Exception("Could not find row $id");
-        }
-        return $row->toArray();
+    /**
+     * Insert new row
+     *
+     * Ensure that a timestamp is set for the created field.
+     * 
+     * @param  array $data 
+     * @return int
+     */
+    public function insert(array $data)
+    {
+        return parent::insert($data);
     }
 
-    public function addResource($resource_name,$rol_parent,$prefered_uri) {
-        
-        $this->insert($resource_name,$rol_parent,$prefered_uri);
-    }
-
-    public function updateResource($id, $resource) {
-        
-        $this->update($resource, 'id = ' . (int) $id);
-    }
-
-    public function deleteResource($id) {
-        
-        $Permissions = new User_Model_DbTable_Permissions();
-        $Permissions->delete('resource_id =' . (int) $id);
-        $this->delete('id =' . (int) $id);
-    }
-    public function getTable(){
-        
-        return $this->_name;
+    /**
+     * Update row(s)
+     *
+     * Do not allow updating of entries
+     * 
+     * @param  array $data 
+     * @param  mixed $where 
+     * @return void
+     * @throws Exception
+     */
+    public function update(array $data, $where)
+    {     
+        return parent::update($data,$where);            
     }
     
-   public function save(array $data)
-    {
-        //$table  = $this->getTable();
-        $fields = $this->info(Zend_Db_Table_Abstract::COLS);
-        foreach ($data as $field => $value) {
-            if (!in_array($field, $fields)) {
-                unset($data[$field]);
-            }
-        }
-        return $this->insert($data);
-    }
-    public function saveUpdate(array $data)
-    {
-        //$table  = $this->getTable();
-        $fields = $this->info(Zend_Db_Table_Abstract::COLS);
-        foreach ($data as $field => $value) {
-            if (!in_array($field, $fields)) {
-                unset($data[$field]);
-            }
-        }
-        return $this->update($data,'id = ' . (int) $data['id']);
-    }
-     /**
-     * Fetch all entries
+    /**
+     * delete row(s)         
      * 
-     * @return Zend_Db_Table_Rowset_Abstract
+     * @param  array $data 
+     * @return int
      */
-    public function fetchEntries()
-    {        
-        return $this->getTable()->fetchAll('1')->toArray();
+    public function delete($where)
+    {
+        return parent::delete($where);
     }
-     
-     /**
-     * Fetch all resource with module_id
-     * 
-     * @return Zend_Db_Table_Rowset_Abstract
-     */
-    public function fetchResources($module_id)
-    {        
-        $select=$this->select()->where('module_id =' . (int) $module_id);
-        return $this->fetchAll($select)->toArray();
-    }
+    
 }
-
+?>

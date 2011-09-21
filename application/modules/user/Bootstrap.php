@@ -3,7 +3,7 @@
 /**
  * Album module bootstrap
  *
- * @author     Roi Grande Deza r0
+ * @author     Roi Grande Deza 
  * @copyright  (c)2009 iPTours
  * @category   Acl.
  * @package    modules
@@ -13,7 +13,15 @@
  */
 class User_Bootstrap extends Zend_Application_Module_Bootstrap
 {   
- /**
+    
+    protected function _initConfiguration() {
+    
+       $configFile = dirname(__FILE__) . '/config.ini';
+       $config = new Zend_Config_Ini($configFile,'user');
+       Zend_Registry::set("user", $config);         
+    }
+    
+    /**
      * Initialize paginator
      *
      *  @return void
@@ -23,5 +31,6 @@ class User_Bootstrap extends Zend_Application_Module_Bootstrap
             Zend_View_Helper_PaginationControl::setDefaultViewPartial(
                     array('paginator.phtml','user')
                 );        
-            }    
+            }
+    
 }

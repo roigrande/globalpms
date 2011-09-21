@@ -21,9 +21,15 @@ class Controlmodule_IndexController extends Zend_Controller_Action
 
     function indexAction()
     {
-    	$modules = new Controlmodule_Model_Modules();
+    	$models = new Controlmodule_Model_Modules();
     	$this->view->title = "Modules list";
-        $this->view->modules = $modules->getModules();
+        $page = $this->_getParam('page', 1);
+        $paginator = Zend_Paginator::factory($models->getModules());      
+        $controlmodule = Zend_Registry::get('controlmodule');
+        $paginator->setItemCountPerPage($controlmodule->paginator);        
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setPageRange($controlmodule->paginator);
+        $this->view->paginator = $paginator;
 
     }
     
@@ -35,7 +41,7 @@ class Controlmodule_IndexController extends Zend_Controller_Action
             $formData = $this->_request->getPost();
             if ($form->isValid($formData)) {
               
-                $module = new Controlmodule_Model_DbTable_Modules;
+                $module = new Controlmodule_Model_Modules;
                 $module->addModule($form);
 
                 return $this->_helper->redirector('index');
@@ -115,7 +121,7 @@ public function installAction() {
         $request = $this->getRequest();     
         if ($request->isGet()) {
                 
-                $module = new Controlmodule_Model_DbTable_Modules;
+                $module = new Controlmodule_Model_Modules;
                 $module->install($request->module_name);
                 
                 return $this->_helper->redirector('index');
@@ -130,7 +136,7 @@ public function installAction() {
 
         if ($request->isGet()) {
 
-            $module = new Controlmodule_Model_DbTable_Modules;
+            $module = new Controlmodule_Model_Modules;
             $module->desinstall($request->id);
 
             return $this->_helper->redirector('index');
@@ -143,7 +149,7 @@ public function installAction() {
             
         if ($request->isGet()) {
 
-            $module = new Controlmodule_Model_DbTable_Modules;
+            $module = new Controlmodule_Model_Modules;
             $module->backup($request->module_name);
           
             return $this->_helper->redirector('index');
@@ -151,21 +157,21 @@ public function installAction() {
     }
     
     public function activateAction() {
-        $module= new Controlmodule_Model_DbTable_Modules;
+        $module= new Controlmodule_Model_Modules;
         $request = $this->getRequest();
         $data['id']=$request->id;
         $data['active']='1';
-        $module->saveUpdate($data);
+        $module->update($data,'id =' . (int) $data["id"]);
         return $this->_helper->redirector('index');
         
     }
     
     public function deactivateAction() {
-        $module= new Controlmodule_Model_DbTable_Modules;
+        $module= new Controlmodule_Model_Modules;
         $request = $this->getRequest();
         $data['id']=$request->id;
         $data['active']='0';
-        $module->saveUpdate($data);        
+        $module->update($data,'id =' . (int) $data["id"]);
         return $this->_helper->redirector('index');
     }
 

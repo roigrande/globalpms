@@ -1,57 +1,52 @@
 <?php
+/**
+ * This is the DbTable class for the Banners table.
+ */
 class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'acl_users';
+    /** Table name */
+    protected $_name    = 'acl_users';
+    /** Primary key */
+    protected $_primary = 'id';
 
-    public function getUser($id) {
-        $id = (int) $id;
-        $row = $this->fetchRow('id = ' . $id);
-        if (!$row) {
-            throw new Exception("Could not find row $id");
-        }
-        return $row->toArray();
+    /**
+     * Insert new row
+     *
+     * Ensure that a timestamp is set for the created field.
+     * 
+     * @param  array $data 
+     * @return int
+     */
+    public function insert(array $data)
+    {
+        return parent::insert($data);
     }
 
-    public function deleteUser($id) {
-        $this->delete('id =' . (int) $id);
+    /**
+     * Update row(s)
+     *
+     * Do not allow updating of entries
+     * 
+     * @param  array $data 
+     * @param  mixed $where 
+     * @return void
+     * @throws Exception
+     */
+    public function update(array $data, $where)
+    {     
+        return parent::update($data,$where);            
     }
     
-    
-    
-    public function getTable(){
-        
-        return $this->_name;
-        
-    }
-    
-    public function save(array $data)
+    /**
+     * delete row(s)         
+     * 
+     * @param  array $data 
+     * @return int
+     */
+    public function delete($where)
     {
-        //$table  = $this->getTable();
-        $fields = $this->info(Zend_Db_Table_Abstract::COLS);
-        foreach ($data as $field => $value) {
-            if (!in_array($field, $fields)) {
-                unset($data[$field]);
-            }
-        }
-        $data['password']=hash('SHA256', $data['password']);
-        return $this->insert($data);
+        return parent::delete($where);
     }
-    public function saveUpdate(array $data)
-    {
-        //$table  = $this->getTable();
-        $fields = $this->info(Zend_Db_Table_Abstract::COLS);
-        foreach ($data as $field => $value) {
-            if (!in_array($field, $fields)) {
-                unset($data[$field]);
-            }
-        }
-        $data['password']=hash('SHA256', $data['password']);
-        return $this->update($data,'id = ' . (int) $data['id']);
-    }
-     public function fetchUsers($role_id)
-    {        
-        $select=$this->select()->where('role_id =' . (int) $role_id);
-        return $this->fetchAll($select)->toArray();
-    }
+    
 }
-
+?>

@@ -13,16 +13,18 @@ class Login_IndexController extends Zend_Controller_Action
         $form = new Login_Form_Login();
         $request = $this->getRequest();
         if ($request->isPost()) {
+            
             if ($form->isValid($request->getPost())) {
+                
                 if ($this->_process($form->getValues())) {
                     // We're authenticated! Redirect to the home page
-                    $this->_helper->redirector('index', 'index','default');   
-                
-                    
+                    $this->_helper->redirector('index', 'index','default');                                     
                 }
             }
+            else{$this->_helper->redirector( 'error','error','login');}
+            
         }
-        $this->view->form = $form;
+        $this->view->form = $form;  
     }
     
     protected function _process($values)
@@ -33,19 +35,7 @@ class Login_IndexController extends Zend_Controller_Action
         $adapter->setCredentialColumn('password');
         $adapter->setIdentity($values['email']);
         $adapter->setCredential(hash('SHA256', $values['password']));
-        
-        // Get our authentication adapter and check credentials
-//        $adapter = $this->_getAuthAdapter();
-//        $adapter->setIdentity($values['name']); 
-//        $adapter->setCredential($values['password']);
-//        
-        //Zend_Debug::dump($adapter,"adapter");
-        //Zend_Debug::dump( sha1(($values['password'])."ce8d96d579d389e783f95b3772785783ea1a9854"), $label="Server variables", $echo=true);        
-        //$select = $adapter->getDbSelect();
-//        Zend_Debug::dump($select,"select");
-//        die();
-//         
-       
+               
         $auth = Zend_Auth::getInstance();
         
         $result = $auth->authenticate($adapter);

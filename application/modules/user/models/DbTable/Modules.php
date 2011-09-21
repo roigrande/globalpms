@@ -14,7 +14,7 @@ class User_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
     }
 
     public function getModulename($modulename) {
-        $row = $this->fetchRow("module_name =  '$modulename'");
+        $row = $this->fetchRow("name =  '$modulename'");
 
         if (!$row) {
             throw new Exception("Could not find row $modulename");
@@ -83,7 +83,7 @@ class User_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
 
     public function install($modulename) {
         //add the module in the db
-        $datamodule['module_name'] = $modulename;
+        $datamodule['name'] = $modulename;
         $datamodule['active'] = "1";
         $this->insert($datamodule);
         //TODO comprobar que no esta en la base de datos antes de installar si no dara error
@@ -101,8 +101,8 @@ class User_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
                         //take the name of the controller
                         $resource = explode("Controller.php", $file);
                         $dataresource["module_id"] = $bdmodule["id"];
-                        $dataresource["name_r"] = ucwords($bdmodule["module_name"]) . ucwords($resource["0"]);
-                        $dataresource["resource"] = $bdmodule["module_name"] . ":" . $resource["0"];
+                        $dataresource["name_r"] = ucwords($bdmodule["name"]) . ucwords($resource["0"]);
+                        $dataresource["resource"] = $bdmodule["name"] . ":" . $resource["0"];
                         Zend_Debug::dump($dataresource, '$uploadedData');
                         $resourcedb = new User_Model_DbTable_Resources;
                         $idresource=$resourcedb->save($dataresource);
@@ -112,7 +112,7 @@ class User_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
                         Zend_Debug::dump($idresource, 'idresource');                
                   
                         //add the permission of the resources
-                        $classname = ucwords($bdmodule["module_name"] . "_" . $resource["0"] . "Controller");
+                        $classname = ucwords($bdmodule["name"] . "_" . $resource["0"] . "Controller");
 
                       
                         include_once $dir . $resource["0"].'Controller.php';
@@ -188,19 +188,19 @@ class User_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
         return $this->update($data, 'id = ' . (int) $data['id']);
     }
 
-    public function backup($module_name) {
+    public function backup($name) {
 
         // create object
         $zip = new ZipArchive();
 
         // open archive 
-        if ($zip->open(APPLICATION_PATH . "/modules/" . $module_name . ".zip", ZIPARCHIVE::CREATE) !== TRUE) {
+        if ($zip->open(APPLICATION_PATH . "/modules/" . $name . ".zip", ZIPARCHIVE::CREATE) !== TRUE) {
             die("Could not open archive");
         }
 
         // initialize an iterator
         // pass it the directory to be processed
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(APPLICATION_PATH . "/modules/" . $module_name));
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(APPLICATION_PATH . "/modules/" . $name));
 
         // iterate over the directory
         // add each file found to the archive
@@ -208,12 +208,12 @@ class User_Model_DbTable_Modules extends Zend_Db_Table_Abstract {
             $zip->addFile(realpath($key), $key) or die("ERROR: Could not add file: $key");
         }
 
-        chmod(APPLICATION_PATH . "/modules/" . $module_name . ".zip", 777);
+        chmod(APPLICATION_PATH . "/modules/" . $name . ".zip", 777);
         //TODO cambiar permisos de carpeta via config
         //TODO hacer Download -->streaming         
         // close and save archive
         $zip->close();
-        //$this->deleteFolderModule($module_name);
+        //$this->deleteFolderModule($name);
     }
 
 }

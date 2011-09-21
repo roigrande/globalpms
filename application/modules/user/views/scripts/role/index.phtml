@@ -3,73 +3,58 @@
         <h1><?php echo $this->escape($this->translate("My Roles")); ?></h1>
         <p><a href="<?php echo $this->url(array('controller' => 'role',
     'action' => 'add')); ?>">Add new role</a></p>
-             <ul id="topbtns">
-            	<li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'role','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Role" /><br />role</a>
-                </li>
-                <li>
-                        <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
-                
-                </li>
-                <li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'permission','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_create.png" alt="Permission" /><br />Permission  </a>
-                </li>
-                <li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'module','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="Module" /><br />Module</a>
-                </li>
-                <li>
-                	<a href="<?php echo $this->url(array('module' => 'user','controller' => 'resource','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Resource" /><br />Resource</a>
-                </li>                
-            </ul>
-   
+        <ul id="topbtns">
+            <li>
+                <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'role', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Role" /><br />role</a>
+            </li>
+            <li>
+                <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+
+            </li>
+            <li>
+                <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'permission', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_create.png" alt="Permission" /><br />Permission  </a>
+            </li>
+           
+            <li>
+                <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'resource', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Resource" /><br />Resource</a>
+            </li>                
+        </ul>
+
     </div>
     <div class="contentbox">
         <table width="100%">
             <thead>
                 <tr>
-                    
+
                     <th><?php echo $this->translate('Name'); ?></th>
                     <th><?php echo $this->translate('Role Parent'); ?></th>
                     <th><?php echo $this->translate('Prefered Uri'); ?></th>
-                    <th><?php echo $this->translate('Actions');?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
                 </tr>
             </thead>
 
             <tbody>
-                <?php foreach ($this->roles as $role) : ?>
+                <?php foreach ($this->paginator as $role) : ?>
+                    <?php if($role->name != 'implementor') {?>
                     <tr>
-                
+                        
                         <td><?php echo $this->escape($role->name); ?></td>
-                        <td><?php echo $this->escape($role->role_parent); ?></td>
+                        <td><?php echo $this->escape($role->parent); ?></td>
                         <td><?php echo $this->escape($role->prefered_uri); ?></td>
-                        
+
                         <td>
-                            <a href="<?php echo $this->url(array('controller' => 'role','action' => 'edit', 'id' => $role->id)); ?>">
-                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'role','action' => 'delete', 'id' => $role->id)); ?>">
-                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'role', 'action' => 'edit', 'id' => $role->id)); ?>">
+                                <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'role', 'action' => 'delete', 'id' => $role->id)); ?>">
+                                <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                         </td>
-                        
-                        <td><input type="checkbox" value="" name="checkall" /></td>
                     </tr>
-                <?php endforeach; ?>
+                    
+                <?php }
+                endforeach; ?>
         </table>
         <div class="extrabottom">
-            <ul class="pagination">
-                <li class="text">Previous</li>
-                <li class="page"><a href="#" title="">1</a></li>
-                <li><a href="#" title="">2</a></li>
-                <li><a href="#" title="">3</a></li>
-                <li><a href="#" title="">4</a></li>
-                <li class="text"><a href="#" title="">Next</a></li>
-            </ul>
-            <div class="bulkactions">
-                <select>
-                    <option>Select bulk action...</option>
-                </select>
-                <input type="submit" value="Apply" class="btn" />
-            </div>
+            <?php echo $this->paginator; ?>           
         </div>
     </div>
 </div>
-<!-- Table styles end -->  

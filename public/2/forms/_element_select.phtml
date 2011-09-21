@@ -1,0 +1,14 @@
+<div class="inputboxes">		
+     <label><?= $this->translate($this->element->getLabel()); ?></label>
+    <?php
+    echo $this->{$this->element->helper}(
+            $this->element->getName(),
+            $this->element->getValue(),
+            $this->element->getAttribs(),
+            $this->element->getMultiOptions()
+    )
+    ?>
+
+    <?php echo $this->formErrors($this->element->getMessages()) ?>
+    <div class="hint"><?php echo $this->element->getDescription() ?></div>
+</div>

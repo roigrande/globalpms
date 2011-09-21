@@ -1,14 +1,34 @@
-<p>
-	<label><?=$this->translate($this->element->getLabel());?></label>
-									<span data="<?=$this->data;?>"><?php echo $this->{$this->element->helper}(
-								        $this->element->getName(),
-								        $this->element->getValue(),
-								        $this->element->getAttribs()
-								    ) ?></span>
-		<?php if ($this->formErrors):?>
-			<span class="input-notification success png_bg"><?php echo $this->formErrors($this->element->getMessages()) ?></span>
-		<?php endif;?> 
-		<!-- Classes for input-notification: success, error, information, attention -->
-		<br /><small><?php echo $this->element->getDescription() ?></small>
-</p>
+<?php
+if ($this->element->getMessages()) {
+    $this->element->class.=" errorbox";
+};
+?>
 
+<div class="inputboxes">
+    <label><?= $this->translate($this->element->getLabel()); ?>:</label>
+
+    <?php
+    echo $this->{$this->element->helper}(
+            $this->element->getName(), $this->element->getValue(), $this->element->getAttribs()
+    )
+    ?>
+<?php if ($this->element->hasErrors()): ?>
+        <?php echo $this->formErrors($this->element->getMessages()) ?>
+<?php endif; ?> 
+    <!-- Classes for input-notification: success, error, information, attention -->
+<?php echo $this->element->getDescription() ?>
+
+</div>
+<!--<div class="inputboxes">
+    <label for="correct" class="correcttxt">Correct: </label>
+
+    <input type="text" id="correct" class="inputbox correctbox"/>
+    <img src="images/icons/icon_tick_sq.png" class="att" alt="Correct" />
+</div>
+<div class="inputboxes">
+    <label for="error" class="errortxt">Error:</label>
+    <input type="text" id="error" class="inputbox errorbox"/>
+    <img src="images/icons/icon_close_sq.png" class="att" alt="Error" />
+</div>
+
+-->

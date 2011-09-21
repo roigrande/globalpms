@@ -6,13 +6,13 @@ echo $this->doctype(); ?>
 <?= $this->headTitle($this->escape($this->title)) ?>
 <?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/site.css'); ?>
 <!-- Calendar Styles -->
-<link href="/styles/fullcalendar.css" rel="stylesheet" type="text/css" />
+<link href="/styles/css/fullcalendar.css" rel="stylesheet" type="text/css" />
 <!-- Fancybox/Lightbox Effect -->
-<link href="/styles/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" />
+<link href="/styles/css/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" />
 <!-- WYSIWYG Editor -->
-<link href="/styles/wysiwyg.css" rel="stylesheet" type="text/css" />
+<link href="/styles/css/wysiwyg.css" rel="stylesheet" type="text/css" />
 <!-- Main Controlling Styles -->
-<link href="/styles/main.css" rel="stylesheet" type="text/css" />
+<link href="/styles/css/main.css" rel="stylesheet" type="text/css" />
 <!-- Blue Theme Styles -->
 <link href="/styles/themes/blue/styles.css" rel="stylesheet" type="text/css" />
 </head>
@@ -56,42 +56,18 @@ echo $this->doctype(); ?>
     	
 <!-- Userbox/logged in start -->
             <div id="userbox">
-            	<p>Welcome Michael</p>
-                <p><span>You are logged in as Admin</span></p>
+            	<p>Welcome <?php echo $_SESSION[""]["storage"]->name; ?></p>
+                <p><span>You are logged in as <?php Zend_Debug::dump($_SESSION[""]["storage"]->name)?></span></p>
                 <ul>
-                	<li><a href="#" title="Check Mail"><img src="/styles/images/icons/icon_mail.png" alt="Mail" /></a></li>
-                    <li><a href="#" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
-                    <li><a href="#" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
+                    <li><a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'edit','id' => $_SESSION[""]["storage"]->id )); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
+                    <li><a href="<?php echo $this->url(array('module' => 'login','controller' => 'index','action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
                 </ul>
             </div>
 <!-- Userbox/logged in end -->  
 
 <!-- Main navigation start -->         
             <ul id="nav">
-            	<li>
-                    <a class="collapsed heading">Section Heading</a>
-                     <ul class="navigation">
-                        <li><a href="#" title="">Section link here</a></li>
-                        <li><a href="#" title="">Section link here</a></li>
-                        <li><a href="#" title="">Section link here</a></li>
-                    </ul>
-                </li>   
-                <li>
-                    <ul class="navigation">
-                        <li class="heading selected">Current Section</li>
-                        <li><a href="#" title="">Section link here</a></li>
-                        <li><a href="#" title="">Section link here</a></li>
-                        <li><a href="#" title="">Section link here</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="collapsed heading">Section Heading</a>
-                     <ul class="navigation">
-                        <li><a href="#" title="">Section link here</a></li>
-                        <li><a href="#" title="">Section link here</a></li>
-                        <li><a href="#" title="">Section link here</a></li>
-                    </ul>
-                </li>        
+            	        
             </ul>
         </div>      
 <!-- Main navigation end --> 
@@ -116,7 +92,7 @@ echo $this->doctype(); ?>
             <ul id="topbtns">
             	<li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
                 <li>
-                	<a href="<?php echo $this->url(array('module' => 'controlmodule','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="control de modulos" /><br />modulos</a>
+                	<a href="<?php echo $this->url(array('module' => 'controlmodule','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="control de modulos" /><br />modulos</a>
                 </li>
                 <li>
                         <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
@@ -140,7 +116,7 @@ echo $this->doctype(); ?>
  </div>
             
 <!-- Footer start --> 
-            <p id="footer">&copy; yourwebsitecompany.com</p>
+            <p id="footer">&copy; openhost.com</p>
 <!-- Footer end -->      
      
         </div>

@@ -13,16 +13,14 @@ class User_PermissionController extends Zend_Controller_Action {
      */
     function indexAction() {
 
-        $permissions = new User_Model_Permissions();
+        $models = new User_Model_Permissions();
         $this->view->title = "Permissions list";
-        //$this->view->permissions = $permissions->fetchSql();
-        
-        $page=$this->_getParam('page',1);
-        $paginator = Zend_Paginator::factory($permissions->fetchSql());
-        //TODO usuario configure paginator
-        $paginator->setItemCountPerPage(5);
-        $paginator->setCurrentPageNumber($page);            
-        $paginator->setPageRange(5);
+        $page = $this->_getParam('page', 1);
+        $paginator = Zend_Paginator::factory($models->fetchSql());
+        $user = Zend_Registry::get('user');
+        $paginator->setItemCountPerPage($user->paginator);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setPageRange($user->paginator);
         $this->view->paginator = $paginator;
     }
 
@@ -75,7 +73,7 @@ class User_PermissionController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new User_Model_Permissions();
-                $id=$this->getRequest()->getPost('id');
+                $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
                 return $this->_helper->redirector('index');
             } else {

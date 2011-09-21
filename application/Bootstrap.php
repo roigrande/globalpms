@@ -8,8 +8,7 @@
  * @version SVN $Id: Bootstrap.php 1457 2010-07-06 10:33:27Z agustincl $
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
-    //*
-    
+
     protected function _initAutoload() {
         $autoloader = Zend_Loader_Autoloader::getInstance();
     }
@@ -59,7 +58,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $view->doctype('XHTML1_TRANSITIONAL');
         $view->headTitle('Globalpms');
         $view->headTitle()->setSeparator(' - ');
-
+        $view->addBasePath(APPLICATION_PATH . '/views');
         // Return it, so that it can be stored by the bootstrap
         return $view;
     }

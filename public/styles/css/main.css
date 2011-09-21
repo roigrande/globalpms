@@ -273,6 +273,11 @@ body {background: #e0e0e0; margin: 0; padding: 0}
 	
 		#left {left:0;}
 		
-		#openCloseWrap {*margin: 150px 0 0 0}	
-		
-		
+		#openCloseWrap {margin: 150px 0 0 0}	
+ul.errors {margin: 0px 10px;
+           position: relative;
+           display: block;
+           float: left;
+          }		
+ul.errors li {background: url(../images/icons/icon_tick.png) no-repeat left; padding: 5px 0 5px 25px}		
+ul.errors li {background: url(../images/icons/icon_cross.png) no-repeat left;}

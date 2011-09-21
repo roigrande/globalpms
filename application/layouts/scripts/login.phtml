@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>CP Login</title>
-<link href="styles/login.css" rel="stylesheet" type="text/css" />
+<link href="/styles/css/login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div id="logincontainer">
@@ -11,20 +11,7 @@
         
         <div id="loginbox">
             <?php echo $this->layout()->content; ?> 
-            <form action="index.html">
-                <div class="inputcontainer">
-                    <img src="images/icons/icon_username.png" alt="Username" />
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" />
-                </div>
-                <div class="inputcontainer">
-                    <img src="images/icons/icon_locked.png" alt="Password" />
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" />
-                </div>
-                <input type="submit" value="Login" class="loginsubmit" />
-                <p><a href="#">Forgotten password</a></p>
-            </form>
+            <p><a href="#">Forgotten password</a></p>      
         </div>
     </div>
 </body>

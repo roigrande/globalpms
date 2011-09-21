@@ -1,6 +1,6 @@
 <?php
 
-class ErrorController extends Zend_Controller_Action
+class Login_ErrorController extends Zend_Controller_Action
 {
 
     public function errorAction()
@@ -8,7 +8,7 @@ class ErrorController extends Zend_Controller_Action
         $errors = $this->_getParam('error_handler');
         
         if (!$errors) {
-            $this->view->message = 'You have reached the error page';
+            $this->view->message = 'You have reached the error pagse';
             return;
         }
         
@@ -52,7 +52,21 @@ class ErrorController extends Zend_Controller_Action
         $log = $bootstrap->getResource('Log');
         return $log;
     }
-
+    
+    public function deniedAction()
+    {
+           
+    }
+    
+    public function unactiveAction()
+    {
+            
+    }
+    
+    public function uninstallAction()
+    {
+            
+    }
 
 }
 

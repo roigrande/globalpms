@@ -23,7 +23,7 @@ class User_Form_User extends Zend_Form {
 
         $password = new Zend_Form_Element_Password('password');
         $password->setLabel('Password')
-                ->setRequired(true)
+                
                 ->addValidator('NotEmpty', true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')

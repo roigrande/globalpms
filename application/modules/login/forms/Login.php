@@ -6,12 +6,14 @@ class Login_Form_Login extends Zend_Form
     {
                 $refer = new Zend_Form_Element_Hidden('refer');
                 $refer->setValue(@$_SERVER['HTTP_REFERER']?@$_SERVER['HTTP_REFERER']:@$_SERVER['REDIRECT_URL']);
-                        
+                  
+                              
                 $email = new Zend_Form_Element_Text('email');
                 $email->setLabel('Email')
                                 ->setRequired(true)
                                 ->addFilter('StripTags')
                                 ->addFilter('StringTrim')
+                                ->addValidator('emailAddress', TRUE)
                                 ->addValidator('StringLength', false, array(3,80))
                                 ->addValidator('emailAddress')
                                 ->setAttrib('size', 30)

@@ -30,13 +30,11 @@ class User_Form_Role extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
                 ->setAttrib("class","inputbox");
 
-        $role_parent = new Zend_Form_Element_Select('role_parent');
-        $role_parent->setLabel('Role Parent')
-                ->setRequired(true)
-                ->addValidator('NotEmpty', true)
+        $role_parent = new Zend_Form_Element_Multiselect('role_parent');
+        $role_parent->setLabel('Role Parent')              
                 ->setmultiOptions($this->_selectOptionsRoles())
                 ->setAttrib('maxlength', 200)
-                ->setAttrib('size', 1)
+                ->setAttrib('size', 5)
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
                 ->setAttrib("class","toolboxdrop")

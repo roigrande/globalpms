@@ -56,10 +56,11 @@ echo $this->doctype(); ?>
     	
 <!-- Userbox/logged in start -->
             <div id="userbox">
-            	<p>Welcome <?php echo $_SESSION[""]["storage"]->name; ?></p>
-                <p><span>You are logged in as <?php Zend_Debug::dump($_SESSION[""]["storage"]->name)?></span></p>
+            	<p>Welcome <?php //TODO hacer 
+                    echo $_SESSION["gpms"]["storage"]->name; ?></p>
+                <p><span>You are logged in as <?php echo $_SESSION["gpms"]["role"];?></span></p>
                 <ul>
-                    <li><a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'edit','id' => $_SESSION[""]["storage"]->id )); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
+                    <li><a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'edit','id' => $_SESSION["gpms"]["storage"]->id )); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
                     <li><a href="<?php echo $this->url(array('module' => 'login','controller' => 'index','action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
                 </ul>
             </div>

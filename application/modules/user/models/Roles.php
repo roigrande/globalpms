@@ -27,6 +27,7 @@ class User_Model_Roles {
      */
 
     public function save(array $data) {
+        $data["role_parent"] = implode(",", $data["role_parent"]);
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -44,6 +45,8 @@ class User_Model_Roles {
      */
 
     public function update(array $data, $where) {
+        $data["role_parent"] = implode(",", $data["role_parent"]);
+
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -62,41 +65,38 @@ class User_Model_Roles {
      */
     public function delete($id) {
 
-     
-        $table=$this->getTable();
+
+        $table = $this->getTable();
         // Get the parent_role from the role will delete
         $role = $this->fetchEntry($id);
-        
-        Zend_Debug::dump($role["role_parent"],"rol que eliminamos");
+
+        Zend_Debug::dump($role["role_parent"], "rol que eliminamos");
         //find the roles have the parent role of the role will delete
         $rolsongs = $this->fetchParentRoles($id);
-        Zend_Debug::dump($rolsongs["0"]["id"],"el hijo del rol que eliminaremos");
-     
+        Zend_Debug::dump($rolsongs["0"]["id"], "el hijo del rol que eliminaremos");
+
         //chance the parent_role of the songs
         foreach ($rolsongs as $value) {
             $data["role_parent"] = (int) $role["role_parent"];
-            $data["id"] = $value["id"];              
-            $this->update($data,'id =' . (int) $value["id"]);
+            $data["id"] = $value["id"];
+            $this->update($data, 'id =' . (int) $value["id"]);
         }
-     
+
         //find the users with the role will delete
-        $users = new User_Model_Users;        
+        $users = new User_Model_Users;
         $users->getTable();
-        $arrayusers=$users->fetchUsers($id);        
+        $arrayusers = $users->fetchUsers($id);
         //Zend_Debug::dump($arrayusers,"users with role will delete");
-        
         // chance the role to the users
         foreach ($arrayusers as $value) {
             $data["role_id"] = (int) $rolsongs["0"]["id"];
-            $data["id"] = $value["id"];  
-            Zend_Debug::dump($data,"data1");
-            $users->update($data,'id =' . (int) $value["id"]);
+            $data["id"] = $value["id"];
+            Zend_Debug::dump($data, "data1");
+            $users->update($data, 'id =' . (int) $value["id"]);
         }
-               
+
         $table->delete('id =' . (int) $id);
     }
-
- 
 
     /**
      * Fetch all entries
@@ -116,9 +116,24 @@ class User_Model_Roles {
     public function fetchEntry($id) {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
-        return $table->fetchRow($select)->toArray();
+        $tablebd = $table->fetchRow($select)->toArray();
+
+        $tablebd["role_parent"] = explode(",", $tablebd["role_parent"]);
+        return $tablebd;
     }
 
+    /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|string name
+     */
+    public function fetchName($id) {
+        $table = $this->getTable();
+        $select = $table->select()->where('id = ?', $id);
+        $tablebd = $table->fetchRow($select);
+        return $tablebd["name"];
+    }
 
     /**
      *  Fetch all sql entries
@@ -126,12 +141,21 @@ class User_Model_Roles {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT acl_roles.id, acl_roles.prefered_uri, acl_roles.name, acl_roles_parent.name as parent
-           FROM acl_roles LEFT JOIN acl_roles AS acl_roles_parent ON acl_roles.role_parent = acl_roles_parent.id
-           ORDER BY acl_roles_parent.name ";
+     
+        $model = $this->fetchEntries();
+        foreach ($model as $key => $value) {
+            $value["role_parent"] = explode(",", $value["role_parent"]);
+            foreach ($value["role_parent"] as $key2 => $value2) {
 
-        $table = $this->getTable()->getAdapter()->fetchAll($sql);
-        return $table;
+                $model[$key]["parents_name"][$key2] = $this->fetchName($value2);
+            }
+            $model[$key]["parents_name"] = implode(", ", $model[$key]["parents_name"]);
+            
+            
+        }
+       
+      
+        return $model;
     }
 
     /**
@@ -139,7 +163,6 @@ class User_Model_Roles {
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
-
     public function fetchParentRoles($role_parent) {
         $table = $this->getTable();
         $select = $table->select()->where('role_parent =' . (int) $role_parent);

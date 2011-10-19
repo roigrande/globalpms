@@ -35,17 +35,17 @@
 
             <tbody>
                 <?php foreach ($this->paginator as $role) : ?>
-                    <?php if($role->name != 'implementor') {?>
+                    <?php if($role["name"] != 'implementor') {?>
                     <tr>
                         
-                        <td><?php echo $this->escape($role->name); ?></td>
-                        <td><?php echo $this->escape($role->parent); ?></td>
-                        <td><?php echo $this->escape($role->prefered_uri); ?></td>
+                        <td><?php echo $this->escape($role["name"]); ?></td>
+                        <td><?php echo $this->escape($role["parents_name"]); ?></td>
+                        <td><?php echo $this->escape($role["prefered_uri"]); ?></td>
 
                         <td>
-                            <a href="<?php echo $this->url(array('controller' => 'role', 'action' => 'edit', 'id' => $role->id)); ?>">
+                            <a href="<?php echo $this->url(array('controller' => 'role', 'action' => 'edit', 'id' => $role["id"])); ?>">
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'role', 'action' => 'delete', 'id' => $role->id)); ?>">
+                            <a href="<?php echo $this->url(array('controller' => 'role', 'action' => 'delete', 'id' => $role["id"])); ?>">
                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                         </td>
                     </tr>

@@ -30,28 +30,27 @@ class Login_Model_Acl extends Zend_Acl {
 
     protected function _initialize() {
         $user = Zend_Auth::getInstance()->getIdentity();
-        $this->_user = $user ? $user->user_name : 'Guest';
+        $this->_user = $user ? $user->name : 'Guest';
 
-                          
+
         $front = Zend_Controller_Front::getInstance();
         $this->_db = Zend_Registry::get('db');
-  
+
         self::initRoles();
         self::initResources();
         self::initPermissions();
 
         $getUserRole = $this->_db->fetchRow(
-                       $this->_db->select()
-                              ->from(array('acl_roles'),
-                                  array('role_name' => 'name'))
+                        $this->_db->select()
+                                ->from(array('acl_roles'), array('role_name' => 'name'))
                                 ->from('acl_users')
                                 ->where('acl_users.name = "' . $this->_user . '"')
                                 ->where('acl_users.role_id = acl_roles.id'));
 
-        $login=Zend_Registry::get('login');
+        $login = Zend_Registry::get('login');
         $this->_UserRoleId = $getUserRole->role_id ? $getUserRole->role_id : $login->publicid;
-        $this->_UserRoleName = $getUserRole->role_name ? $getUserRole->role_name : 'User';
-        
+        $this->_UserRoleName = $getUserRole->role_name ? $getUserRole->role_name : 'public';
+
         $this->addRole(new Zend_Acl_Role($this->_user), $this->_UserRoleName);
     }
 
@@ -104,16 +103,16 @@ class Login_Model_Acl extends Zend_Acl {
                                 ->from('acl_roles')
                                 //->order(array('role_id DESC')));
                                 ->order(array('role_parent ASC')));
-        
-      
+
+
         $root = $this->getRoots($roles);
         foreach ($root as $key => $value) {
             $this->postOrder(array($value), $roles);
             array_push($this->val, $value);
         }
         $roles = array_reverse($this->val);
-      //  Zend_Debug::dump($roles); 
-        
+        //  Zend_Debug::dump($roles); 
+
         foreach ($roles as $key => $value) {
             $parent = array();
             if ($value->role_parent == 0)
@@ -127,13 +126,12 @@ class Login_Model_Acl extends Zend_Acl {
             }
         }
     }
-    
 
     private function initResources() {
         $resources = $this->_db->fetchAll(
                         $this->_db->select()
                                 ->from('acl_resources'));
-       
+
         foreach ($resources as $key => $value) {
             //Returns true if and only if the Resource exists in the ACL
             if (!$this->has($value->resource)) {
@@ -144,27 +142,25 @@ class Login_Model_Acl extends Zend_Acl {
 
     private function initPermissions() {
 
-      $select= $this->_db->select()  
-                              ->from(array('acl_roles'),
-                                  array('name_role' => 'name'))
-                              ->from('acl_resources')
-                              ->from('acl_permissions')
-                              ->where('acl_roles.id = acl_permissions.role_id')
-                              ->where('acl_resources.id = acl_permissions.resource_id')
-      ;
-      //Zend_Debug::dump($select . "select");
-      $acl = $this->_db->fetchAll($select);
-        
-      $this->deny();
+        $select = $this->_db->select()
+                ->from(array('acl_roles'), array('name_role' => 'name'))
+                ->from('acl_resources')
+                ->from('acl_permissions')
+                ->where('acl_roles.id = acl_permissions.role_id')
+                ->where('acl_resources.id = acl_permissions.resource_id')
+        ;
+        //Zend_Debug::dump($select . "select");
+        $acl = $this->_db->fetchAll($select);
+
+        $this->deny();
         $this->allow(null, 'default:index');
-        
-        
+
+
         foreach ($acl as $key => $value) {
-        //    Zend_Debug::dump($value->name_role."-".$value->resource."-".$value->permission);
+            //    Zend_Debug::dump($value->name_role."-".$value->resource."-".$value->permission);
             $this->allow($value->name_role, $value->resource, $value->permission);
-            
         }
-      //  die();
+        //  die();
     }
 
     public function getRoleId($roleName) {
@@ -175,7 +171,7 @@ class Login_Model_Acl extends Zend_Acl {
     }
 
     public function getRoleName($roleId) {
-               
+
         return $this->_db->fetchRow(
                 $this->_db->select()
                         ->from('acl_roles', 'name')
@@ -283,20 +279,34 @@ class Login_Model_Acl extends Zend_Acl {
     public function isUserAllowed($role, $resource, $permission) {
         return ($this->isAllowed($role, $resource, $permission));
     }
-    
-     public function statusModule($module) {
-//         echo $module;
-          if ($model = $this->_db->fetchRow(
-                       $this->_db->select()
+
+    public function statusModule($module) {
+     
+
+        if ($model = $this->_db->fetchRow(
+                        $this->_db->select()
                                 ->from('acl_modules')
-                                ->where('acl_modules.name = "' . $module. '"')
-                                )){   
+                                ->where('acl_modules.name = "' . $module . '"')
+        )) {
 //              Zend_Debug::dump($model);
 //              die();
             return $model->active;
-          }
-          return "uninstall";
+        }
+
+        return "uninstall";
     }
+
+    public function isModule($module) {
+         echo $module;
+        
+        $dir = APPLICATION_PATH;
+        $dir .= Zend_Registry::get('login')->dir;
+        if (is_dir($dir)) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     //Singleton Pattern Implementation
     public static function getInstance() {
         if (null === self::$_instance) {
@@ -305,7 +315,8 @@ class Login_Model_Acl extends Zend_Acl {
         }
 
         return self::$_instance;
-    }    
-   
+    }
+
 }
+
 ?>

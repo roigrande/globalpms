@@ -1,3 +1,8 @@
+<?php
+if ($this->element->getMessages()) {
+    $this->element->class.=" errorbox";
+};
+?>
  <?php //TODO crear el element->getImages?>
 <div class="inputcontainer">
  
@@ -8,5 +13,12 @@
                 $this->element->getName(),
                 $this->element->getValue(),
                 $this->element->getAttribs()
-    ) ?>	
+    ) ?>
+    <?php if ($this->element->hasErrors()): ?>
+        <?php echo $this->formErrors($this->element->getMessages()) ?>
+<?php endif; ?> 
+    <!-- Classes for input-notification: success, error, information, attention -->
+<?php echo $this->element->getDescription() ?>
+
 </div>
+

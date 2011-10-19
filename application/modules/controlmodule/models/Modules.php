@@ -120,10 +120,10 @@ class Controlmodule_Model_Modules {
         return $row->toArray();
     }
    
-    public function addModule($form) {
+    public function addModule($data) {
 
-        $uploadedData = $form->getValues();
-        $fullFilePath = $form->file->getFileName();
+        $uploadedData = $data->getValues();
+        $fullFilePath = $data->file->getFileName();
 
         // chance the permission of the file
         chmod($fullFilePath, 0777);
@@ -153,28 +153,28 @@ class Controlmodule_Model_Modules {
 
     }
 
-    public function deleteFolderModule($carpeta) {
+    public function deleteFolderModule($folder) {
 
-        $directorio = opendir($carpeta);
+        $directorio = opendir($folder);
+        
 
         while ($archivo = readdir($directorio)) {
             if ($archivo != '.' && $archivo != '..') { //comprobamos si es un directorio o un archivo
-                if (is_dir($carpeta . '/' . $archivo)) {
-                    // Zend_Debug::dump($carpeta . '/' . $archivo,"carpeta");            
+                if (is_dir($folder . '/' . $archivo)) {
+                    // Zend_Debug::dump($foler . '/' . $archivo,"foler");            
                     //si es un directorio, volvemos a llamar a la función para que elimine el contenido del mismo
-                    $this->deleteFolderModule($carpeta . '/' . $archivo);
+                    $this->deleteFolderModule($foler . '/' . $archivo);
 
-                    rmdir($carpeta . '/' . $archivo); //borrar el directorio cuando esté vacío
+                    rmdir($folder . '/' . $archivo); //borrar el directorio cuando esté vacío
                 } else { //si no es un directorio, lo borramos
-                    //          Zend_Debug::dump($carpeta . '/' . $archivo,"fichero");            
-                    unlink($carpeta . '/' . $archivo);
+                    //          Zend_Debug::dump($foler . '/' . $archivo,"fichero");            
+                    unlink($folder . '/' . $archivo);
                 }
             }
         }
-
+        
         closedir($directorio);
-
-        rmdir($carpeta);
+        rmdir($folder);
     }
 
     public function install($modulename) {
@@ -241,7 +241,7 @@ class Controlmodule_Model_Modules {
         }
     }
 
-    public function desinstall($id) {
+    public function uninstall($id) {
 
         // find all the resource have this module
         $resource = new Controlmodule_Model_DbTable_Resources();
@@ -278,7 +278,7 @@ class Controlmodule_Model_Modules {
             $zip->addFile(realpath($key), $path["1"]) or die("ERROR: Could not add file: $key");
         }
 
-        //TODO cambiar permisos de carpeta via config
+        //TODO cambiar permisos de foler via config
         //TODO hacer Download -->streaming         
         // close and save archive
         $zip->close();

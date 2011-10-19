@@ -1,0 +1,71 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Casass")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'casas',
+    'action' => 'add')); ?>">Add new casas</a></p>
+        <ul id="topbtns">
+            	<li>
+                	<a href="<?php echo $this->url(array('module' => 'casas','controller' => 'role','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_calendar.png" alt="Role" /><br />role</a>
+                </li>
+                <li>
+                        <a href="<?php echo $this->url(array('module' => 'casas','controller' => 'casas','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Casass" /><br />Casass</a>
+                
+                </li>
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'casas','controller' => 'permission','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_create.png" alt="Permission" /><br />Permission  </a>
+                </li>
+               
+                <li>
+                	<a href="<?php echo $this->url(array('module' => 'casas','controller' => 'resource','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Resource" /><br />Resource</a>
+                </li>                
+            </ul>
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('Casas name'); ?></th>
+                    <th><?php echo $this->translate('Date'); ?></th>
+                    <th><?php echo $this->translate('Email'); ?></th>
+                    <th><?php echo $this->translate('Status'); ?></th>
+                    <th><?php echo $this->translate('Person_id?'); ?></th>
+                    <th><?php echo $this->translate('Validation code'); ?></th>
+                    <th><?php echo $this->translate('Phone'); ?></th>
+                    <th><?php echo $this->translate('Role'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->paginator as $casas) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($casas->name); ?></td>                         
+                        <td><?php echo $this->escape($casas->date); ?></td>
+                        <td><?php echo $this->escape($casas->email); ?></td>
+                        <td><?php echo $this->escape($casas->status); ?></td>
+                        <td><?php echo $this->escape($casas->person_id); ?></td>
+                        <td><?php echo $this->escape($casas->validation_code); ?></td>
+                        <td><?php echo $this->escape($casas->phone); ?></td>
+                        <td><?php echo $this->escape($casas->role); ?></td>               
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'casas','action' => 'edit', 'id' => $casas->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'casas','action' => 'delete', 'id' => $casas->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>                        
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

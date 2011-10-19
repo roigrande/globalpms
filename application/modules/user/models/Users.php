@@ -52,9 +52,10 @@ class User_Model_Users {
                 unset($data[$field]);
             }
         }
-        Zend_Debug::dump($data,"users with role will delete");
-//        if($data['password'])
-//            $data['password'] = hash('SHA256', $data['password']);
+
+        if ($data['password']!=""){
+            $data['password'] = hash('SHA256', $data['password']);
+        }else{ unset($data['password']);}
         return $table->update($data, $where);
     }
 
@@ -89,10 +90,7 @@ class User_Model_Users {
     public function fetchEntry($id) {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
-
-        $hola=$table->fetchRow($select)->toArray();
-        var_dump($hola);
-        return $hola;
+        return $table->fetchRow($select)->toArray();
     }
 
     /**
@@ -118,7 +116,7 @@ class User_Model_Users {
      * @return array
      */
     public function fetchUsers($role_id) {
-       
+
         $table = $this->getTable();
         $select = $table->select()->where('role_id =' . (int) $role_id);
 

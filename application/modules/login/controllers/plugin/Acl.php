@@ -6,12 +6,16 @@ class Login_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
     protected $_acl = null;
 
     public function __construct() {
-        $users = Zend_Registry::get('user');
+        $users = Zend_Registry::get('login');
+//        echo "estas en el contruct de acl";
+//        Zend_Debug::dump($users);
+//        die();
+
         $this->_auth = Zend_Auth::getInstance();
         $this->_auth->setStorage(new Zend_Auth_Storage_Session($users->StorageSession));
 //        Zend_Debug::dump($this->_auth, "account", true);
 //        Zend_Debug::dump($_SESSION,"session");
-       
+
         $this->_acl = Login_Model_Acl::getInstance();
     }
 
@@ -47,24 +51,49 @@ class Login_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
             $role = $this->_acl->getRoleName($this->_auth->getIdentity()->role_id);
             $this->_acl->_UserRoleName = $role->name;
             $this->_acl->_UserRoleId = $this->_auth->getIdentity()->role_id;
+            //TODO arreglar 
+            $session = new Zend_Session_Namespace('gpms');
+
+
+
+            $session->role = $this->_acl->_UserRoleName;
         }
 
-//        if (!$this->_acl->has($resource)) {
+//        die();
+//        if (!$this->_acl->isModule($module)) {
 //            // Error 404
+//            die();
 //            echo "recurso no instalado";
 //            $request->setControllerName('error');
 //            $request->setActionName('error');
 //            $request->setDispatched(true);
 //            //   Zend_Debug::dump("-----", "Error 404", false);
 //        }
-       
-        if (!$this->_auth->hasIdentity()) {
+        if (!$this->_acl->has($resource)) {
+            // Error 404
+           try{
+           throw new Zend_Controller_Action_Exception("This page dont exist",404);
+           //throw new Zend_Exception('This is a sample exception',404);
+//           $front = Zend_Controller_Front::getInstance();
+//           $front->throwExceptions(true);
+           }
+           catch (Zend_Exception $e) { };
+            $request->setModuleName('login');
+            $request->setControllerName('error');
+            //TODO enviar error no errrorfound
+            $request->setActionName('error');
+         //   $request->setParam('error_handler',Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION);
+            $request->setParam('error_handler',$e);
+            Zend_Debug::dump($e,"e");
+            die();
+            //$request->setDispatched(true);
+             
+        } elseif (!$this->_auth->hasIdentity()) {
 //            if ($module=="login" && $resource=="error" && $permission="error"){
 //                $request->setModuleName('login');
 //                $request->setControllerName('error');
 //                $request->setActionName('error');                
 //            }
-            
             // dont have authenticated
             $request->setModuleName('login');
             $request->setControllerName('index');
@@ -72,18 +101,17 @@ class Login_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
             //echo "si";
         } elseif ($this->_acl->statusModule($module) == "uninstall") {
 
-           
+
             $request->setModuleName('login');
             $request->setControllerName('error');
             $request->setActionName('uninstall');
-        //    $request->setDispatched(true);
-            
+            //    $request->setDispatched(true);
         } elseif ($this->_acl->statusModule($module) == "0") {
-           
+
             $request->setModuleName('login');
             $request->setControllerName('error');
             $request->setActionName('unactive');
-       //     $request->setDispatched(true);
+            //     $request->setDispatched(true);
         } elseif (!$this->_acl->isAllowed($this->_acl->_UserRoleName, $resource, $permission)) {
             if ($this->_auth->hasIdentity()) {
                 // authenticated, denied access, forward to denied page
@@ -99,9 +127,7 @@ class Login_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
                 //   echo "no";
             }
         }
-  
     }
-  
 
 //        public function preDispatch(Zend_Controller_Request_Abstract $request)  
 //        {                  

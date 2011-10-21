@@ -1,9 +1,9 @@
 <?php
 
-class Modeloejemplo_Form_Modeloejemplo extends Zend_Form {
+class Company_Form_Contact extends Zend_Form {
 
     public function init() {
-        $this->setName('modeloejemplo');
+        $this->setName('contact');
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
@@ -21,33 +21,7 @@ class Modeloejemplo_Form_Modeloejemplo extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
 
-        $password = new Zend_Form_Element_Password('password');
-        $password->setLabel('Password')
-                
-                ->addValidator('NotEmpty', true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('StringLength', false, array(3, 20))
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")              
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
-        ;
-        
-        $date = new Zend_Form_Element_Text('date');
-        $date->setLabel('Date')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('NotEmpty')
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
-        ;
-
+      
         $email = new Zend_Form_Element_Text('email');
         $email->setLabel('Email')
                 ->setRequired(true)
@@ -78,8 +52,8 @@ class Modeloejemplo_Form_Modeloejemplo extends Zend_Form {
 
        
 
-        $phone = new Zend_Form_Element_Text('phone');
-        $phone->setLabel('Phone')
+        $telephone = new Zend_Form_Element_Text('telephone');
+        $telephone->setLabel('Telephone')
                 ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
@@ -91,16 +65,28 @@ class Modeloejemplo_Form_Modeloejemplo extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
 
-        $role_id = new Zend_Form_Element_Select('role_id');
-        $role_id->setLabel('Role')
+        $company_id = new Zend_Form_Element_Select('company_id');
+        $company_id->setLabel('Company Name')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptionsRole())
+                ->setmultiOptions($this->_selectOptions())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
                 ->setAttrib("class","toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
+        ;
+        $direction = new Zend_Form_Element_Text('direction');
+        $direction->setLabel('Direction')
+                ->setRequired(true)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->addValidator('NotEmpty')
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class","inputbox")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
         ;
 
 
@@ -114,18 +100,17 @@ class Modeloejemplo_Form_Modeloejemplo extends Zend_Form {
         ;
         $this->addElements(array($id,
             $name,
-            $password,
-            $date,
             $email,
+            $telephone,
             $status,
-            $phone,
-            $role_id,
+            $direction,
+            $company_id,
             $submit));
     }
 
-    protected function _selectOptionsRole() {
+    protected function _selectOptions() {
         $sql = "SELECT id,name
-                  FROM acl_roles";
+                  FROM acl_companies";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles

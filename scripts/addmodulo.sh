@@ -9,6 +9,8 @@ echo controlador
 cp -a modeloejemplo/controllers/ModeloejemploController.php /var/www/globalpms/application/modules/$1/controllers/ 
 mv /var/www/globalpms/application/modules/$1/controllers/ModeloejemploController.php  /var/www/globalpms/application/modules/$1/controllers/$2Controller.php 
 
+find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/modeloejemplo'/$1'/g' 
+
 find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/Modeloejemplo\_/'$4\_'/g' 
 find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/Modeloejemplo/'$2'/g' 
 find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/modeloejemplo/'$3'/g'

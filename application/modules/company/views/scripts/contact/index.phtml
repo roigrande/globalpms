@@ -1,0 +1,48 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Contacts")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'contact',
+    'action' => 'add')); ?>">Add new contact</a></p>
+      
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('Contact name'); ?></th>
+                    <th><?php echo $this->translate('Company name'); ?></th>
+                    <th><?php echo $this->translate('Email'); ?></th>
+                    <th><?php echo $this->translate('telephone'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->paginator as $contact) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($contact->name); ?></td>                         
+                        <td><?php echo $this->escape($contact->company_name); ?></td>                         
+                        <td><?php echo $this->escape($contact->email); ?></td>
+                        <td><?php echo $this->escape($contact->telephone); ?></td>
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'edit', 'id' => $contact->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'delete', 'id' => $contact->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>                        
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

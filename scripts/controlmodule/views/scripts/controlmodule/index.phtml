@@ -1,0 +1,92 @@
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Modules")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'controlmodule',
+    'action' => 'add')); ?>">Add new module</a></p>
+ 
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th><?php echo $this->translate('Module Folders'); ?></th>                    
+                    <th><?php echo $this->translate('Status'); ?></th>
+                    <th><?php echo $this->translate('Installation'); ?></th>
+                    <th><?php echo $this->translate('Options'); ?></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+                 <?php foreach ($this->paginator as $module) : ?>
+                    
+                    <tr>
+                        <td><?php echo $this->escape($module["name"]); ?></td>
+                        <td><?php if ($module['active']){
+                                    echo "activado"; 
+                                  }else{
+                                    echo "desactivado";
+                                    
+                                  };?>
+                        </td>
+                        <td><?php 
+                               if ($module["install"]){     
+                                    echo "instalado";
+                                }else{
+                                    echo "desinstalado";
+                                };
+                             ?></td>
+                        <td>
+                            <?php                            
+                            if (!$module["install"]) {
+                            ?>                                                
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'install', 'module_name' => $module["name"])); ?>">
+                                install</a>
+                          
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'delete', 'module_name' => $module["name"])); ?>">
+                                <img src="/styles/images/icons/icon_delete.png" alt="Delete" />delete</a>            
+                                
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'backup', 'module_name' => $module["name"])); ?>">
+                                Backup</a>            
+                                
+                                <?php
+                            } else {
+                                ?>
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'edit', 'module_name' => $module["name"])); ?>">
+                                <img src="/styles/images/icons/icon_edit.png" alt="Edit" />editar</a>
+
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'uninstall', 'id' => $module["id"])); ?>">
+                                desintalar</a>
+                                 
+                                <?php if ($module['active']){
+                                ?>
+                                
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'deactivate', 'id' => $module['id'])); ?>">
+                                desactivar </a>
+                                <?php    
+                                }else{                                        
+                                ?>                
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'activate', 'id' => $module['id'])); ?>">
+                                activar </a>
+                                
+                                <?php
+                                                                    
+                                }?>
+                                <a href="<?php echo $this->url(array('controller' => 'controlmodule', 'action' => 'backup', 'module_name' => $module["name"])); ?>">
+                                Backup</a>
+                                <?php
+                                
+                            }
+                            ?>                                                     
+                        </td>                    
+                    </tr>
+                    
+        <?php endforeach; ?>
+                
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

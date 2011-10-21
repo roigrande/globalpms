@@ -156,25 +156,25 @@ class Controlmodule_Model_Modules {
     public function deleteFolderModule($folder) {
 
         $directorio = opendir($folder);
+        
 
         while ($archivo = readdir($directorio)) {
             if ($archivo != '.' && $archivo != '..') { //comprobamos si es un directorio o un archivo
-                if (is_dir($foler . '/' . $archivo)) {
+                if (is_dir($folder . '/' . $archivo)) {
                     // Zend_Debug::dump($foler . '/' . $archivo,"foler");            
                     //si es un directorio, volvemos a llamar a la función para que elimine el contenido del mismo
                     $this->deleteFolderModule($foler . '/' . $archivo);
 
-                    rmdir($foler . '/' . $archivo); //borrar el directorio cuando esté vacío
+                    rmdir($folder . '/' . $archivo); //borrar el directorio cuando esté vacío
                 } else { //si no es un directorio, lo borramos
                     //          Zend_Debug::dump($foler . '/' . $archivo,"fichero");            
-                    unlink($foler . '/' . $archivo);
+                    unlink($folder . '/' . $archivo);
                 }
             }
         }
-
+        
         closedir($directorio);
-
-        rmdir($foler);
+        rmdir($folder);
     }
 
     public function install($modulename) {

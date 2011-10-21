@@ -2,10 +2,10 @@
 /**
  * This is the DbTable class for the Banners table.
  */
-class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
+class Controlmodule_Model_DbTable_Permissions extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'acl_modeloejemplos';
+    protected $_name    = 'acl_permissions';
     /** Primary key */
     protected $_primary = 'id';
 
@@ -44,7 +44,7 @@ class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
      * @return int
      */
     public function delete($where)
-    {
+    {   
         return parent::delete($where);
     }
     

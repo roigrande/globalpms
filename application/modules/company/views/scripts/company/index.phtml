@@ -1,0 +1,53 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Companys")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'company',
+    'action' => 'add')); ?>">Add new company</a></p>
+      
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('Company name'); ?></th>
+                    <th><?php echo $this->translate('Fiscal name'); ?></th>
+                    <th><?php echo $this->translate('Type'); ?></th>
+                    <th><?php echo $this->translate('Telephone'); ?></th>
+                    <th><?php echo $this->translate('Email'); ?></th>
+                    <th><?php echo $this->translate('City'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->paginator as $company) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($company->name); ?></td>                         
+                        <td><?php echo $this->escape($company->fiscal_name); ?></td>                         
+                        <td><?php echo $this->escape($company->type_company_name); ?></td>
+                        <td><?php echo $this->escape($company->telephone); ?></td>
+                        <td><?php echo $this->escape($company->email); ?></td>
+                        <td><?php echo $this->escape($company->city); ?></td>
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'client','action' => 'add', 'id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_user.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'edit', 'id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'delete', 'id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>                        
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

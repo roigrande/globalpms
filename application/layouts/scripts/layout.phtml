@@ -21,7 +21,7 @@ echo $this->doctype(); ?>
 
 <!-- Top header/black bar start -->
 	<div id="header">
-    	<img src="/styles/images/logo.png" alt="AdminCP" class="logo" />
+    	<img src="/styles/images/logo.png" alt="GlobalPMS" class="logo" />
         <div id="searchbox">
         	<input type="text" class="searchinput" />
             <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />        
@@ -97,6 +97,10 @@ echo $this->doctype(); ?>
                 </li>
                 <li>
                         <a href="<?php echo $this->url(array('module' => 'user','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+                
+                </li>
+                <li>
+                        <a href="<?php echo $this->url(array('module' => 'company','controller' => 'index','action' => 'index')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
                 
                 </li>
                 <li> 

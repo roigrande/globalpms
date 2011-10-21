@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_modeloejemplos table.
+ * This is the Data Mapper class for the Acl_clients table.
  */
-class Modeloejemplo_Model_Modeloejemplo {
+class Company_Model_Client {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Modeloejemplo_Model_Modeloejemplo {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Modeloejemplo_Model_DbTable_Modeloejemplo();
+            $this->_table = new Company_Model_DbTable_Client();
         }
         return $this->_table;
     }
@@ -95,11 +95,11 @@ class Modeloejemplo_Model_Modeloejemplo {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT acl_modeloejemplos.id, acl_modeloejemplos.name, date,
+        $sql = "SELECT acl_clients.id, acl_clients.name, date,
                     email,status, person_id,
                     validation_code,phone, acl_roles.name as role
-          FROM acl_modeloejemplos, acl_roles
-          WHERE acl_modeloejemplos.role_id = acl_roles.id              
+          FROM acl_clients, acl_roles
+          WHERE acl_clients.role_id = acl_roles.id              
           ORDER BY acl_roles.id";
 
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
@@ -111,7 +111,7 @@ class Modeloejemplo_Model_Modeloejemplo {
      * 
      * @return array
      */
-    public function fetchModeloejemplos($type_id) {
+    public function fetchClients($type_id) {
 
         $table = $this->getTable();
         $select = $table->select()->where('type_id =' . (int) $type_id);

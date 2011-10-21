@@ -2,10 +2,10 @@
 /**
  * This is the DbTable class for the Banners table.
  */
-class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
+class Company_Model_DbTable_Contact extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'acl_modeloejemplos';
+    protected $_name    = 'acl_contacts';
     /** Primary key */
     protected $_primary = 'id';
 

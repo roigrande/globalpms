@@ -1,6 +1,6 @@
 <?php
 
-class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
+class Company_ClientController extends Zend_Controller_Action {
 
     public function init() {
         
@@ -13,31 +13,31 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
      */
     function indexAction() {
 
-        $models = new Modeloejemplo_Model_Modeloejemplo();
-        $this->view->title = "Modeloejemplos list";
+        $models = new Company_Model_Client();
+        $this->view->title = "Clients list";
         $page = $this->_getParam('page', 1);
         $paginator = Zend_Paginator::factory($models->fetchSql());
 
-        $modeloejemplo = Zend_Registry::get('modeloejemplo');
-        $paginator->setItemCountPerPage($modeloejemplo->paginator);
+        $company = Zend_Registry::get('company');
+        $paginator->setItemCountPerPage($company->paginator);
         $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange($modeloejemplo->paginator);
+        $paginator->setPageRange($company->paginator);
         $this->view->paginator = $paginator;
     }
 
     /**
-     * AddAction for Modeloejemplos
+     * AddAction for Clients
      *
      * @return void
      */
     public function addAction() {
-        $this->view->headTitle("Add New Modeloejemplo", 'APPEND');
+        $this->view->headTitle("Add New Client", 'APPEND');
         $request = $this->getRequest();
-        $form = new Modeloejemplo_Form_Modeloejemplo();
+        $form = new Company_Form_Client();
 
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
-                $model = new Modeloejemplo_Model_Modeloejemplo();
+                $model = new Company_Model_Client();
                 $model->save($form->getValues());
                 return $this->_helper->redirector('index');
             }
@@ -48,16 +48,16 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
     }
 
     /**
-     * EditAction for Modeloejemplos
+     * EditAction for Clients
      *
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Modeloejemplos";
-        $form = new Modeloejemplo_Form_Modeloejemplo();     
+        $this->view->title = "Edit Clients";
+        $form = new Company_Form_Client();     
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
-                $model = new Modeloejemplo_Model_Modeloejemplo();
+                $model = new Company_Model_Client();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
                 return $this->_helper->redirector('index');
@@ -69,7 +69,7 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
 
-                $model = new Modeloejemplo_Model_Modeloejemplo();
+                $model = new Company_Model_Client();
                 $form->populate($model->fetchEntry($id));
             }
         }
@@ -77,7 +77,7 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
     }
 
     /**
-     * deleteAction for Modeloejemplos
+     * deleteAction for Clients
      *
      * @return void
      */
@@ -86,7 +86,7 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
-                $model = new Modeloejemplo_Model_Modeloejemplo();
+                $model = new Company_Model_Client();
                 $model->delete('id = ' . (int) $id);
             }
             return $this->_helper->redirector('index');
@@ -94,9 +94,9 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
-                $model = new Modeloejemplo_Model_Modeloejemplo();
+                $model = new Company_Model_Client();
 
-                $this->view->modeloejemplo = $model->fetchEntry($id);
+                $this->view->company = $model->fetchEntry($id);
             }
         }
     }

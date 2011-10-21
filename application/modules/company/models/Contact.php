@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_modeloejemplos table.
+ * This is the Data Mapper class for the Acl_contacts table.
  */
-class Modeloejemplo_Model_Modeloejemplo {
+class Company_Model_Contact {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Modeloejemplo_Model_Modeloejemplo {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Modeloejemplo_Model_DbTable_Modeloejemplo();
+            $this->_table = new Company_Model_DbTable_Contact();
         }
         return $this->_table;
     }
@@ -74,7 +74,7 @@ class Modeloejemplo_Model_Modeloejemplo {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchEntries() {
-        return $this->getTable()->fetchAll('1');
+        return $this->getTable()->fetchAll('1')->toArray();
     }
 
     /**
@@ -95,14 +95,16 @@ class Modeloejemplo_Model_Modeloejemplo {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT acl_modeloejemplos.id, acl_modeloejemplos.name, date,
-                    email,status, person_id,
-                    validation_code,phone, acl_roles.name as role
-          FROM acl_modeloejemplos, acl_roles
-          WHERE acl_modeloejemplos.role_id = acl_roles.id              
-          ORDER BY acl_roles.id";
-
+        $sql = "SELECT acl_contacts.id, acl_contacts.name, acl_contacts.email,
+                       acl_contacts.status, acl_companies.name as company_name,
+                       acl_contacts.telephone
+          FROM acl_contacts, acl_companies
+          WHERE acl_contacts.company_id = acl_companies.id              
+          ";
+        
+        
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
+//        Zend_Debug::dump($sql);
         return $table;
     }
 
@@ -111,7 +113,7 @@ class Modeloejemplo_Model_Modeloejemplo {
      * 
      * @return array
      */
-    public function fetchModeloejemplos($type_id) {
+    public function fetchContacts($type_id) {
 
         $table = $this->getTable();
         $select = $table->select()->where('type_id =' . (int) $type_id);

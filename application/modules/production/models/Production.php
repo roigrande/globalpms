@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_companys table.
+ * This is the Data Mapper class for the Acl_users table.
  */
-class Company_Model_Company {
+class Production_Model_Production {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Company_Model_Company {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Company_Model_DbTable_Company();
+            $this->_table = new Production_Model_DbTable_Production();
         }
         return $this->_table;
     }
@@ -27,8 +27,18 @@ class Company_Model_Company {
      */
 
     public function save(array $data) {
+        $production = Zend_Registry::get('production');
+        $production->default_status;
+        $data["status_id"] = $production->default_status;
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+        $client = new Production_Model_Client();
+        if (!$client->fetchClients($data["company_id"])) {
+            $dataclient["companies_id"] = $data["company_id"];
+            $client->save($dataclient);
+        }
+        //  Zend_Debug::dump($data);
+
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
@@ -44,6 +54,7 @@ class Company_Model_Company {
      */
 
     public function update(array $data, $where) {
+        Zend_Debug::dump($data);
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -74,7 +85,7 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchEntries() {
-        return $this->getTable()->fetchAll('1')->toArray();
+        return $this->getTable()->fetchAll('1');
     }
 
     /**
@@ -89,40 +100,45 @@ class Company_Model_Company {
         return $table->fetchRow($select)->toArray();
     }
 
+    public function fetchProductions() {
+
+
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('s' => 'status'), array('status' =>'name','id_status'=>'id'))
+               ->where('status_id = s.id')
+               ->from(array('c' => 'companies'), array('clients' =>'name','id_companies'=>'id'))
+               ->where('clients_id = c.id')
+                
+                ;
+        return $table->fetchAll($select);
+    }
+
     /**
      *  Fetch all sql entries
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT companies.id, companies.name,fiscal_name,company_types.name as company_types_name,
-                       email,telephone,fax,direction,city,country,postal_code
-          FROM companies, company_types
-          WHERE companies.company_types_id = company_types.id              
-          ";
+//        $sql2 = "SELECT productions.id, productions.name, productions.direction,date_start,date_end
+//                ,status.name as status,
+//                companies.name as client
+//                   
+//          FROM productions, status, companies,clients
+//          WHERE status.id = productions.status_id and 
+//                productions.clients_id = clients.id and 
+//                companies.id=clients.companies_id              
+//          ORDER BY status";
+        $sql = "SELECT productions.id, productions.name, productions.direction,date_start,date_end,observation,budget
+                ,status.name as status
+                                 
+          FROM productions, status
         
-//        $sql = "SELECT acl_roles.id, acl_roles.prefered_uri, acl_roles.name, acl_roles_parent.name as parent
-//           FROM acl_roles LEFT JOIN acl_roles AS acl_roles_parent ON acl_roles.role_parent = acl_roles_parent.id
-//     
-//           ORDER BY acl_roles_parent.name ";
-        
+          ORDER BY status";
+
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
-     //   Zend_Debug::dump($table,"table");
         return $table;
-        
-    }
-
-    /**
-     *  Fetch all sql entries for the $role_id
-     * 
-     * @return array
-     */
-    public function fetchCompanys($type_id) {
-
-        $table = $this->getTable();
-        $select = $table->select()->where('type_id =' . (int) $type_id);
-
-        return $table->fetchAll($select)->toArray();
     }
 
 }

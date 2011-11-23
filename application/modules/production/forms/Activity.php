@@ -1,6 +1,6 @@
 <?php
 
-class Production_Form_Production extends Zend_Form {
+class Production_Form_Activity extends Zend_Form {
 
     public function init() {
         $this->setName('production');
@@ -8,61 +8,38 @@ class Production_Form_Production extends Zend_Form {
         $id->addFilter('Int');
         $id->removeDecorator('label');
 
-        $name = new Zend_Form_Element_Text('name');
-        $name->setLabel('name')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('NotEmpty')
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
-        ;
-        
-        $status_id = new Zend_Form_Element_Select('status_id');
-        $status_id->setLabel('Status')
+               
+        $activity_types_id = new Zend_Form_Element_Select('activity_types_id');
+        $activity_types_id->setLabel('Type')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptionsStatus())
-                ->setAttrib('maxlength', 300)
+                ->setmultiOptions($this->_selectOptions_activity_types())
+                ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
                 ->setAttrib("class","toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
         
-        $clients_id = new Zend_Form_Element_Select('clients_id');
-        $clients_id->setLabel('Client')
+        $productions_id = new Zend_Form_Element_Select('productions_id');
+        $productions_id->setLabel('production')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptionsCompanies())
-                ->setAttrib('maxlength', 300)
-                ->setAttrib('size', 1)
-                ->setAttrib("class","toolboxdrop")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_select.phtml'))))
-        ;
-        
-        $production_types_id = new Zend_Form_Element_Select('production_types_id');
-        $production_types_id->setLabel('Type')
-                ->setRequired(true)
-                ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptionsProduction_types())
-                ->setAttrib('maxlength', 300)
+                ->setmultiOptions($this->_selectOptions())
+                ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
                 ->setAttrib("class","toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
 
-        $direction = new Zend_Form_Element_Text('direction');
-        $direction->setLabel('direction')
+        $responsible = new Zend_Form_Element_Text('responsible');
+        $responsible->setLabel('Responsible')
                 
                 ->addValidator('NotEmpty', true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
+                ->addValidator('StringLength', false, array(3, 20))
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
                 ->setAttrib("class","inputbox")              
@@ -70,6 +47,52 @@ class Production_Form_Production extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
         
+        
+        $responsible_phone = new Zend_Form_Element_Text('responsible_phone');
+        $responsible_phone->setLabel('responsible phone')
+                
+                ->addValidator('NotEmpty', true)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->addValidator('StringLength', false, array(3, 20))
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class","inputbox")              
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
+        ;
+        
+        
+        
+        $client_resp_phone = new Zend_Form_Element_Text('client_resp_phone');
+        $client_resp_phone->setLabel('Phone client')
+                
+                ->addValidator('NotEmpty', true)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->addValidator('StringLength', false, array(3, 20))
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class","inputbox")              
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
+        ;
+                
+        $client_resp = new Zend_Form_Element_Select('client_resp');
+        $client_resp->setLabel('client')
+                ->setRequired(true)
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptions_Contact())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class","toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
+
+
+        
+       
         $date_start = new Zend_Form_Element_Text('date_start');
         $date_start->setLabel('Date Start')
                 ->setRequired(true)
@@ -96,22 +119,9 @@ class Production_Form_Production extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
         
-
+        
         $observation = new Zend_Form_Element_Text('observation');
         $observation->setLabel('Observation')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('NotEmpty')
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
-        ;
-
-        $budget = new Zend_Form_Element_Text('budget');
-        $budget->setLabel('budget')
                 ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
@@ -132,45 +142,43 @@ class Production_Form_Production extends Zend_Form {
                 ->removeDecorator('label')
         ;
         $this->addElements(array($id,
-            $name,
-            $clients_id,
-            $status_id,
-            $production_types_id,
-            $direction,
+            $activity_types_id,
+            $productions_id,
+            $responsible,
+            $responsible_phone,
+            $client_resp,
+            $client_resp_phone,
             $date_start,
             $date_end,
             $observation,
-            $budget,
-            
             $submit));
     }
 
-      protected function _selectOptionsCompanies() {
+    protected function _selectOptions() {
         $sql = "SELECT id,name
-                  FROM companies";
-        $db = Zend_Registry::get('db');
-        $result = $db->fetchPairs($sql);
-        //TODO comprobar que no hay roles
-        return $result;
-    }
-    protected function _selectOptionsStatus() {
-        $sql = "SELECT id,name
-                  FROM status";
-        $db = Zend_Registry::get('db');
-        $result = $db->fetchPairs($sql);
-        //TODO comprobar que no hay roles
-        return $result;
-    }
-    
-     protected function _selectOptionsProduction_types() {
-        $sql = "SELECT id,name
-                  FROM production_types
-                  ORDER BY name";
+                  FROM productions";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles
         return $result;
     }
 
+    protected function _selectOptions_activity_types() {
+        $sql = "SELECT id,name 
+                  FROM activity_types";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
+    protected function _selectOptions_contact() {
+      //todo contacts where id_company= id:_clients
+        $sql = "SELECT id,name 
+                  FROM contacts";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
 }
 

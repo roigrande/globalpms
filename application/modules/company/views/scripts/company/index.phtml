@@ -21,6 +21,7 @@
                     <th><?php echo $this->translate('Telephone'); ?></th>
                     <th><?php echo $this->translate('Email'); ?></th>
                     <th><?php echo $this->translate('City'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
                     
                 </tr>
             </thead>
@@ -30,13 +31,15 @@
                     <tr>
                         <td><?php echo $this->escape($company->name); ?></td>                         
                         <td><?php echo $this->escape($company->fiscal_name); ?></td>                         
-                        <td><?php echo $this->escape($company->type_company_name); ?></td>
+                        <td><?php echo $this->escape($company->company_types_name); ?></td>
                         <td><?php echo $this->escape($company->telephone); ?></td>
                         <td><?php echo $this->escape($company->email); ?></td>
                         <td><?php echo $this->escape($company->city); ?></td>
                         <td>
-                            <a href="<?php echo $this->url(array('controller' => 'client','action' => 'add', 'id' => $company->id)); ?>">
-                            	<img src="/styles/images/icons/icon_user.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('module' => 'production','controller' => 'production','action' => 'add', 'company_id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_claketa.png" alt="Añadir production" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'add', 'company_id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_user.png" alt="Añadir contacto" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'edit', 'id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'delete', 'id' => $company->id)); ?>">

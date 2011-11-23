@@ -40,7 +40,7 @@ class Company_Form_Client extends Zend_Form {
 
     protected function _selectOptions() {
         $sql = "SELECT id,name
-                  FROM acl_type_client";
+                  FROM production_types";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles

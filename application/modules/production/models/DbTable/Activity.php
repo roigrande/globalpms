@@ -1,11 +1,11 @@
 <?php
 /**
- * This is the DbTable class for the Banners table.
+ * This is the DbTable class for the Activity table.
  */
-class Company_Model_DbTable_Client extends Zend_Db_Table_Abstract
+class Production_Model_DbTable_Activity extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'clients';
+    protected $_name    = 'activities';
     /** Primary key */
     protected $_primary = 'id';
 

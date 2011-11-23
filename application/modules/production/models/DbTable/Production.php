@@ -2,10 +2,10 @@
 /**
  * This is the DbTable class for the Banners table.
  */
-class Company_Model_DbTable_Client extends Zend_Db_Table_Abstract
+class Production_Model_DbTable_Production extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'clients';
+    protected $_name    = 'productions';
     /** Primary key */
     protected $_primary = 'id';
 

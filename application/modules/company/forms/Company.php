@@ -35,8 +35,8 @@ class Company_Form_Company extends Zend_Form {
         ;
         
         
-        $type_company_id = new Zend_Form_Element_Select('type_company_id');
-        $type_company_id->setLabel('Type')
+        $company_types_id = new Zend_Form_Element_Select('company_types_id');
+        $company_types_id->setLabel('Type')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptions())
@@ -59,18 +59,7 @@ class Company_Form_Company extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
 
-        $email = new Zend_Form_Element_Text('email');
-        $email->setLabel('Email')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('emailAddress', TRUE)
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
-        ;
+        
 
         $telephone = new Zend_Form_Element_Text('telephone');
         $telephone->setLabel('Telephone')
@@ -173,7 +162,7 @@ class Company_Form_Company extends Zend_Form {
         $this->addElements(array($id,
             $name,
             $fiscal_name,
-            $type_company_id,
+            $company_types_id,
             $email,
             $telephone,
             $fax,
@@ -187,7 +176,7 @@ class Company_Form_Company extends Zend_Form {
 
     protected function _selectOptions() {
         $sql = "SELECT id,name
-                  FROM acl_type_company";
+                  FROM company_types";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles

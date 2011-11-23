@@ -1,6 +1,6 @@
 <?php
 
-class Company_ContactController extends Zend_Controller_Action {
+class Production_ProductionController extends Zend_Controller_Action {
 
     public function init() {
         
@@ -13,57 +13,64 @@ class Company_ContactController extends Zend_Controller_Action {
      */
     function indexAction() {
 
-        $models = new Company_Model_Contact();
-        $this->view->title = "Contacts list";
+        $models = new Production_Model_Production();
+        $this->view->title = "Productions list";
         $page = $this->_getParam('page', 1);
-        $paginator = Zend_Paginator::factory($models->fetchSql());
-
-        $contact = Zend_Registry::get('company');
-        $paginator->setItemCountPerPage($contact->paginator);
+        $paginator = Zend_Paginator::factory($models->fetchProductions());
+        $production = Zend_Registry::get('production');
+        $paginator->setItemCountPerPage($production->paginator);
         $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange($contact->paginator);
+        $paginator->setPageRange($production->paginator);
         $this->view->paginator = $paginator;
     }
 
     /**
-     * AddAction for Contacts
+     * AddAction for Productions
      *
      * @return void
      */
+    
     public function addAction() {
-        $this->view->headTitle("Add New Contact", 'APPEND');
+        $this->view->headTitle("Add New Production", 'APPEND');
         $request = $this->getRequest();
-        $form = new Company_Form_Contact();
+        $form = new Production_Form_Production();
 
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Production();
                 $model->save($form->getValues());
                 return $this->_helper->redirector('index');
             }
         } else {
-               
             $data=$form->getValues();
             $data["company_id"]=$request->getParam('company_id');
            
-       //     Zend_Debug::dump($data,"datos por get");
             $form->populate($data);
-            
         }
         $this->view->form = $form;
     }
 
     /**
-     * EditAction for Contacts
+     * EditAction for Productions
      *
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Contacts";
-        $form = new Company_Form_Contact();     
+        $id = $this->_getParam('id', 0);
+        $models = new Production_Model_Activity();
+        $page = $this->_getParam('page', 1);
+        $paginator = Zend_Paginator::factory($models->fetchActivities($id));
+        $activity = Zend_Registry::get('production');
+        $paginator->setItemCountPerPage($activity->paginator);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setPageRange($activity->paginator);
+        $this->view->productions_id = $id;
+        $this->view->paginator = $paginator;
+        $this->view->title = "Edit Productions";
+        $form = new Production_Form_Production();     
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Production();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
                 return $this->_helper->redirector('index');
@@ -72,18 +79,21 @@ class Company_ContactController extends Zend_Controller_Action {
             }
         } else {
 
-            $id = $this->_getParam('id', 0);
+            
             if ($id > 0) {
 
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Production();
                 $form->populate($model->fetchEntry($id));
             }
         }
+        
         $this->view->form = $form;
+        
+        
     }
 
     /**
-     * deleteAction for Contacts
+     * deleteAction for Productions
      *
      * @return void
      */
@@ -92,7 +102,7 @@ class Company_ContactController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Production();
                 $model->delete('id = ' . (int) $id);
             }
             return $this->_helper->redirector('index');
@@ -100,9 +110,9 @@ class Company_ContactController extends Zend_Controller_Action {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Production();
 
-                $this->view->contact = $model->fetchEntry($id);
+                $this->view->production = $model->fetchEntry($id);
             }
         }
     }

@@ -1,0 +1,61 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Productions")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'index',
+    'action' => 'add')); ?>">Add new Production</a></p>
+        <ul id="topbtns">
+            
+            </ul>
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('Production name'); ?></th>
+                    <th><?php echo $this->translate('status'); ?></th>
+                    <th><?php echo $this->translate('Date Start'); ?></th>
+                    <th><?php echo $this->translate('Date End'); ?></th>
+                    <th><?php echo $this->translate('Ovservation'); ?></th>
+                    <th><?php echo $this->translate('Budget'); ?></th>
+                    <th><?php echo $this->translate('Status'); ?></th>
+                    <th><?php echo $this->translate('Client'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->paginator as $production) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($production->name); ?></td>
+                        <td><?php echo $this->escape($production->status); ?></td>
+                        <td><?php echo $this->escape($production->date_start); ?></td>
+                        <td><?php echo $this->escape($production->date_end); ?></td>
+                        <td><?php echo $this->escape($production->observation); ?></td>
+                        <td><?php echo $this->escape($production->budget); ?></td>
+                        <td><?php echo $this->escape($production->status); ?></td>
+                        <td><?php echo $this->escape($production->clients); ?></td>
+                        
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'activity','action' => 'add', 'id' => $production->id)); ?>">
+                            	<img src="/styles/images/icons/icon_activity.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'production','action' => 'edit', 'id' => $production->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'production','action' => 'delete', 'id' => $production->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>                        
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

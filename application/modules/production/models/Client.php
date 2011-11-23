@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_companys table.
+ * This is the Data Mapper class for the Acl_clients table.
  */
-class Company_Model_Company {
+class Production_Model_Client {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Company_Model_Company {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Company_Model_DbTable_Company();
+            $this->_table = new Production_Model_DbTable_Client();
         }
         return $this->_table;
     }
@@ -74,7 +74,7 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchEntries() {
-        return $this->getTable()->fetchAll('1')->toArray();
+        return $this->getTable()->fetchAll('1');
     }
 
     /**
@@ -95,21 +95,16 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT companies.id, companies.name,fiscal_name,company_types.name as company_types_name,
-                       email,telephone,fax,direction,city,country,postal_code
-          FROM companies, company_types
-          WHERE companies.company_types_id = company_types.id              
-          ";
-        
-//        $sql = "SELECT acl_roles.id, acl_roles.prefered_uri, acl_roles.name, acl_roles_parent.name as parent
-//           FROM acl_roles LEFT JOIN acl_roles AS acl_roles_parent ON acl_roles.role_parent = acl_roles_parent.id
-//     
-//           ORDER BY acl_roles_parent.name ";
-        
+        $sql = "SELECT clients.id, clients.name, date,
+                    email,status, roles.name as role
+          FROM clients, roles
+          WHERE clients.role_id = roles.id              
+          ORDER BY roles.id";
+
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
-     //   Zend_Debug::dump($table,"table");
+        //   Zend_Debug::dump($table,"Client");
+     
         return $table;
-        
     }
 
     /**
@@ -117,12 +112,13 @@ class Company_Model_Company {
      * 
      * @return array
      */
-    public function fetchCompanys($type_id) {
+    public function fetchClients($client_id) {
 
         $table = $this->getTable();
-        $select = $table->select()->where('type_id =' . (int) $type_id);
+        $select = $table->select()->where('companies_id =' . (int) $client_id);
 
-        return $table->fetchAll($select)->toArray();
+        $result=$table->fetchAll($select)->toArray();
+        return $result;
     }
 
 }

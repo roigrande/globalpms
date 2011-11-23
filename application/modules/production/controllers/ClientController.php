@@ -1,6 +1,6 @@
 <?php
 
-class Company_ContactController extends Zend_Controller_Action {
+class Production_ClientController extends Zend_Controller_Action {
 
     public function init() {
         
@@ -13,57 +13,51 @@ class Company_ContactController extends Zend_Controller_Action {
      */
     function indexAction() {
 
-        $models = new Company_Model_Contact();
-        $this->view->title = "Contacts list";
+        $models = new Production_Model_Client();
+        $this->view->title = "Clients list";
         $page = $this->_getParam('page', 1);
         $paginator = Zend_Paginator::factory($models->fetchSql());
 
-        $contact = Zend_Registry::get('company');
-        $paginator->setItemCountPerPage($contact->paginator);
+        $production = Zend_Registry::get('production');
+        $paginator->setItemCountPerPage($production->paginator);
         $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange($contact->paginator);
+        $paginator->setPageRange($production->paginator);
         $this->view->paginator = $paginator;
     }
 
     /**
-     * AddAction for Contacts
+     * AddAction for Clients
      *
      * @return void
      */
     public function addAction() {
-        $this->view->headTitle("Add New Contact", 'APPEND');
+        $this->view->headTitle("Add New Client", 'APPEND');
         $request = $this->getRequest();
-        $form = new Company_Form_Contact();
+        $form = new Production_Form_Client();
 
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Client();
                 $model->save($form->getValues());
                 return $this->_helper->redirector('index');
             }
         } else {
-               
-            $data=$form->getValues();
-            $data["company_id"]=$request->getParam('company_id');
-           
-       //     Zend_Debug::dump($data,"datos por get");
-            $form->populate($data);
-            
+            $form->populate($form->getValues());
         }
         $this->view->form = $form;
     }
 
     /**
-     * EditAction for Contacts
+     * EditAction for Clients
      *
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Contacts";
-        $form = new Company_Form_Contact();     
+        $this->view->title = "Edit Clients";
+        $form = new Production_Form_Client();     
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Client();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
                 return $this->_helper->redirector('index');
@@ -75,7 +69,7 @@ class Company_ContactController extends Zend_Controller_Action {
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
 
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Client();
                 $form->populate($model->fetchEntry($id));
             }
         }
@@ -83,7 +77,7 @@ class Company_ContactController extends Zend_Controller_Action {
     }
 
     /**
-     * deleteAction for Contacts
+     * deleteAction for Clients
      *
      * @return void
      */
@@ -92,7 +86,7 @@ class Company_ContactController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Client();
                 $model->delete('id = ' . (int) $id);
             }
             return $this->_helper->redirector('index');
@@ -100,9 +94,9 @@ class Company_ContactController extends Zend_Controller_Action {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
-                $model = new Company_Model_Contact();
+                $model = new Production_Model_Client();
 
-                $this->view->contact = $model->fetchEntry($id);
+                $this->view->production = $model->fetchEntry($id);
             }
         }
     }

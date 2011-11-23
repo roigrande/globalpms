@@ -95,14 +95,15 @@ class Modeloejemplo_Model_Modeloejemplo {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT acl_modeloejemplos.id, acl_modeloejemplos.name, date,
-                    email,status, person_id,
-                    validation_code,phone, acl_roles.name as role
-          FROM acl_modeloejemplos, acl_roles
-          WHERE acl_modeloejemplos.role_id = acl_roles.id              
-          ORDER BY acl_roles.id";
+        $sql = "SELECT modeloejemplos.id, modeloejemplos.name, date,
+                    email,status, roles.name as role
+          FROM modeloejemplos, roles
+          WHERE modeloejemplos.role_id = roles.id              
+          ORDER BY roles.id";
 
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
+        //   Zend_Debug::dump($table,"Modeloejemplo");
+     
         return $table;
     }
 

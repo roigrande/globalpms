@@ -1,11 +1,11 @@
 <?php
 /**
- * This is the DbTable class for the Banners table.
+ * This is the DbTable class for the Modeloejemplo table.
  */
 class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'acl_modeloejemplos';
+    protected $_name    = 'modeloejemplos';
     /** Primary key */
     protected $_primary = 'id';
 

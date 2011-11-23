@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_companys table.
+ * This is the Data Mapper class for the activitys table.
  */
-class Company_Model_Company {
+class Production_Model_Activity {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Company_Model_Company {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Company_Model_DbTable_Company();
+            $this->_table = new Production_Model_DbTable_Activity();
         }
         return $this->_table;
     }
@@ -74,7 +74,7 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchEntries() {
-        return $this->getTable()->fetchAll('1')->toArray();
+        return $this->getTable()->fetchAll('1');
     }
 
     /**
@@ -86,7 +86,9 @@ class Company_Model_Company {
     public function fetchEntry($id) {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
-        return $table->fetchRow($select)->toArray();
+        $row= $table->fetchRow($select)->toArray();
+//        Zend_Debug::dump($row);
+        return $row;
     }
 
     /**
@@ -95,34 +97,45 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT companies.id, companies.name,fiscal_name,company_types.name as company_types_name,
-                       email,telephone,fax,direction,city,country,postal_code
-          FROM companies, company_types
-          WHERE companies.company_types_id = company_types.id              
-          ";
-        
-//        $sql = "SELECT acl_roles.id, acl_roles.prefered_uri, acl_roles.name, acl_roles_parent.name as parent
-//           FROM acl_roles LEFT JOIN acl_roles AS acl_roles_parent ON acl_roles.role_parent = acl_roles_parent.id
-//     
-//           ORDER BY acl_roles_parent.name ";
-        
-        $table = $this->getTable()->getAdapter()->fetchAll($sql);
-     //   Zend_Debug::dump($table,"table");
-        return $table;
-        
-    }
+        $sql = "SELECT activitys.id, activitys.name, date,
+                    email,status, person_id,
+                    validation_code,phone, roles.name as role
+          FROM activities,
+          WHERE activitys.role_id = roles.id              
+          ORDER BY roles.id";
 
+        $table = $this->getTable()->getAdapter()->fetchAll($sql);
+        return $table;
+    }
+    
+     public function fetchActivities($id) {
+
+
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
+               ->where('activity_types_id = t.id')
+               ->where('productions_id ='.$id)
+               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
+               ->where('client_resp_name = c.id')
+                
+                ;
+        return $table->fetchAll($select);
+    }
+    
+   
     /**
      *  Fetch all sql entries for the $role_id
      * 
      * @return array
      */
-    public function fetchCompanys($type_id) {
+    public function fetchActivitys($production_id) {
 
         $table = $this->getTable();
-        $select = $table->select()->where('type_id =' . (int) $type_id);
+        $select = $table->select()->where('productions_id =' . (int) $production_id);
 
-        return $table->fetchAll($select)->toArray();
+        return $table->fetchAll($select);
     }
 
 }

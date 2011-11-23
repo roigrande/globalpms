@@ -5,7 +5,7 @@
 class Company_Model_DbTable_Contact extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'acl_contacts';
+    protected $_name    = 'contacts';
     /** Primary key */
     protected $_primary = 'id';
 

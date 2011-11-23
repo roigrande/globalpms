@@ -34,6 +34,8 @@ class Company_Model_Contact {
                 unset($data[$field]);
             }
         }
+       
+    
         return $table->insert($data);
     }
 
@@ -95,11 +97,11 @@ class Company_Model_Contact {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT acl_contacts.id, acl_contacts.name, acl_contacts.email,
-                       acl_contacts.status, acl_companies.name as company_name,
-                       acl_contacts.telephone
-          FROM acl_contacts, acl_companies
-          WHERE acl_contacts.company_id = acl_companies.id              
+        $sql = "SELECT contacts.id,contacts.name, contacts.email,
+                       contacts.status, companies.name as company_name,
+                       contacts.telephone
+          FROM contacts, companies
+          WHERE contacts.company_id = companies.id              
           ";
         
         

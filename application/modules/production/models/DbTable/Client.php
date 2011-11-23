@@ -1,8 +1,8 @@
 <?php
 /**
- * This is the DbTable class for the Banners table.
+ * This is the DbTable class for the Client table.
  */
-class Company_Model_DbTable_Client extends Zend_Db_Table_Abstract
+class Production_Model_DbTable_Client extends Zend_Db_Table_Abstract
 {
     /** Table name */
     protected $_name    = 'clients';

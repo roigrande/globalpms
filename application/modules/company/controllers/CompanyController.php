@@ -17,7 +17,6 @@ class Company_CompanyController extends Zend_Controller_Action {
         $this->view->title = "Companies list";
         $page = $this->_getParam('page', 1);
         $paginator = Zend_Paginator::factory($models->fetchSql());
-
         $company = Zend_Registry::get('company');
         $paginator->setItemCountPerPage($company->paginator);
         $paginator->setCurrentPageNumber($page);
@@ -34,7 +33,7 @@ class Company_CompanyController extends Zend_Controller_Action {
         $this->view->headTitle("Add New Company", 'APPEND');
         $request = $this->getRequest();
         $form = new Company_Form_Company();
-
+        
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
                 $model = new Company_Model_Company();
@@ -42,6 +41,8 @@ class Company_CompanyController extends Zend_Controller_Action {
                 return $this->_helper->redirector('index');
             }
         } else {
+            
+        //    Zend_Debug::dump($form->getValues(),"datos por get");
             $form->populate($form->getValues());
         }
         $this->view->form = $form;

@@ -5,7 +5,7 @@
 class Company_Model_DbTable_Company extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'acl_companies';
+    protected $_name    = 'companies';
     /** Primary key */
     protected $_primary = 'id';
 

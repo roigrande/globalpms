@@ -16,7 +16,8 @@ class Production_ActivityController extends Zend_Controller_Action {
         $models = new Production_Model_Activity();
         $this->view->title = "Activitys list";
         $page = $this->_getParam('page', 1);
-        $paginator = Zend_Paginator::factory($models->fetchEntries());
+       
+        $paginator = Zend_Paginator::factory($models->fetchActivities("0"));
 
         $production = Zend_Registry::get('production');
         $paginator->setItemCountPerPage($production->paginator);
@@ -68,7 +69,7 @@ class Production_ActivityController extends Zend_Controller_Action {
                 $model = new Production_Model_Activity();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
-                 return $this->_helper->redirector('index','production');
+                 return $this->_helper->redirector('index','activity','production');
             } else {
                 $form->populate($this->getRequest()->getPost());
             }

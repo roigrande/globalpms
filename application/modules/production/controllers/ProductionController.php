@@ -43,7 +43,7 @@ class Production_ProductionController extends Zend_Controller_Action {
             }
         } else {
             $data=$form->getValues();
-            $data["company_id"]=$request->getParam('company_id');
+            $data["clients_id"]=$request->getParam('clients_id');
            
             $form->populate($data);
         }

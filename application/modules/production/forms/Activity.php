@@ -22,7 +22,7 @@ class Production_Form_Activity extends Zend_Form {
         ;
         
         $productions_id = new Zend_Form_Element_Select('productions_id');
-        $productions_id->setLabel('production')
+        $productions_id->setLabel('Production')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptions())
@@ -63,6 +63,29 @@ class Production_Form_Activity extends Zend_Form {
         ;
         
         
+        $client = new Zend_Form_Element_Select('client');
+        $client->setLabel('client')
+                ->setRequired(true)
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptions_company())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class","toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
+        
+        $client_resp_name = new Zend_Form_Element_Select('client_resp_name');
+        $client_resp_name->setLabel('client name')
+                ->setRequired(true)
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptions_Contact())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class","toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
         
         $client_resp_phone = new Zend_Form_Element_Text('client_resp_phone');
         $client_resp_phone->setLabel('Phone client')
@@ -78,20 +101,7 @@ class Production_Form_Activity extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
                 
-        $client_resp = new Zend_Form_Element_Select('client_resp');
-        $client_resp->setLabel('client')
-                ->setRequired(true)
-                ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptions_Contact())
-                ->setAttrib('maxlength', 200)
-                ->setAttrib('size', 1)
-                ->setAttrib("class","toolboxdrop")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_select.phtml'))))
-        ;
-
-
-        
+              
        
         $date_start = new Zend_Form_Element_Text('date_start');
         $date_start->setLabel('Date Start')
@@ -142,11 +152,13 @@ class Production_Form_Activity extends Zend_Form {
                 ->removeDecorator('label')
         ;
         $this->addElements(array($id,
-            $activity_types_id,
+          
             $productions_id,
+            $activity_types_id,
             $responsible,
             $responsible_phone,
-            $client_resp,
+            $client,
+            $client_resp_name,
             $client_resp_phone,
             $date_start,
             $date_end,
@@ -171,6 +183,17 @@ class Production_Form_Activity extends Zend_Form {
         //TODO comprobar que no hay roles
         return $result;
     }
+    
+    protected function _selectOptions_company() {
+      //todo contacts where id_company= id:_clients
+        $sql = "SELECT id,name 
+                  FROM companies";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
+    
     protected function _selectOptions_contact() {
       //todo contacts where id_company= id:_clients
         $sql = "SELECT id,name 

@@ -33,10 +33,10 @@ class Production_Model_Production {
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         $client = new Production_Model_Client();
-        if (!$client->fetchClients($data["company_id"])) {
-            $dataclient["companies_id"] = $data["company_id"];
-            $client->save($dataclient);
-        }
+//        if (!$client->fetchClients($data["clients_id"])) {
+//            $dataclient["companies_id"] = $data["clients_id"];
+//            $client->save($dataclient);
+//        }
         //  Zend_Debug::dump($data);
 
         foreach ($data as $field => $value) {

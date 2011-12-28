@@ -108,9 +108,27 @@ class Production_Model_Activity {
         return $table;
     }
     
+     public function fetchActivitis() {
+
+
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
+               ->where('activity_types_id = t.id')
+               ->order('productions_id')
+               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
+               ->where('client_resp_name = c.id')
+               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
+               ->where('client= com.id')
+                ;
+        return $table->fetchAll($select);
+    }
+    
      public function fetchActivities($id) {
-
-
+echo $id;
+        if (!$id == "0"){ 
+            echo "hola";
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
@@ -119,7 +137,22 @@ class Production_Model_Activity {
                ->where('productions_id ='.$id)
                ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
                ->where('client_resp_name = c.id')
-                
+               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
+               ->where('client= com.id')
+                ;
+        return $table->fetchAll($select);
+        }
+        
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
+               ->where('activity_types_id = t.id')
+               ->order('productions_id')
+               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
+               ->where('client_resp_name = c.id')
+               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
+               ->where('client= com.id')
                 ;
         return $table->fetchAll($select);
     }

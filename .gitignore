@@ -8,18 +8,9 @@ doc/.DS_Store
 /docs/workspaceVP/.vpprefdata/
 /.settings/
 /log/zfw.log
-.settings/
-.settings
-/.settings/
-/.settings
-public/.htaccess
 
 .settings/org.eclipse.php.core.prefs
-
 .settings/com.zend.php.formatter.core.prefs
-
 .buildpath
-
 .settings/com.zend.php.formatter.core.prefs
-
 .settings/org.eclipse.php.core.prefs

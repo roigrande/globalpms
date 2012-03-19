@@ -20,8 +20,6 @@ public/.htaccess
 
 .buildpath
 
-public/.htaccess
-
 .settings/com.zend.php.formatter.core.prefs
 
 .settings/org.eclipse.php.core.prefs

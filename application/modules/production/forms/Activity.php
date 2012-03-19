@@ -21,18 +21,12 @@ class Production_Form_Activity extends Zend_Form {
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
         
-        $productions_id = new Zend_Form_Element_Select('productions_id');
-        $productions_id->setLabel('Production')
-                ->setRequired(true)
-                ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptions())
-                ->setAttrib('maxlength', 200)
-                ->setAttrib('size', 1)
-                ->setAttrib("class","toolboxdrop")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_select.phtml'))))
-        ;
-
+        $this->setName('productions_id');
+        $productions_id = new Zend_Form_Element_Hidden('productions_id');
+        $id->addFilter('Int');
+        $id->removeDecorator('label');
+        
+        
         $responsible = new Zend_Form_Element_Text('responsible');
         $responsible->setLabel('Responsible')
                 
@@ -153,7 +147,7 @@ class Production_Form_Activity extends Zend_Form {
         ;
         $this->addElements(array($id,
           
-            $productions_id,
+           
             $activity_types_id,
             $responsible,
             $responsible_phone,

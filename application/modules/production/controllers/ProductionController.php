@@ -38,7 +38,8 @@ class Production_ProductionController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
                 $model = new Production_Model_Production();
-                $model->save($form->getValues());
+                $data= $form->getValues();                
+                $model->save($data);
                 return $this->_helper->redirector('index');
             }
         } else {

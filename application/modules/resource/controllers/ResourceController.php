@@ -1,6 +1,6 @@
 <?php
 
-class Company_ContactController extends Zend_Controller_Action {
+class Resource_ResourceController extends Zend_Controller_Action {
 
     public function init() {
         
@@ -13,57 +13,51 @@ class Company_ContactController extends Zend_Controller_Action {
      */
     function indexAction() {
 
-        $models = new Company_Model_Contact();
-        $this->view->title = "Contacts list";
+        $models = new Resource_Model_Resource();
+        $this->view->title = "Resources list";
         $page = $this->_getParam('page', 1);
         $paginator = Zend_Paginator::factory($models->fetchSql());
 
-        $contact = Zend_Registry::get('company');
-        $paginator->setItemCountPerPage($contact->paginator);
+        $resource = Zend_Registry::get('resource');
+        $paginator->setItemCountPerPage($resource->paginator);
         $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange($contact->paginator);
+        $paginator->setPageRange($resource->paginator);
         $this->view->paginator = $paginator;
     }
 
     /**
-     * AddAction for Contacts
+     * AddAction for Resources
      *
      * @return void
      */
     public function addAction() {
-        $this->view->headTitle("Add New Contact", 'APPEND');
+        $this->view->headTitle("Add New Resource", 'APPEND');
         $request = $this->getRequest();
-        $form = new Company_Form_Contact();
+        $form = new Resource_Form_Resource();
 
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
-                $model = new Company_Model_Contact();
-                $data=$form->getValues();
-               
-                $model->save($data);
+                $model = new Resource_Model_Resource();
+                $model->save($form->getValues());
                 return $this->_helper->redirector('index');
             }
         } else {
-               
-            $data=$form->getValues();
-            $data["company_id"]=$request->getParam('clients_id');                     
-            $form->populate($data);
-            
+            $form->populate($form->getValues());
         }
         $this->view->form = $form;
     }
 
     /**
-     * EditAction for Contacts
+     * EditAction for Resources
      *
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Contacts";
-        $form = new Company_Form_Contact();     
+        $this->view->title = "Edit Resources";
+        $form = new Resource_Form_Resource();     
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
-                $model = new Company_Model_Contact();
+                $model = new Resource_Model_Resource();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
                 return $this->_helper->redirector('index');
@@ -75,7 +69,7 @@ class Company_ContactController extends Zend_Controller_Action {
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
 
-                $model = new Company_Model_Contact();
+                $model = new Resource_Model_Resource();
                 $form->populate($model->fetchEntry($id));
             }
         }
@@ -83,7 +77,7 @@ class Company_ContactController extends Zend_Controller_Action {
     }
 
     /**
-     * deleteAction for Contacts
+     * deleteAction for Resources
      *
      * @return void
      */
@@ -92,7 +86,7 @@ class Company_ContactController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
-                $model = new Company_Model_Contact();
+                $model = new Resource_Model_Resource();
                 $model->delete('id = ' . (int) $id);
             }
             return $this->_helper->redirector('index');
@@ -100,9 +94,9 @@ class Company_ContactController extends Zend_Controller_Action {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
-                $model = new Company_Model_Contact();
+                $model = new Resource_Model_Resource();
 
-                $this->view->contact = $model->fetchEntry($id);
+                $this->view->resource = $model->fetchEntry($id);
             }
         }
     }

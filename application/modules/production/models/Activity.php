@@ -125,10 +125,10 @@ class Production_Model_Activity {
         return $table->fetchAll($select);
     }
     
-     public function fetchActivities($id) {
-echo $id;
+     public function fetchActivities($id=0) {
+
         if (!$id == "0"){ 
-            echo "hola";
+       
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);

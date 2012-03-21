@@ -15,8 +15,9 @@ class Company_ContactController extends Zend_Controller_Action {
 
         $models = new Company_Model_Contact();
         $this->view->title = "Contacts list";
-        $page = $this->_getParam('page', 1);
-        $paginator = Zend_Paginator::factory($models->fetchSql());
+        $page = $this->_getParam('page', 1);       
+        $company_id = $this->getRequest()->getParam('company_id');       
+        $paginator = Zend_Paginator::factory($models->fetchCompany($company_id));
 
         $contact = Zend_Registry::get('company');
         $paginator->setItemCountPerPage($contact->paginator);

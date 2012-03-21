@@ -54,7 +54,7 @@ class Production_Model_Production {
      */
 
     public function update(array $data, $where) {
-        Zend_Debug::dump($data);
+        //Zend_Debug::dump($data);
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {

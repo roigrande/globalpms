@@ -34,8 +34,8 @@ class Company_Model_Contact {
                 unset($data[$field]);
             }
         }
-       
-    
+
+
         return $table->insert($data);
     }
 
@@ -96,18 +96,35 @@ class Company_Model_Contact {
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    public function fetchSql() {
+    public function fetchSql($company_id) {
+
         $sql = "SELECT contacts.id,contacts.name, contacts.email,
                        contacts.status, companies.name as company_name,
                        contacts.telephone
           FROM contacts, companies
+          WHERE contatcs.company_id='$company_id'
           WHERE contacts.company_id = companies.id              
           ";
-        
-        
+
+
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
 //        Zend_Debug::dump($sql);
         return $table;
+    }
+
+    public function fetchCompany($id_company) {
+
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('c' => 'companies'), array('company' => 'name', 'id_company' => 'id'))
+                ->where('company_id = ?', $id_company)
+                ->where('company_id = c.id')
+        ;
+
+        $data = $table->fetchAll($select);
+        //Zend_Debug::dump($data);
+        return $data;
     }
 
     /**

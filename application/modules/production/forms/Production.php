@@ -33,8 +33,8 @@ class Production_Form_Production extends Zend_Form {
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
         
-        $clients_id = new Zend_Form_Element_Select('clients_id');
-        $clients_id->setLabel('Client')
+        $companies_id = new Zend_Form_Element_Select('companies_id');
+        $companies_id->setLabel('Companies')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsCompanies())
@@ -133,7 +133,7 @@ class Production_Form_Production extends Zend_Form {
         ;
         $this->addElements(array($id,
             $name,
-            $clients_id,
+            $companies_id,
             $status_id,
             $production_types_id,
             $direction,

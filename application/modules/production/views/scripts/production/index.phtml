@@ -17,14 +17,13 @@
                 </tr>
                                     
                 <tr>
-                    <th><?php echo $this->translate('Production name'); ?></th>
-                    <th><?php echo $this->translate('status'); ?></th>
+                    <th><?php echo $this->translate('Production name'); ?></th>               
                     <th><?php echo $this->translate('Date Start'); ?></th>
                     <th><?php echo $this->translate('Date End'); ?></th>
                     <th><?php echo $this->translate('Ovservation'); ?></th>
                     <th><?php echo $this->translate('Budget'); ?></th>
                     <th><?php echo $this->translate('Status'); ?></th>
-                    <th><?php echo $this->translate('Client'); ?></th>
+                    <th><?php echo $this->translate('Company'); ?></th>
                     <th><?php echo $this->translate('Actions'); ?></th>
                     
                 </tr>
@@ -33,14 +32,13 @@
             <tbody>
                 <?php foreach ($this->paginator as $production) : ?>
                     <tr>
-                        <td><?php echo $this->escape($production->name); ?></td>
-                        <td><?php echo $this->escape($production->status); ?></td>
+                        <td><?php echo $this->escape($production->name); ?></td>                     
                         <td><?php echo $this->escape($production->date_start); ?></td>
                         <td><?php echo $this->escape($production->date_end); ?></td>
                         <td><?php echo $this->escape($production->observation); ?></td>
                         <td><?php echo $this->escape($production->budget); ?></td>
                         <td><?php echo $this->escape($production->status); ?></td>
-                        <td><?php echo $this->escape($production->clients); ?></td>
+                        <td><?php echo $this->escape($production->companies); ?></td>
                         
                         <td>
                             <a href="<?php echo $this->url(array('controller' => 'activity','action' => 'add', 'id' => $production->id)); ?>">

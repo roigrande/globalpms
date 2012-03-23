@@ -38,7 +38,8 @@ class Production_ProductionController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
                 $model = new Production_Model_Production();
-                $data= $form->getValues();                
+                $data= $form->getValues();  
+                
                 $model->save($data);
                 return $this->_helper->redirector('index');
             }
@@ -57,6 +58,7 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
+         
         $id = $this->_getParam('id', 0);
         $models = new Production_Model_Activity();
         $page = $this->_getParam('page', 1);
@@ -73,7 +75,9 @@ class Production_ProductionController extends Zend_Controller_Action {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Production_Model_Production();
                 $id = $this->getRequest()->getPost('id');
-                $model->update($form->getValues(), 'id = ' . (int) $id);
+                $data= $form->getValues();
+                
+                $model->update($data, 'id = ' . (int) $id);
                 return $this->_helper->redirector('index');
             } else {
                 $form->populate($this->getRequest()->getPost());
@@ -82,9 +86,12 @@ class Production_ProductionController extends Zend_Controller_Action {
 
             
             if ($id > 0) {
-
+              
                 $model = new Production_Model_Production();
-                $form->populate($model->fetchEntry($id));
+                $data=$model->fetchEntry($id);
+//                Zend_Debug::dump($data);
+               // die();
+                $form->populate($data);
             }
         }
         

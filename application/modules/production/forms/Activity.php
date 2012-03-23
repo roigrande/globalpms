@@ -7,6 +7,7 @@ class Production_Form_Activity extends Zend_Form {
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
+       
 
                
         $activity_types_id = new Zend_Form_Element_Select('activity_types_id');
@@ -57,12 +58,12 @@ class Production_Form_Activity extends Zend_Form {
         ;
         
         
-        $client = new Zend_Form_Element_Select('client');
-        $client->setLabel('client')
+        $companies_id = new Zend_Form_Element_Select('companies_id');
+        $companies_id->setLabel('Companies')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptions_company())
-                ->setAttrib('maxlength', 200)
+                ->setAttrib('maxlength', 300)
                 ->setAttrib('size', 1)
                 ->setAttrib("class","toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
@@ -151,7 +152,7 @@ class Production_Form_Activity extends Zend_Form {
             $activity_types_id,
             $responsible,
             $responsible_phone,
-            $client,
+            $companies_id,
             $client_resp_name,
             $client_resp_phone,
             $date_start,

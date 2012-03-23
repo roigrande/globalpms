@@ -45,13 +45,19 @@ class Production_Model_Activity {
 
     public function update(array $data, $where) {
         $table = $this->getTable();
+        
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
-
+            
+              //
+              //      Zend_Debug::dump($data);
+            
+             
         return $table->update($data, $where);
     }
 
@@ -128,7 +134,7 @@ class Production_Model_Activity {
      public function fetchActivities($id=0) {
 
         if (!$id == "0"){ 
-       
+        
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
@@ -138,9 +144,13 @@ class Production_Model_Activity {
                ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
                ->where('client_resp_name = c.id')
                ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
-               ->where('client= com.id')
+               ->where('companies_id= com.id')
                 ;
-        return $table->fetchAll($select);
+       
+        $data=$table->fetchAll($select);
+       
+      
+        return $data; 
         }
         
         $table = $this->getTable();
@@ -151,10 +161,13 @@ class Production_Model_Activity {
                ->order('productions_id')
                ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
                ->where('client_resp_name = c.id')
-               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
-               ->where('client= com.id')
-                ;
-        return $table->fetchAll($select);
+               ->from(array('com' => 'companies'), array('companies_name' =>'name','id_company'=>'id'))
+               ->where('companies_id= com.id')
+                ; $data=$table->fetchAll($select);
+//           Zend_Debug::dump($data);
+//       die();
+       return $data;
+       
     }
     
    

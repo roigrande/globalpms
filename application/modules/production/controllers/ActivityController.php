@@ -16,7 +16,9 @@ class Production_ActivityController extends Zend_Controller_Action {
         $models = new Production_Model_Activity();
         $this->view->title = "Activitys list";
         $page = $this->_getParam('page', 1);
-       
+        $data=$models->fetchActivities("0");
+        //  Zend_Debug::dump($data);
+//         die();
         $paginator = Zend_Paginator::factory($models->fetchActivities("0"));
 
         $production = Zend_Registry::get('production');
@@ -39,16 +41,20 @@ class Production_ActivityController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
                 $model = new Production_Model_Activity();
-                $model->save($form->getValues());
-               
-                return $this->_helper->redirector('edit');
+                $data=$form->getValues();
+                   $data["productions_id"]=$this->_getParam('id', 0);    
+//                   Zend_Debug::dump($data);
+//                die();
+                $model->save($data);
+             
+                //return $this->_helper->redirector('edit');
                 
-                return $this->_helper->redirector($this->_getParam('id', 0),'id','edit','production','production');
+                return $this->_helper->redirector('index','activity','production');
             }
         } else {
             $data=$form->getValues();
             $data["productions_id"]=$this->_getParam('id', 0);    
-            var_dump($data);
+            //var_dump($data);
            // die();
             $form->populate($data);            
         }
@@ -68,7 +74,10 @@ class Production_ActivityController extends Zend_Controller_Action {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Production_Model_Activity();
                 $id = $this->getRequest()->getPost('id');
-                $model->update($form->getValues(), 'id = ' . (int) $id);
+                $data=$form->getValues();
+//                 Zend_Debug::dump($data);
+//                die();
+                $model->update($data, 'id = ' . (int) $id);
                  return $this->_helper->redirector('index','activity','production');
             } else {
                 $form->populate($this->getRequest()->getPost());
@@ -79,6 +88,10 @@ class Production_ActivityController extends Zend_Controller_Action {
             if ($id > 0) {
 
                 $model = new Production_Model_Activity();
+                $data=$model->fetchEntry($id);
+//                Zend_Debug::dump($data);
+//                die();
+                
                 $form->populate($model->fetchEntry($id));
             }
         }

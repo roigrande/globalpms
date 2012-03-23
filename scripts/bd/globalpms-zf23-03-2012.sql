@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 28-12-2011 a las 21:29:47
+-- Tiempo de generación: 23-03-2012 a las 15:52:51
 -- Versión del servidor: 5.1.49
 -- Versión de PHP: 5.2.17
 
@@ -57,8 +57,8 @@ INSERT INTO `acl_modules` (`id`, `name`, `active`) VALUES
 
 CREATE TABLE IF NOT EXISTS `acl_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `permission` varchar(64) CHARACTER SET ucs2 NOT NULL,
-  `name` varchar(250) CHARACTER SET ucs2 NOT NULL,
+  `permission` varchar(64) CHARACTER SET latin1 NOT NULL,
+  `name` varchar(250) CHARACTER SET latin1 NOT NULL,
   `menu` int(2) NOT NULL DEFAULT '0',
   `role_id` int(11) NOT NULL,
   `resource_id` int(11) NOT NULL,
@@ -118,10 +118,10 @@ INSERT INTO `acl_permissions` (`id`, `permission`, `name`, `menu`, `role_id`, `r
 (59, 'activate', 'activate Controlmodule', 0, 1, 19),
 (60, 'deactivate', 'deactivate Controlmodule', 0, 1, 19),
 (61, 'index', 'index Index', 0, 1, 20),
-(76, 'index', 'index User', 0, 1, 27),
-(77, 'add', 'add User', 0, 1, 27),
-(78, 'edit', 'edit User', 0, 1, 27),
-(79, 'delete', 'delete User', 0, 1, 27),
+(76, 'index', 'index User', 0, 6, 27),
+(77, 'add', 'add User', 0, 6, 27),
+(78, 'edit', 'edit User', 0, 6, 27),
+(79, 'delete', 'delete User', 0, 6, 27),
 (80, 'index', 'index Casas', 0, 1, 28),
 (81, 'add', 'add Casas', 0, 1, 28),
 (82, 'edit', 'edit Casas', 0, 1, 28),
@@ -169,8 +169,8 @@ INSERT INTO `acl_permissions` (`id`, `permission`, `name`, `menu`, `role_id`, `r
 
 CREATE TABLE IF NOT EXISTS `acl_resources` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `resource` varchar(64) CHARACTER SET utf8 NOT NULL,
-  `name_r` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `resource` varchar(64) CHARACTER SET latin1 NOT NULL,
+  `name_r` varchar(250) CHARACTER SET latin1 NOT NULL,
   `module_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `resource` (`resource`),
@@ -224,9 +224,9 @@ INSERT INTO `acl_resources` (`id`, `resource`, `name_r`, `module_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `acl_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) CHARACTER SET utf8 NOT NULL,
-  `role_parent` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '0',
-  `prefered_uri` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '0',
+  `name` varchar(64) CHARACTER SET latin1 NOT NULL,
+  `role_parent` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT '0',
+  `prefered_uri` varchar(255) CHARACTER SET latin1 NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `role_name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=20 ;
@@ -253,14 +253,14 @@ INSERT INTO `acl_roles` (`id`, `name`, `role_parent`, `prefered_uri`) VALUES
 
 CREATE TABLE IF NOT EXISTS `acl_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT '0',
-  `password` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `name` varchar(64) CHARACTER SET latin1 NOT NULL DEFAULT '0',
+  `password` varchar(250) CHARACTER SET latin1 NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `email` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '0',
+  `email` varchar(250) CHARACTER SET latin1 NOT NULL DEFAULT '0',
   `status` int(2) NOT NULL DEFAULT '0',
-  `person_id` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '0',
-  `validation_code` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '0',
-  `phone` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '0',
+  `person_id` varchar(250) CHARACTER SET latin1 NOT NULL DEFAULT '0',
+  `validation_code` varchar(250) CHARACTER SET latin1 NOT NULL DEFAULT '0',
+  `phone` varchar(250) CHARACTER SET latin1 NOT NULL DEFAULT '0',
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
@@ -289,7 +289,7 @@ CREATE TABLE IF NOT EXISTS `activities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `productions_id` int(11) NOT NULL,
   `activity_types_id` int(11) NOT NULL,
-  `client` varchar(250) CHARACTER SET utf8 DEFAULT NULL,
+  `companies_id` int(11) DEFAULT NULL,
   `client_resp_name` varchar(250) CHARACTER SET utf8 NOT NULL DEFAULT '0',
   `client_resp_phone` varchar(45) CHARACTER SET utf8 DEFAULT NULL,
   `date_start` datetime NOT NULL,
@@ -300,22 +300,25 @@ CREATE TABLE IF NOT EXISTS `activities` (
   PRIMARY KEY (`id`),
   KEY `fk_acl_activities_acl_productions1` (`productions_id`),
   KEY `fk_activities_activity_types1` (`activity_types_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=37 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=44 ;
 
 --
 -- Volcar la base de datos para la tabla `activities`
 --
 
-INSERT INTO `activities` (`id`, `productions_id`, `activity_types_id`, `client`, `client_resp_name`, `client_resp_phone`, `date_start`, `date_end`, `responsible`, `responsible_phone`, `observation`) VALUES
-(24, 24, 26, '25', '24', '', '2011-01-01 00:00:00', '2011-12-16 02:00:00', 'ccsdfs', 44433455, 'fdsfs'),
-(25, 24, 27, '25', '28', '', '2011-01-01 00:00:03', '2011-01-02 00:00:04', 'fdsf', 444334, 'ew'),
-(26, 27, 27, '25', '27', '', '2011-01-01 00:00:04', '2011-01-02 00:00:22', '', 3233, 'gf'),
-(27, 27, 26, '25', '27', '', '2011-01-01 00:00:04', '2011-01-02 00:00:22', '', 0, 'dfsdf'),
-(28, 27, 27, '25', '27', '', '2011-01-01 00:00:04', '2011-01-02 00:00:22', 'Roi Grande Deza', 0, 'sdss'),
-(29, 24, 29, '25', '28', '333', '2011-01-01 00:00:03', '2011-01-02 00:00:04', 'Roi Grande Deza', 646469602, 'montaje, desmontaje y seguridad'),
-(30, 31, 27, '25', '29', '333', '2011-01-01 00:00:03', '2011-01-02 00:00:04', 'Roi Grande Deza2', 646469602, 'montaje, desmontaje y seguridad'),
-(36, 31, 27, '27', '24', '322323232', '2012-05-10 00:00:03', '2012-01-02 00:00:00', 'juan carlos', 4444, 'seguridad'),
-(33, 31, 28, '27', '29', '333', '2012-05-10 00:00:03', '2012-05-21 00:00:00', 'Yuxx lopez', 444334, 'catering para backstage');
+INSERT INTO `activities` (`id`, `productions_id`, `activity_types_id`, `companies_id`, `client_resp_name`, `client_resp_phone`, `date_start`, `date_end`, `responsible`, `responsible_phone`, `observation`) VALUES
+(24, 24, 27, 26, '29', '4444', '2011-01-01 00:00:00', '2011-12-16 02:00:00', 'agustin agustin', 44433455, 'fdsfs'),
+(25, 24, 27, 25, '28', '', '2011-01-01 00:00:03', '2011-01-02 00:00:04', 'fdsf', 444334, 'ew'),
+(26, 27, 27, 25, '27', '', '2011-01-01 00:00:04', '2011-01-02 00:00:22', '1rerwe', 3233, 'gf'),
+(27, 27, 26, 25, '27', '322323232', '2011-01-01 00:00:04', '2011-01-02 00:00:22', 'Roi Grande Deza2', 444334, 'dfsdf'),
+(28, 27, 27, 25, '27', '', '2011-01-01 00:00:04', '2011-01-02 00:00:22', 'Roi Grande Deza', 0, 'sdss'),
+(29, 24, 29, 28, '28', '333', '2011-01-01 00:00:03', '2011-01-02 00:00:04', 'Roi Grande Deza', 646469602, 'montaje, desmontaje y seguridad'),
+(30, 31, 27, 25, '25', '333', '2011-01-01 00:00:03', '2011-01-02 00:00:04', 'Roi Grande Deza2', 646469602, 'montaje, desmontaje y seguridad'),
+(36, 31, 27, 28, '24', '322323232', '2012-05-10 00:00:03', '2012-01-02 00:00:00', 'juan carlos', 4444, 'seguridad'),
+(33, 31, 28, 26, '29', '333zz', '2012-05-10 00:00:03', '2012-05-21 00:00:00', 'Yuxx lopez', 444334222, 'catering para backstagez'),
+(37, 32, 27, 27, '28', '333', '2000-00-00 00:00:00', '0000-00-00 00:00:00', 'Roi Grande Deza', 2147483647, '3434'),
+(43, 25, 29, 29, '35', '44445', '2012-05-10 00:00:03', '2011-12-16 02:00:00', 'david domarco', 444334222, 'catering para backstage'),
+(42, 24, 28, 26, '27', '44445555', '2012-04-10 00:00:03', '2011-12-16 02:00:00', 'prueba', 444334, '3434');
 
 -- --------------------------------------------------------
 
@@ -343,27 +346,6 @@ INSERT INTO `activity_types` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `clients`
---
-
-CREATE TABLE IF NOT EXISTS `clients` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `companies_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_acl_clients_acl_companies1` (`companies_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=3 ;
-
---
--- Volcar la base de datos para la tabla `clients`
---
-
-INSERT INTO `clients` (`id`, `companies_id`) VALUES
-(1, 26),
-(2, 27);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `companies`
 --
 
@@ -382,7 +364,7 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `observation` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_acl_company_acl_type_company1` (`company_types_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Volcar la base de datos para la tabla `companies`
@@ -392,7 +374,9 @@ INSERT INTO `companies` (`id`, `name`, `fiscal_name`, `company_types_id`, `email
 (24, 'Secogal', 'Secogal S. L.', 27, 'roi@secogal.com', 'Pereiro de aguair', '32002', 'Ourense', 'España', '646469702', '646469702', 'montaje, desmontaje y seguridad'),
 (25, 'Litoria', 'Litoria S. A.', 26, 'litoria@litoria.com', 'universidad 2', '32002', 'Ourense', 'España', '646469702', '5543534534', 'Infraextructura'),
 (26, 'Goyanes', 'Produciones goyanes S.L.', 27, 'goyanes@goyanes.es', 'camino tras castelo', '32002', 'Santiago', 'Spain', '545454545454', '43434343434', 'fdsdpfosdfosd'),
-(27, 'Festicultores', 'Festicultores S.A.', 27, 'admin@festicultores.com', 'santiago avernida lugo', '32005', 'Santiago de compostela', 'Spain', '64646464644', '64646464644', 'Grupos musicales');
+(27, 'Festicultores', 'Festicultores S.A.', 27, 'admin@festicultores.com', 'santiago avernida lugo', '32005', 'Santiago de compostela', 'Spain', '64646464644', '64646464644', 'Grupos musicales'),
+(28, 'XXL', 'XXL SA', 27, 'xxl@xxl.com', '32', '32002', 'Lugo', 'Lugo', '3232', '32', 'montaje, desmontaje y seguridad'),
+(29, 'Ayuntamiento de ortigueira', 'Ayutamiento de ortigueira', 28, 'ortigueira@gmail.com', 'Ortigueira', '32005', 'Ortigueira', 'España', '678787878', '678787878', 'catering para backstagez');
 
 -- --------------------------------------------------------
 
@@ -427,14 +411,14 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '0',
   `direction` varchar(250) NOT NULL,
-  `email` varchar(250) NOT NULL DEFAULT '0',
+  `email` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '0',
   `telephone` varchar(250) NOT NULL DEFAULT '0',
   `status` varchar(45) DEFAULT NULL,
   `company_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `fk_acl_contacts_acl_company1` (`company_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
 --
 -- Volcar la base de datos para la tabla `contacts`
@@ -446,7 +430,10 @@ INSERT INTO `contacts` (`id`, `name`, `direction`, `email`, `telephone`, `status
 (3, 'Ramon', 'noriega varela', 'Ramon@litoria.es', '4545454', 'Gerente general', 25),
 (27, 'Javier sines', 'santiago', 'javier@goyanes.es', '654545454', 'Jefe', 26),
 (28, 'aleman', 'santiago', 'aleman@goyanes.com', '654545454', 'Encargado de personal', 26),
-(29, 'mil ocho', 'santiago avernida lugo', 'milocho@gmail.com', '646464645', 'Gerente', 27);
+(29, 'mil ocho', 'santiago avernida lugo', 'milocho@gmail.com', '646464645', 'Gerente', 27),
+(30, 'Xulio', 'Pabellon deportivo Lugo', 'xulio.xxl@gmail.com', '43434343', 'Encargado de personal', 28),
+(31, 'Paula', 'camino tras castelo', 'Paula@litoria.es', '43434343', NULL, 25),
+(35, 'Alberto Ortigueira2', 'Ortigueira2', 'Alberto@ortiguiera.com', '4343434343', 'Responsable festival', 29);
 
 -- --------------------------------------------------------
 
@@ -464,28 +451,34 @@ CREATE TABLE IF NOT EXISTS `productions` (
   `budget` int(11) NOT NULL DEFAULT '0',
   `in_litter` binary(0) DEFAULT NULL,
   `parent_id` int(11) NOT NULL,
-  `clients_id` int(11) NOT NULL,
   `status_id` int(11) NOT NULL,
   `production_types_id` int(11) NOT NULL,
+  `companies_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_acl_productions_acl_productions1` (`parent_id`),
-  KEY `fk_acl_productions_acl_clients1` (`clients_id`),
-  KEY `fk_productions_status1` (`status_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+  KEY `fk_productions_status1` (`status_id`),
+  KEY `fk_productions_production_types1` (`production_types_id`),
+  KEY `fk_productions_companies1` (`companies_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
 -- Volcar la base de datos para la tabla `productions`
 --
 
-INSERT INTO `productions` (`id`, `name`, `direction`, `date_start`, `date_end`, `observation`, `budget`, `in_litter`, `parent_id`, `clients_id`, `status_id`, `production_types_id`) VALUES
-(24, 'San Froilan', 'Lugo', '2000-00-00 00:00:00', '2200-00-00 00:00:00', 'montaje, desmontaje y seguridad', 3000, NULL, 0, 25, 28, 27),
-(25, 'Meeting Rualcaba', 'Pabellon deportivo Ourense', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'montaje, desmontaje y seguridad', 4000, NULL, 0, 26, 26, 26),
-(26, 'Ortigueira', 'Ortigueira', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'montaje, desmontaje y seguridad', 40000, NULL, 0, 24, 26, 28),
-(27, 'Monforte', 'escolapios', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'Infraextructura', 6000, NULL, 0, 24, 26, 27),
-(28, 'fresh weekend', 'cerceda', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'montaje, desmontaje y seguridad', 4000, NULL, 0, 26, 26, 28),
-(29, 'Meeting Lugo 2011_2', 'Meeting', '2011-01-15 07:00:00', '2011-12-16 02:00:00', 'segundo metting lugar a decidir', 1000, NULL, 0, 25, 26, 33),
-(30, 'Reperkusion 012', 'Allariz entrada de la carretera', '2012-05-10 00:00:03', '2012-05-21 00:00:00', 'montaje, desmontaje , seguridad, produccion tecnica', 200000, NULL, 0, 27, 26, 28),
-(31, 'Resentidos', 'expourense', '2012-04-10 00:00:03', '2012-04-21 00:00:00', 'montaje, desmontaje , seguridad, produccion tecnica', 7600, NULL, 0, 24, 26, 27);
+INSERT INTO `productions` (`id`, `name`, `direction`, `date_start`, `date_end`, `observation`, `budget`, `in_litter`, `parent_id`, `status_id`, `production_types_id`, `companies_id`) VALUES
+(24, 'San Froilan', 'Lugo', '2000-00-00 00:00:00', '2200-00-00 00:00:00', 'montaje, desmontaje y seguridad', 3000, NULL, 0, 27, 32, 26),
+(25, 'Meeting Rualcaba', 'Pabellon deportivo Ourense', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'montaje, desmontaje y seguridad', 4000, NULL, 0, 26, 26, 25),
+(26, 'Ortigueira', 'Ortigueira', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'montaje, desmontaje y seguridad', 40000, NULL, 0, 26, 28, 26),
+(27, 'Monforte', 'escolapios', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'Infraextructura', 6000, NULL, 0, 26, 27, 24),
+(28, 'fresh weekend', 'cerceda', '2011-01-01 00:00:00', '2011-01-02 00:00:00', 'montaje, desmontaje y seguridad', 4000, NULL, 0, 26, 28, 25),
+(29, 'Meeting Lugo 2011_2', 'Meeting', '2011-01-15 07:00:00', '2011-12-16 02:00:00', 'segundo metting lugar a decidir', 1000, NULL, 0, 26, 33, 25),
+(30, 'Reperkusion 012', 'Allariz entrada de la carretera', '2012-05-10 00:00:03', '2012-05-21 00:00:00', 'montaje, desmontaje , seguridad, produccion tecnica', 200000, NULL, 0, 26, 28, 26),
+(31, 'Resentidos', 'expourense', '2012-04-10 00:00:03', '2012-04-21 00:00:00', 'montaje, desmontaje , seguridad, produccion tecnica', 7600, NULL, 0, 26, 27, 24),
+(32, 'pelicula agustin', 'barcelona fd', '2012-05-10 00:00:03', '2012-07-02 00:00:00', 'rekrñewirpowe', 5000, NULL, 0, 26, 29, 24),
+(33, 'Festival de cine gallego', 'camino tras castelo', '2012-05-10 00:00:03', '2011-01-02 00:00:00', 'Carga del material', 2500, NULL, 0, 31, 32, 28),
+(35, 'Festival de cine gallego 2', '32', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '3', 43434, NULL, 0, 26, 29, 27),
+(36, 'Resentidos12', 'expourense', '2012-05-10 00:00:03', '2012-05-21 00:00:00', 'montaje, desmontaje , seguridad, produccion tecnica', 5000, NULL, 0, 26, 27, 0),
+(37, 'Festival de ortigueira 2012', 'ortiigueira', '2011-01-01 00:00:00', '2011-05-21 00:00:00', 'seguridad', 15000, NULL, 0, 26, 28, 29);
 
 -- --------------------------------------------------------
 
@@ -514,6 +507,31 @@ INSERT INTO `production_types` (`id`, `name`, `resource_type`) VALUES
 (31, 'Fiesta privada', 1),
 (32, 'Otros', 1),
 (33, 'Meeting', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `resource`
+--
+
+CREATE TABLE IF NOT EXISTS `resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `status` binary(1) DEFAULT NULL,
+  `location` int(11) DEFAULT NULL,
+  `date_buy` date DEFAULT NULL,
+  `last_use` date DEFAULT NULL,
+  `metadata` varchar(450) DEFAULT NULL,
+  `desctiption` varchar(2500) DEFAULT NULL,
+  `resourcecol` varchar(45) DEFAULT NULL,
+  `image` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+
+--
+-- Volcar la base de datos para la tabla `resource`
+--
+
 
 -- --------------------------------------------------------
 

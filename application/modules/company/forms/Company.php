@@ -7,7 +7,11 @@ class Company_Form_Company extends Zend_Form {
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
-
+        
+        $company_id = new Zend_Form_Element_Hidden('company_id');
+        $company_id->addFilter('Int');
+        $company_id->removeDecorator('label');
+        
         $name = new Zend_Form_Element_Text('name');
         $name->setLabel('name')
                 ->setRequired(true)

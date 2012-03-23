@@ -15,8 +15,9 @@ class Company_ContactController extends Zend_Controller_Action {
 
         $models = new Company_Model_Contact();
         $this->view->title = "Contacts list";
-        $page = $this->_getParam('page', 1);       
+        $page = $this->_getParam('page', 1);   
         $company_id = $this->getRequest()->getParam('company_id');       
+        
         $paginator = Zend_Paginator::factory($models->fetchCompany($company_id));
 
         $contact = Zend_Registry::get('company');
@@ -32,22 +33,26 @@ class Company_ContactController extends Zend_Controller_Action {
      * @return void
      */
     public function addAction() {
+        //TODO comprobar que se pasa  la compañia a la que se quiere agregar
         $this->view->headTitle("Add New Contact", 'APPEND');
         $request = $this->getRequest();
         $form = new Company_Form_Contact();
-
+            
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
                 $model = new Company_Model_Contact();
                 $data=$form->getValues();
-               
+                $data["company_id"]=$request->getParam('company_id');
+             //   Zend_Debug::dump($data);
                 $model->save($data);
-                return $this->_helper->redirector('index');
+
+                return $this->_helper->redirector('index','company','company');
             }
         } else {
                
             $data=$form->getValues();
-            $data["company_id"]=$request->getParam('clients_id');                     
+            $data["company_id"]=$request->getParam('company_id'); 
+           
             $form->populate($data);
             
         }
@@ -67,7 +72,7 @@ class Company_ContactController extends Zend_Controller_Action {
                 $model = new Company_Model_Contact();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
-                return $this->_helper->redirector('index');
+              return $this->_helper->redirector('index','company','company');
             } else {
                 $form->populate($this->getRequest()->getPost());
             }
@@ -96,7 +101,7 @@ class Company_ContactController extends Zend_Controller_Action {
                 $model = new Company_Model_Contact();
                 $model->delete('id = ' . (int) $id);
             }
-            return $this->_helper->redirector('index');
+            return $this->_helper->redirector('index','company','company');
         } else {
 
             $id = $this->_getParam('id', 0);

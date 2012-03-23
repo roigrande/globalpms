@@ -32,11 +32,7 @@ class Production_Model_Production {
         $data["status_id"] = $production->default_status;
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-        $client = new Production_Model_Client();
-//        if (!$client->fetchClients($data["clients_id"])) {
-//            $dataclient["companies_id"] = $data["clients_id"];
-//            $client->save($dataclient);
-//        }
+        //$company = new Production_Model_Company();
         //  Zend_Debug::dump($data);
 
         foreach ($data as $field => $value) {
@@ -108,11 +104,13 @@ class Production_Model_Production {
                 ->setIntegrityCheck(false);
         $select->from(array('s' => 'status'), array('status' =>'name','id_status'=>'id'))
                ->where('status_id = s.id')
-               ->from(array('c' => 'companies'), array('clients' =>'name','id_companies'=>'id'))
-               ->where('clients_id = c.id')
+               ->from(array('c' => 'companies'), array('companies' =>'name','id_companies'=>'id'))
+               ->where('companies_id = c.id')
                 
                 ;
-        return $table->fetchAll($select);
+        $data=$table->fetchAll($select);
+       // Zend_Debug::dump($data);
+        return $data;
     }
 
     /**

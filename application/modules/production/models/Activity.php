@@ -133,40 +133,29 @@ class Production_Model_Activity {
     
      public function fetchActivities($id=0) {
 
-        if (!$id == "0"){ 
-        
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
-               ->where('activity_types_id = t.id')
-               ->where('productions_id ='.$id)
-               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
-               ->where('client_resp_name = c.id')
-               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
-               ->where('companies_id= com.id')
-                ;
-       
-        $data=$table->fetchAll($select);
-       
-      
-        return $data; 
+        $select->from(array('t' => 'activity_types'), array('activity_types' => 'name', 'activity_types_id' => 'id'))
+                ->where('activity_types_id = t.id')             
+                ->from(array('s' => 'status'), array('status' => 'name', 'id_status' => 'id'))
+                ->where('status_id = s.id')
+                ->from(array('c' => 'contacts'), array('client_name' => 'name', 'id_client' => 'id'))
+                ->where('client_resp_name = c.id')
+                ->from(array('com' => 'companies'), array('company_name' => 'name', 'id_company' => 'id'))
+                ->where('companies_id= com.id')
+        ;
+        if (!$id == "0") {
+            $select->where('productions_id =' . $id);
+        } else {
+            $select->order('productions_id');
         }
-        
-        $table = $this->getTable();
-        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
-                ->setIntegrityCheck(false);
-        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
-               ->where('activity_types_id = t.id')
-               ->order('productions_id')
-               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
-               ->where('client_resp_name = c.id')
-               ->from(array('com' => 'companies'), array('companies_name' =>'name','id_company'=>'id'))
-               ->where('companies_id= com.id')
-                ; $data=$table->fetchAll($select);
-//           Zend_Debug::dump($data);
-//       die();
-       return $data;
+        ;
+        $data = $table->fetchAll($select);
+//      Zend_Debug::dump($data);
+//      die();
+        return $data;
+  
        
     }
     

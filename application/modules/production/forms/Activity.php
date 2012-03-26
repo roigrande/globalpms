@@ -27,6 +27,18 @@ class Production_Form_Activity extends Zend_Form {
         $id->addFilter('Int');
         $id->removeDecorator('label');
         
+        $status_id = new Zend_Form_Element_Select('status_id');
+        $status_id->setLabel('Status')
+                ->setRequired(true)
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptionsStatus())
+                ->setAttrib('maxlength', 300)
+                ->setAttrib('size', 1)
+                ->setAttrib("class","toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
+        
         
         $responsible = new Zend_Form_Element_Text('responsible');
         $responsible->setLabel('Responsible')
@@ -150,6 +162,7 @@ class Production_Form_Activity extends Zend_Form {
           
            
             $activity_types_id,
+            $status_id,
             $responsible,
             $responsible_phone,
             $companies_id,
@@ -158,9 +171,18 @@ class Production_Form_Activity extends Zend_Form {
             $date_start,
             $date_end,
             $observation,
+            
             $submit));
     }
-
+    protected function _selectOptionsStatus() {
+        $sql = "SELECT id,name
+                  FROM status";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
+    
     protected function _selectOptions() {
         $sql = "SELECT id,name
                   FROM productions";

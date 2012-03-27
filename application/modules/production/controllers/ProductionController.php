@@ -40,14 +40,17 @@ class Production_ProductionController extends Zend_Controller_Action {
                 $model = new Production_Model_Production();
                 $data= $form->getValues();  
                 
-                $model->save($data);
-                return $this->_helper->redirector('index');
+               $lastid=$model->save($data);
+               
+               return $this->_helper->_redirector->gotoSimple('edit', 'production', 'production', array('id' =>$lastid));
+              
             }
         } else {
             $data=$form->getValues();
-            $data["clients_id"]=$request->getParam('clients_id');
-           
+            $data["companies_id"]=$this->_getParam('company_id', 0);
+           // Zend_Debug::dump($data);
             $form->populate($data);
+           
         }
         $this->view->form = $form;
     }
@@ -58,9 +61,10 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
-         
+        $model = new Production_Model_Production;
         $id = $this->_getParam('id', 0);
         $models = new Production_Model_Activity();
+        
         $page = $this->_getParam('page', 1);
         $paginator = Zend_Paginator::factory($models->fetchActivities($id));
         $activity = Zend_Registry::get('production');
@@ -111,7 +115,7 @@ class Production_ProductionController extends Zend_Controller_Action {
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
                 $model = new Production_Model_Production();
-                $model->delete('id = ' . (int) $id);
+                $model->delete($id);
             }
             return $this->_helper->redirector('index');
         } else {

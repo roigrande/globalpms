@@ -36,13 +36,13 @@
                         <td><?php echo $this->escape($company->email); ?></td>
                         <td><?php echo $this->escape($company->city); ?></td>
                         <td>
-                            <a href="<?php echo $this->url(array('module' => 'production','controller' => 'production','action' => 'add', 'clients_id' => $company->id)); ?>">
+                            <a href="<?php echo $this->url(array('module' => 'production','controller' => 'production','action' => 'add', 'company_id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_claketa.png" alt="Añadir production" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'index', 'company_id' => $company->id)); ?>">
+                            <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'add', 'company_id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_user.png" alt="Añadir contacto" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'edit', 'clients_id' => $company->id)); ?>">
+                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'edit', 'company_id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'delete', 'clients_id' => $company->id)); ?>">
+                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'delete', 'company_id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                         </td>                        
                     </tr>

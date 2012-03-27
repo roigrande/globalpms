@@ -114,23 +114,23 @@ class Production_Model_Activity {
         return $table;
     }
     
-     public function fetchActivitis() {
-
-
-        $table = $this->getTable();
-        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
-                ->setIntegrityCheck(false);
-        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
-               ->where('activity_types_id = t.id')
-               ->order('productions_id')
-               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
-               ->where('client_resp_name = c.id')
-               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
-               ->where('client= com.id')
-                ;
-        return $table->fetchAll($select);
-    }
-    
+//     public function fetchActivitis() {
+//
+//
+//        $table = $this->getTable();
+//        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+//                ->setIntegrityCheck(false);
+//        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
+//               ->where('activity_types_id = t.id')
+//               ->order('productions_id')
+//               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
+//               ->where('client_resp_name = c.id')
+//               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
+//               ->where('client= com.id')
+//                ;
+//        return $table->fetchAll($select);
+//    }
+     
      public function fetchActivities($id=0) {
 
         $table = $this->getTable();

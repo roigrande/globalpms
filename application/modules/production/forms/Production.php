@@ -9,7 +9,7 @@ class Production_Form_Production extends Zend_Form {
         $id->removeDecorator('label');
 
         $name = new Zend_Form_Element_Text('name');
-        $name->setLabel('name')
+        $name->setLabel('Name')
                 ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
@@ -58,7 +58,7 @@ class Production_Form_Production extends Zend_Form {
         ;
 
         $direction = new Zend_Form_Element_Text('direction');
-        $direction->setLabel('direction')
+        $direction->setLabel('Direction')
                 
                 ->addValidator('NotEmpty', true)
                 ->addFilter('StripTags')

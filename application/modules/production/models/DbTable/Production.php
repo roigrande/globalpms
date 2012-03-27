@@ -21,7 +21,17 @@ class Production_Model_DbTable_Production extends Zend_Db_Table_Abstract
     {
         return parent::insert($data);
     }
-
+    
+     /**
+     * Last insertId
+     *
+     * 
+     * @return int
+     */
+    public function lastInsertId()
+    {
+        return $this->_db->lastInsertId();
+    }
     /**
      * Update row(s)
      *

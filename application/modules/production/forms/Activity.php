@@ -40,18 +40,17 @@ class Production_Form_Activity extends Zend_Form {
         ;
         
         
-        $responsible = new Zend_Form_Element_Text('responsible');
+      
+        $responsible = new Zend_Form_Element_Select('responsible');
         $responsible->setLabel('Responsible')
-                
+                ->setRequired(true)
                 ->addValidator('NotEmpty', true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('StringLength', false, array(3, 20))
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")              
+                ->setmultiOptions($this->_selectOptions_own_contact())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class","toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
+                            'viewScript' => 'forms/_element_select.phtml'))))
         ;
         
         
@@ -202,7 +201,7 @@ class Production_Form_Activity extends Zend_Form {
     }
     
     protected function _selectOptions_company() {
-      //todo contacts where id_company= id:_clients
+      
         $sql = "SELECT id,name 
                   FROM companies";
         $db = Zend_Registry::get('db');
@@ -211,8 +210,21 @@ class Production_Form_Activity extends Zend_Form {
         return $result;
     }
     
+     protected function _selectOptions_own_contact() {
+        $db = Zend_Registry::get('db');  
+        $my_company = Zend_Registry::get('production');
+        
+        
+        $sql = "SELECT id,name 
+                  FROM contacts Where company_id=".$my_company->mycompany;
+
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
+    
     protected function _selectOptions_contact() {
-      //todo contacts where id_company= id:_clients
+      
         $sql = "SELECT id,name 
                   FROM contacts";
         $db = Zend_Registry::get('db');

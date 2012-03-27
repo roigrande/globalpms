@@ -44,9 +44,10 @@ class Company_ContactController extends Zend_Controller_Action {
                 $data=$form->getValues();
                 $data["company_id"]=$request->getParam('company_id');
              //   Zend_Debug::dump($data);
-                $model->save($data);
-
-                return $this->_helper->redirector('index','company','company');
+                $lastid=$model->save($data);
+                echo $lastid;
+              
+                return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
             }
         } else {
                
@@ -72,7 +73,9 @@ class Company_ContactController extends Zend_Controller_Action {
                 $model = new Company_Model_Contact();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
-              return $this->_helper->redirector('index','company','company');
+//                echo $this->getRequest()->getParam('company_id');
+//                die();
+              return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
             } else {
                 $form->populate($this->getRequest()->getPost());
             }

@@ -55,7 +55,20 @@ class Company_CompanyController extends Zend_Controller_Action {
      */
     public function editAction() {
         $this->view->title = "Edit Companys";
-        $form = new Company_Form_Company();     
+        $form = new Company_Form_Company();
+        $models = new Company_Model_Contact();
+        $this->view->title = "Contacts list";
+        $page = $this->_getParam('page', 1);   
+        $company_id = $this->getRequest()->getParam('company_id');       
+        
+        $paginator = Zend_Paginator::factory($models->fetchCompany($company_id));
+
+        $contact = Zend_Registry::get('company');
+        $paginator->setItemCountPerPage($contact->paginator);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setPageRange($contact->paginator);
+        $this->view->paginator = $paginator;
+        
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Company_Model_Company();
@@ -67,7 +80,7 @@ class Company_CompanyController extends Zend_Controller_Action {
             }
         } else {
 
-            $id = $this->_getParam('id', 0);
+            $id = $this->_getParam('company_id', 0);
             if ($id > 0) {
 
                 $model = new Company_Model_Company();

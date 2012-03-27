@@ -36,7 +36,8 @@ class Company_Model_Contact {
         }
 
 
-        return $table->insert($data);
+        $table->insert($data);
+        return $table->lastInsertId();
     }
 
     /* Update entry

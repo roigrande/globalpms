@@ -70,10 +70,10 @@ class User_Model_Roles {
         // Get the parent_role from the role will delete
         $role = $this->fetchEntry($id);
 
-        Zend_Debug::dump($role["role_parent"], "rol que eliminamos");
+        //Zend_Debug::dump($role["role_parent"], "rol que eliminamos");
         //find the roles have the parent role of the role will delete
         $rolsongs = $this->fetchParentRoles($id);
-        Zend_Debug::dump($rolsongs["0"]["id"], "el hijo del rol que eliminaremos");
+       // Zend_Debug::dump($rolsongs["0"]["id"], "el hijo del rol que eliminaremos");
 
         //chance the parent_role of the songs
         foreach ($rolsongs as $value) {

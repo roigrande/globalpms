@@ -40,8 +40,11 @@ class Production_Model_Production {
                 unset($data[$field]);
             }
         }
-        return $table->insert($data);
-    }
+       $table->insert($data);
+        
+        
+        return $table->lastInsertId();
+        }
 
     /* Update entry
      * 
@@ -68,11 +71,23 @@ class Production_Model_Production {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($where) {
+    public function delete($id_production) {
 
-        //delete resource
+
+        
+        
+        $activities = new Production_Model_Activity;
+        $activities->getTable();        
+        $arrayactivities= $activities->fetchActivities("$id_production");
+           
+        //Delete of the activitis of one production
+        foreach ($arrayactivities as $value) {
+                 
+           $activities->delete('id='.$value["id"]);
+        }
+        //Delete production
         $table = $this->getTable();
-        $table->delete($where);
+        $table->delete('id = ' . (int) $id_production);
     }
 
     /**

@@ -83,6 +83,7 @@ class Company_Form_Contact extends Zend_Form {
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setValue('Guardar')
                 ->setAttrib('id', 'submitbutton')
+               
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_submit.phtml'))))
                 ->setAttrib('class', 'btn')

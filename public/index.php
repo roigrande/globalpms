@@ -1,4 +1,7 @@
 <?php
+// Define path to dojo URL
+defined('DOJO_PATH')
+    || define('DOJO_PATH',  '/scripts/dojo-release-1.7.2');
 
 // Define path to application directory
 defined('APPLICATION_PATH')

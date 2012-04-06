@@ -54,7 +54,7 @@ class Company_CompanyController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Companys";
+        $this->view->title = "Edit Companies";
         $form = new Company_Form_Company();
         $models = new Company_Model_Contact();
         $this->view->title = "Contacts list";
@@ -87,6 +87,7 @@ class Company_CompanyController extends Zend_Controller_Action {
                 $form->populate($model->fetchEntry($id));
             }
         }
+        
         $this->view->form = $form;
     }
 

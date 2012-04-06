@@ -140,10 +140,14 @@ class Production_Model_Activity {
                 ->where('activity_types_id = t.id')             
                 ->from(array('s' => 'status'), array('status' => 'name', 'id_status' => 'id'))
                 ->where('status_id = s.id')
-                ->from(array('c' => 'contacts'), array('client_name' => 'name', 'id_client' => 'id'))
-                ->where('client_resp_name = c.id')
-                ->from(array('com' => 'companies'), array('company_name' => 'name', 'id_company' => 'id'))
-                ->where('companies_id= com.id')
+                ->from(array('c' => 'contacts'), array('client_resp_name' => 'name', 'client_resp_phone' => 'telephone'))
+                ->where('client_resp_id = c.id')
+                ->from(array('c2' => 'contacts'), array('contract_resp_name' => 'name', 'contract_resp_phone' => 'telephone'))
+                ->where('contract_resp_id = c2.id')
+                ->from(array('c3' => 'contacts'), array('responsible_name' => 'name', 'responsible_phone' => 'telephone'))
+                ->where('responsible_id = c3.id') 
+                ->from(array('com' => 'companies'), array('contract_company_name' => 'name'))
+                ->where('contract_company_id= com.id')
         ;
         if (!$id == "0") {
             $select->where('productions_id =' . $id);
@@ -152,8 +156,8 @@ class Production_Model_Activity {
         }
         ;
         $data = $table->fetchAll($select);
-//      Zend_Debug::dump($data);
-//      die();
+      Zend_Debug::dump($data);
+    //  die();
         return $data;
   
        

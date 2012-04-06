@@ -43,7 +43,7 @@ class Production_ActivityController extends Zend_Controller_Action {
                 $model = new Production_Model_Activity();
                 $data = $form->getValues();
                 $data["productions_id"] = $this->_getParam('id', 0);
-//                   Zend_Debug::dump($this->_getParam('id', 0));
+//                  Zend_Debug::dump($data);
 //                die();
                 $model->save($data);
 
@@ -54,8 +54,8 @@ class Production_ActivityController extends Zend_Controller_Action {
         } else {
             $data = $form->getValues();
             $data["productions_id"] = $this->_getParam('id', 0);
-            //var_dump($data);
-            // die();
+//            var_dump($data);
+//             die();
             $form->populate($data);
         }
         $this->view->form = $form;
@@ -91,10 +91,11 @@ class Production_ActivityController extends Zend_Controller_Action {
 
                 $model = new Production_Model_Activity();
                 $data = $model->fetchEntry($id);
-//                Zend_Debug::dump($data);
-//                die();
-
-                $form->populate($model->fetchEntry($id));
+                
+                Zend_Debug::dump($data);
+                //die();
+                $form->contract_company_id->$data["id"];
+                $form->populate($data);
             }
         }
         $this->view->form = $form;

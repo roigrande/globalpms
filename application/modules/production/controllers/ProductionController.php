@@ -93,8 +93,8 @@ class Production_ProductionController extends Zend_Controller_Action {
               
                 $model = new Production_Model_Production();
                 $data=$model->fetchEntry($id);
-               // Zend_De   bug::dump($data);
-               // die();
+//                Zend_Debug::dump($data);
+//                die();
                 $form->populate($data);
             }
         }

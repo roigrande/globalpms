@@ -41,8 +41,8 @@ class Production_Form_Activity extends Zend_Form {
         
         
       
-        $responsible = new Zend_Form_Element_Select('responsible');
-        $responsible->setLabel('Responsible')
+        $responsible_id = new Zend_Form_Element_Select('responsible_id');
+        $responsible_id->setLabel('Responsible')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptions_own_contact())
@@ -69,8 +69,8 @@ class Production_Form_Activity extends Zend_Form {
         ;
         
         
-        $companies_id = new Zend_Form_Element_Select('companies_id');
-        $companies_id->setLabel('Companies')
+        $contract_company_id = new Zend_Form_Element_Select('contract_company_id');
+        $contract_company_id->setLabel('Contract Company')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptions_company())
@@ -81,8 +81,20 @@ class Production_Form_Activity extends Zend_Form {
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
         
-        $client_resp_name = new Zend_Form_Element_Select('client_resp_name');
-        $client_resp_name->setLabel('client name')
+        $contract_resp_id = new Zend_Form_Element_Select('contract_resp_id');
+        $contract_resp_id->setLabel('contract responsible name')
+                ->setRequired(true)
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptions_contract_contact())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class","toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
+        
+        $client_resp_id = new Zend_Form_Element_Select('client_resp_id');
+        $client_resp_id->setLabel('client name')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptions_Contact())
@@ -162,10 +174,11 @@ class Production_Form_Activity extends Zend_Form {
            
             $activity_types_id,
             $status_id,
-            $responsible,
+            $responsible_id,
             $responsible_phone,
-            $companies_id,
-            $client_resp_name,
+            $contract_company_id,
+            $contract_resp_id,
+            $client_resp_id,
             $client_resp_phone,
             $date_start,
             $date_end,
@@ -217,6 +230,21 @@ class Production_Form_Activity extends Zend_Form {
         
         $sql = "SELECT id,name 
                   FROM contacts Where company_id=".$my_company->mycompany;
+
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
+    
+     protected function _selectOptions_contract_contact() {
+//         Zend_Debug::dump($this->,"this");
+         //todo quiero que se sincronice con contract_company
+         //todo visualizar sin opcion a modificar
+
+         $db = Zend_Registry::get('db');  
+     //TODO   
+        $sql = "SELECT id,name 
+                  FROM contacts Where company_id=27";
 
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles

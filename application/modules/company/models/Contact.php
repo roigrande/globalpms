@@ -89,7 +89,9 @@ class Company_Model_Contact {
     public function fetchEntry($id) {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
-        return $table->fetchRow($select)->toArray();
+        $data = $table->fetchRow($select)->toArray();
+        // Zend_Debug::dump($data);
+        return $data;
     }
 
     /**

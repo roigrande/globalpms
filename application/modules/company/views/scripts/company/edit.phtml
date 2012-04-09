@@ -21,49 +21,14 @@
             'action' => 'add'));
         ?>">Add new contact</a></p>
 
-        <p><a style='cursor: pointer;' onclick="muestra_oculta('iDformcontact')">add contact ajax</a>
+        
         </p>
         <div id="iDformcontact" class="contentbox">
 
         </div>
-        <div id="rowcontact" class="contentbox">
-
-        </div> 
+       
     </div>
-    <script language=javascript>
-
-
-
-        function ventanaSecundaria (URL){
-            window.open(URL,"ventana1","width=200,height=400,scrollbars=NO")
-        }
-    </script> 
-
-
-
-    <script>
-
-        function muestra_oculta(id){
-            if (document.getElementById){ //se obtiene el id
-                var el = document.getElementById(id); //se define la variable "el" igual a nuestro div
-                el.style.display = (el.style.display == 'none') ? 'block' : 'none'; //damos un atributo display:none que oculta el div
-            }
-        }
-        window.onload = function(){/*hace que se cargue la función lo que predetermina que div estará oculto hasta llamar a la función nuevamente*/
-            muestra_oculta('contenido_a_mostrar');/* "contenido_a_mostrar" es el nombre de la etiqueta DIV que deseamos mostrar */
-        }
-    </script>
-    <!--    <div>
-    
-    
-    
-    
-                                                         Enlace devuelve un listado de contactos en ajax   que se envia a ContainerID          
-            <a href="javascript:;" onclick="getAjaxResponse('http://globalpms.es/company/contact/listadoajax/', 'containerID')"> ajax</a>     
-            aqui se deberia mostrar   
-            <pre id="containerID">container</pre>
-        </div>-->
-
+   
 
 
     <div class="contentbox">
@@ -95,12 +60,9 @@
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'delete', 'id' => $contact->id)); ?>">
                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                            <a href="javascript:ventanaSecundaria('http://globalpms.es/company/contact/editajax/id/<?php echo $contact->id; ?>/ajaxwindow/1')"> 
-                                JS</a>
-                            <a style='cursor: pointer;' onclick="getAjaxResponse('http://globalpms.es/company/contact/edit/id/<?php echo $contact->id; ?>/ajaxwindow/1' ,'iDformcontact')">view form</a> 
-
-                            <!--                            <a style='cursor: pointer;' onclick="muestra_oculta('idformcontact')">view form</a>-->
-                        </td>
+                           
+                            <a style='cursor: pointer;' onclick="getAjaxResponse('http://globalpms.es/company/contact/edit/id/<?php echo $contact->id; ?>/company_id/<?php echo $contact->company_id; ?>' ,'iDformcontact')">view form</a> 
+                    </td>
 
                     </tr>
 

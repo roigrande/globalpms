@@ -1,0 +1,24 @@
+
+<?php
+
+$html = "
+
+<tr id=\"rowcontact" . $this->contact['id'] . "\">
+    <td>" . $this->contact['name'] . "</td>                         
+    <td>" . $this->contact['status'] . "</td>
+    <td>" . $this->contact['email'] . "</td>
+    <td>" . $this->contact['telephone'] . "</td>
+    <td> 
+    <a href=\"" . $this->url(array('controller' => 'contact', 'action' => 'edit', 'id' => $this->contact['id'])) . "\">
+                                    <img src=\"/styles/images/icons/icon_edit.png\" alt=\"Edit\" /></a>                         
+    <a href=\"" . $this->url(array('controller' => 'contact', 'action' => 'delete', 'id' => $this->contact['id'])) . "\">
+                                    <img src=\"/styles/images/icons/icon_delete.png\" alt=\"Delete\" /></a>                     
+    <a style='cursor: pointer;' onclick=\"getAjaxResponse('http://globalpms.es/company/contact/edit/id/" . $this->contact['id'] . "/company_id/" . $this->contact['id'] . "' ,'iDformcontact')\">view form</a> 
+    </td>  
+</tr>
+";
+
+
+$dataJson = array('error' => false, 'data' => $html, 'id' => $this->contact['id']);
+$out = Zend_Json::encode($dataJson);
+echo $out;

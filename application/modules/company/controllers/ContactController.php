@@ -27,44 +27,6 @@ class Company_ContactController extends Zend_Controller_Action {
         $this->view->paginator = $paginator;
     }
 
-    public function editajaxAction() {
-        $this->view->title = "Edit ajax Contacts";
-
-         // action body
- $this->_helper->layout->disableLayout();
- $this->_helper->viewRenderer->setNoRender();
- 
-
- 
-        $this->_helper->layout->disableLayout();
-        $form = new Company_Form_Contact();
-        if ($this->getRequest()->isPost()) {
-            if ($form->isValid($this->getRequest()->getPost())) {
-                $model = new Company_Model_Contact();
-                $id = $this->getRequest()->getPost('id');
-                $model->update($form->getValues(), 'id = ' . (int) $id);
-//                echo $this->getRequest()->getParam('company_id');
-//                die(); 
-                $data= $model->fetchEntry($id);  
-                Zend_Debug::dump($data);
-              return $data;  
-//                return $this->getAjaxResponse($form, 'http://globalpms.es/company/company/company_id/' . $this->_getParam('company_id', 0), 'strcontainer');
-//                return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
-            } else {
-                $form->populate($this->getRequest()->getPost());
-            }
-        } else {
-
-            $id = $this->_getParam('id', 0);
-            if ($id > 0) {
-
-                $model = new Company_Model_Contact();
-                $form->populate($model->fetchEntry($id));
-            }
-        }
-        $this->view->form = $form;
-    }
-
     /**
      * AddAction for Contacts
      *
@@ -87,7 +49,7 @@ class Company_ContactController extends Zend_Controller_Action {
                 $model = new Company_Model_Contact();
                 $data = $form->getValues();
                 $data["company_id"] = $request->getParam('company_id');
-                 Zend_Debug::dump($data);
+                Zend_Debug::dump($data);
                 $lastid = $model->save($data);
                 echo $lastid;
 
@@ -109,68 +71,59 @@ class Company_ContactController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
-        
-//        die(caca);
-//          if ($this->_request->isXmlHttpRequest()) {
-//
-//            $this->_helper->viewRenderer->setNoRender(true);
-//
-//            $this->_helper->layout->disableLayout();
-//            //die ("caca");
-//        }
-        $this->view->title = "Edit Contacts";
 
-        if ($this->_getParam('ajaxwindow', 0)) {
 
-//$this->_helper->viewRenderer->setNoRender(true);
-            $this->_helper->layout->disableLayout();
-        }
-         
         $form = new Company_Form_Contact();
+        // if isPost try to update the information of the form
         if ($this->getRequest()->isPost()) {
+
+            //Check the validation of the form
             if ($form->isValid($this->getRequest()->getPost())) {
+
+                //update  the datas of form
                 $model = new Company_Model_Contact();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
-                if ($this->_getParam('ajaxwindow', 0)) {
-//                    getAjaxResponsePost("contact", strurl, )
-                    return $this->_helper->_redirector->gotoSimple('confirm', 'contact', 'company', array('company_id' => $this->_getParam('company_id', 0)));
+
+                //check Ajax
+                if ($this->_request->isXmlHttpRequest()) {
+                    $this->_helper->layout->disableLayout();
+                    $data = $model->fetchEntry($id);
+                    $this->_helper->viewRenderer('reloadrow');
+                    $this->view->contact = $data;
+                    return $data;
+                } else {
+                    return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
                 }
-                return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
             } else {
+                 //check if dont pass the validation of the form and its Ajax
+                if ($this->_request->isXmlHttpRequest()) {
+                    
+                    $this->_helper->layout->disableLayout();
+                    $form->populate($this->getRequest()->getPost());
+                    $form->submit->setOptions(array('onChange' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
+                }
+
                 $form->populate($this->getRequest()->getPost());
             }
         } else {
 
             $id = $this->_getParam('id', 0);
-            if ($id > 0) {
+            $company_id = $this->_getParam('company_id', 0);
 
+            if ($id > 0) {
+                //check si es una peticion ajax
+                if ($this->_request->isXmlHttpRequest()) {
+                    $this->_helper->layout->disableLayout();
+                    // $this->_helper->viewRenderer->setNoRender(true);
+                }
                 $model = new Company_Model_Contact();
                 $form->populate($model->fetchEntry($id));
- 
-//              $form->removeElement('submit');
-//                $b = new Zend_Form_Element_Button('submitcontact');
-//                $b->setValue('foo');
-//                $form->addElement($b);
-//                $form->submitcontact->setOptions(array('onClick'=>'javascript:getAjaxResponsePost("contact","http://globalpms.es/company/contact/editajax/company_id/25","rowcontact3"); return false;'));
-                $form->submit->setOptions(array('onClick'=>'javascript:getAjaxResponsePost("contact","http://globalpms.es/company/contact/editajax/company_id/25","rowcontact3"); return false;'));
-            
-            //      $form->submit->setOptions(array('onChange'=>'javascript:getAjaxResponsePost("contact","http://globalpms.es/company/company/edit/company_id/25","rowcontact"); return false;'));
-                //$form->submit->setOptions(array('onChange'=>'javascript:getAjaxResponse("/hotels/index/search/rooms/"+this.value,"roomy");'));
+                $form->submit->setOptions(array('onClick' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
             }
         }
+        //$this->view->title = "Edit Contacts";
         $this->view->form = $form;
-    }
-
-    public function confirmAction() {
-        $this->view->title = "Confirm Contacts";
-        $this->_helper->layout->disableLayout();
-        $form = new Company_Form_Contact();
-        if ($this->getRequest()->isPost()) {
-            if ($form->isValid($this->getRequest()->getPost())) {
-                $this->view->headScript()->appendFile($this->view->baseUrl('/scripts/ajax_functions.js'));
-            }
-        }
     }
 
     /**

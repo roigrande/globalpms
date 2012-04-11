@@ -1,0 +1,50 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Financess")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'finances',
+    'action' => 'add')); ?>">Add new finances</a></p>
+        
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('Produccion'); ?></th>
+                    <th><?php echo $this->translate('Date'); ?></th>
+                    <th><?php echo $this->translate('Reveneu'); ?></th>
+                    <th><?php echo $this->translate('expenditure'); ?></th>
+                    
+
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->paginator as $finances) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($finances->name); ?></td>                         
+                        <td><?php echo $this->escape($finances->date_start); ?></td>
+                        <td><?php //echo $this->escape($finances->Revenue); ?></td>
+                        <td><?php ?></td>
+                          <td>
+                            <a href="<?php echo $this->url(array('controller' => 'finances','action' => 'edit', 'id' => $finances->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'finances','action' => 'delete', 'id' => $finances->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>                        
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

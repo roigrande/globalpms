@@ -1,8 +1,8 @@
 #!/bin/bash
-echo El nombre del modulo es es minuscula $1
-echo El nombre del modulo es es mayuscula $4
-echo El nombre del controlador en mayusculas $2
-echo El nombre del controlador en minusculas $3
+echo El nombre del modulo es en minuscula $1
+echo El nombre del modulo es en mayuscula $4
+echo El nombre del nuevo controlador en mayusculas $2
+echo El nombre del nuevo controlador en minusculas $3
 
 
 echo controlador

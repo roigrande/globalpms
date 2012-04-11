@@ -97,12 +97,12 @@ class Company_ContactController extends Zend_Controller_Action {
                 }
             } else {
                  //check if dont pass the validation of the form and its Ajax
-                if ($this->_request->isXmlHttpRequest()) {
-                    
-                    $this->_helper->layout->disableLayout();
-                    $form->populate($this->getRequest()->getPost());
-                    $form->submit->setOptions(array('onChange' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
-                }
+//                if ($this->_request->isXmlHttpRequest()) {
+//                    
+//                    $this->_helper->layout->disableLayout();
+//                    $form->populate($this->getRequest()->getPost());
+//                    $form->submit->setOptions(array('onChange' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
+//                }
 
                 $form->populate($this->getRequest()->getPost());
             }

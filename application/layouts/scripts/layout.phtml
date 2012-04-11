@@ -22,11 +22,13 @@ echo $this->doctype();
     <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/onclick/onclick.js" ></script>  
     <?php
     if ($this->dojo()->isEnabled()) {
-        $this->dojo()->setDjConfigOption('isDebug', false);
+        
+        $this->dojo()->setDjConfigOption('isDebug', false)
+                //     ->setLocalPath(DOJO_PATH)
+                ;  
         echo $this->dojo();
     }
     ?>
-    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>javascript/jquery/jquery-1.7.2.min.js"></script>
 </head>
 
 <body>
@@ -121,6 +123,10 @@ echo $this->doctype();
                 <a href="<?php echo $this->url(array('module' => 'production', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_claketa.png" alt="Production" /><br />Production</a>
 
             </li>
+            <li>
+                <a href="<?php echo $this->url(array('module' => 'finances', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Production" /><br />Finances</a>
+
+            </li>
             <li> 
                 <?php
                 include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
@@ -144,7 +150,7 @@ echo $this->doctype();
 
     </div>
     <!-- Right side end --> 
-
+<?php /*
     <script type="text/javascript" src="http://dwpe.googlecode.com/svn/trunk/_shared/EnhanceJS/enhance.js"></script>	
     <script type='text/javascript' src='http://dwpe.googlecode.com/svn/trunk/charting/js/excanvas.js'></script>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js'></script>
@@ -154,6 +160,7 @@ echo $this->doctype();
     <script type='text/javascript' src='js/jquery.wysiwyg.js'></script>
     <script type='text/javascript' src='js/visualize.jQuery.js'></script>
     <script type='application/javascript' src='js/functions.js'></script>
-</body>
-</html>
+*/?>
+  </body>
+ </html>
 

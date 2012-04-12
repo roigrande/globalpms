@@ -1,5 +1,3 @@
-
-
 <div class="container">
     <div class="conthead">
         <h2>Edit Company</h2>
@@ -21,14 +19,14 @@
             'action' => 'add'));
         ?>">Add new contact</a></p>
 
-        
+
         </p>
         <div id="iDformcontact" class="contentbox">
 
         </div>
-       
+
     </div>
-   
+
 
 
     <div class="contentbox">
@@ -49,7 +47,7 @@
             </thead>
 
             <tbody>
-<?php foreach ($this->paginator as $contact) : ?>
+                <?php foreach ($this->paginator as $contact) : ?>
                     <tr id="rowcontact<?php echo $contact->id; ?>">
                         <td><?php echo $this->escape($contact->name); ?></td>                         
                         <td><?php echo $this->escape($contact->status); ?></td>                         
@@ -60,16 +58,16 @@
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'delete', 'id' => $contact->id)); ?>">
                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                           
+
                             <a style='cursor: pointer;' onclick="getAjaxResponse('http://globalpms.es/company/contact/edit/id/<?php echo $contact->id; ?>/company_id/<?php echo $contact->company_id; ?>' ,'iDformcontact')">view form</a> 
-                    </td>
+                        </td>
 
                     </tr>
 
-<?php endforeach; ?>
+                <?php endforeach; ?>
         </table>
         <div class="extrabottom">
-<?php echo $this->paginator; ?>           
+            <?php echo $this->paginator; ?>           
         </div>
     </div>
 </div>

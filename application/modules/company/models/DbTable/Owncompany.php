@@ -1,11 +1,11 @@
 <?php
 /**
- * This is the DbTable class for the Modeloejemplo table.
+ * This is the DbTable class for the Owncompany table.
  */
-class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
+class Company_Model_DbTable_Owncompany extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'modeloejemplos';
+    protected $_name    = 'own_companies';
     /** Primary key */
     protected $_primary = 'id';
 
@@ -17,6 +17,10 @@ class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
      * @param  array $data 
      * @return int
      */
+    public function insert(array $data)
+    {
+        return parent::insert($data);
+    }
     
      /**
      * Last insertId
@@ -26,14 +30,8 @@ class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
      */
     public function lastInsertId()
     {
-        return $this->_db->lastInsertId();
+         return $this->_db->lastInsertId();
     }
-    
-    public function insert(array $data)
-    {
-        return parent::insert($data);
-    }
-
     /**
      * Update row(s)
      *

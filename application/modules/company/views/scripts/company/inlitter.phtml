@@ -1,12 +1,12 @@
 <?php
-$this->title = "Delete Company";
+$this->title = "In little Company";
 $this->headTitle($this->title);
 ?>
-<p>Are you sure that you want to delete the company 
+<p>Are you sure that you want to send to little this company 
     '<?php echo $this->escape($this->company['name']); ?>' by
     
 </p>
-<form action="<?php echo $this->url(array('action' => 'delete')); ?>" method="post">
+<form action="<?php echo $this->url(array('action' => 'inlitter')); ?>" method="post">
     <div>
         <input type="hidden" name="id" value="<?php echo $this->company['id']; ?>" />
         <input type="submit" name="del" value="Yes" />

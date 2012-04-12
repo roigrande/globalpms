@@ -1,11 +1,65 @@
-          
 
 <div class="container">
+    
+    
+    
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Companys")); ?></h1>
+        <h1><?php echo $this->escape($this->translate("My Own Companies")); ?></h1>
+          
+        <p><a href="<?php echo $this->url(array('controller' => 'owncompany',
+    'action' => 'index')); ?>">My own companies </a></p>
+      
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('Company name'); ?></th>
+                    <th><?php echo $this->translate('Fiscal name'); ?></th>
+                    <th><?php echo $this->translate('Type'); ?></th>
+                    <th><?php echo $this->translate('Telephone'); ?></th>
+                    <th><?php echo $this->translate('Email'); ?></th>
+                    <th><?php echo $this->translate('City'); ?></th>
+                    <th><?php echo $this->translate('Description'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->own_companies as $company) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($company->name); ?></td>                         
+                        <td><?php echo $this->escape($company->fiscal_name); ?></td>                         
+                        <td><?php echo $this->escape($company->company_types_name); ?></td>
+                        <td><?php echo $this->escape($company->telephone); ?></td>
+                        <td><?php echo $this->escape($company->email); ?></td>
+                        <td><?php echo $this->escape($company->city); ?></td>
+                        <td><?php echo $this->escape($company->description); ?></td>
+                        <td>
+                             
+                            <a href="<?php echo $this->url(array('module' => 'production','controller' => 'production','action' => 'add', 'own_company_id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_claketa.png" alt="Añadir production" /></a>
+                              
+                        </td>                          
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       
+    </div>
+
+<!-- Table styles end -->  
+          
+
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Companies")); ?></h1>
         <p><a href="<?php echo $this->url(array('controller' => 'company',
     'action' => 'add')); ?>">Add new company</a></p>
-      
+         
     </div>
     <div class="contentbox">
         <table width="100%">
@@ -38,12 +92,14 @@
                         <td>
                             <a href="<?php echo $this->url(array('module' => 'production','controller' => 'production','action' => 'add', 'company_id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_claketa.png" alt="Añadir production" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'add', 'company_id' => $company->id)); ?>">
-                            	<img src="/styles/images/icons/icon_user.png" alt="Añadir contacto" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'index', 'company_id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_user.png" alt="Consultar contactos" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'edit', 'company_id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'delete', 'company_id' => $company->id)); ?>">
                             	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'inlitter', 'id' => $company->id)); ?>">
+                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Delete" /></a>
                         </td>                        
                     </tr>
                 <?php endforeach; ?>

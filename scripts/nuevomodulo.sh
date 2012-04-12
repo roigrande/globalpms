@@ -1,6 +1,6 @@
 #!/bin/bash
 echo El nombre del modulo en minuscula es $1
-echo El nombre del modulo mayuscula es es $2
+echo El nombre del modulo mayuscula es $2
 
 cp -a modeloejemplo/ /var/www/globalpms/application/modules/
 mv /var/www/globalpms/application/modules/modeloejemplo/ /var/www/globalpms/application/modules/$1/

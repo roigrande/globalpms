@@ -1,9 +1,9 @@
 <?php
 
-class Company_Form_Company extends Zend_Form {
+class Company_Form_Owncompany extends Zend_Form {
 
     public function init() {
-        $this->setName('company');
+        $this->setName('id');
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
@@ -11,7 +11,7 @@ class Company_Form_Company extends Zend_Form {
         $company_id = new Zend_Form_Element_Hidden('company_id');
         $company_id->addFilter('Int');
         $company_id->removeDecorator('label');
-        
+
         $name = new Zend_Form_Element_Text('name');
         $name->setLabel('name')
                 ->setRequired(true)
@@ -20,11 +20,23 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
+        $name = new Zend_Form_Element_Text('name');
+        $name->setLabel('name')
+                ->setRequired(true)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->addValidator('NotEmpty')
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class", "inputbox")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
+        ;
+
         $fiscal_name = new Zend_Form_Element_Text('fiscal_name');
         $fiscal_name->setLabel('Fiscal name')
                 ->setRequired(true)
@@ -33,12 +45,12 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
-        
+
+
         $company_types_id = new Zend_Form_Element_Select('company_types_id');
         $company_types_id->setLabel('Type')
                 ->setRequired(true)
@@ -46,7 +58,7 @@ class Company_Form_Company extends Zend_Form {
                 ->setmultiOptions($this->_selectOptions())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
-                ->setAttrib("class","toolboxdrop")
+                ->setAttrib("class", "toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
@@ -58,12 +70,12 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('emailAddress', TRUE)
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
 
-        
+
 
         $telephone = new Zend_Form_Element_Text('telephone');
         $telephone->setLabel('Telephone')
@@ -73,7 +85,7 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
@@ -86,7 +98,7 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
@@ -99,11 +111,11 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
+
         $city = new Zend_Form_Element_Text('city');
         $city->setLabel('City')
                 ->setRequired(true)
@@ -112,7 +124,7 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
@@ -124,11 +136,11 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
+
         $postal_code = new Zend_Form_Element_Text('postal_code');
         $postal_code->setLabel('Postal code')
                 ->setRequired(true)
@@ -137,7 +149,7 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
@@ -150,12 +162,25 @@ class Company_Form_Company extends Zend_Form {
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
-                ->setAttrib("class","inputbox")
+                ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
-        
+
+        $description = new Zend_Form_Element_Text('description');
+        $description->setLabel('Description')
+                ->setRequired(true)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->addValidator('NotEmpty')
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class", "inputbox")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
+        ;
+
+
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setValue('Guardar')
                 ->setAttrib('id', 'submitbutton')
@@ -164,7 +189,8 @@ class Company_Form_Company extends Zend_Form {
                 ->setAttrib('class', 'btn')
                 ->removeDecorator('label')
         ;
-        $this->addElements(array($id,
+        $this->addElements(array($id ,
+            $company_id,
             $name,
             $fiscal_name,
             $company_types_id,
@@ -176,6 +202,7 @@ class Company_Form_Company extends Zend_Form {
             $country,
             $postal_code,
             $observation,
+            $description,
             $submit));
     }
 

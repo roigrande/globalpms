@@ -34,7 +34,8 @@ class Modeloejemplo_Model_Modeloejemplo {
                 unset($data[$field]);
             }
         }
-        return $table->insert($data);
+        $table->insert($data);
+        return $table->lastInsertId();
     }
 
     /* Update entry

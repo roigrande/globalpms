@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_companys table.
+ * This is the Data Mapper class for the Acl_companies table.
  */
 class Company_Model_Company {
 
@@ -34,7 +34,8 @@ class Company_Model_Company {
                 unset($data[$field]);
             }
         }
-        return $table->insert($data);
+        $table->insert($data);
+        return $table->lastInsertId();
     }
 
     /* Update entry
@@ -68,6 +69,19 @@ class Company_Model_Company {
         $table->delete($where);
     }
 
+    
+    /* In litter entry
+     * 
+     * @param  array $data, array|string $where SQL WHERE clause(s)
+     * @return int|string
+     */
+
+    public function inLitter($where) {
+        $table = $this->getTable();
+        $data["in_Litter"]=(int)"1";
+        return $table->update($data,$where);
+    }
+    
     /**
      * Fetch all entries
      * 
@@ -86,8 +100,8 @@ class Company_Model_Company {
     public function fetchEntry($id) {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
-        
-        $data= $table->fetchRow($select)->toArray();
+
+        $data = $table->fetchRow($select)->toArray();
 //        Zend_Debug::dump($data);
 //        die();
         return $data;
@@ -99,21 +113,29 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT companies.id, companies.name,fiscal_name,company_types.name as company_types_name,
-                       email,telephone,fax,direction,city,country,postal_code
-          FROM companies, company_types
-          WHERE companies.company_types_id = company_types.id              
-          ";
-        
-//        $sql = "SELECT acl_roles.id, acl_roles.prefered_uri, acl_roles.name, acl_roles_parent.name as parent
-//           FROM acl_roles LEFT JOIN acl_roles AS acl_roles_parent ON acl_roles.role_parent = acl_roles_parent.id
-//     
-//           ORDER BY acl_roles_parent.name ";
-        
-        $table = $this->getTable()->getAdapter()->fetchAll($sql);
-     //   Zend_Debug::dump($table,"table");
-        return $table;
-        
+  
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('ct' => 'company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+                ->joinLeft('own_companies', 'companies.id = own_companies.company_id', array('own_company_id' => 'id', 'company_id'))
+//                ->from(array('oc' => 'own_companies'), array('own_company_company_id' => 'oc.company_id', 'own_company_id' => 'id'))             
+//                ->where('oc.company_id = c.id ')
+                ->where('ct.id = company_types_id')
+                ->where('in_litter = 0')
+        ;
+        $table = $table->fetchAll($select);
+        $i = 0;
+        $company_no_own='';
+        foreach ($table as $key => $field) {
+            //check all the compannies dont have company_id in the table own_companies 
+            if ($field["id"] != $field["company_id"]) {
+                $i++;
+                $company_no_own[$i] = $field;
+            }
+        }
+
+        return $company_no_own;
     }
 
     /**
@@ -121,8 +143,21 @@ class Company_Model_Company {
      * 
      * @return array
      */
-    public function fetchCompanys($type_id) {
+    public function noOwnCompany($arraycompanies) {
+        $model_own_company = new Company_Model_Owncompany;
+        $arrayowncompanies = $model_own_company->fetchEntries();
+        Zend_Debug::dump($arraycompanies, "---------------------------------");
+        foreach ($arrayowncompanies as $owncompany => $ownfield) {
+            foreach ($arraycompanies as $company => $field) {
+                Zend_Debug::dump($field["id"], "---------------------------------");
+                Zend_Debug::dump($ownfield, "---------------------------------");
 
+                if ($field['id'] == $ownfield["company_id"])
+                    unset($arraycompanies[$company]);
+            }
+        }
+        Zend_Debug::dump($arraycompanies, "---------------------------------");
+        die();
         $table = $this->getTable();
         $select = $table->select()->where('type_id =' . (int) $type_id);
 

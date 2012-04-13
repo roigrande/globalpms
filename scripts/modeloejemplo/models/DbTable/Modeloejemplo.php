@@ -5,7 +5,7 @@
 class Modeloejemplo_Model_DbTable_Modeloejemplo extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'modeloejemplos';
+    protected $_name    = 'modelodbejemplos';
     /** Primary key */
     protected $_primary = 'id';
 

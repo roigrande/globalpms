@@ -61,20 +61,11 @@ class Company_CompanyController extends Zend_Controller_Action {
      */
     public function editAction() {
         $this->view->title = "Edit Companies";
+        //
         $form = new Company_Form_Company();
-        $models = new Company_Model_Contact();
-        $this->view->title = "Contacts list";
-        $page = $this->_getParam('page', 1);
-        $company_id = $this->getRequest()->getParam('company_id');
-
-        $paginator = Zend_Paginator::factory($models->fetchCompany($company_id));
-
-        $contact = Zend_Registry::get('company');
-        $paginator->setItemCountPerPage($contact->paginator);
-        $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange($contact->paginator);
-        $this->view->paginator = $paginator;
-
+       
+    
+       
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Company_Model_Company();
@@ -88,6 +79,14 @@ class Company_CompanyController extends Zend_Controller_Action {
 
             $id = $this->_getParam('company_id', 0);
             if ($id > 0) {
+                $page = $this->_getParam('page', 1);   
+                $models = new Company_Model_Contact();
+                $paginator = Zend_Paginator::factory($models->fetchCompany($id));
+                $contact = Zend_Registry::get('company');
+                $paginator->setItemCountPerPage($contact->paginator);
+                $paginator->setCurrentPageNumber($page);
+                $paginator->setPageRange($contact->paginator);
+                $this->view->paginator = $paginator;
 
                 $model = new Company_Model_Company();
                 $form->populate($model->fetchEntry($id));
@@ -108,16 +107,20 @@ class Company_CompanyController extends Zend_Controller_Action {
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
                 $model = new Company_Model_Company();
-                $model->delete('id = ' . (int) $id);
+                $model->delete($id);
             }
             return $this->_helper->redirector('index');
         } else {
 
-            $id = $this->_getParam('id', 0);
+            $id = $this->_getParam('company_id', 0);
             if ($id > 0) {
                 $model = new Company_Model_Company();
-
-                $this->view->company = $model->fetchEntry($id);
+                $data=$model->fetchEntry($id);
+               
+                $model_production = new Production_Model_Production();
+                $this->view->company = $data;
+                //TODO comprobar si tiene resources
+                  //TODO comprobar si tiene contacts
             }
         }
     }
@@ -134,6 +137,7 @@ class Company_CompanyController extends Zend_Controller_Action {
         } else {
 
             $id = $this->_getParam('id', 0);
+            
             if ($id > 0) {
                 $model = new Company_Model_Company();
 

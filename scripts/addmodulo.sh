@@ -1,15 +1,17 @@
-#!/bin/bash
+ #!/bin/bash
 echo El nombre del modulo en minuscula $1
 echo El nombre del modulo en mayuscula $4
 echo El nombre del nuevo controlador en mayusculas $2
 echo El nombre del nuevo controlador en minusculas $3
+echo El nombre de la base de datosen minuscula $5
 
 
 echo controlador
 cp -a modeloejemplo/controllers/ModeloejemploController.php /var/www/globalpms/application/modules/$1/controllers/ 
 mv /var/www/globalpms/application/modules/$1/controllers/ModeloejemploController.php  /var/www/globalpms/application/modules/$1/controllers/$2Controller.php 
 
-find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/modeloejemplo'/$1'/g' 
+find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/modeloejemploadd/'$3'/g' 
+find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/modeloejemplo'/$1'/g'  
 
 find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/Modeloejemplo\_/'$4\_'/g' 
 find /var/www/globalpms/application/modules/$1/controllers/$2Controller.php -type f | xargs sed -i 's/Modeloejemplo/'$2'/g' 
@@ -32,6 +34,9 @@ find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | x
 
 find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | xargs sed -i 's/Modeloejemplo/'$2'/g' 
 find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | xargs sed -i 's/modeloejemplo/'$3'/g' 
+
+echo db 
+find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | xargs sed -i 's/modelodbejemplos/'$5'/g' 
 
 echo forms
 

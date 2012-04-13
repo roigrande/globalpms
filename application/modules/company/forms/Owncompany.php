@@ -12,6 +12,7 @@ class Company_Form_Owncompany extends Zend_Form {
         $company_id->addFilter('Int');
         $company_id->removeDecorator('label');
 
+        
         $name = new Zend_Form_Element_Text('name');
         $name->setLabel('name')
                 ->setRequired(true)
@@ -24,19 +25,17 @@ class Company_Form_Owncompany extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        $name = new Zend_Form_Element_Text('name');
-        $name->setLabel('name')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->addValidator('NotEmpty')
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class", "inputbox")
+        
+        $activity_types_id = new Zend_Form_Element_Multiselect('activity_types_id');
+        $activity_types_id->setLabel('Activity types')              
+                ->setmultiOptions($this->_selectOptionsActivityTypes())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 5)
                 ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
+                            'viewScript' => 'forms/_element_select.phtml'))))
+                ->setAttrib("class","toolboxdrop")
         ;
-
+        
         $fiscal_name = new Zend_Form_Element_Text('fiscal_name');
         $fiscal_name->setLabel('Fiscal name')
                 ->setRequired(true)
@@ -55,7 +54,7 @@ class Company_Form_Owncompany extends Zend_Form {
         $company_types_id->setLabel('Type')
                 ->setRequired(true)
                 ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptions())
+                ->setmultiOptions($this->_selectOptionsCompanyTypes())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
                 ->setAttrib("class", "toolboxdrop")
@@ -193,6 +192,7 @@ class Company_Form_Owncompany extends Zend_Form {
             $company_id,
             $name,
             $fiscal_name,
+            $activity_types_id,
             $company_types_id,
             $email,
             $telephone,
@@ -206,7 +206,17 @@ class Company_Form_Owncompany extends Zend_Form {
             $submit));
     }
 
-    protected function _selectOptions() {
+       public function _selectOptionsActivityTypes() {
+
+     $sql = "SELECT id,name
+                  FROM activity_types";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
+
+    protected function _selectOptionsCompanyTypes() {
         $sql = "SELECT id,name
                   FROM company_types";
         $db = Zend_Registry::get('db');

@@ -64,13 +64,25 @@ class Company_Model_Contact {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($where) {
-
-        //delete resource
+    public function delete($id) {
+         //check the integration TODO the views and resource check
+        $model_activity = new Production_Model_Activity();
+        if ($model_production->fetchHaveContactClient($id)) {
+            die("esta contacto esta usado como contacto cliente de una actividad");
+        }
+ 
+        if ($model_production->fetchHaveContactCompanyClient($id)) {
+            die("esta contacto esta usado como contacto propio de una actividad");
+        }  
         $table = $this->getTable();
-        $table->delete($where);
+        $table->delete('id = ' . (int) $id);
     }
 
+    public function inLitter($where) {
+        $table = $this->getTable();
+        $data["in_Litter"] = (int) "1";
+        return $table->update($data, $where);
+    }
     /**
      * Fetch all entries
      * 
@@ -120,6 +132,7 @@ class Company_Model_Contact {
         $select->from(array('c' => 'companies'), array('company' => 'name', 'id_company' => 'id'))
                 ->where('company_id = ?', $id_company)
                 ->where('company_id = c.id')
+                ->where('contacts.in_litter = "0"')
         ;
 
         $data = $table->fetchAll($select);

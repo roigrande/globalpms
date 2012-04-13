@@ -58,6 +58,8 @@
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'delete', 'id' => $contact->id)); ?>">
                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                             <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'inlitter', 'id' => $contact->id)); ?>">
+                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Delete" /></a>
 
                             <a style='cursor: pointer;' onclick="getAjaxResponse('http://globalpms.es/company/contact/edit/id/<?php echo $contact->id; ?>/company_id/<?php echo $contact->company_id; ?>' ,'iDformcontact')">view form</a> 
                         </td>

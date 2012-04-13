@@ -12,16 +12,22 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
-
-        $models = new Modeloejemplo_Model_Modeloejemplo();
-        $this->view->title = "Modeloejemplos list";
+        //get the page of the table 
         $page = $this->_getParam('page', 1);
-        $paginator = Zend_Paginator::factory($models->fetchSql());
-
+        
+        //get the dates for the table
+        $model = new Modeloejemplo_Model_Modeloejemplo();
+        $data=$model->fetchEntries();
+        
+        //paginator
+        $paginator = Zend_Paginator::factory($data);
         $modeloejemplo = Zend_Registry::get('modeloejemplo');
         $paginator->setItemCountPerPage($modeloejemplo->paginator);
         $paginator->setCurrentPageNumber($page);
         $paginator->setPageRange($modeloejemplo->paginator);
+        
+        //send information to the view
+        $this->view->title = "Modeloejemplos list";
         $this->view->paginator = $paginator;
     }
 
@@ -96,7 +102,33 @@ class Modeloejemplo_ModeloejemploController extends Zend_Controller_Action {
             if ($id > 0) {
                 $model = new Modeloejemplo_Model_Modeloejemplo();
 
-                $this->view->modeloejemplo = $model->fetchEntry($id);
+                $this->view->modeloejemploadd= $model->fetchEntry($id);
+            }
+        }
+    }
+    
+    /**
+     * inlitterAction for Modeloejemplos
+     *
+     * @return void
+     */
+    
+    public function inlitterAction() {
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+                $id = $this->getRequest()->getPost('id');
+                $model = new Modeloejemplo_Model_Modeloejemplo();
+                $model->inLitter('id = ' . (int) $id);
+            }
+            return $this->_helper->redirector('index');
+        } else {
+
+            $id = $this->_getParam('id', 0);
+            if ($id > 0) {
+                $model = new Modeloejemplo_Model_Modeloejemplo();
+
+                $this->view->modeloejemploadd = $model->fetchEntry($id);
             }
         }
     }

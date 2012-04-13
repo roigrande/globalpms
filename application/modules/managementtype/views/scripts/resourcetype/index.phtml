@@ -1,0 +1,44 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Resourcetypes")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'resourcetype',
+    'action' => 'add')); ?>">Add new resourcetype</a></p>
+        
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('name'); ?></th>
+                    
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->paginator as $resourcetype) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($resourcetype->name); ?></td>                         
+                            
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => 'resourcetype','action' => 'edit', 'id' => $resourcetype->id)); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            <a href="<?php echo $this->url(array('controller' => 'resourcetype','action' => 'delete', 'id' => $resourcetype->id)); ?>">
+                            	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                        </td>                        
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

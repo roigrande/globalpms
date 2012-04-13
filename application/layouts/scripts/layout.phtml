@@ -124,9 +124,13 @@ echo $this->doctype();
 
             </li>
             <li>
-                <a href="<?php echo $this->url(array('module' => 'finances', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Production" /><br />Finances</a>
+                <a href="<?php echo $this->url(array('module' => 'finances', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Finances" /><br />Finances</a>
 
             </li>
+            <li>
+                <a href="<?php echo $this->url(array('module' => 'managementtype', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Production" /><br />Types Configure</a>
+
+            </li>            
             <li> 
                 <?php
                 include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');

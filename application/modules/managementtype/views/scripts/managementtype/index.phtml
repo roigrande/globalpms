@@ -1,0 +1,41 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Managementtypes")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'managementtype',
+    'action' => 'add')); ?>">Add new managementtype</a></p>
+        
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                <tr>
+                    
+                </tr>
+                                    
+                <tr>
+                    <th><?php echo $this->translate('Nanme'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->paginator as $managementtype) : ?>
+                    <tr>
+                        <td><?php echo $this->escape($managementtype); ?></td>                                               
+                        <td>
+                            <a href="<?php echo $this->url(array('controller' => strtolower($managementtype),'action' => 'index')); ?>">
+                            	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                            
+                        </td>                        
+                    </tr>
+                <?php endforeach; ?>
+        </table>
+       <div class="extrabottom">
+            <?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

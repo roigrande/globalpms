@@ -78,7 +78,16 @@ class Company_OwncompanyController extends Zend_Controller_Action {
 
 
             if ($id > 0) {
-
+                //Get the contacs of the own company
+                $page = $this->_getParam('page', 1);
+                $models = new Company_Model_Contact();
+                $paginator = Zend_Paginator::factory($models->fetchCompany($id));
+                $contact = Zend_Registry::get('company');
+                $paginator->setItemCountPerPage($contact->paginator);
+                $paginator->setCurrentPageNumber($page);
+                $paginator->setPageRange($contact->paginator);
+                $this->view->paginator = $paginator;
+                
                 $model = new Company_Model_Owncompany();
                 $data_own_company = $model->fetchEntry($id);
                 $form->populate($data_own_company);
@@ -99,9 +108,7 @@ class Company_OwncompanyController extends Zend_Controller_Action {
                 $id = $this->getRequest()->getPost('id');
                 $company_id = $this->getRequest()->getPost('company_id');
                 $model = new Company_Model_Owncompany();
-                $model_company = new Company_Model_Company();
-                $model_company->delete('id = ' . (int) $company_id);
-                $model->delete('id = ' . (int) $id);
+                $model->delete($id,$company_id);
             }
             return $this->_helper->redirector('index');
         } else {
@@ -109,8 +116,10 @@ class Company_OwncompanyController extends Zend_Controller_Action {
             $id = $this->_getParam('own_company_id', 0);
             if ($id > 0) {
                 $model = new Company_Model_Owncompany();
-
-                $this->view->owncompany = $model->fetchEntry($id);
+                $data =$model->fetchEntry($id);
+                $this->view->owncompany = $data;
+                //TODO comprobar si tiene resources
+                
             }
         }
     }

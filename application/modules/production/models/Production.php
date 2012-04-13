@@ -110,7 +110,27 @@ class Production_Model_Production {
         $select = $table->select()->where('id = ?', $id);
         return $table->fetchRow($select)->toArray();
     }
-
+      /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function fetchHaveCompanyOwn($company_id) {
+       
+         $table = $this->getTable();
+        $select = $table->select()->where('own_companies_id = ?', $company_id);
+        $row= $table->fetchRow($select);
+        return $row;
+    }
+     public function fetchHaveCompanyClient($company_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('client_companies_id = ?', $company_id);
+        $row= $table->fetchRow($select);
+        return $row;
+    }
+    
     public function fetchProductions() {
 
 

@@ -93,16 +93,24 @@ class Company_ContactController extends Zend_Controller_Action {
                     $this->view->contact = $data;
                     return $data;
                 } else {
-                    return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
+                    //check if its ownCompany
+                    $id = $this->_getParam('company_id', 0);
+                    $model = new Company_Model_Owncompany();
+                    if ($own_company = $model->fetchIsOwnCompany($id)) {
+
+                        return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
+                    } else {
+                        return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $id));
+                    }
                 }
             } else {
-                 //check if dont pass the validation of the form and its Ajax
-//                if ($this->_request->isXmlHttpRequest()) {
-//                    
-//                    $this->_helper->layout->disableLayout();
-//                    $form->populate($this->getRequest()->getPost());
-//                    $form->submit->setOptions(array('onChange' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
-//                }
+                //check if dont pass the validation of the form and its Ajax
+                if ($this->_request->isXmlHttpRequest()) {
+
+                    $this->_helper->layout->disableLayout();
+                    $form->populate($this->getRequest()->getPost());
+                    $form->submit->setOptions(array('onChange' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
+                }
 
                 $form->populate($this->getRequest()->getPost());
             }
@@ -114,12 +122,13 @@ class Company_ContactController extends Zend_Controller_Action {
             if ($id > 0) {
                 //check si es una peticion ajax
                 if ($this->_request->isXmlHttpRequest()) {
+
                     $this->_helper->layout->disableLayout();
+                    $form->submit->setOptions(array('onClick' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
                     // $this->_helper->viewRenderer->setNoRender(true);
                 }
                 $model = new Company_Model_Contact();
                 $form->populate($model->fetchEntry($id));
-                $form->submit->setOptions(array('onClick' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
             }
         }
         //$this->view->title = "Edit Contacts";
@@ -137,12 +146,49 @@ class Company_ContactController extends Zend_Controller_Action {
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
                 $model = new Company_Model_Contact();
-                $model->delete('id = ' . (int) $id);
+                $model->delete($id);
             }
-            return $this->_helper->redirector('index', 'company', 'company');
+            
         } else {
 
             $id = $this->_getParam('id', 0);
+            if ($id > 0) {
+                $model = new Company_Model_Contact();
+                $model_production = new Production_Model_Production();
+
+                if ($model_production->fetchHaveCompany($data["company_id"])) {
+                    die("esta compañia esta trabajando como cliente de una produccion");
+                }
+
+                $this->view->contact = $model->fetchEntry($id);
+            }
+        }
+    }
+
+    public function inlitterAction() {
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+                $id = $this->getRequest()->getPost('id');
+                $model = new Company_Model_Contact();
+
+                $model->inLitter('id = ' . (int) $id);
+            }
+            $company_id = $this->getRequest()->getPost('company_id');
+
+            //check if its ownCompany
+            $model = new Company_Model_Owncompany();
+            if ($own_company = $model->fetchIsOwnCompany($company_id)) {
+
+                return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
+            } else {
+                return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $id));
+            }
+        } else {
+
+            $id = $this->_getParam('id', 0);
+
+
             if ($id > 0) {
                 $model = new Company_Model_Contact();
 

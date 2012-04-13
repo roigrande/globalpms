@@ -68,11 +68,19 @@ class Company_Model_Owncompany {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($where) {
-
-        //delete resource
+    public function delete($own_company_id,$company_id) {
+        
+        $model_production = new Production_Model_Production();
+        //check the integration TODO the views and resource check
+       
+        if ($model_production->fetchHaveCompanyOwn($data["company_id"]))
+        {die("esta compañia esta trabajando como cliente de una produccion");}       
+        //delete company
+        $model_company = new Company_Model_Company();
+        $model_company->delete('id = ' . (int) $company_id);
+        //delete owcompany
         $table = $this->getTable();
-        $table->delete($where);
+        $table->delete('id = ' . (int) $own_company_id);
     }
     
      
@@ -105,7 +113,13 @@ class Company_Model_Owncompany {
 //        die();
         return $data_company;
     }
-
+    public function fetchIsOwnCompany($company_id) {
+       
+         $table = $this->getTable();
+        $select = $table->select()->where('company_id = ?', $company_id);
+        $row= $table->fetchRow($select);
+        return $row;
+    }
     /**
      *  Fetch all sql entries
      * 

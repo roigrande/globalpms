@@ -27,6 +27,7 @@ class Company_Model_Company {
      */
 
     public function save(array $data) {
+        $data["activity_types_id"] = implode(",", $data["activity_types_id"]);
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -46,7 +47,9 @@ class Company_Model_Company {
 
     public function update(array $data, $where) {
         $table = $this->getTable();
+        $data["activity_types_id"] = implode(",", $data["activity_types_id"]);
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+        $data["activity_tipes_id"] = implode(",", $data["activity_tipes_id"]);
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
@@ -62,14 +65,18 @@ class Company_Model_Company {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($where) {
+    public function delete($id) {
+        //check the integration TODO the views and resource check
+        $model_production = new Production_Model_Production();
+        if ($model_production->fetchHaveCompanyClient($id)) {
+            die("esta compañia esta trabajando como cliente de una produccion");
+        }
 
         //delete resource
         $table = $this->getTable();
-        $table->delete($where);
+        //  $table->delete('id = ' . (int) $id);
     }
 
-    
     /* In litter entry
      * 
      * @param  array $data, array|string $where SQL WHERE clause(s)
@@ -78,10 +85,10 @@ class Company_Model_Company {
 
     public function inLitter($where) {
         $table = $this->getTable();
-        $data["in_Litter"]=(int)"1";
-        return $table->update($data,$where);
+        $data["in_Litter"] = (int) "1";
+        return $table->update($data, $where);
     }
-    
+
     /**
      * Fetch all entries
      * 
@@ -102,6 +109,7 @@ class Company_Model_Company {
         $select = $table->select()->where('id = ?', $id);
 
         $data = $table->fetchRow($select)->toArray();
+        $data["activity_types_id"] = explode(",", $data["activity_types_id"]);
 //        Zend_Debug::dump($data);
 //        die();
         return $data;
@@ -113,7 +121,7 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-  
+
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
@@ -124,17 +132,19 @@ class Company_Model_Company {
                 ->where('ct.id = company_types_id')
                 ->where('in_litter = 0')
         ;
-        $table = $table->fetchAll($select);
+        $table = $table->fetchAll($select)->toArray();
+
         $i = 0;
-        $company_no_own='';
+        $company_no_own = '';
         foreach ($table as $key => $field) {
             //check all the compannies dont have company_id in the table own_companies 
             if ($field["id"] != $field["company_id"]) {
                 $i++;
+
                 $company_no_own[$i] = $field;
+                $company_no_own[$i]["activity_types_id"] = explode(",", $company_no_own[$i]["activity_types_id"]);
             }
         }
-
         return $company_no_own;
     }
 
@@ -143,7 +153,7 @@ class Company_Model_Company {
      * 
      * @return array
      */
-    public function noOwnCompany($arraycompanies) {
+    public function noOwnCompany($id) {
         $model_own_company = new Company_Model_Owncompany;
         $arrayowncompanies = $model_own_company->fetchEntries();
         Zend_Debug::dump($arraycompanies, "---------------------------------");

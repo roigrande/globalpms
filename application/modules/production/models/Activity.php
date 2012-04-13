@@ -73,7 +73,21 @@ class Production_Model_Activity {
         $table = $this->getTable();
         $table->delete($where);
     }
-
+      public function fetchHaveContactCompanyClient($contact_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('contact_company_client_id = ?', $contact_id);
+        $row= $table->fetchRow($select);
+        return $row;
+    }
+    
+     public function fetchHaveContactOwnCompany($contact_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('contact_own_company_id = ?', $contact_id);
+        $row= $table->fetchRow($select);
+        return $row;
+    }
     /**
      * Fetch all entries
      * 

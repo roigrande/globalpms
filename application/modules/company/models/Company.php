@@ -27,7 +27,11 @@ class Company_Model_Company {
      */
 
     public function save(array $data) {
+   
         $data["activity_types_id"] = implode(",", $data["activity_types_id"]);
+        if ($data["activity_types_id"]==0){
+             $data["activity_types_id"]=1;
+        }
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -46,16 +50,20 @@ class Company_Model_Company {
      */
 
     public function update(array $data, $where) {
-        $table = $this->getTable();
-        $data["activity_types_id"] = implode(",", $data["activity_types_id"]);
-        $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-        $data["activity_tipes_id"] = implode(",", $data["activity_tipes_id"]);
-        foreach ($data as $field => $value) {
+        
+          $table = $this->getTable();
+         $data["activity_types_id"] = implode(",", $data["activity_types_id"]);
+          if ($data["activity_types_id"]==0){
+              $data["activity_types_id"]=1;
+        }
+        
+         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
-
+      
         return $table->update($data, $where);
     }
 
@@ -68,13 +76,16 @@ class Company_Model_Company {
     public function delete($id) {
         //check the integration TODO the views and resource check
         $model_production = new Production_Model_Production();
-        if ($model_production->fetchHaveCompanyClient($id)) {
+        if ($model_production->fetchHaveCompanyClient($id)==null) {
             die("esta compañia esta trabajando como cliente de una produccion");
         }
-
+         $model_contact = new Company_Model_Contact();
+        if ($model_contact->fetchHaveCompanyContact($id)) {
+            die("esta compañia tiene contactos asociaodos");
+        }
         //delete resource
         $table = $this->getTable();
-        //  $table->delete('id = ' . (int) $id);
+        $table->delete('id = ' . (int) $id);
     }
 
     /* In litter entry
@@ -86,9 +97,17 @@ class Company_Model_Company {
     public function inLitter($where) {
         $table = $this->getTable();
         $data["in_Litter"] = (int) "1";
+       
         return $table->update($data, $where);
     }
-
+    
+    public function outLitter($where) {
+  
+        $table = $this->getTable();
+        $data["in_Litter"] = (int) "0";
+         //die("outlitter");
+        return $table->update($data, $where);
+    }
     /**
      * Fetch all entries
      * 
@@ -130,7 +149,7 @@ class Company_Model_Company {
 //                ->from(array('oc' => 'own_companies'), array('own_company_company_id' => 'oc.company_id', 'own_company_id' => 'id'))             
 //                ->where('oc.company_id = c.id ')
                 ->where('ct.id = company_types_id')
-                ->where('in_litter = 0')
+              //  ->where('in_litter = 0')
         ;
         $table = $table->fetchAll($select)->toArray();
 

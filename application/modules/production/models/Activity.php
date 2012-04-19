@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the Data Mapper class for the activitys table.
+ * This is the Data Mapper class for the Acl_activitys table.
  */
 class Production_Model_Activity {
 
@@ -34,7 +34,8 @@ class Production_Model_Activity {
                 unset($data[$field]);
             }
         }
-        return $table->insert($data);
+        $table->insert($data);
+        return $table->lastInsertId();
     }
 
     /* Update entry
@@ -45,19 +46,13 @@ class Production_Model_Activity {
 
     public function update(array $data, $where) {
         $table = $this->getTable();
-        
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
-            
-              //
-              //      Zend_Debug::dump($data);
-            
-             
+
         return $table->update($data, $where);
     }
 
@@ -73,21 +68,7 @@ class Production_Model_Activity {
         $table = $this->getTable();
         $table->delete($where);
     }
-      public function fetchHaveContactCompanyClient($contact_id) {
-       
-        $table = $this->getTable();
-        $select = $table->select()->where('contact_company_client_id = ?', $contact_id);
-        $row= $table->fetchRow($select);
-        return $row;
-    }
-    
-     public function fetchHaveContactOwnCompany($contact_id) {
-       
-        $table = $this->getTable();
-        $select = $table->select()->where('contact_own_company_id = ?', $contact_id);
-        $row= $table->fetchRow($select);
-        return $row;
-    }
+
     /**
      * Fetch all entries
      * 
@@ -96,7 +77,7 @@ class Production_Model_Activity {
     public function fetchEntries() {
         return $this->getTable()->fetchAll('1');
     }
-
+    
     /**
      * Fetch an individual entry
      * 
@@ -106,11 +87,32 @@ class Production_Model_Activity {
     public function fetchEntry($id) {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
-        $row= $table->fetchRow($select)->toArray();
-//        Zend_Debug::dump($row);
+        return $table->fetchRow($select)->toArray();
+    }
+    
+    public function fetchHaveContactCompanyClient($contact_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('contact_company_client_id = ?', $contact_id);
+        $row= $table->fetchRow($select);
         return $row;
     }
-
+    
+     
+    public function fetchHaveContactOwnCompany($contact_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('contact_own_company_id = ?', $contact_id);
+        $row= $table->fetchRow($select);
+        return $row;
+    }
+    public function fetchHaveActivities($company_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('company_id = ?', $company_id);
+     
+        return $table->fetchRow($select);
+    }
     /**
      *  Fetch all sql entries
      * 
@@ -118,77 +120,28 @@ class Production_Model_Activity {
      */
     public function fetchSql() {
         $sql = "SELECT activitys.id, activitys.name, date,
-                    email,status, person_id,
-                    validation_code,phone, roles.name as role
-          FROM activities,
+                    email,status, roles.name as role
+          FROM activitys, roles
           WHERE activitys.role_id = roles.id              
           ORDER BY roles.id";
 
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
+        //   Zend_Debug::dump($table,"Activity");
+     
         return $table;
     }
-    
-//     public function fetchActivitis() {
-//
-//
-//        $table = $this->getTable();
-//        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
-//                ->setIntegrityCheck(false);
-//        $select->from(array('t' => 'activity_types'), array('activity_types' =>'name','activity_types_id'=>'id'))
-//               ->where('activity_types_id = t.id')
-//               ->order('productions_id')
-//               ->from(array('c' => 'contacts'), array('client_name' =>'name','id_client'=>'id'))
-//               ->where('client_resp_name = c.id')
-//               ->from(array('com' => 'companies'), array('company_name' =>'name','id_company'=>'id'))
-//               ->where('client= com.id')
-//                ;
-//        return $table->fetchAll($select);
-//    }
-     
-     public function fetchActivities($id=0) {
 
-        $table = $this->getTable();
-        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
-                ->setIntegrityCheck(false);
-        $select->from(array('t' => 'activity_types'), array('activity_types' => 'name', 'activity_types_id' => 'id'))
-                ->where('activity_types_id = t.id')             
-                ->from(array('s' => 'status'), array('status' => 'name', 'id_status' => 'id'))
-                ->where('status_id = s.id')
-                ->from(array('c' => 'contacts'), array('client_resp_name' => 'name', 'client_resp_phone' => 'telephone'))
-                ->where('client_resp_id = c.id')
-                ->from(array('c2' => 'contacts'), array('contract_resp_name' => 'name', 'contract_resp_phone' => 'telephone'))
-                ->where('contract_resp_id = c2.id')
-                ->from(array('c3' => 'contacts'), array('responsible_name' => 'name', 'responsible_phone' => 'telephone'))
-                ->where('responsible_id = c3.id') 
-                ->from(array('com' => 'companies'), array('contract_company_name' => 'name'))
-                ->where('contract_company_id= com.id')
-        ;
-        if (!$id == "0") {
-            $select->where('productions_id =' . $id);
-        } else {
-            $select->order('productions_id');
-        }
-        ;
-        $data = $table->fetchAll($select);
-      Zend_Debug::dump($data);
-    //  die();
-        return $data;
-  
-       
-    }
-    
-   
     /**
      *  Fetch all sql entries for the $role_id
      * 
      * @return array
      */
-    public function fetchActivitys($production_id) {
+    public function fetchTypeActivitys($type_id) {
 
         $table = $this->getTable();
-        $select = $table->select()->where('productions_id =' . (int) $production_id);
+        $select = $table->select()->where('activity_type_id =' . (int) $type_id);
 
-        return $table->fetchAll($select);
+        return $table->fetchAll($select)->toArray();
     }
 
 }

@@ -17,6 +17,18 @@ class Production_Model_DbTable_Activity extends Zend_Db_Table_Abstract
      * @param  array $data 
      * @return int
      */
+    
+     /**
+     * Last insertId
+     *
+     * 
+     * @return int
+     */
+    public function lastInsertId()
+    {
+        return $this->_db->lastInsertId();
+    }
+    
     public function insert(array $data)
     {
         return parent::insert($data);

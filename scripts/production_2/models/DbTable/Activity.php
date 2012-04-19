@@ -1,11 +1,11 @@
 <?php
 /**
- * This is the DbTable class for the Managementtype table.
+ * This is the DbTable class for the Activity table.
  */
-class Managementtype_Model_DbTable_Managementtype extends Zend_Db_Table_Abstract
+class Production_Model_DbTable_Activity extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'managementtypes';
+    protected $_name    = 'activities';
     /** Primary key */
     protected $_primary = 'id';
 
@@ -17,18 +17,6 @@ class Managementtype_Model_DbTable_Managementtype extends Zend_Db_Table_Abstract
      * @param  array $data 
      * @return int
      */
-    
-     /**
-     * Last insertId
-     *
-     * 
-     * @return int
-     */
-    public function lastInsertId()
-    {
-        return $this->_db->lastInsertId();
-    }
-    
     public function insert(array $data)
     {
         return parent::insert($data);

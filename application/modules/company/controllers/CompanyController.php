@@ -21,13 +21,21 @@ class Company_CompanyController extends Zend_Controller_Action {
         //get the own_companies
         $model_own_company = new Company_Model_Owncompany();
         $data_own_companies = $model_own_company->fetchSql();
+        if ($data_model){
         $paginator = Zend_Paginator::factory($data_model);
+              
         $company = Zend_Registry::get('company');
+   
         $paginator->setItemCountPerPage($company->paginator);
         $paginator->setCurrentPageNumber($page);
         $paginator->setPageRange($company->paginator);
-        $this->view->own_companies = $data_own_companies;
         $this->view->paginator = $paginator;
+        
+        }else{$this->view->paginator = null;}
+        $this->view->own_companies = $data_own_companies;
+        
+        
+  
     }
 
     /**
@@ -127,11 +135,39 @@ class Company_CompanyController extends Zend_Controller_Action {
     
      public function inlitterAction() {
         if ($this->getRequest()->isPost()) {
+       
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
+                
                 $id = $this->getRequest()->getPost('id');
                 $model = new Company_Model_Company();
                 $model->inLitter('id = ' . (int) $id);
+       
+            }
+            return $this->_helper->redirector('index');
+        } else {
+
+            $id = $this->_getParam('id', 0);
+            
+            if ($id > 0) {
+                $model = new Company_Model_Company();
+
+                $this->view->company = $model->fetchEntry($id);
+            }
+        }
+    }
+    
+     public function outlitterAction() {
+            
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+                
+                $id = $this->getRequest()->getPost('id');
+                $model = new Company_Model_Company();
+               
+                $model->outLitter('id = ' . (int) $id);
+       
             }
             return $this->_helper->redirector('index');
         } else {

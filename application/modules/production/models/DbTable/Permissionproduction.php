@@ -1,11 +1,11 @@
 <?php
 /**
- * This is the DbTable class for the Resourcetype table.
+ * This is the DbTable class for the Permissionproduction table.
  */
-class Managementtype_Model_DbTable_Resourcetype extends Zend_Db_Table_Abstract
+class Production_Model_DbTable_Permissionproduction extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'resources_types';
+    protected $_name    = 'permission_production';
     /** Primary key */
     protected $_primary = 'id';
 

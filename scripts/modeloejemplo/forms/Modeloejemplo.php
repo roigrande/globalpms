@@ -20,29 +20,28 @@ class Modeloejemplo_Form_Modeloejemplo extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
-        $modeloejemplo_types_id = new Zend_Form_Element_Select('modeloejemplo_types_id');
-        $modeloejemplo_types_id->setLabel('modeloejemplo types')
-                ->setRequired(true)
-                ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptions_types())
-                ->setAttrib('maxlength', 200)
-                ->setAttrib('size', 1)
-                ->setAttrib("class", "toolboxdrop")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_select.phtml'))))
-        ;
-        
-        $modeloejemplo_types_id = new Zend_Form_Element_Multiselect('$modeloejemplo_types_id');
-        $modeloejemplo_types_id->setLabel('modeloejemplo types')              
-                ->setmultiOptions($this->_selectOptions_types())
-                ->setAttrib('maxlength', 200)
-                ->setAttrib('size', 5)
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_select.phtml'))))
-                ->setAttrib("class","toolboxdrop")
-        ;
-        
+//        
+//        $modeloejemplo_types_id = new Zend_Form_Element_Select('modeloejemplo_types_id');
+//        $modeloejemplo_types_id->setLabel('modeloejemplo types') 
+//                ->addValidator('NotEmpty', true)
+//                ->setmultiOptions($this->_selectOptions_types())
+//                ->setAttrib('maxlength', 200)
+//                ->setAttrib('size', 1)
+//                ->setAttrib("class", "toolboxdrop")
+//                ->setDecorators(array(array('ViewScript', array(
+//                            'viewScript' => 'forms/_element_select.phtml'))))
+//        ;
+//        
+//        $modeloejemplo_types_id = new Zend_Form_Element_Multiselect('$modeloejemplo_types_id');
+//        $modeloejemplo_types_id->setLabel('modeloejemplo types')              
+//                ->setmultiOptions($this->_selectOptions_types())
+//                ->setAttrib('maxlength', 200)
+//                ->setAttrib('size', 5)
+//                ->setDecorators(array(array('ViewScript', array(
+//                            'viewScript' => 'forms/_element_select.phtml'))))
+//                ->setAttrib("class","toolboxdrop")
+//        ;
+//        
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setValue('Guardar')
                 ->setAttrib('id', 'submitbutton')
@@ -56,15 +55,15 @@ class Modeloejemplo_Form_Modeloejemplo extends Zend_Form {
            
             $submit));
     }              
-   public function _selectOptions_Types() {
-
-     $sql = "SELECT id,name
-                  FROM modeloejemplo";
-        $db = Zend_Registry::get('db');
-        $result = $db->fetchPairs($sql);
-        //TODO comprobar que no hay roles
-        return $result;
-    }
+//   public function _selectOptions_Types() {
+//
+//     $sql = "SELECT id,name
+//                  FROM modeloejemplo";
+//        $db = Zend_Registry::get('db');
+//        $result = $db->fetchPairs($sql);
+//        //TODO comprobar que no hay roles
+//        return $result;
+//    }
     
 }
 

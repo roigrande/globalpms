@@ -6,16 +6,15 @@
         <p><a href="<?php echo $this->url(array('controller' => 'activity',
     'action' => 'add'));
 ?>">Add new activity</a></p>
+
     </div>
     <div class="contentbox">
         <table width="100%">
             <thead>
-                <tr>                    
-                </tr>
-
+                 
                 <tr>
                     <th><?php echo $this->translate('Responsible'); ?></th>
-                    <th><?php echo $this->translate('Companies_name'); ?></th>
+                    <th><?php echo $this->translate('Activity_types'); ?></th>
                     <th><?php echo $this->translate('Client_resp_name'); ?></th>
                     <th><?php echo $this->translate('Date_start'); ?></th>
                     <th><?php echo $this->translate('Type'); ?></th> 
@@ -24,23 +23,20 @@
             </thead>
 
             <tbody>
-<?php foreach ($this->paginator as $activity) : ?>
-                    <tr>
-                        <td><?php echo $this->escape($activity->responsible); ?></td>
-                        <td><?php echo $this->escape($activity->company_name); ?></td>
-                        <td><?php echo $this->escape($activity->client_name); ?></td>
-                        <td><?php echo $this->escape($activity->activity_types); ?></td>
-                        <td><?php echo $this->escape($activity->date_start); ?></td>
-                        <td><?php echo $this->escape($activity->status); ?></td>
-                        <td>
-
-                            <a href="<?php echo $this->url(array('controller' => 'activity', 'action' => 'edit', 'id' => $activity->id)); ?>">
-                                <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'activity', 'action' => 'delete', 'id' => $activity->id)); ?>">
-                                <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                        </td>                        
-                    </tr>
-<?php endforeach; ?>
+                <?php if ($this->paginator) {
+                    foreach ($this->paginator as $activity) :
+                        ?>
+                        <tr>
+                            <td><?php echo $this->escape($activity->name); ?></td>                         
+                            <td>
+                                <a href="<?php echo $this->url(array('controller' => 'activity', 'action' => 'edit', 'id' => $activity->id)); ?>">
+                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                                <a href="<?php echo $this->url(array('controller' => 'activity', 'action' => 'delete', 'id' => $activity->id)); ?>">
+                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                            </td>                        
+                        </tr>
+                <?php endforeach;
+            } ?>
         </table>
         <div class="extrabottom">
 <?php echo $this->paginator; ?>           

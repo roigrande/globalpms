@@ -68,22 +68,30 @@ class Company_Model_Owncompany {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($own_company_id,$company_id) {
-        
+    public function delete($own_company_id, $company_id) {
+
         $model_production = new Production_Model_Production();
         //check the integration TODO the views and resource check
-       
-        if ($model_production->fetchHaveCompanyOwn($data["company_id"]))
-        {die("esta compañia esta trabajando como cliente de una produccion");}       
+
+        if ($model_production->fetchHaveCompanyOwn($company_id)) {
+            die("esta compañia esta trabajando como cliente de una produccion");
+        }
+
+        $model_contact = new Company_Model_Contact();
+        if ($model_contact->fetchHaveCompanyContact($company_id)) {
+            die("esta compañia tiene contactos asociaodos");
+        }
+
         //delete company
+
+
         $model_company = new Company_Model_Company();
         $model_company->delete('id = ' . (int) $company_id);
         //delete owcompany
         $table = $this->getTable();
         $table->delete('id = ' . (int) $own_company_id);
     }
-    
-     
+
     /**
      * Fetch all entries
      * 
@@ -113,13 +121,15 @@ class Company_Model_Owncompany {
 //        die();
         return $data_company;
     }
+
     public function fetchIsOwnCompany($company_id) {
-       
-         $table = $this->getTable();
+
+        $table = $this->getTable();
         $select = $table->select()->where('company_id = ?', $company_id);
-        $row= $table->fetchRow($select);
+        $row = $table->fetchRow($select);
         return $row;
     }
+
     /**
      *  Fetch all sql entries
      * 
@@ -129,12 +139,12 @@ class Company_Model_Owncompany {
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('c' => 'companies'), array('name', 'email', 'telephone', 'fax', 'direction', 'city', 'country', 'postal_code', 'fiscal_name','in_litter'))
+        $select->from(array('c' => 'companies'), array('name', 'email', 'telephone', 'fax', 'direction', 'city', 'country', 'postal_code', 'fiscal_name', 'in_litter'))
                 ->from(array('ct' => 'company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
-                ->where('c.in_litter = 0')
+               // ->where('c.in_litter = 0')
                 ->where('company_id = c.id')
                 ->where('ct.id = c.company_types_id');
-                
+
         $data = $table->fetchAll($select);
 //      Zend_Debug::dump($data);
 //      die();
@@ -153,6 +163,7 @@ class Company_Model_Owncompany {
 
         return $table->fetchAll($select)->toArray();
     }
+
     public function isOwnCompany($company_id) {
 
         $table = $this->getTable();
@@ -160,7 +171,6 @@ class Company_Model_Owncompany {
 
         return $table->fetchAll($select)->toArray();
     }
-
 
 }
 

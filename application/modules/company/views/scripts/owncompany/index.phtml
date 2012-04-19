@@ -40,16 +40,24 @@
                         <td><?php echo $this->escape($owncompany->city); ?></td>
                          <td><?php echo $this->escape($owncompany->description); ?></td>
                         <td>
+                            <?php if ($owncompany->in_litter==0){?>
                             <a href="<?php echo $this->url(array('module' => 'production', 'controller' => 'production', 'action' => 'add', 'own_company_id' => $owncompany->id)); ?>">
                                 <img src="/styles/images/icons/icon_claketa.png" alt="Añadir production" /></a>
+                             <?php }?>
                             <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'index', 'company_id' => $owncompany->company_id)); ?>">
                                 <img src="/styles/images/icons/icon_user.png" alt="Consultar contactos" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'owncompany', 'action' => 'edit', 'own_company_id' => $owncompany->id)); ?>">
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'owncompany', 'action' => 'delete', 'own_company_id' => $owncompany->id)); ?>">
                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                             <?php if ($owncompany['in_litter']==0){?>
                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'inlitter', 'id' => $owncompany->company_id)); ?>">
-                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Delete" /></a>
+                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Inlitter" /></a>
+                            
+                            <?php }else{?>
+                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'outlitter', 'id' => $owncompany->company_id)); ?>">
+                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Oulitter" /></a>
+                            <?php }?>
                         </td>                                       
                     </tr>
                     <?php endforeach; ?>

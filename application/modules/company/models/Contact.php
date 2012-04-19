@@ -66,16 +66,18 @@ class Company_Model_Contact {
      */
     public function delete($id) {
          //check the integration TODO the views and resource check
-        $model_activity = new Production_Model_Activity();
-        if ($model_production->fetchHaveContactClient($id)) {
+      
+        $model_production = new Production_Model_Activity();
+        if ($model_production->fetchHaveContactCompanyClient($id)) {
             die("esta contacto esta usado como contacto cliente de una actividad");
         }
- 
-        if ($model_production->fetchHaveContactCompanyClient($id)) {
+
+        if ($model_production->fetchHaveContactOwnCompany($id)) {
             die("esta contacto esta usado como contacto propio de una actividad");
         }  
+           
         $table = $this->getTable();
-        $table->delete('id = ' . (int) $id);
+       $table->delete('id = ' . (int) $id);
     }
 
     public function inLitter($where) {
@@ -105,6 +107,15 @@ class Company_Model_Contact {
         // Zend_Debug::dump($data);
         return $data;
     }
+    
+      public function fetchHaveCompanyContact($company_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('company_id = ?', $company_id);
+        $row= $table->fetchRow($select);
+        return $row;
+    }
+    
 
     /**
      *  Fetch all sql entries

@@ -80,16 +80,17 @@ class Company_OwncompanyController extends Zend_Controller_Action {
             if ($id > 0) {
                 //Get the contacs of the own company
                 $page = $this->_getParam('page', 1);
+                $model = new Company_Model_Owncompany();
+                $data_own_company = $model->fetchEntry($id);
                 $models = new Company_Model_Contact();
-                $paginator = Zend_Paginator::factory($models->fetchCompany($id));
+                $paginator = Zend_Paginator::factory($models->fetchCompany($data_own_company["company_id"]));
                 $contact = Zend_Registry::get('company');
                 $paginator->setItemCountPerPage($contact->paginator);
                 $paginator->setCurrentPageNumber($page);
                 $paginator->setPageRange($contact->paginator);
                 $this->view->paginator = $paginator;
                 
-                $model = new Company_Model_Owncompany();
-                $data_own_company = $model->fetchEntry($id);
+               
                 $form->populate($data_own_company);
             }
         }

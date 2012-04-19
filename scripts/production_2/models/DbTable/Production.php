@@ -1,11 +1,11 @@
 <?php
 /**
- * This is the DbTable class for the Companytype table.
+ * This is the DbTable class for the Banners table.
  */
-class Managementtype_Model_DbTable_Companytype extends Zend_Db_Table_Abstract
+class Production_Model_DbTable_Production extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'company_types';
+    protected $_name    = 'productions';
     /** Primary key */
     protected $_primary = 'id';
 
@@ -17,6 +17,10 @@ class Managementtype_Model_DbTable_Companytype extends Zend_Db_Table_Abstract
      * @param  array $data 
      * @return int
      */
+    public function insert(array $data)
+    {
+        return parent::insert($data);
+    }
     
      /**
      * Last insertId
@@ -28,12 +32,6 @@ class Managementtype_Model_DbTable_Companytype extends Zend_Db_Table_Abstract
     {
         return $this->_db->lastInsertId();
     }
-    
-    public function insert(array $data)
-    {
-        return parent::insert($data);
-    }
-
     /**
      * Update row(s)
      *

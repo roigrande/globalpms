@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_users table.
+ * This is the Data Mapper class for the Acl_productions table.
  */
 class Production_Model_Production {
 
@@ -27,24 +27,16 @@ class Production_Model_Production {
      */
 
     public function save(array $data) {
-        $production = Zend_Registry::get('production');
-        $production->default_status;
-        $data["status_id"] = $production->default_status;
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-        //$company = new Production_Model_Company();
-        //  Zend_Debug::dump($data);
-
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
-       $table->insert($data);
-        
-        
+        $table->insert($data);
         return $table->lastInsertId();
-        }
+    }
 
     /* Update entry
      * 
@@ -53,7 +45,6 @@ class Production_Model_Production {
      */
 
     public function update(array $data, $where) {
-        //Zend_Debug::dump($data);
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -71,23 +62,14 @@ class Production_Model_Production {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($id_production) {
-
-
-        
-        
-        $activities = new Production_Model_Activity;
-        $activities->getTable();        
-        $arrayactivities= $activities->fetchActivities("$id_production");
-           
-        //Delete of the activitis of one production
-        foreach ($arrayactivities as $value) {
-                 
-           $activities->delete('id='.$value["id"]);
+    public function delete($where) {
+        $model_activities = new Production_Model_Activity();
+         if ($model_activities->fetchHaveActivities($company_id)) {
+            die("esta compañia tiene actividades relacionanadas");
         }
-        //Delete production
+        //delete resource
         $table = $this->getTable();
-        $table->delete('id = ' . (int) $id_production);
+        $table->delete($where);
     }
 
     /**
@@ -108,44 +90,40 @@ class Production_Model_Production {
     public function fetchEntry($id) {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
-        return $table->fetchRow($select)->toArray();
+        $data= $table->fetchRow($select)->toArray();
+        
+        return $data;
     }
+    
       /**
      * Fetch an individual entry
      * 
      * @param  int|string $id 
      * @return null|Zend_Db_Table_Row_Abstract
      */
-    public function fetchHaveCompanyOwn($company_id) {
-       
-         $table = $this->getTable();
-        $select = $table->select()->where('own_companies_id = ?', $company_id);
-        $row= $table->fetchRow($select);
-        return $row;
-    }
-     public function fetchHaveCompanyClient($company_id) {
-       
-        $table = $this->getTable();
-        $select = $table->select()->where('client_companies_id = ?', $company_id);
-        $row= $table->fetchRow($select);
-        return $row;
-    }
-    
-    public function fetchProductions() {
-
-
+    public function fetchEntryProduction() {
+         
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('s' => 'status'), array('status' =>'name','id_status'=>'id'))
+        $select->from(array('s' => 'status'), array('status' =>'name'))
+               ->from(array('oc' => 'companies'), array('own_company_name' =>'name'))
+               ->from(array('cc' => 'companies'), array('client_company_name' =>'name'))
+               ->from(array('pt' => 'production_types'), array('production_type_name' =>'name'))
+               
                ->where('status_id = s.id')
-               ->from(array('c' => 'companies'), array('companies' =>'name','id_companies'=>'id'))
-               ->where('companies_id = c.id')
+               ->where('own_companies_id = oc.id')
+               ->where('client_companies_id = cc.id')
+               ->where('production_types_id = pt.id')
+               ->where('productions.id = '.$_SESSION["production"]["id"])
                 
+                               
                 ;
+        
         $data=$table->fetchAll($select);
-       // Zend_Debug::dump($data);
-        return $data;
+//         Zend_Debug::dump($data);
+//        die();
+        return $data[0];
     }
 
     /**
@@ -154,25 +132,83 @@ class Production_Model_Production {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-//        $sql2 = "SELECT productions.id, productions.name, productions.direction,date_start,date_end
-//                ,status.name as status,
-//                companies.name as client
-//                   
-//          FROM productions, status, companies,clients
-//          WHERE status.id = productions.status_id and 
-//                productions.clients_id = clients.id and 
-//                companies.id=clients.companies_id              
-//          ORDER BY status";
-        $sql = "SELECT productions.id, productions.name, productions.direction,date_start,date_end,observation,budget
-                ,status.name as status
-                                 
-          FROM productions, status
-        
-          ORDER BY status";
+        $sql = "SELECT productions.id, productions.name, date,
+                    email,status, roles.name as role
+          FROM productions, roles
+          WHERE productions.role_id = roles.id              
+          ORDER BY roles.id";
 
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
+        //   Zend_Debug::dump($table,"Production");
+     
         return $table;
     }
+    
+    public function fetchProductions() {
+
+        
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('s' => 'status'), array('status' =>'name'))
+               ->from(array('oc' => 'companies'), array('own_company_name' =>'name'))
+               ->from(array('cc' => 'companies'), array('client_company_name' =>'name'))
+               ->from(array('pt' => 'production_types'), array('production_type_name' =>'name'))
+               ->from(array('permission_production'), array('id_permission_production' =>'id'))
+               ->where('status_id = s.id')
+               ->where('own_companies_id = oc.id')
+               ->where('client_companies_id = cc.id')
+               ->where('production_types_id = pt.id')
+               ->where('permission_production.productions_id = productions.id') 
+               ->where('permission_production.acl_users_id =' .$_SESSION["gpms"]["storage"]->id )               
+                ;
+        
+        $data=$table->fetchAll($select);
+//         Zend_Debug::dump($data);
+//        die();
+        return $data;
+    }
+    
+    /**
+     *  Fetch all sql entries for the $role_id
+     * 
+     * @return array
+     */
+    public function getProductionName($id_production) {
+
+        $table = $this->getTable();
+        $select = $table->select()
+                ->where('id =' . (int) $id_production);
+        
+        $data= $table->fetchAll($select)->toArray();        
+        return $data["0"]["name"];
+    }
+
+    /**
+     *  Fetch all sql entries for the $role_id
+     * 
+     * @return array
+     */
+    public function fetchOwnCompanyid($id_company) {
+
+        $table = $this->getTable();
+        $select = $table->select()
+                ->where('id =' . (int) $id_company);
+        
+        $data= $table->fetchAll($select)->toArray();        
+        return $data["0"]["own_companies_id"];
+    }
+
+    public function fetchClientCompanyid($id_company) {
+        
+        $table = $this->getTable();
+        $select = $table->select()
+                ->where('id =' . (int) $id_company);
+        
+        $data= $table->fetchAll($select)->toArray();
+       return $data["0"]["client_companies_id"];
+    }
+   
 
 }
 

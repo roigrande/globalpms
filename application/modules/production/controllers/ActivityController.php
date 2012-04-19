@@ -12,20 +12,27 @@ class Production_ActivityController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
-
-        $models = new Production_Model_Activity();
-        $this->view->title = "Activitys list";
+        //get the page of the table 
         $page = $this->_getParam('page', 1);
-        $data = $models->fetchActivities("0");
-        //  Zend_Debug::dump($data);
-        //  die();
-        $paginator = Zend_Paginator::factory($models->fetchActivities("0"));
-
+        
+        //get the dates for the table
+        $model = new Production_Model_Activity();
+        $data=$model->fetchEntries();
+       
+        //paginator
+        if ($data){
+            
+        $paginator = Zend_Paginator::factory($data);
         $production = Zend_Registry::get('production');
         $paginator->setItemCountPerPage($production->paginator);
         $paginator->setCurrentPageNumber($page);
         $paginator->setPageRange($production->paginator);
         $this->view->paginator = $paginator;
+        
+        }else{$this->view->paginator = null;}
+        //send information to the view
+        $this->view->title = "Activitys list";
+        
     }
 
     /**
@@ -37,28 +44,36 @@ class Production_ActivityController extends Zend_Controller_Action {
         $this->view->headTitle("Add New Activity", 'APPEND');
         $request = $this->getRequest();
         $form = new Production_Form_Activity();
-
+       
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
+              //   die("es valido");
                 $model = new Production_Model_Activity();
-                $data = $form->getValues();
+                $data=$form->getValues();
+               
                 $data["productions_id"] = $this->_getParam('id', 0);
-//                  Zend_Debug::dump($data);
-//                die();
+                Zend_debug::dump($data);
+                
                 $model->save($data);
-
-                //return $this->_helper->redirector('edit');
-
-                return $this->_helper->_redirector->gotoSimple('edit', 'production', 'production', array('id' => $this->_getParam('id', 0)));
+                return $this->_helper->redirector('index');
             }
+           // die("no es valido again");
         } else {
-            $data = $form->getValues();
-            $data["productions_id"] = $this->_getParam('id', 0);
-//            var_dump($data);
-//             die();
-            $form->populate($data);
+             $data["production_id"] = $this->_getParam('id', 0);
+            $model= new Production_Model_Production();
+            $form->setOwnCompany($model->fetchOwnCompanyid( $data["production_id"]));
+            $form->setClientCompany($model->fetchClientCompanyid( $data["production_id"]));
+//            
+//            die();e
+            $form->init();
+          
+            $form->populate($form->getValues());
+        
+            
         }
+       
         $this->view->form = $form;
+        
     }
 
     /**
@@ -68,19 +83,13 @@ class Production_ActivityController extends Zend_Controller_Action {
      */
     public function editAction() {
         $this->view->title = "Edit Activitys";
-        $form = new Production_Form_Activity();
+        $form = new Production_Form_Activity();     
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Production_Model_Activity();
                 $id = $this->getRequest()->getPost('id');
-                $data = $form->getValues();
-//                 Zend_Debug::dump($data);
-//                die();
-                $model->update($data, 'id = ' . (int) $id);
-                return $this->_helper->_redirector->gotoSimple('edit', 'production', 'production', array('id' => $this->_getParam('production_id', 0)
-                                )
-                );
-                //  return $this->_helper->redirector('index','activity','production');
+                $model->update($form->getValues(), 'id = ' . (int) $id);
+                return $this->_helper->redirector('index');
             } else {
                 $form->populate($this->getRequest()->getPost());
             }
@@ -90,12 +99,7 @@ class Production_ActivityController extends Zend_Controller_Action {
             if ($id > 0) {
 
                 $model = new Production_Model_Activity();
-                $data = $model->fetchEntry($id);
-                
-                Zend_Debug::dump($data);
-                //die();
-                $form->contract_company_id->$data["id"];
-                $form->populate($data);
+                $form->populate($model->fetchEntry($id));
             }
         }
         $this->view->form = $form;
@@ -114,17 +118,40 @@ class Production_ActivityController extends Zend_Controller_Action {
                 $model = new Production_Model_Activity();
                 $model->delete('id = ' . (int) $id);
             }
-            return $this->_helper->_redirector->gotoSimple('edit', 'production', 'production', array('id' => $this->_getParam('production_id', 0)));
             return $this->_helper->redirector('index');
         } else {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
                 $model = new Production_Model_Activity();
-                $data = $model->fetchEntry($id);
-                Zend_Debug::dump($data);
 
-                $this->view->activity = $data;
+                $this->view->activity= $model->fetchEntry($id);
+            }
+        }
+    }
+    
+    /**
+     * inlitterAction for Activitys
+     *
+     * @return void
+     */
+    
+    public function inlitterAction() {
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+                $id = $this->getRequest()->getPost('id');
+                $model = new Production_Model_Activity();
+                $model->inLitter('id = ' . (int) $id);
+            }
+            return $this->_helper->redirector('index');
+        } else {
+
+            $id = $this->_getParam('id', 0);
+            if ($id > 0) {
+                $model = new Production_Model_Activity();
+
+                $this->view->activity = $model->fetchEntry($id);
             }
         }
     }

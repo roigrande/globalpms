@@ -41,10 +41,10 @@
                         <td><?php echo $this->escape($company['city']); ?></td>
                         <td><?php echo $this->escape($company['description']); ?></td>
                         <td>
-                             
+                             <?php if (!$company['in_litter']){?>
                             <a href="<?php echo $this->url(array('module' => 'production','controller' => 'production','action' => 'add', 'own_company_id' => $company['id'])); ?>">
                             	<img src="/styles/images/icons/icon_claketa.png" alt="Añadir production" /></a>
-                              
+                            <?php }?>
                         </td>                          
                     </tr>
                 <?php endforeach; ?>
@@ -81,7 +81,8 @@
             </thead>
 
             <tbody>
-                <?php foreach ($this->paginator as $company) : ?>
+                <?php if ($this->paginator) { 
+                    foreach ($this->paginator as $company) : ?>
                     <tr>
                         <td><?php echo $this->escape($company['name']); ?></td>                         
                         <td><?php echo $this->escape($company['fiscal_name']); ?></td>                         
@@ -91,19 +92,29 @@
                         <td><?php echo $this->escape($company['city']); ?></td>
                        
                         <td>
+                             <?php if ($company['in_litter']==0){?>
                             <a href="<?php echo $this->url(array('module' => 'production','controller' => 'production','action' => 'add', 'company_id' => $company['id'])); ?>">
                             	<img src="/styles/images/icons/icon_claketa.png" alt="Añadir production" /></a>
+                          
+                            <?php }?>
                             <a href="<?php echo $this->url(array('controller' => 'contact','action' => 'index', 'company_id' => $company['id'])); ?>">
                             	<img src="/styles/images/icons/icon_user.png" alt="Consultar contactos" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'edit', 'company_id' => $company['id'])); ?>">
                             	<img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'delete', 'company_id' => $company['id'])); ?>">
                             	<img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                            <a href="<?php echo $this->url(array('controller' => 'company','action' => 'inlitter', 'id' => $company['id'])); ?>">
-                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Delete" /></a>
+                            <?php if ($company['in_litter']==0){?>
+                           <a href="<?php echo $this->url(array('controller' => 'company','action' => 'inlitter', 'id' => $company['id'])); ?>">
+                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Inlitter" /></a>
+                            
+                            <?php }else{?>
+                             <a href="<?php echo $this->url(array('controller' => 'company','action' => 'outlitter', 'id' => $company['id'])); ?>">
+                            	<img src="/styles/images/icons/icon_in_litter.png" alt="Oulitter" /></a>
+                             <?php }?>
+                            
                         </td>                        
                     </tr>
-                <?php endforeach; ?>
+                <?php endforeach;} ?>
         </table>
        <div class="extrabottom">
             <?php echo $this->paginator; ?>           

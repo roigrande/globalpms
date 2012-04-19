@@ -1,0 +1,15 @@
+<?php
+$this->title = "Out little Company";
+$this->headTitle($this->title);
+?>
+<p>Are you sure that you want recovery the company :
+    '<?php echo $this->escape($this->company['name']); ?>' by
+    
+</p>
+<form action="<?php echo $this->url(array('action' => 'outlitter')); ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo $this->company['id']; ?>" />
+        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

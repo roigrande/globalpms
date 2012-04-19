@@ -1,6 +1,6 @@
 <?php
 /**
- * This is the DbTable class for the Banners table.
+ * This is the DbTable class for the Production table.
  */
 class Production_Model_DbTable_Production extends Zend_Db_Table_Abstract
 {
@@ -17,10 +17,6 @@ class Production_Model_DbTable_Production extends Zend_Db_Table_Abstract
      * @param  array $data 
      * @return int
      */
-    public function insert(array $data)
-    {
-        return parent::insert($data);
-    }
     
      /**
      * Last insertId
@@ -32,6 +28,12 @@ class Production_Model_DbTable_Production extends Zend_Db_Table_Abstract
     {
         return $this->_db->lastInsertId();
     }
+    
+    public function insert(array $data)
+    {
+        return parent::insert($data);
+    }
+
     /**
      * Update row(s)
      *

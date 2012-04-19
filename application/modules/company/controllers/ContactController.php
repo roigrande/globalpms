@@ -49,10 +49,15 @@ class Company_ContactController extends Zend_Controller_Action {
                 $model = new Company_Model_Contact();
                 $data = $form->getValues();
                 $data["company_id"] = $request->getParam('company_id');
-                Zend_Debug::dump($data);
-                $lastid = $model->save($data);
-                echo $lastid;
+                // Zend_Debug::dump($data);
+                $model->save($data);
+                $model = new Company_Model_Owncompany();
+                if ($own_company = $model->fetchIsOwnCompany($data["company_id"])) {
 
+                    return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
+                } else {
+                    return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $data["company_id"] ));
+                }
                 return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
             }
         } else {
@@ -145,20 +150,26 @@ class Company_ContactController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
+                $company_id = $this->getRequest()->getPost('company_id');
                 $model = new Company_Model_Contact();
                 $model->delete($id);
+                
+                $model = new Company_Model_Owncompany();
+                
+                if ($own_company = $model->fetchIsOwnCompany($company_id)) {
+                   die("own");
+                    return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
+                } else {
+              
+                    return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $company_id));
+                }
             }
-            
         } else {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
                 $model = new Company_Model_Contact();
-                $model_production = new Production_Model_Production();
 
-                if ($model_production->fetchHaveCompany($data["company_id"])) {
-                    die("esta compañia esta trabajando como cliente de una produccion");
-                }
 
                 $this->view->contact = $model->fetchEntry($id);
             }
@@ -182,7 +193,7 @@ class Company_ContactController extends Zend_Controller_Action {
 
                 return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
             } else {
-                return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $id));
+                return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $company_id));
             }
         } else {
 

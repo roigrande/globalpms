@@ -18,7 +18,15 @@ class Login_IndexController extends Zend_Controller_Action
                 
                 if ($this->_process($form->getValues())) {
                     // We're authenticated! Redirect to the home page
-                    $this->_helper->redirector('index', 'index','default');                                     
+                   // echo $data["0"]["acl_roles_id"]."roleeeee production";
+                        
+//                    $this->gpms = new Zend_Session_Namespace('gpms');
+//                    $this->gpms->role_application=$this->gpms->storage->role_id;
+//                     Zend_Debug::dump($_SESSION,"index");
+//                    die();
+                    
+                   // $_SESSION['gpms']['role_application']=$_SESSION['gpms']['storage']->role_id;
+                    $this->_helper->redirector('index', 'production','production');                                     
                 }
             }
             else{$this->_helper->redirector( 'error','error','login');}
@@ -39,7 +47,7 @@ class Login_IndexController extends Zend_Controller_Action
         $auth = Zend_Auth::getInstance();
         
         $result = $auth->authenticate($adapter);
-         
+       
         Zend_Debug::dump($result, $label="Server variables", $echo=true);
         if ($result->isValid()) {
             $user = $adapter->getResultRowObject();

@@ -113,10 +113,10 @@ class Modeloejemplo_Model_Modeloejemplo {
      * 
      * @return array
      */
-    public function fetchModeloejemplos($type_id) {
+    public function fetchTypeModeloejemplos($type_id) {
 
         $table = $this->getTable();
-        $select = $table->select()->where('type_id =' . (int) $type_id);
+        $select = $table->select()->where('modeloejemplo_type_id =' . (int) $type_id);
 
         return $table->fetchAll($select)->toArray();
     }

@@ -35,7 +35,10 @@ class Production_Model_Production {
             }
         }
         $table->insert($data);
-        return $table->lastInsertId();
+        $data= $table->lastInsertId();
+        
+//        die();
+        return $data;
     }
 
     /* Update entry
@@ -62,14 +65,16 @@ class Production_Model_Production {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($where) {
+    public function delete($id) {
         $model_activities = new Production_Model_Activity();
-         if ($model_activities->fetchHaveActivities($company_id)) {
+         if ($model_activities->fetchHaveActivities($id)) {
             die("esta compañia tiene actividades relacionanadas");
         }
+        $model_permission_production= new Production_Model_Permissionproduction;
+        $model_permission_production->delete_production($id);
         //delete resource
         $table = $this->getTable();
-        $table->delete($where);
+        $table->delete('id = ' . (int) $id);
     }
 
     /**
@@ -183,7 +188,8 @@ class Production_Model_Production {
         $data= $table->fetchAll($select)->toArray();        
         return $data["0"]["name"];
     }
-
+    
+   
     /**
      *  Fetch all sql entries for the $role_id
      * 

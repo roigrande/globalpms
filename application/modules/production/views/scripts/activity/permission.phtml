@@ -1,0 +1,45 @@
+          
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("Users Activity")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'permissionproduction',
+    'action' => 'add'));
+?>">Add new permissionproduction</a></p>
+
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+         
+                <tr>
+                    <th><?php echo $this->translate('Name'); ?></th>                                  
+                    <th><?php echo $this->translate('Email'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if ($this->paginator) {
+                    foreach ($this->paginator as $permissionproduction) :
+                        ?>
+                        <tr>
+                            <td><?php// echo $this->escape($permissionproduction["production_user_name"]); ?></td> 
+                            <td><?php// echo $this->escape($permissionproduction["production_role_name"]); ?></td> 
+                            <td><?php// echo $this->escape($permissionproduction["email"]); ?></td> 
+                            <td>
+                                <a href="<?php echo $this->url(array('controller' => 'activity', 'action' => 'deletepermission', 'id' => $permissionproduction["id"])); ?>">
+                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                               
+                            </td>                        
+                        </tr>
+                <?php endforeach;
+            } ?>
+        </table>
+        <div class="extrabottom">
+<?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

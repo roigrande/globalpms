@@ -75,23 +75,26 @@ class Login_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
 //            //   Zend_Debug::dump("-----", "Error 404", false);
 //        }
        
-        //compruebo que esta en el modulo de produccion y que no hay seleccionanada ninguna
+        //si va añadir produccion se restringe por rol
+        if ($permission!="add"){
+            
+               //compruebo que esta en el modulo de produccion y que no hay seleccionanada ninguna
+            if ($module == "production" and ($_SESSION["production"]["id"] == null)) {
 
-        if ($module == "production" and ($_SESSION["production"]["id"] == null)) {
-
-            //compruebo que no es la seleccion de producciones o el index
-            if ((($resource == 'production:production') and (!(($permission == "index") OR ($permission == "select")) ))) {
-                //echo "tienes que seleccionar una produccion";
-                $request->setActionName('index');
-                $request->setControllerName('production');
-            }
-            if ($resource != 'production:production') {
-                //echo "tienes que seleccionar una produccion 2";
-                $request->setActionName('index');
-                $request->setControllerName('production');
+                //compruebo que no es la seleccion de producciones o el index
+                if ((($resource == 'production:production') and (!(($permission == "index") OR ($permission == "select")) ))) {
+                    echo "tienes que seleccionar una produccion";
+                    //echo "tienes que seleccionar una produccion";
+                    $request->setActionName('index');
+                    $request->setControllerName('production');
+                }
+                if ($resource != 'production:production' and $permission != "add") {
+                    echo "tienes que seleccionar una produccion 2";
+                    $request->setActionName('index');
+                    $request->setControllerName('production');
+                }
             }
         }
-
         if (!$this->_acl->has($resource)) {
             // Error 404
             try {
@@ -138,9 +141,10 @@ class Login_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
         } elseif (!$this->_acl->isAllowed($this->_acl->_UserRoleName, $resource, $permission)) {
             if ($this->_auth->hasIdentity()) {
                 // authenticated, denied access, forward to denied page
+                                echo "is not allowed";
                 Zend_Debug::dump($resource, "resource");
-                 Zend_Debug::dump($this->_acl->_UserRoleName, "user role name");
-                 Zend_Debug::dump($permission, "permission");
+                Zend_Debug::dump($this->_acl->_UserRoleName, "user role name");
+                Zend_Debug::dump($permission, "permission");
                
                 die();
              

@@ -124,6 +124,17 @@ class User_Form_User extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
+        $company_id = new Zend_Form_Element_Select('company_id');
+        $company_id->setLabel('company')
+                ->setRequired(true)
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptionsCompany())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class","toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
 
 
         $submit = new Zend_Form_Element_Submit('submit');
@@ -144,6 +155,7 @@ class User_Form_User extends Zend_Form {
             $person_id,
             $phone,
             $role_id,
+            $company_id,
             $submit));
     }
 
@@ -153,6 +165,14 @@ class User_Form_User extends Zend_Form {
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles
+        return $result;
+    }
+     protected function _selectOptionsCompany() {
+        $sql = "SELECT id,name
+                  FROM companies";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+         
         return $result;
     }
 

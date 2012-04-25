@@ -39,12 +39,15 @@
                         <a href="<?php echo $this->url(array('controller' => 'activity', 'action' => 'index')); ?>">Activitis production</a>
                         <a href="<?php echo $this->url(array('controller' => 'production', 'action' => 'edit')); ?>"><img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                         <a href="<?php echo $this->url(array('controller' => 'production', 'action' => 'delete')); ?>"><img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>               
-                    </td>                        
+                    </td>
+                        
                 </tr>
-
+                
+                     
+                
         </table>
-
+        <div>
+            <?php Zend_Debug::dump($_SESSION)?> 
+        </div>    
     </div>
-    <?php Zend_Debug::dump($_SESSION); ?>
-   
 </div>

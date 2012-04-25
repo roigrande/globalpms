@@ -34,7 +34,11 @@ class Company_Model_Contact {
                 unset($data[$field]);
             }
         }
-
+        $data["id"]=$data["company_id"];
+        unset($data["id"]);
+       
+//         Zend_Debug::dump($data);
+//        die();
 
         $table->insert($data);
         return $table->lastInsertId();

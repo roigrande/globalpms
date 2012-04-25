@@ -29,11 +29,14 @@ class Production_Model_Permissionproduction {
     public function save(array $data) {
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+        
+        $data["productions_id"]=$_SESSION["production"]["id"];
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
+       
         $table->insert($data);
         return $table->lastInsertId();
     }
@@ -67,6 +70,19 @@ class Production_Model_Permissionproduction {
         //delete resource
         $table = $this->getTable();
         $table->delete($where);
+    }
+    
+      /**
+     * Delete entries
+     * 
+     * @param  array|string $where SQL WHERE clause(s)
+     * @return int|string
+     */
+    public function delete_production($production_id) {
+
+        //delete resource
+        $table = $this->getTable();
+        $table->delete('productions_id = ' . (int) $production_id);
     }
 
     /**

@@ -13,6 +13,7 @@ class Production_ProductionController extends Zend_Controller_Action {
      */
     function indexAction() {
         //get the page of the table 
+        
         $page = $this->_getParam('page', 1);
 
         //get the dates for the table
@@ -21,8 +22,10 @@ class Production_ProductionController extends Zend_Controller_Action {
         $this->production = new Zend_Session_Namespace('production');
         $this->production->id= null;
         $this->production->name= null;
-        
-        //$_SESSION['gpms']['storage']->role_id = 1;
+        $this->production->client_company= null;
+        $this->production->own_company= null;
+        $this->production->activity = null;
+//        $_SESSION['gpms']['storage']->role_id = 1;
         //paginator
         if ($data) {
             $paginator = Zend_Paginator::factory($data);
@@ -44,27 +47,31 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function selectAction() {
-
-        $id = $this->_getParam('id', 0);
-        $model = new Production_Model_Production();
-        $production_name = $model->getProductionName($id);
-
-        //se comprueba que el usuario tiene permiso para esa produccion
+        
+       
+             $id = $this->_getParam('id', 0);
+       
+//      //se comprueba que el usuario tiene permiso para esa produccion
         //se comprueba que el usuario tiene permiso para esa accion hecho
         $model_permission_production = new Production_Model_Permissionproduction();
         if (!$model_permission_production->isUserAllowedProduccition($id)) {
-            echo "no tiene acceso a la produccion " . $production_name;
+            echo "no tiene acceso a la produccion " . $production["name"];
            
             return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         };
-      //  Zend_Debug::dump($_SESSION["gpms"],"gpms select action");
+               
+        $model = new Production_Model_Production();
+        $production = $model->fetchEntry($id);
 //           $this->prodcution = new Zend_Session_Namespace('production');
 //        $this->production->id=$id;
 //        $this->production->name=$name;
         $this->production = new Zend_Session_Namespace('production');
         $this->production->id= $id;
-        $this->production->name= $production_name;
-       
+        $this->production->name= $production["name"];
+        $this->production->client_company= $production["client_companies_id"];
+        $this->production->own_company= $production["own_companies_id"];
+        $this->production->activity_users=null;
+        $this->production->activity=null;
         return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
     }
 
@@ -99,9 +106,14 @@ class Production_ProductionController extends Zend_Controller_Action {
                 $model = new Production_Model_Production();
                 $data = $form->getValues();
 
-                $model->save($data);
-
-                return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+                $_SESSION["production"]["id"]=$model->save($data);
+                $data_permission_production["acl_roles_id"]=$_SESSION['gpms']['storage']->role_id;
+                $data_permission_production["acl_users_id"]=$_SESSION['gpms']['storage']->id;
+                
+                $model_permission_production = new Production_Model_Permissionproduction;
+                $model_permission_production->save($data_permission_production);
+                return $this->_helper->_redirector->gotoSimple('select', 'production', 'production', array('id' => $_SESSION["production"]["id"]));
+               
             }
         } else {
 
@@ -169,15 +181,14 @@ class Production_ProductionController extends Zend_Controller_Action {
             if ($del == 'Yes') {
                 
                 $model = new Production_Model_Production();
-                $model->delete('id = ' . (int) $id);
+                $model->delete($id);
             }
-            return $this->_helper->redirector('index');
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         } else {
 
             $id=$_SESSION['production']['id'];
             if ($id > 0) {
-                $model = new Production_Model_Production();
-
+                $model = new Production_Model_Production(); 
                 $this->view->production = $model->fetchEntry($id);
             }
         }

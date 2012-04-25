@@ -74,9 +74,11 @@ echo $this->doctype();
     //TODO hacer 
     echo $_SESSION["gpms"]["storage"]->name;
     ?></p>
-            <p><span>LOGGED->PRODUCTION</span></p>
-              <p><span><?php echo $_SESSION["gpms"]["role"]."->".$_SESSION["production"]["name"]; ?></span></p>
+            <p><span>LOGGED : <?php echo $_SESSION["gpms"]["role"] ?> </span></p>
+              <p><span>PRODUCTION: <?php echo $_SESSION["production"]["name"]; ?></span></p> 
+              <span>Activity: <?php echo $_SESSION["production"]["activity"]; ?></span>
             <ul>
+          
                 <li><a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'edit', 'id' => $_SESSION["gpms"]["storage"]->id)); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
                 <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
             </ul>
@@ -124,6 +126,7 @@ echo $this->doctype();
                 <a href="<?php echo $this->url(array('module' => 'production', 'controller' => 'production', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_claketa.png" alt="Production" /><br />Production</a>
 
             </li>
+            <!--
             <li>
                 <a href="<?php echo $this->url(array('module' => 'finances', 'controller' => 'finances', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Finances" /><br />Finances</a>
 
@@ -131,7 +134,8 @@ echo $this->doctype();
             <li>
                 <a href="<?php echo $this->url(array('module' => 'managementtype', 'controller' => 'managementtype', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Production" /><br />Types Configure</a>
 
-            </li>            
+            </li> 
+            -->
             <li> 
                 <?php
                 include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');

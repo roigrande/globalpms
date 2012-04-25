@@ -29,12 +29,20 @@ class User_Model_Users {
     public function save(array $data) {
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+        $datacontact= $data;
+        $model = new Company_Model_Contact;
+     
+       
+        $data['contacts_id']=$model->save($datacontact);
+       
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
         $data['password'] = hash('SHA256', $data['password']);
+        
+        
         return $table->insert($data);
     }
 

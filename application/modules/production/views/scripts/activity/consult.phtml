@@ -1,0 +1,52 @@
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Activitys")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'activity',
+    'action' => 'permission'));
+?>">Añadir Observadores a la actividad</a></p>
+
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+                 
+                <tr>
+              
+                    <th><?php echo $this->translate('Activity_types'); ?></th>
+                    <th><?php echo $this->translate('Client_resp_name'); ?></th>
+                    <th><?php echo $this->translate('own_resp_name'); ?></th>
+                    <th><?php echo $this->translate('Date_start'); ?></th>
+                    <th><?php echo $this->translate('Date_end'); ?></th>
+                    <th><?php echo $this->translate('Type'); ?></th> 
+                    <th><?php echo $this->translate('Status'); ?></th>
+                </tr>
+            </thead>
+
+            <tbody>
+              
+                        <tr>
+                            
+                            <td><?php echo $this->escape($this->activity["activity_type_name"]); ?></td>
+                            <td><?php echo $this->escape($this->activity["contact_client_company_name"]); ?></td>
+                            <td><?php echo $this->escape($this->activity["contact_own_company_name"]); ?></td>
+                            <td><?php echo $this->escape($this->activity["date_start"]); ?></td>
+                            <td><?php echo $this->escape($this->activity["date_end"]); ?></td>
+                            <td><?php echo $this->escape($this->activity["status"]); ?></td>
+                            <td>
+                                <a href="<?php echo $this->url(array('controller' => 'activity', 'action' => 'edit')); ?>">
+                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                               
+                            </td>
+                            
+                        </tr>         
+                      
+        </table>
+        <div>
+            <?php Zend_Debug::dump($this->activity)?> 
+            <?php Zend_Debug::dump($_SESSION)?> 
+        </div>   
+    </div>
+    
+</div>
+<!-- Table styles end -->  

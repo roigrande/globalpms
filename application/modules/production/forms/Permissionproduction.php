@@ -31,6 +31,16 @@ class Production_Form_Permissionproduction extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
+        $acl_users_id = new Zend_Form_Element_Select('acl_users_id');
+        $acl_users_id->setLabel('User') 
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptions_Users())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class", "toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
 //        
 //        $permissionproduction_types_id = new Zend_Form_Element_Multiselect('$permissionproduction_types_id');
 //        $permissionproduction_types_id->setLabel('permissionproduction types')              
@@ -52,16 +62,51 @@ class Production_Form_Permissionproduction extends Zend_Form {
         ;
         $this->addElements(array($id,
             $acl_roles_id,
+            $acl_users_id,
            
             $submit));
     }              
-   public function _selectOptions_Types() {
-
+    
+    public function _selectOptions_Types() {
+     
      $sql = "SELECT id,name
                   FROM acl_roles";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
-        //TODO comprobar que no hay roles
+        foreach ($result as $key => $value) {
+            if ($key<=$_SESSION['gpms']['storage']->role_id) {
+                unset($result[$key]);
+                }
+        }
+//        Zend_Debug::dump($result);
+//        die();
+//        
+        return $result;
+    }
+    
+    public function _selectOptions_Users() {
+// echo $_SESSION['production']['id'];
+// echo "<br>";
+// echo $_SESSION['production']['own_company'];
+// echo "<br>";
+// echo $_SESSION['production']['client_company'];
+// echo "<br>";
+// 
+        $sql = "SELECT acl_users.id,contacts.name
+                  FROM acl_users,contacts,permission_production
+                  WHERE contacts.id=acl_users.contacts_id 
+                                      AND (contacts.company_id=".$_SESSION['production']['own_company']."
+                       OR contacts.company_id=". $_SESSION['production']['client_company'].
+                            ")"
+ 
+                    ;
+//                    AND (permission_production.acl_users_id != acl_users.id
+//                        AND permission_production.productions_id=".$_SESSION['production']['id'].
+//                        ")"
+//        
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        
         return $result;
     }
     

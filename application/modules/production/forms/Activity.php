@@ -23,8 +23,8 @@ class Production_Form_Activity extends Zend_Form {
         ;
 
 
-        $contact_own_company = new Zend_Form_Element_Select('contact_own_company');
-        $contact_own_company->setLabel('contact own company')
+        $contact_own_company_id = new Zend_Form_Element_Select('contact_own_company_id');
+        $contact_own_company_id->setLabel('contact own company')
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsContactOwnCompanies())
                 ->setAttrib('maxlength', 200)
@@ -34,8 +34,8 @@ class Production_Form_Activity extends Zend_Form {
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
 
-        $contact_client_company = new Zend_Form_Element_Select('contact_client_company');
-        $contact_client_company->setLabel('contact client company')
+        $contact_client_company_id = new Zend_Form_Element_Select('contact_client_company_id');
+        $contact_client_company_id->setLabel('contact client company')
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsContactClientCompanies())
                 ->setAttrib('maxlength', 200)
@@ -68,7 +68,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-
+//
         $date_end = new Zend_Form_Element_Text('date_end');
         $date_end->setLabel('Date End')
                 ->setRequired(true)
@@ -94,17 +94,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
-        ;
-//        
-//        $activity_types_id = new Zend_Form_Element_Multiselect('$activity_types_id');
-//        $activity_types_id->setLabel('activity types')              
-//                ->setmultiOptions($this->_selectOptions_types())
-//                ->setAttrib('maxlength', 200)
-//                ->setAttrib('size', 5)
-//                ->setDecorators(array(array('ViewScript', array(
-//                            'viewScript' => 'forms/_element_select.phtml'))))
-//                ->setAttrib("class","toolboxdrop")
-//        ;
+        ; 
 
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setValue('Guardar')
@@ -116,8 +106,8 @@ class Production_Form_Activity extends Zend_Form {
         ;
         $this->addElements(array($id,
             $activity_types_id,
-            $contact_own_company,
-            $contact_client_company,
+            $contact_own_company_id,
+            $contact_client_company_id,
             $status_id,
             $date_start,
             $date_end,
@@ -155,8 +145,9 @@ class Production_Form_Activity extends Zend_Form {
     }
 
     public function _selectOptionsContactOwnCompanies() {
+
         $sql = "SELECT id,name
-                  FROM contacts WHERE contacts.company_id=". $this->_own_company . "
+                  FROM contacts WHERE contacts.company_id=" . $_SESSION["production"]["own_company"] . "
                 AND in_litter =0
                 ";
         $db = Zend_Registry::get('db');
@@ -166,8 +157,9 @@ class Production_Form_Activity extends Zend_Form {
     }
 
     public function _selectOptionsContactClientCompanies() {
+      
         $sql = "SELECT id,name
-                  FROM contacts WHERE contacts.company_id=" . $this->_client_company . "
+                  FROM contacts WHERE contacts.company_id=" . $_SESSION["production"]["client_company"] . "
                 AND in_litter =0
                 ";
 

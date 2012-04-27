@@ -42,7 +42,7 @@ class Login_Bootstrap extends Zend_Application_Module_Bootstrap
         protected function _initAcl()
     {
         $users=Zend_Registry::get('login');
-        
+       
         $auth = Zend_Auth::getInstance();
         $auth->setStorage(new Zend_Auth_Storage_Session($users->StorageSession));
         //$acl = new Users_Model_Acl();

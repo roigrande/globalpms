@@ -100,6 +100,30 @@ class User_Model_Users {
         $select = $table->select()->where('id = ?', $id);
         return $table->fetchRow($select)->toArray();
     }
+    
+    /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function isUser($contact_id) {
+        $table = $this->getTable();
+        $select = $table->select()->where('contacts_id = ?', $contact_id);
+        $data=$table->fetchRow($select);
+        return $data;
+    }
+      /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function fetchEntryContact($contact_id) {
+        $table = $this->getTable();
+        $select = $table->select()->where('contacts_id = ?', $contact_id);
+        return $table->fetchRow($select)->toArray();
+    }
 
     /**
      *  Fetch all sql entries

@@ -214,6 +214,14 @@ class Production_Model_Production {
         $data= $table->fetchAll($select)->toArray();
        return $data["0"]["client_companies_id"];
     }
+     public function fetchHaveCompanyClient($company_id) {
+       
+        $table = $this->getTable();
+        $select = $table->select()->where('client_companies_id = ?', $company_id);
+        $row= $table->fetchRow($select);
+        Zend_Debug::dump($row);
+        return $row;
+    }
    
 
 }

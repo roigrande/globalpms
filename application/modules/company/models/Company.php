@@ -76,7 +76,7 @@ class Company_Model_Company {
     public function delete($id) {
         //check the integration TODO the views and resource check
         $model_production = new Production_Model_Production();
-        if ($model_production->fetchHaveCompanyClient($id)==null) {
+        if ($model_production->fetchHaveCompanyClient($id)!=null) {
             die("esta compañia esta trabajando como cliente de una produccion");
         }
          $model_contact = new Company_Model_Contact();

@@ -12,6 +12,11 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         //get the page of the table 
         $page = $this->_getParam('page', 1);
         
@@ -26,6 +31,8 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
         $paginator->setItemCountPerPage($production->paginator);
         $paginator->setCurrentPageNumber($page);
         $paginator->setPageRange($production->paginator);
+        
+        
         $this->view->paginator = $paginator;
         
         }else{$this->view->paginator = null;}
@@ -40,6 +47,11 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
      * @return void
      */
     public function addAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         $this->view->headTitle("Add New Permissionproduction", 'APPEND');
         $request = $this->getRequest();
         $form = new Production_Form_Permissionproduction();
@@ -48,7 +60,7 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
             if ($form->isValid($request->getPost())) {
                 $model = new Production_Model_Permissionproduction();
                 $model->save($form->getValues());
-                return $this->_helper->redirector('index');
+                 return $this->_helper->_redirector->gotoSimple('index', 'permissionproduction', 'production');
             }
         } else {
             $form->populate($form->getValues());
@@ -62,14 +74,20 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         $this->view->title = "Edit Permissionproductions";
-        $form = new Production_Form_Permissionproduction();     
+        $form = new Production_Form_Permissionproduction(); 
+         $form->removeElement('acl_users_id');
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Production_Model_Permissionproduction();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
-              return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+             return $this->_helper->_redirector->gotoSimple('index', 'permissionproduction', 'production');
             } else {
                 $form->populate($this->getRequest()->getPost());
             }
@@ -91,6 +109,11 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
      * @return void
      */
     public function deleteAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
@@ -98,7 +121,7 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
                 $model = new Production_Model_Permissionproduction();
                 $model->delete('id = ' . (int) $id);
             }
-            return $this->_helper->redirector('index');
+              return $this->_helper->_redirector->gotoSimple('index', 'permissionproduction', 'production');
         } else {
 
             $id = $this->_getParam('id', 0);
@@ -117,6 +140,11 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
      */
     
     public function inlitterAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {

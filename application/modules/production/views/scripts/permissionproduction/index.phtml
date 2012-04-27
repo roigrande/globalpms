@@ -24,6 +24,8 @@
             <tbody>
                 <?php if ($this->paginator) {
                     foreach ($this->paginator as $permissionproduction) :
+                     
+                        if ($permissionproduction["acl_users_id"]!=$_SESSION["gpms"]["storage"]->id) {
                         ?>
                         <tr>
                             <td><?php echo $this->escape($permissionproduction["production_user_name"]); ?></td> 
@@ -36,7 +38,8 @@
                                     <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                             </td>                        
                         </tr>
-                <?php endforeach;
+                <?php }
+                endforeach;
             } ?>
         </table>
         <div class="extrabottom">

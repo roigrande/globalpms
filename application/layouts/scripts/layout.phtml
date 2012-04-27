@@ -36,10 +36,7 @@ echo $this->doctype();
     <!-- Top header/black bar start -->
     <div id="header">
         <img src="/styles/images/logo.png" alt="GlobalPMS" class="logo" />
-        <div id="searchbox">
-            <input type="text" class="searchinput" />
-            <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />        
-        </div>
+     
 
 
     </div>
@@ -52,20 +49,7 @@ echo $this->doctype();
 
         <!-- Toolbox dropdown start -->
         <div id="openCloseIdentifier"></div>
-        <div id="slider">
-            <ul id="sliderContent">
-                <li><a href="#" title="">Change Username</a></li>
-                <li class="alt"><a href="#" title="">Change Password</a></li>
-                <li><a href="#" title="">Change Address</a></li>
-                <li class="alt"><a href="#" title="">Payment Details</a></li>
-                <li><a href="#" title="">Log Out</a></li>
-            </ul>
-            <div id="openCloseWrap">
-                <div id="toolbox">
-                    <a href="#" title="Toolbox Dropdown" class="toolboxdrop">Toolbox <img src="/styles/images/icon_expand_grey.png" alt="Expand" /></a>
-                </div>
-            </div>
-        </div>
+      
         <!-- Toolbox dropdown end -->   
 
         <!-- Userbox/logged in start -->
@@ -75,12 +59,11 @@ echo $this->doctype();
     echo $_SESSION["gpms"]["storage"]->name;
     ?></p>
             <p><span>LOGGED : <?php echo $_SESSION["gpms"]["role"] ?> </span></p>
-              <p><span>PRODUCTION: <?php echo $_SESSION["production"]["name"]; ?></span></p> 
-              <span>Activity: <?php echo $_SESSION["production"]["activity"]; ?></span>
+            <p><span>PRODUCTION: <?php echo $_SESSION["production"]["name"]; ?></span></p>  
+            <p><span>ACTIVITY: <?php echo $_SESSION["production"]["activity"]; ?></span></p>
             <ul>
-          
-                <li><a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'edit', 'id' => $_SESSION["gpms"]["storage"]->id)); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
-                <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
+               <li><a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'edit', 'id' => $_SESSION["gpms"]["storage"]->id)); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
+               <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
             </ul>
         </div>
         <!-- Userbox/logged in end -->  
@@ -98,28 +81,21 @@ echo $this->doctype();
     <div id="right">
 
         <!-- Breadcrumb start -->  
-        <div id="breadcrumb">
-            <ul>	
-                <li><img src="/styles/images/icon_breadcrumb.png" alt="Location" /></li>
-                <li><a href="#" title="">Sub Section</a></li>
-                <li>/</li>
-                <li class="current">Control Panel</li>
-            </ul>
-        </div>
+         
         <!-- Breadcrumb end -->  
 
         <!-- Top/large buttons start -->  
         <ul id="topbtns">
             <li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
             <li>
-                <a href="<?php echo $this->url(array('module' => 'controlmodule', 'controller' => 'controlmodule', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="control de modulos" /><br />modulos</a>
+                <a href="<?php echo $this->url(array('module' => 'controlmodule', 'controller' => 'controlmodule', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="control de modulos" /><br />modulos</a>
             </li>
             <li>
-                <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+                <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
 
             </li>
             <li>
-                <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'company', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
+                <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'company', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
 
             </li>
             <li>
@@ -138,9 +114,9 @@ echo $this->doctype();
             -->
             <li> 
                 <?php
-                include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
-                $form = new Default_Form_Languages();
-                echo $form;
+//                include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
+//                $form = new Default_Form_Languages();
+//                echo $form;
                 ?>
             </li>
         </ul>

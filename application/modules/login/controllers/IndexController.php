@@ -26,7 +26,16 @@ class Login_IndexController extends Zend_Controller_Action
 //                    die();
                     
                    // $_SESSION['gpms']['role_application']=$_SESSION['gpms']['storage']->role_id;
-                    $this->_helper->redirector('index', 'production','production');                                     
+                    //setup $_session
+                    $this->production = new Zend_Session_Namespace('production');
+                    //begin in production
+                    $this->gpms->storage->out_production=0;
+                    $this->poduction->id == null;
+                    $this->gpms = new Zend_Session_Namespace('gpms');
+                    $this->gpms->role_application=$this->gpms->storage->role_id;
+                     
+                    $this->_helper->redirector('index', 'production','production');
+                    
                 }
             }
             else{$this->_helper->redirector( 'error','error','login');}
@@ -62,6 +71,9 @@ class Login_IndexController extends Zend_Controller_Action
     public function logoutAction()
     {
         Zend_Auth::getInstance()->clearIdentity();
+        session_start();
+        session_unset();
+        session_destroy();
         $this->_helper->redirector('index'); // back to login page
     }
 

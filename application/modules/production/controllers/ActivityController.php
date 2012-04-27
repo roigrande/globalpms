@@ -12,12 +12,17 @@ class Production_ActivityController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         //get the page of the table 
         $page = $this->_getParam('page', 1);
         
         //get the dates for the table
         $model = new Production_Model_Activity();
-        
+        //TODO cambiar hardcode por roles que pueden verse
         if ($_SESSION['gpms']['storage']->role_id=="6" OR $_SESSION['gpms']['storage']->role_id=="19")
              $data=$model->fetchOwnActivities();
         else{
@@ -42,7 +47,11 @@ class Production_ActivityController extends Zend_Controller_Action {
     
      public function selectAction() {
         
-      
+         //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
              $id = $this->_getParam('id', 0);
       
 //      //se comprueba que el usuario tiene permiso para esta actividad
@@ -57,6 +66,8 @@ class Production_ActivityController extends Zend_Controller_Action {
 //           $this->prodcution = new Zend_Session_Namespace('production');
 //        $this->production->id=$id;
 //        $this->production->name=$name;
+             
+             //chekear que esta en la tabla
         $this->production = new Zend_Session_Namespace('production');  
        
         $this->production->activity= $id;
@@ -67,7 +78,11 @@ class Production_ActivityController extends Zend_Controller_Action {
     }
     
      function consultAction() {
-        
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         //get the dates for the table
         $model = new Production_Model_Activity();
         $data = $model->fetchEntryActivity();
@@ -84,6 +99,11 @@ class Production_ActivityController extends Zend_Controller_Action {
      * @return void
      */
     public function addAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         $this->view->headTitle("Add New Activity", 'APPEND');
         $request = $this->getRequest();
         $form = new Production_Form_Activity();
@@ -125,6 +145,11 @@ class Production_ActivityController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         $this->view->title = "Edit Activitys";
         $form = new Production_Form_Activity();     
         if ($this->getRequest()->isPost()) {
@@ -154,6 +179,11 @@ class Production_ActivityController extends Zend_Controller_Action {
      * @return void
      */
     public function deleteAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
@@ -180,6 +210,11 @@ class Production_ActivityController extends Zend_Controller_Action {
      */
     
     public function inlitterAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
@@ -198,6 +233,11 @@ class Production_ActivityController extends Zend_Controller_Action {
         }
     }
     public function permissionAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         $users_activity=explode(",", $_SESSION["production"]["activity_users"]);
         $model= new Production_Model_Activity();
          $this->view->activity_users = $model->fetchUsersActivities($users_activity);

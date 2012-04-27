@@ -3,7 +3,11 @@ $this->title = "Delete Production";
 $this->headTitle($this->title);
 ?>
 <p>Are you sure that you want to delete
-    '<?php echo $this->escape($_SESSION['production']['name']); ?>' by
+    '<?php
+     $this->production= new Zend_Session_Namespace('production');
+            
+    echo $this->escape( $this->production->name); 
+    ?>' by
     
 </p>
 <form action="<?php echo $this->url(array('action' => 'delete')); ?>" method="post">

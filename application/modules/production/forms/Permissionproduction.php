@@ -85,13 +85,7 @@ class Production_Form_Permissionproduction extends Zend_Form {
     }
     
     public function _selectOptions_Users() {
-// echo $_SESSION['production']['id'];
-// echo "<br>";
-// echo $_SESSION['production']['own_company'];
-// echo "<br>";
-// echo $_SESSION['production']['client_company'];
-// echo "<br>";
-// 
+
         $sql = "SELECT acl_users.id,contacts.name
                   FROM acl_users,contacts,permission_production
                   WHERE contacts.id=acl_users.contacts_id 
@@ -100,12 +94,25 @@ class Production_Form_Permissionproduction extends Zend_Form {
                             ")"
  
                     ;
-//                    AND (permission_production.acl_users_id != acl_users.id
-//                        AND permission_production.productions_id=".$_SESSION['production']['id'].
-//                        ")"
-//        
-        $db = Zend_Registry::get('db');
+ 
+         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
+        
+         $model = new Production_Model_Permissionproduction();
+         
+         foreach ($result as $key => $value) {
+             
+             if ($model->fetchisEntry($key,$_SESSION['production']['id'])){            
+             unset($result[$key]);
+            }
+         }
+//         Zend_Debug::dump($result,"resultado final");
+//        die();
+        if ($result==null){
+            echo "no quedan usuarios para añadir";
+            //$this->url(array('controller' => 'permissionproduction', 'action' => 'index' ));
+           
+        }
         
         return $result;
     }

@@ -69,13 +69,13 @@ class User_PermissionController extends Zend_Controller_Action {
         $this->view->title = "Edit permission";
         $form = new User_Form_Permission();
         $form->submit->setLabel('Save');
-
+        $page = $this->_getParam('page', 1);
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new User_Model_Permissions();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
-                return $this->_helper->redirector('index');
+                return $this->_helper->redirector('index','permission','user', array('page' => $page));
             } else {
                 $form->populate($this->getRequest()->getPost());
             }

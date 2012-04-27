@@ -86,6 +86,50 @@ class User_Model_Permissions {
         $select = $table->select()->where('id = ?', $id);
         return $table->fetchRow($select)->toArray();
     }
+    
+    public function isUserAllowed($role,$resource,$permission) {
+     echo $resource;
+          $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('acl_resources'), array('resource'))
+               
+//                         
+                                  ->where('resource_id=acl_resources.id')
+                                  ->where('permission= ?',$permission)
+                                  ->where('acl_resources.resource= ?',$resource)
+//                                  ->where('role_id='.$role)
+                                  ->where('resource= ?',$resource)
+            
+                ;
+        
+        $data=$table->fetchAll($select)->toarray();
+         Zend_Debug::dump($data);
+        die();
+        return $data;
+//        
+//        
+//        
+//        
+//        
+//        $table = $this->getTable();
+//        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+//                ->setIntegrityCheck(false);
+//         
+//        $select //->from(array('acl_resources'), array('resouce_name' =>'resouce'))
+//                                //  ->from(array('acl_modules'), array('module_name' =>'name'))
+//                                 // ->where('role_id ='.$role)
+//                                //  ->where('acl_permission.resource_id=acl_resources.id')
+//                                  ->where('permission='.$permission)
+//                                  ->where('resource_name='.$resource)
+//                ;
+//        
+//         
+//         $data=$table->fetchRow($select)->toArray();
+//         Zend_Debug::dump($data,"resource");
+//         die();
+//         return $data;
+    }
 
     /**
      *  Fetch all sql entries

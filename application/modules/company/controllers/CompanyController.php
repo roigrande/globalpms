@@ -21,21 +21,36 @@ class Company_CompanyController extends Zend_Controller_Action {
         //get the own_companies
         $model_own_company = new Company_Model_Owncompany();
         $data_own_companies = $model_own_company->fetchSql();
-        if ($data_model){
-        $paginator = Zend_Paginator::factory($data_model);
-              
-        $company = Zend_Registry::get('company');
-   
-        $paginator->setItemCountPerPage($company->paginator);
-        $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange($company->paginator);
-        $this->view->paginator = $paginator;
-        
-        }else{$this->view->paginator = null;}
+        if ($data_model) {
+            $paginator = Zend_Paginator::factory($data_model);
+            $company = Zend_Registry::get('company');
+            $paginator->setItemCountPerPage($company->paginator);
+            $paginator->setCurrentPageNumber($page);
+            $paginator->setPageRange($company->paginator);
+            $this->view->paginator = $paginator;
+        } else {
+            $this->view->paginator = null;
+        }
         $this->view->own_companies = $data_own_companies;
-        
-        
-  
+    }
+
+    /**
+     * deleteAction for Productions
+     *
+     * @return void
+     */
+    public function selectAction() {
+
+        $this->gpms = new Zend_Session_Namespace('gpms');
+//        echo $this->gpms->storage->role_id;
+//        echo $this->gpms->role_application;
+//        Zend_Debug::dump($this->gpms->storage);
+//        die();
+        $this->gpms->storage->out_production = 1;
+        $this->gpms->storage->role_id = $this->gpms->role_application;
+//       
+
+        return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
     }
 
     /**
@@ -44,6 +59,14 @@ class Company_CompanyController extends Zend_Controller_Action {
      * @return void
      */
     public function addAction() {
+        $this->gpms = new Zend_Session_Namespace('gpms');
+        
+        if ($this->gpms->storage->out_production == 0) {
+            return $this->_helper->_redirector->gotoSimple('select', 'company', 'company');
+        }
+//        
+//        echo $this->gpms->storage->out_production;
+//        die();
         $this->view->headTitle("Add New Company", 'APPEND');
         $request = $this->getRequest();
         $form = new Company_Form_Company();
@@ -71,9 +94,9 @@ class Company_CompanyController extends Zend_Controller_Action {
         $this->view->title = "Edit Companies";
         //
         $form = new Company_Form_Company();
-       
-    
-       
+
+
+
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Company_Model_Company();
@@ -87,7 +110,7 @@ class Company_CompanyController extends Zend_Controller_Action {
 
             $id = $this->_getParam('company_id', 0);
             if ($id > 0) {
-                $page = $this->_getParam('page', 1);   
+                $page = $this->_getParam('page', 1);
                 $models = new Company_Model_Contact();
                 $paginator = Zend_Paginator::factory($models->fetchCompany($id));
                 $contact = Zend_Registry::get('company');
@@ -123,32 +146,31 @@ class Company_CompanyController extends Zend_Controller_Action {
             $id = $this->_getParam('company_id', 0);
             if ($id > 0) {
                 $model = new Company_Model_Company();
-                $data=$model->fetchEntry($id);
-               
+                $data = $model->fetchEntry($id);
+
                 $model_production = new Production_Model_Production();
                 $this->view->company = $data;
                 //TODO comprobar si tiene resources
-                  //TODO comprobar si tiene contacts
+                //TODO comprobar si tiene contacts
             }
         }
     }
-    
-     public function inlitterAction() {
+
+    public function inlitterAction() {
         if ($this->getRequest()->isPost()) {
-       
+
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
-                
+
                 $id = $this->getRequest()->getPost('id');
                 $model = new Company_Model_Company();
                 $model->inLitter('id = ' . (int) $id);
-       
             }
             return $this->_helper->redirector('index');
         } else {
 
             $id = $this->_getParam('id', 0);
-            
+
             if ($id > 0) {
                 $model = new Company_Model_Company();
 
@@ -156,24 +178,23 @@ class Company_CompanyController extends Zend_Controller_Action {
             }
         }
     }
-    
-     public function outlitterAction() {
-            
+
+    public function outlitterAction() {
+
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
-                
+
                 $id = $this->getRequest()->getPost('id');
                 $model = new Company_Model_Company();
-               
+
                 $model->outLitter('id = ' . (int) $id);
-       
             }
             return $this->_helper->redirector('index');
         } else {
 
             $id = $this->_getParam('id', 0);
-            
+
             if ($id > 0) {
                 $model = new Company_Model_Company();
 
@@ -181,6 +202,5 @@ class Company_CompanyController extends Zend_Controller_Action {
             }
         }
     }
-
 
 }

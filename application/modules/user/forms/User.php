@@ -163,7 +163,9 @@ class User_Form_User extends Zend_Form {
         $sql = "SELECT id,name
                   FROM acl_roles";
         $db = Zend_Registry::get('db');
+        
         $result = $db->fetchPairs($sql);
+        unset($result[1]);
         //TODO comprobar que no hay roles
         return $result;
     }

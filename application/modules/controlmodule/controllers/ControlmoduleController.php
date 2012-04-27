@@ -35,6 +35,20 @@ class Controlmodule_ControlmoduleController extends Zend_Controller_Action
 
     }
     
+    public function selectAction() {
+        
+        $this->gpms = new Zend_Session_Namespace('gpms'); 
+//        echo $this->gpms->storage->role_id;
+//        echo $this->gpms->role_application;
+//        Zend_Debug::dump($this->gpms->storage);
+//        die();
+        $this->gpms->storage->out_production=1;
+        $this->gpms->storage->role_id=$this->gpms->role_application;
+//       
+           
+            return $this->_helper->_redirector->gotoSimple('index', 'controlmodule', 'controlmodule');
+      }
+     
     public function addAction() {
         $this->view->headTitle("Add New Module", 'APPEND');
         $request = $this->getRequest();

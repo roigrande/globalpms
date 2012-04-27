@@ -108,6 +108,20 @@ class Production_Model_Permissionproduction {
 //            die();
         return $data;
     }
+    
+        public function fetchisEntry($acl_user,$productions) {
+        $table = $this->getTable();
+        
+        $select = $table->select()->where('acl_users_id = ?', $acl_user)
+                                  ->where('productions_id = ?', $productions);
+        $data =$table->fetchRow($select);
+       // Zend_Debug::dump($data);
+        if($table->fetchRow($select)){
+            return true;
+        }
+//      
+        return false;
+    }
  
       /**
      *  Fetch all sql entries for the $role_id
@@ -144,16 +158,20 @@ class Production_Model_Permissionproduction {
         $select->where('permission_production.acl_users_id = ' . $_SESSION["gpms"]["storage"]->id)
                ->where('permission_production.productions_id = ' . $production_id);
        $data=$table->fetchAll($select)->toArray();
-        
-//        Zend_Debug::dump($data);
+       $model= new User_Model_Roles();
+     
+       $role_name=$model->fetchName($data["0"]["acl_roles_id"]);
+//        Zend_Debug::dump($role_name);
 //        die();
         
        //Zend_Debug::dump( $_SESSION['gpms'],"antes de cambiar el role");
 //       die();
        
         if($data){
-        $this->gpms = new Zend_Session_Namespace('gpms');
+        $this->gpms = new Zend_Session_Namespace('gpms'); 
+        $this->gpms->storage->out_production=0;
         $this->gpms->storage->role_id=$data["0"]["acl_roles_id"];
+        $this->gpms->role=$role_name;
          //   $_SESSION['gpms']['storage']->role_id=$data->acl_roles_id; 
        // Zend_Debug::dump( $_SESSION['gpms'],"despues de cambiar el role");
         

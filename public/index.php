@@ -1,4 +1,9 @@
 <?php
+//session_start();
+//echo "<pre>";
+//print_r($_SESSION);
+//echo "</pre>";
+//die();
 // Define path to dojo URL
 defined('DOJO_PATH')
     || define('DOJO_PATH',  '/scripts/dojo-release-1.7.2');

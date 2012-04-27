@@ -26,6 +26,25 @@ class User_UserController extends Zend_Controller_Action {
     }
 
     /**
+     * deleteAction for Productions
+     *
+     * @return void
+     */
+    public function selectAction() {
+
+        $this->gpms = new Zend_Session_Namespace('gpms');
+//        echo $this->gpms->storage->role_id;
+//        echo $this->gpms->role_application;
+//        Zend_Debug::dump($this->gpms->storage);
+//        die();
+        $this->gpms->storage->out_production = 1;
+        $this->gpms->storage->role_id = $this->gpms->role_application;
+//       
+
+        return $this->_helper->_redirector->gotoSimple('index', 'user', 'user');
+    }
+
+    /**
      * AddAction for Users
      *
      * @return void
@@ -57,20 +76,34 @@ class User_UserController extends Zend_Controller_Action {
         $form = new User_Form_User();
         $form->submit->setLabel('Save');
         $form->removeElement('password');
+        $form->removeElement('company_id');
+        $id = $this->_getParam('id', 0);
+        $this->gpms = new Zend_Session_Namespace('gpms');
+        //TODO pasar el role implementador y administrador sin hardcode
+        //si es un usuario sin permiso solo puede editar su usuario y no su role_id
+        if (!($this->gpms->role_application == 1 or $this->gpms->role_application == 2)) {
+            $form->removeElement('role_id');
+            $id = $this->gpms->storage->id;
+        };
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new User_Model_Users();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
+                //TODO pasar el role implementador y administrador sin hardcode
+                if (!($this->gpms->role_application == 1 or $this->gpms->role_application == 2)) {
+                    $this->_helper->redirector('index', 'production', 'production');
+                }
                 return $this->_helper->redirector('index');
             } else {
                 $form->populate($this->getRequest()->getPost());
             }
         } else {
 
-            $id = $this->_getParam('id', 0);
+
             if ($id > 0) {
 
+                
                 $model = new User_Model_Users();
                 $form->populate($model->fetchEntry($id));
             }

@@ -15,10 +15,26 @@ class Production_ProductionController extends Zend_Controller_Action {
         //get the page of the table 
         
         $page = $this->_getParam('page', 1);
+        $this->gpms = new Zend_Session_Namespace('gpms');
+        if($this->gpms->storage->out_production==0){
+            $this->gpms->storage->out_production=1;
+            $this->gpms->storage->role_id=$this->gpms->role_application;
 
+            $this->production = new Zend_Session_Namespace('production');
+            $this->production->id= null;
+            $this->production->name= null;
+            $this->production->client_company= null;
+            $this->production->own_company= null;
+            $this->production->activity = null;
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         //get the dates for the table
         $model = new Production_Model_Production();
         $data = $model->fetchProductions();
+        
+        $this->gpms->storage->out_production=1;
+        $this->gpms->storage->role_id=$this->gpms->role_application;
+       
         $this->production = new Zend_Session_Namespace('production');
         $this->production->id= null;
         $this->production->name= null;
@@ -62,9 +78,6 @@ class Production_ProductionController extends Zend_Controller_Action {
                
         $model = new Production_Model_Production();
         $production = $model->fetchEntry($id);
-//           $this->prodcution = new Zend_Session_Namespace('production');
-//        $this->production->id=$id;
-//        $this->production->name=$name;
         $this->production = new Zend_Session_Namespace('production');
         $this->production->id= $id;
         $this->production->name= $production["name"];
@@ -76,7 +89,12 @@ class Production_ProductionController extends Zend_Controller_Action {
     }
 
     function consultAction() {
-        //get the page of the table 
+        //get the page of the table
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){
+           
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         $page = $this->_getParam('page', 1);
 
         //get the dates for the table
@@ -93,10 +111,9 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function addAction() {
-
+        
         $this->view->headTitle("Add New Production", 'APPEND');
         $request = $this->getRequest();
-
         $form = new Production_Form_Production();
 
         if ($this->getRequest()->isPost()) {
@@ -136,6 +153,31 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
+        
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){
+           
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
+        
+        $this->production= new Zend_Session_Namespace('production');
+        //check if its in one production
+        if ($this->production->id==null){           
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
+        $this->gpms = new Zend_Session_Namespace('gpms');
+        $this->gpms->storage->role_production_name  ;
+            Zend_Debug::dump($this->gpms->storage->role_production_name,"name_production");
+            echo "adios";
+            
+//        $model= new User_Model_Permissions();
+// 
+//        if (!$model->isUserAllowed($this->gpms->storage->role_production, 'production:production', 'edit'))
+//        {
+//            echo ("no tiene permiso");
+//        }
+//        
+//                die("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         $id=$_SESSION['production']['id'];
         $this->view->title = "Edit Productions";
         $form = new Production_Form_Production();
@@ -175,6 +217,11 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function deleteAction() {
+        //check if the user select a production
+        $this->production= new Zend_Session_Namespace('production');
+        if ($this->production->id==null){          
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
         $id=$_SESSION['production']['id'];
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');

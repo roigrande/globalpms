@@ -607,13 +607,13 @@ INSERT INTO `productions` (`id`, `name`, `production_types_id`, `own_companies_i
 --
 -- Estructura de tabla para la tabla `production_types`
 --
-
+ 
 CREATE TABLE IF NOT EXISTS `production_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `resource_type` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `module_name` (`name`)
+  UNIQUE KEY `id_UNIQUE` (`id`) 
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=34 ;
 
 --
@@ -670,7 +670,7 @@ CREATE TABLE IF NOT EXISTS `resources_activities` (
   `unbilled_hours` int(11) DEFAULT NULL,
   `contacts_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `module_name` (`name`),
+ 
   KEY `fk_resources_types_copy1_resource1` (`resource_id`),
   KEY `fk_resources_types_copy1_activities1` (`activities_id`),
   KEY `fk_resources_activity_types1` (`activity_types_id`),
@@ -687,6 +687,7 @@ CREATE TABLE IF NOT EXISTS `resources_activities` (
 --
 -- Estructura de tabla para la tabla `resources_types`
 --
+
 
 CREATE TABLE IF NOT EXISTS `resources_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -715,7 +716,7 @@ CREATE TABLE IF NOT EXISTS `status` (
   `name` varchar(255) NOT NULL,
   `parent_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `module_name` (`name`),
+ 
   KEY `fk_status_status1` (`parent_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 

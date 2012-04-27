@@ -34,9 +34,9 @@ class Company_Model_Contact {
                 unset($data[$field]);
             }
         }
-        $data["id"]=$data["company_id"];
+        $data["id"] = $data["company_id"];
         unset($data["id"]);
-       
+
 //         Zend_Debug::dump($data);
 //        die();
 
@@ -69,8 +69,8 @@ class Company_Model_Contact {
      * @return int|string
      */
     public function delete($id) {
-         //check the integration TODO the views and resource check
-      
+        //check the integration TODO the views and resource check
+
         $model_production = new Production_Model_Activity();
         if ($model_production->fetchHaveContactCompanyClient($id)) {
             die("esta contacto esta usado como contacto cliente de una actividad");
@@ -78,10 +78,10 @@ class Company_Model_Contact {
 
         if ($model_production->fetchHaveContactOwnCompany($id)) {
             die("esta contacto esta usado como contacto propio de una actividad");
-        }  
-           
+        }
+
         $table = $this->getTable();
-       $table->delete('id = ' . (int) $id);
+        $table->delete('id = ' . (int) $id);
     }
 
     public function inLitter($where) {
@@ -89,6 +89,7 @@ class Company_Model_Contact {
         $data["in_Litter"] = (int) "1";
         return $table->update($data, $where);
     }
+
     /**
      * Fetch all entries
      * 
@@ -111,15 +112,14 @@ class Company_Model_Contact {
         // Zend_Debug::dump($data);
         return $data;
     }
-    
-      public function fetchHaveCompanyContact($company_id) {
-       
+
+    public function fetchHaveCompanyContact($company_id) {
+
         $table = $this->getTable();
         $select = $table->select()->where('company_id = ?', $company_id);
-        $row= $table->fetchRow($select);
+        $row = $table->fetchRow($select);
         return $row;
     }
-    
 
     /**
      *  Fetch all sql entries
@@ -135,7 +135,7 @@ class Company_Model_Contact {
           WHERE contatcs.company_id='$company_id'
           WHERE contacts.company_id = companies.id              
           ";
-        
+
         return $table;
     }
 
@@ -149,9 +149,15 @@ class Company_Model_Contact {
                 ->where('company_id = c.id')
                 ->where('contacts.in_litter = "0"')
         ;
-
-        $data = $table->fetchAll($select);
-        //Zend_Debug::dump($data);
+        $data = $table->fetchAll($select)->toarray();
+        foreach ($data as $key => $value) {
+            $model = new User_Model_Users();
+            if ($user = $model->isUser($data[$key]["id"])) {
+                $data[$key]["user_id"] = $user["id"];
+            }
+        }
+//        Zend_Debug::dump($data);
+//        die();
         return $data;
     }
 

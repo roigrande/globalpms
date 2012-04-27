@@ -277,6 +277,7 @@ class Login_Model_Acl extends Zend_Acl {
     }
 
     public function isUserAllowed($role, $resource, $permission) {
+        die();
         return ($this->isAllowed($role, $resource, $permission));
     }
 

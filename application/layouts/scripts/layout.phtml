@@ -32,7 +32,7 @@ echo $this->doctype();
 </head>
 
 <body>
-
+    <?php $acl = Login_Model_Acl::getInstance(); ?>
     <!-- Top header/black bar start -->
     <div id="header">
         <img src="/styles/images/logo.png" alt="GlobalPMS" class="logo" />
@@ -60,11 +60,11 @@ echo $this->doctype();
     ?></p>
             <p><span>LOGGED : <?php echo $_SESSION["gpms"]["role"] ?> </span></p>
             <p><span>PRODUCTION: <?php echo $_SESSION["production"]["name"]; ?></span></p>  
-            <p><span>ACTIVITY: <?php echo $_SESSION["production"]["activity"]; ?></span></p>
+            <p><span>ACTIVITY: <?php echo $_SESSION["production"]["activity_name"]; ?></span></p>
             <ul>
                <li><a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'edit', 'id' => $_SESSION["gpms"]["storage"]->id)); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
                <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
-            </ul>
+            </ul> 
         </div>
         <!-- Userbox/logged in end -->  
 
@@ -87,21 +87,32 @@ echo $this->doctype();
         <!-- Top/large buttons start -->  
         <ul id="topbtns">
             <li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "controlmodule:controlmodule", "index"))  { ?>  
             <li>
                 <a href="<?php echo $this->url(array('module' => 'controlmodule', 'controller' => 'controlmodule', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="control de modulos" /><br />modulos</a>
             </li>
+             <?php } ?>
+              <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "user:user", "index")) { ?>  
+            
             <li>
                 <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
 
             </li>
+            <?php } ?> 
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index") and isset($_SESSION["company"]["id"])) { ?>  
+  
             <li>
                 <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'company', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
 
             </li>
+            <?php } ?> 
+             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index")and isset($_SESSION["company"]["id"])) { ?> 
+          
             <li>
                 <a href="<?php echo $this->url(array('module' => 'production', 'controller' => 'production', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_claketa.png" alt="Production" /><br />Production</a>
 
             </li>
+            <?php } ?> 
             <!--
             <li>
                 <a href="<?php echo $this->url(array('module' => 'finances', 'controller' => 'finances', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Finances" /><br />Finances</a>
@@ -112,13 +123,24 @@ echo $this->doctype();
 
             </li> 
             -->
-            <li> 
-                <?php
-//                include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
-//                $form = new Default_Form_Languages();
-//                echo $form;
+            <li>
+                LANGUAGE
+               <?php
+               
+                include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
+                $form = new Default_Form_Languages();
+                echo $form;
                 ?>
             </li>
+             <li> 
+                COMPANIES : 
+                <?php
+                include_once(APPLICATION_PATH . '/modules/default/forms/companies.php');
+                $form = new Default_Form_Companies();
+                echo $form;
+                ?>
+            </li>
+           
         </ul>
         <!-- Top/large buttons end -->  
 

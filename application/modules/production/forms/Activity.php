@@ -2,15 +2,26 @@
 
 class Production_Form_Activity extends Zend_Form {
 
-    private $_own_company = '1';
-    private $_client_company = '1';
 
     public function init() {
         $this->setName('activity');
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
-
+        
+        $name = new Zend_Form_Element_Text('name');
+        $name->setLabel('Name')
+                ->setRequired(true)
+                ->addFilter('StripTags')
+                ->addfilter('StringTrim')
+                ->addValidator('NotEmpty')
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class", "inputbox")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
+        ;
+         
         $activity_types_id = new Zend_Form_Element_Select('activity_types_id');
         $activity_types_id->setLabel('activity type')
                 ->addValidator('NotEmpty', true)
@@ -33,7 +44,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
-
+//
         $contact_client_company_id = new Zend_Form_Element_Select('contact_client_company_id');
         $contact_client_company_id->setLabel('contact client company')
                 ->addValidator('NotEmpty', true)
@@ -105,6 +116,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->removeDecorator('label')
         ;
         $this->addElements(array($id,
+            $name,
             $activity_types_id,
             $contact_own_company_id,
             $contact_client_company_id,
@@ -152,7 +164,7 @@ class Production_Form_Activity extends Zend_Form {
                 ";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
-       
+        
         return $result;
     }
 

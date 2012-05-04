@@ -32,17 +32,7 @@ class Production_Form_Production extends Zend_Form {
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
         
-
-        $own_companies_id = new Zend_Form_Element_Select('own_companies_id');
-        $own_companies_id->setLabel('Own Company')
-               ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptionsOwnCompanies())
-                ->setAttrib('maxlength', 300)
-                ->setAttrib('size', 1)
-                ->setAttrib("class", "toolboxdrop")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_select.phtml'))))
-        ;
+ 
         $client_companies_id = new Zend_Form_Element_Select('client_companies_id');
         $client_companies_id->setLabel('Client Company')
                 ->addValidator('NotEmpty', true)
@@ -140,7 +130,6 @@ class Production_Form_Production extends Zend_Form {
         ;
         $this->addElements(array($id,
             $name,
-            $own_companies_id,
             $client_companies_id,
             $status_id,
             $production_types_id,
@@ -151,22 +140,13 @@ class Production_Form_Production extends Zend_Form {
             $budget,
             $submit));
     }
-
-    protected function _selectOptionsOwnCompanies() {
-        $sql = "SELECT companies.id,companies.name
-                  FROM companies,own_companies
-                  WHERE companies.id=own_companies.company_id AND companies.in_litter=0";
-
-        $db = Zend_Registry::get('db');
-        $result = $db->fetchPairs($sql);
-        //TODO comprobar que no hay roles
-        return $result;
-    }
-
+ 
     protected function _selectOptionsClientCompanies() {
         $sql = "SELECT id,name
                 FROM companies
-                WHERE companies.in_litter=0";
+                WHERE companies.in_litter=0
+                ORDER by name
+               ";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles
@@ -175,7 +155,9 @@ class Production_Form_Production extends Zend_Form {
 
     protected function _selectOptionsStatus() {
         $sql = "SELECT id,name
-                  FROM status";
+                  FROM status
+                ORDER BY id  
+                ";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles

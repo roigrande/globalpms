@@ -48,19 +48,26 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
      */
     public function addAction() {
         //check if the user select a production
+      
         $this->production= new Zend_Session_Namespace('production');
         if ($this->production->id==null){          
             return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         }
+        
         $this->view->headTitle("Add New Permissionproduction", 'APPEND');
         $request = $this->getRequest();
         $form = new Production_Form_Permissionproduction();
-
+          
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
                 $model = new Production_Model_Permissionproduction();
-                $model->save($form->getValues());
-                 return $this->_helper->_redirector->gotoSimple('index', 'permissionproduction', 'production');
+                $data=$form->getValues();
+                unset($data["id"]);
+                $data["productions_id"]=$_SESSION["production"]["id"];
+                
+                 
+                $model->save($data);
+                 return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
             }
         } else {
             $form->populate($form->getValues());
@@ -86,20 +93,31 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Production_Model_Permissionproduction();
                 $id = $this->getRequest()->getPost('id');
-                $model->update($form->getValues(), 'id = ' . (int) $id);
-             return $this->_helper->_redirector->gotoSimple('index', 'permissionproduction', 'production');
+                $data=$form->getValues();
+                $model->update($data, 'id = ' . (int) $id);
+             return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
             } else {
                 $form->populate($this->getRequest()->getPost());
             }
         } else {
 
             $id = $this->_getParam('id', 0);
+        
             if ($id > 0) {
-
+                
                 $model = new Production_Model_Permissionproduction();
-                $form->populate($model->fetchEntry($id));
+                if($model->fetchisEntryProduction($id,$_SESSION["production"]["id"])){
+                    $data=$model->fetchEntry($id);
+                          Zend_Debug::dump($data,"data");
+                
+                    $form->populate($data["0"]);
+                }else{
+                    $this->_helper->_redirector->gotoSimple('index', 'permissionproduction', 'production');
+                }    
             }
         }
+        $this->view->email = $data["0"]["email"];
+        $this->view->name = $data["0"]["user_name"];
         $this->view->form = $form;
     }
 

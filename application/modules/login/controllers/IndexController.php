@@ -29,12 +29,16 @@ class Login_IndexController extends Zend_Controller_Action
                     //setup $_session
                     $this->production = new Zend_Session_Namespace('production');
                     //begin in production
-                    $this->gpms->storage->out_production=0;
-                    $this->poduction->id == null;
+                    
+                    $this->production->id = null;
+                    $this->production->name = null;
+                    $this->production->activity_id = null;
+                     $this->production->activity_name = null;
                     $this->gpms = new Zend_Session_Namespace('gpms');
+                    $this->gpms->storage->out_production=0;
                     $this->gpms->role_application=$this->gpms->storage->role_id;
-                     
-                    $this->_helper->redirector('index', 'production','production');
+                    $_SESSION["company"]["id"]=null; 
+                    $this->_helper->redirector('index', 'index','default');
                     
                 }
             }

@@ -34,7 +34,9 @@ class Company_Model_Contact {
                 unset($data[$field]);
             }
         }
-        $data["id"] = $data["company_id"];
+        if(!isset($data["company_id"])){
+        $data["company_id"]=$_SESSION["company"]["id"];
+        }
         unset($data["id"]);
 
 //         Zend_Debug::dump($data);
@@ -150,12 +152,7 @@ class Company_Model_Contact {
                 ->where('contacts.in_litter = "0"')
         ;
         $data = $table->fetchAll($select)->toarray();
-        foreach ($data as $key => $value) {
-            $model = new User_Model_Users();
-            if ($user = $model->isUser($data[$key]["id"])) {
-                $data[$key]["user_id"] = $user["id"];
-            }
-        }
+       
 //        Zend_Debug::dump($data);
 //        die();
         return $data;

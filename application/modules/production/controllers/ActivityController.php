@@ -49,11 +49,17 @@ class Production_ActivityController extends Zend_Controller_Action {
         
          //check if the user select a production
         $this->production= new Zend_Session_Namespace('production');
-        if ($this->production->id==null){          
+        $model = new Production_Model_Activity();
+        if ($this->production->id==null ){          
             return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         }
              $id = $this->_getParam('id', 0);
-      
+        if ($_SESSION["gpms"]["role"]=="Encargado Actividad"){
+            
+            if (!$model->IsUserInActivity($id)){
+                return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+            } 
+        }
 //      //se comprueba que el usuario tiene permiso para esta actividad
         //se comprueba que el usuario tiene permiso para esta actividad
 //        $model_permission_production = new Production_Model_Permissionproduction();
@@ -69,11 +75,10 @@ class Production_ActivityController extends Zend_Controller_Action {
              
              //chekear que esta en la tabla
         $this->production = new Zend_Session_Namespace('production');  
-       
-        $this->production->activity= $id;
-    
-         
         
+        $this->production->activity_name= $model->fetchActivityName($id);
+        $this->production->activity_id= $id;
+         
         return $this->_helper->_redirector->gotoSimple('consult', 'activity', 'production');
     }
     
@@ -83,11 +88,15 @@ class Production_ActivityController extends Zend_Controller_Action {
         if ($this->production->id==null){          
             return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         }
+         if ($this->production->activity_id==null){          
+            return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
+        }
         //get the dates for the table
         $model = new Production_Model_Activity();
         $data = $model->fetchEntryActivity();
-        $this->production = new Zend_Session_Namespace('production'); 
-        $this->production->activity_users=$data["users_activity_id"];
+        
+//        $this->production = new Zend_Session_Namespace('production'); 
+//        $this->production->activity_users=$data["users_activity_id"];
         $this->view->activity = $data;
         //send information to the view
         $this->view->title = "Production Consult";
@@ -113,12 +122,10 @@ class Production_ActivityController extends Zend_Controller_Action {
                  
                 $model = new Production_Model_Activity();
                 $data=$form->getValues();
-                
                 $data["productions_id"] = $_SESSION["production"]["id"];
-//                Zend_Debug::dump($data);
-//                die("es valido");
-                $model->save($data);
-               return $this->_helper->_redirector->gotoSimple('index', 'activity', 'production');
+                $_SESSION["production"]["activity_id"]=$model->save($data);
+                $_SESSION["production"]["activity_name"]=$data["name"];
+               return $this->_helper->_redirector->gotoSimple('consult', 'activity', 'production');
             }
            // die("no es valido again");
         } else {
@@ -150,25 +157,34 @@ class Production_ActivityController extends Zend_Controller_Action {
         if ($this->production->id==null){          
             return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         }
+        if ($this->production->activity_id==null){          
+            return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
+        }
         $this->view->title = "Edit Activitys";
-        $form = new Production_Form_Activity();     
+        $form = new Production_Form_Activity();
+        
+        if ($_SESSION["gpms"]["role"]=="Encargado Actividad"){
+            $form->removeElement('contact_own_company_id');
+        }
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Production_Model_Activity();
-                $id = $_SESSION["production"]["activity"];
-                $model->update($form->getValues(), 'id = ' . (int) $id);
-                return $this->_helper->redirector('index');
+                $id = $_SESSION["production"]["activity_id"];
+                $data=$form->getValues();
+                
+                $model->update($data, 'id = ' . (int) $id);
+                return $this->_helper->redirector('consult');
             } else {
                 $form->populate($this->getRequest()->getPost());
             }
         } else {
 
-            $id = $_SESSION["production"]["activity"];
-            if ($id > 0) {
+            
+             
 
                 $model = new Production_Model_Activity();
-                $form->populate($model->fetchEntry($id));
-            }
+                $form->populate($model->fetchEntry($_SESSION["production"]["activity_id"]));
+            
         }
         $this->view->form = $form;
     }

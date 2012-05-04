@@ -74,9 +74,13 @@ class Company_Model_Owncompany {
         //check the integration TODO the views and resource check
 
         if ($model_production->fetchHaveCompanyOwn($company_id)) {
+            die("estas trabajando con esta compañia en una produccion");
+        }
+        
+        if ($model_production->fetchHaveCompanyClient($company_id)) {
             die("esta compañia esta trabajando como cliente de una produccion");
         }
-
+        
         $model_contact = new Company_Model_Contact();
         if ($model_contact->fetchHaveCompanyContact($company_id)) {
             die("esta compañia tiene contactos asociaodos");

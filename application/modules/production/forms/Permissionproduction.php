@@ -3,10 +3,11 @@
 class Production_Form_Permissionproduction extends Zend_Form {
 
     public function init() {
-        $this->setName('permissionproduction');
+//        $this->setName('permissionproduction');
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
+         
 
 //        $name = new Zend_Form_Element_Text('name');
 //        $name->setLabel('name')
@@ -85,19 +86,21 @@ class Production_Form_Permissionproduction extends Zend_Form {
     }
     
     public function _selectOptions_Users() {
-
-        $sql = "SELECT acl_users.id,contacts.name
-                  FROM acl_users,contacts,permission_production
-                  WHERE contacts.id=acl_users.contacts_id 
-                                      AND (contacts.company_id=".$_SESSION['production']['own_company']."
-                       OR contacts.company_id=". $_SESSION['production']['client_company'].
-                            ")"
+         
+        $sql = "SELECT  acl_users.id,acl_users.name
+                  FROM acl_users,acl_users_has_companies 
+                  WHERE acl_users_has_companies.acl_users_id=acl_users.id 
+                       AND (acl_users_has_companies.companies_id=".$_SESSION['company']['id'].
+                       " OR acl_users_has_companies.companies_id=". $_SESSION['production']['client_company'].")"
+                  //.  " AND !(permission_production.acl_users_id=acl_users.id 
+                  //.       AND permission_production.productions_id=". $_SESSION['production']['id'].")"
+                
  
                     ;
  
          $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
-        
+         
          $model = new Production_Model_Permissionproduction();
          
          foreach ($result as $key => $value) {
@@ -106,8 +109,7 @@ class Production_Form_Permissionproduction extends Zend_Form {
              unset($result[$key]);
             }
          }
-//         Zend_Debug::dump($result,"resultado final");
-//        die();
+          
         if ($result==null){
             echo "no quedan usuarios para añadir";
             //$this->url(array('controller' => 'permissionproduction', 'action' => 'index' ));

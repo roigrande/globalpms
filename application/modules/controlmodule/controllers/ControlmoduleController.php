@@ -43,7 +43,9 @@ class Controlmodule_ControlmoduleController extends Zend_Controller_Action
 //        Zend_Debug::dump($this->gpms->storage);
 //        die();
         $this->gpms->storage->out_production=1;
+   
         $this->gpms->storage->role_id=$this->gpms->role_application;
+        echo $this->gpms->role_application;
 //       
            
             return $this->_helper->_redirector->gotoSimple('index', 'controlmodule', 'controlmodule');

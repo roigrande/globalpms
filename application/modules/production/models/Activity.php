@@ -30,7 +30,7 @@ class Production_Model_Activity {
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
 //         Zend_Debug::dump($data);
-        
+
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
@@ -57,7 +57,12 @@ class Production_Model_Activity {
             }
         }
 
-        return $table->update($data, $where);
+        $table->update($data, $where);
+        //change the name of the activy in Session
+        if ($_SESSION["production"]["activity_name"]!=$data["name"]){
+            $_SESSION["production"]["activity_name"]=$data["name"];
+        }
+        return true;
     }
 
     /**
@@ -81,7 +86,7 @@ class Production_Model_Activity {
     public function fetchEntries() {
         return $this->getTable()->fetchAll('1');
     }
-    
+
     /**
      * Fetch an individual entry
      * 
@@ -93,152 +98,157 @@ class Production_Model_Activity {
         $select = $table->select()->where('id = ?', $id);
         return $table->fetchRow($select)->toArray();
     }
-    
-     public function fetchEntryActivity() {
-         
+
+    public function fetchActivityName($id) {
+        $table = $this->getTable();
+        $select = $table->select()->where('id = ?', $id);
+        $data = $table->fetchRow($select)->toArray();
+        return $data["name"];
+    }
+
+    public function fetchEntryActivity() {
+
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('s' => 'status'), array('status' =>'name'))
-               ->from(array('oc' => 'contacts'), array('contact_own_company_name' =>'name'))
-               ->from(array('cc' => 'contacts'), array('contact_client_company_name' =>'name'))
-               ->from(array('pt' => 'activity_types'), array('activity_type_name' =>'name'))
-              // ->from(array('permission_production'), array('id_permission_production' =>'id'))
-               ->where('status_id = s.id')
-               ->where('oc.company_id ='.$_SESSION["production"]["own_company"])
-               ->where('oc.id=contact_own_company_id')
-               ->where('cc.company_id='.$_SESSION["production"]["client_company"])
-               ->where('cc.id=contact_client_company_id')
-               ->where('activity_types_id = pt.id')
-               ->where("activities.id=".$_SESSION["production"]["activity"]);
+        $select->from(array('s' => 'status'), array('status' => 'name'))
+                ->from(array('oc' => 'contacts'), array('contact_own_company_name' => 'name'))
+                ->from(array('cc' => 'contacts'), array('contact_client_company_name' => 'name'))
+                ->from(array('pt' => 'activity_types'), array('activity_type_name' => 'name'))
+                // ->from(array('permission_production'), array('id_permission_production' =>'id'))
+                ->where('status_id = s.id')
+                ->where('oc.company_id =' . $_SESSION["production"]["own_company"])
+                ->where('oc.id=contact_own_company_id')
+                ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
+                ->where('cc.id=contact_client_company_id')
+                ->where('activity_types_id = pt.id')
+                ->where("activities.id=" . $_SESSION["production"]["activity_id"]);
 //               ->where('permission_production.productions_id = productions.id') 
 //               ->where('permission_production.acl_users_id =' .$_SESSION["gpms"]["storage"]->id )               
-                ;
-        
-        $data=$table->fetchAll($select)->toarray();
+        ;
+
+        $data = $table->fetchAll($select)->toarray();
 //         Zend_Debug::dump($data);
 //        die();
         return $data[0];
     }
 
     public function fetchHaveContactCompanyClient($contact_id) {
-       
+
         $table = $this->getTable();
         $select = $table->select()->where('contact_company_client_id = ?', $contact_id);
-        $row= $table->fetchRow($select);
+        $row = $table->fetchRow($select);
         return $row;
     }
-    
-     
+
     public function fetchHaveContactOwnCompany($contact_id) {
-       
+
         $table = $this->getTable();
         $select = $table->select()->where('contact_own_company_id = ?', $contact_id);
-        $row= $table->fetchRow($select);
+        $row = $table->fetchRow($select);
         return $row;
     }
+
     public function fetchHaveActivities($production_id) {
-       
+
         $table = $this->getTable();
         $select = $table->select()->where('productions_id = ?', $production_id);
-     
+
         return $table->fetchRow($select);
     }
+
     /**
      *  Fetch all sql entries
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchActivities() {
- 
+        
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('s' => 'status'), array('status' =>'name'))
-               ->from(array('oc' => 'contacts'), array('contact_own_company_name' =>'name'))
-               ->from(array('cc' => 'contacts'), array('contact_client_company_name' =>'name'))
-               ->from(array('pt' => 'activity_types'), array('activity_type_name' =>'name'))
-              // ->from(array('permission_production'), array('id_permission_production' =>'id'))
-               ->where('status_id = s.id')
-               ->where('oc.company_id ='.$_SESSION["production"]["own_company"])
-               ->where('oc.id=contact_own_company_id')
-               ->where('cc.company_id='.$_SESSION["production"]["client_company"])
-               ->where('cc.id=contact_client_company_id')
-               ->where('activity_types_id = pt.id')
-//               ->where('permission_production.productions_id = productions.id') 
-//               ->where('permission_production.acl_users_id =' .$_SESSION["gpms"]["storage"]->id )               
-                ;
-        
-        $data=$table->fetchAll($select)->toarray();
+        $select->from(array('s' => 'status'), array('status' => 'name'))
+                ->from(array('oc' => 'contacts'), array('contact_own_company_name' => 'name'))
+                ->from(array('cc' => 'contacts'), array('contact_client_company_name' => 'name'))
+                ->from(array('pt' => 'activity_types'), array('activity_type_name' => 'name'))
+              
+                ->where('status_id = s.id')
+                ->where('oc.company_id =' . $_SESSION["production"]["own_company"])
+                ->where('oc.id=contact_own_company_id')
+                ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
+                ->where('cc.id=contact_client_company_id')
+                ->where('activity_types_id = pt.id')
+                ->where('activities.productions_id = '.$_SESSION["production"]["id"])
+        ;
+
+        $data = $table->fetchAll($select)->toarray();
 //         Zend_Debug::dump($data);
-//        die();
+//        die("33");
         return $data;
     }
-    
-    
-     /**
+
+    /**
      *  Fetch all sql entries
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchOwnActivities() {
- 
+
+
+
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('s' => 'status'), array('status' =>'name'))
-               ->from(array('oc' => 'contacts'), array('contact_own_company_name' =>'name'))
-               ->from(array('cc' => 'contacts'), array('contact_client_company_name' =>'name'))
-               ->from(array('pt' => 'activity_types'), array('activity_type_name' =>'name'))
-               ->from(array('acl_users'), array('users_contacts_id' =>'contacts_id'))
-              // ->from(array('permission_production'), array('id_permission_production' =>'id'))
-               ->where('status_id = s.id')
-               ->where('oc.company_id ='.$_SESSION["production"]["own_company"])
-               ->where('oc.id=contact_own_company_id')
-               ->where('cc.company_id='.$_SESSION["production"]["client_company"])
-               ->where('cc.id=contact_client_company_id')
-                ->where('cc.company_id='.$_SESSION["production"]["client_company"])
-                ->where('pt.id=activity_types_id')
-                ->where('cc.company_id='.$_SESSION["production"]["client_company"])
-                ->where('cc.id = acl_users.contacts_id OR oc.id = acl_users.contacts_id')
-                ->where('acl_users.id='.$_SESSION["gpms"]["storage"]->id)
-//               ->where('permission_production.productions_id = productions.id') 
-//               ->where('permission_production.acl_users_id =' .$_SESSION["gpms"]["storage"]->id )               
-                ;
-        
-        $data=$table->fetchAll($select)->toarray();
+        $select->from(array('s' => 'status'), array('status' => 'name'))
+                ->from(array('oc' => 'contacts'), array('contact_own_company_name' => 'name'))
+                ->from(array('cc' => 'contacts'), array('contact_client_company_name' => 'name'))
+                ->from(array('pt' => 'activity_types'), array('activity_type_name' => 'name'))
+                // ->from(array('permission_production'), array('id_permission_production' =>'id'))
+                ->where('status_id = s.id')
+                ->where('oc.company_id =' . $_SESSION["company"]["id"])
+                ->where('oc.acl_users_id=' . $_SESSION["gpms"]["storage"]->id)
+                ->where('oc.id=contact_own_company_id')
+                ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
+                ->where('cc.id=contact_client_company_id')
+                ->where('activity_types_id = pt.id')
+        ;
+
+        $data = $table->fetchAll($select)->toarray();
 //         Zend_Debug::dump($data);
 //        die();
         return $data;
     }
 
-      /**
+    /**
      *  Fetch all sql entries for the $role_id
      * 
      * @return array
      */
     public function fetchUsersActivity($array_id_users) {
         $model = new User_Model_Users;
-     
+
         foreach ($array_id_users as $key => $value) {
-            $array_user[$key]= $model->fetchEntry($array_id_users[$key]);
+            $array_user[$key] = $model->fetchEntry($array_id_users[$key]);
         }
-       
+
 
         return $array_user;
     }
-    
-    /**
-     *  Fetch all sql entries for the $role_id
-     * 
-     * @return array
-     */
-    public function fetchTypeActivitys($type_id) {
 
+    public function IsUserInActivity($id) {
         $table = $this->getTable();
-        $select = $table->select()->where('activity_type_id =' . (int) $type_id);
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('oc' => 'contacts'), array('contact_own_company_name' => 'name'))
+                ->where('oc.acl_users_id=' . $_SESSION["gpms"]["storage"]->id)
+                ->where('oc.id=contact_own_company_id')
+                ->where('activities.id=' . $id)
+        ;
 
-        return $table->fetchAll($select)->toArray();
+        $data = $table->fetchAll($select)->toarray();
+//        Zend_Debug::dump($data);
+//        die();
+        return $data;
     }
 
 }

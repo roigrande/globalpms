@@ -55,8 +55,9 @@ class Login_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract {
        
         // Get User Identity
         //Zend_Debug::dump($this->_auth->getIdentity(), "autenticated?", true);
-   
+        
         if ($this->_auth->getIdentity()) {
+       
             $role = $this->_acl->getRoleName($this->_auth->getIdentity()->role_id);
             $this->_acl->_UserRoleName = $role->name;
             $this->_acl->_UserRoleId = $this->_auth->getIdentity()->role_id;

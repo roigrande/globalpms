@@ -41,6 +41,7 @@ class Login_Bootstrap extends Zend_Application_Module_Bootstrap
     
         protected function _initAcl()
     {
+            
         $users=Zend_Registry::get('login');
        
         $auth = Zend_Auth::getInstance();
@@ -49,8 +50,8 @@ class Login_Bootstrap extends Zend_Application_Module_Bootstrap
         
         $acl = Login_Model_Acl::getInstance();        
         $front = Zend_Controller_Front::getInstance();
-        //$front->setParam('auth', $auth);
-        //$front->setParam('acl', $acl);
+//        $front->setParam('auth', $auth);
+//        $front->setParam('acl', $acl);
         require_once dirname(__FILE__) . '/controllers/plugin/Acl.php';
 //       Zend_Debug::dump($auth);
 //      Zend_Debug::dump($acl);

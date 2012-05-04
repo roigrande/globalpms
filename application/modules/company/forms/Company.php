@@ -25,16 +25,7 @@ class Company_Form_Company extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
         
-        $activity_types_id = new Zend_Form_Element_Multiselect('activity_types_id');
-        $activity_types_id->setLabel('Activity types')              
-                ->setmultiOptions($this->_selectOptionsActivityTypes())
-                ->setAttrib('maxlength', 200)
-                ->setAttrib('size', 5)
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_select.phtml'))))
-                ->setAttrib("class","toolboxdrop")
-        ;
-
+       
         $fiscal_name = new Zend_Form_Element_Text('fiscal_name');
         $fiscal_name->setLabel('Fiscal name')
                 ->setRequired(true)
@@ -72,8 +63,6 @@ class Company_Form_Company extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-
-        
 
         $telephone = new Zend_Form_Element_Text('telephone');
         $telephone->setLabel('Telephone')
@@ -177,7 +166,6 @@ class Company_Form_Company extends Zend_Form {
         $this->addElements(array($id,
             $name,
             $fiscal_name,
-            $activity_types_id,
             $company_types_id,
             $email,
             $telephone,
@@ -189,19 +177,12 @@ class Company_Form_Company extends Zend_Form {
             $observation,
             $submit));
     }
-    public function _selectOptionsActivityTypes() {
-
-     $sql = "SELECT id,name
-                  FROM activity_types";
-        $db = Zend_Registry::get('db');
-        $result = $db->fetchPairs($sql);
-        //TODO comprobar que no hay roles
-        return $result;
-    }
+    
 
     protected function _selectOptionsCompanyTypes() {
         $sql = "SELECT id,name
-                  FROM company_types";
+                  FROM company_types
+                  ORDER BY name";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles

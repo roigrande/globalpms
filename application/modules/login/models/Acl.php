@@ -31,25 +31,28 @@ class Login_Model_Acl extends Zend_Acl {
     protected function _initialize() {
         $user = Zend_Auth::getInstance()->getIdentity();
         $this->_user = $user ? $user->name : 'Guest';
-
+        
 
         $front = Zend_Controller_Front::getInstance();
+       
+        
         $this->_db = Zend_Registry::get('db');
 
         self::initRoles();
         self::initResources();
         self::initPermissions();
-
+        
         $getUserRole = $this->_db->fetchRow(
-                        $this->_db->select()
+                       $this->_db->select()
                                 ->from(array('acl_roles'), array('role_name' => 'name'))
                                 ->from('acl_users')
                                 ->where('acl_users.name = "' . $this->_user . '"')
                                 ->where('acl_users.role_id = acl_roles.id'));
 
         $login = Zend_Registry::get('login');
-        $this->_UserRoleId = $getUserRole->role_id ? $getUserRole->role_id : $login->publicid;
-        $this->_UserRoleName = $getUserRole->role_name ? $getUserRole->role_name : 'public';
+         
+        $this->_UserRoleId = isset($getUserRole->role_id) ?  $getUserRole->role_id : $login->publicid;
+        $this->_UserRoleName = isset($getUserRole->role_name) ? $getUserRole->role_name : 'public';
 
         $this->addRole(new Zend_Acl_Role($this->_user), $this->_UserRoleName);
     }
@@ -277,7 +280,7 @@ class Login_Model_Acl extends Zend_Acl {
     }
 
     public function isUserAllowed($role, $resource, $permission) {
-        die();
+       
         return ($this->isAllowed($role, $resource, $permission));
     }
 

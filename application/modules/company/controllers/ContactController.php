@@ -52,14 +52,9 @@ class Company_ContactController extends Zend_Controller_Action {
                 // Zend_Debug::dump($data);
                 $model->save($data);
                 $model = new Company_Model_Owncompany();
-                if ($own_company = $model->fetchIsOwnCompany($data["company_id"])) {
-                    
-                    return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
-                } else {
-                    return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $data["company_id"] ));
-                }
-                //return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $this->_getParam('company_id', 0)));
-                die("si llega aki descomentar el return de contact controller");
+                 
+                    return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
+             
                 
             }
         } else {
@@ -103,12 +98,7 @@ class Company_ContactController extends Zend_Controller_Action {
                     //check if its ownCompany
                     $id = $this->_getParam('company_id', 0);
                     $model = new Company_Model_Owncompany();
-                    if ($own_company = $model->fetchIsOwnCompany($id)) {
-
-                        return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
-                    } else {
-                        return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $id));
-                    }
+                     return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
                 }
             } else {
                 //check if dont pass the validation of the form and its Ajax

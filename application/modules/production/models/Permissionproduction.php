@@ -28,9 +28,12 @@ class Production_Model_Permissionproduction {
 
     public function save(array $data) {
         $table = $this->getTable();
+       
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-        
-        $data["productions_id"]=$_SESSION["production"]["id"];
+        if ($this->fetchisEntry($data["acl_users_id"], $data["productions_id"])){
+            return false;
+        }
+       
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
@@ -48,6 +51,7 @@ class Production_Model_Permissionproduction {
      */
 
     public function update(array $data, $where) {
+     
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -55,7 +59,7 @@ class Production_Model_Permissionproduction {
                 unset($data[$field]);
             }
         }
-
+        
         return $table->update($data, $where);
     }
 
@@ -101,28 +105,58 @@ class Production_Model_Permissionproduction {
      * @return null|Zend_Db_Table_Row_Abstract
      */
     public function fetchEntry($id) {
+        
         $table = $this->getTable();
-        $select = $table->select()->where('id = ?', $id);
-        $data =$table->fetchRow($select)->toarray();
-//        Zend_Debug::dump($data,"Permissionproduction");
-//            die();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+       
+        $select->from(array('acl_users'), array('user_name' =>'name','email'))
+               ->where('permission_production.id = ?', $id)
+               ->where('acl_users.id=permission_production.acl_users_id')
+                
+                ;
+                        
+
+        $data=$table->fetchAll($select)->toArray();
+//        Zend_Debug::dump($data);
+//        die();
         return $data;
+        
+        
+        
     }
     
-        public function fetchisEntry($acl_user,$productions) {
+    public function fetchisEntry($acl_user,$productions) {
         $table = $this->getTable();
-        
+       
         $select = $table->select()->where('acl_users_id = ?', $acl_user)
                                   ->where('productions_id = ?', $productions);
         $data =$table->fetchRow($select);
-       // Zend_Debug::dump($data);
+//        Zend_Debug::dump($data);
+       
         if($table->fetchRow($select)){
             return true;
         }
 //      
         return false;
     }
- 
+    
+    public function fetchisEntryProduction($id,$productions) {
+        $table = $this->getTable();
+       
+        $select = $table->select()->where('id = ?', $id)
+                                  ->where('productions_id = ?', $productions);
+        $data =$table->fetchRow($select);
+//        Zend_Debug::dump($data);
+       
+        if($table->fetchRow($select)){
+            return true;
+        }
+//      
+        return false;
+    }
+    
+    
       /**
      *  Fetch all sql entries for the $role_id
      * 
@@ -151,7 +185,8 @@ class Production_Model_Permissionproduction {
         return $data;
         
     }
-     public function isUserAllowedProduccition($production_id) {
+    
+    public function isUserAllowedProduccition($production_id) {
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);

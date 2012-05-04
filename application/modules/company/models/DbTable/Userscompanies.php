@@ -1,13 +1,22 @@
 <?php
 /**
- * This is the DbTable class for the Banners table.
+ * This is the DbTable class for the Userscompanies table.
  */
-class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
+class Company_Model_DbTable_Userscompanies extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'acl_users';
+    protected $_name    = 'acl_users_has_companies';
     /** Primary key */
     protected $_primary = 'id';
+
+    /**
+     * Insert new row
+     *
+     * Ensure that a timestamp is set for the created field.
+     * 
+     * @param  array $data 
+     * @return int
+     */
     
      /**
      * Last insertId
@@ -20,14 +29,6 @@ class User_Model_DbTable_Users extends Zend_Db_Table_Abstract
         return $this->_db->lastInsertId();
     }
     
-    /**
-     * Insert new row
-     *
-     * Ensure that a timestamp is set for the created field.
-     * 
-     * @param  array $data 
-     * @return int
-     */
     public function insert(array $data)
     {
         return parent::insert($data);

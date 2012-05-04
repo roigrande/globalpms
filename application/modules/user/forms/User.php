@@ -20,7 +20,7 @@ class User_Form_User extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-
+        
         $password = new Zend_Form_Element_Password('password');
         $password->setLabel('Password')
                 
@@ -145,6 +145,13 @@ class User_Form_User extends Zend_Form {
                 ->setAttrib('class', 'btn')
                 ->removeDecorator('label')
         ;
+        $add_contact = new Zend_Form_Element_Checkbox('add_contact');
+        $add_contact->setLabel('add contact')
+                     
+                     ->setRequired(true);
+        
+      
+        
         $this->addElements(array($id,
             $name,
             $password,
@@ -156,6 +163,7 @@ class User_Form_User extends Zend_Form {
             $phone,
             $role_id,
             $company_id,
+            $add_contact,
             $submit));
     }
 

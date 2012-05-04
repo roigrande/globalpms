@@ -27,23 +27,38 @@ class User_Model_Users {
      */
 
     public function save(array $data) {
+        $data_contact= $data;
+        $data_user_company["companies_id"]=$data["company_id"];
+      
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-        $datacontact= $data;
-        $model = new Company_Model_Contact;
-     
-       
-        $data['contacts_id']=$model->save($datacontact);
-       
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
+       
         $data['password'] = hash('SHA256', $data['password']);
+        $table->insert($data);
+        $last_insert_id=$table->lastInsertId();
         
+        Zend_Debug::dump($data_contact);
+        //check if the user want have contat
+         $data_contact['acl_users_id']=$last_insert_id;
+        if($data_contact["add_contact"]){
+           $model = new Company_Model_Contact;  
+           $model->save($data_contact);
+        }
         
-        return $table->insert($data);
+        //Add the user in the company
+        $data_user_company["acl_users_id"]=$data_contact['acl_users_id'];
+        
+        $db = Zend_Registry::get('db');
+//         Zend_Debug::dump($data_user_company);
+//        die();
+        $db->insert(acl_users_has_companies,$data_user_company);
+        
+        return $last_insert_id;
     }
 
     /* Update entry
@@ -142,6 +157,25 @@ class User_Model_Users {
         return $table;
     }
 
+    /**
+     *  Fetch all sql entries for the $role_id
+     * 
+     * @return array
+     */
+    public function fetchUsersCompany($company_id) {
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select ->from(array('acl_users_has_companies'))
+                ->where('acl_users_has_companies.companies_id='.$company_id)
+                ->where('acl_users_has_companies.acl_users_id=acl_users.id')
+         ;
+        $data = $table->fetchAll($select)->toArray();
+       
+        return $data;
+   
+    }
+    
     /**
      *  Fetch all sql entries for the $role_id
      * 

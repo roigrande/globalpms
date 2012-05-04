@@ -19,7 +19,7 @@ class Default_Form_Languages extends Zend_Form
                 
         $language = new Zend_Form_Element_Select('language');
 		$language->setRequired(true)
-                 ->setValue(@$default->language)
+                 ->setValue("0")
                  ->addValidator('NotEmpty', true)
                  //->setmultiOptions($this->_selectOptions())
                  ->setmultiOptions(array('es'=>'Español',

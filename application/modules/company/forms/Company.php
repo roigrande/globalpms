@@ -28,7 +28,7 @@ class Company_Form_Company extends Zend_Form {
        
         $fiscal_name = new Zend_Form_Element_Text('fiscal_name');
         $fiscal_name->setLabel('Fiscal name')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -53,7 +53,7 @@ class Company_Form_Company extends Zend_Form {
         ;
         $email = new Zend_Form_Element_Text('email');
         $email->setLabel('Email')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('emailAddress', TRUE)
@@ -66,7 +66,7 @@ class Company_Form_Company extends Zend_Form {
 
         $telephone = new Zend_Form_Element_Text('telephone');
         $telephone->setLabel('Telephone')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -79,7 +79,7 @@ class Company_Form_Company extends Zend_Form {
 
         $fax = new Zend_Form_Element_Text('fax');
         $fax->setLabel('fax')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -92,7 +92,7 @@ class Company_Form_Company extends Zend_Form {
 
         $direction = new Zend_Form_Element_Text('direction');
         $direction->setLabel('Direction')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -105,7 +105,7 @@ class Company_Form_Company extends Zend_Form {
         
         $city = new Zend_Form_Element_Text('city');
         $city->setLabel('City')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -117,7 +117,7 @@ class Company_Form_Company extends Zend_Form {
         ;
         $country = new Zend_Form_Element_Text('country');
         $country->setLabel('Country')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -130,7 +130,7 @@ class Company_Form_Company extends Zend_Form {
         
         $postal_code = new Zend_Form_Element_Text('postal_code');
         $postal_code->setLabel('Postal code')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -143,7 +143,7 @@ class Company_Form_Company extends Zend_Form {
 
         $observation = new Zend_Form_Element_Text('observation');
         $observation->setLabel('Observation')
-                ->setRequired(true)
+//                ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')

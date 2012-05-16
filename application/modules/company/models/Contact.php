@@ -75,13 +75,19 @@ class Company_Model_Contact {
 
         $model_production = new Production_Model_Activity();
         if ($model_production->fetchHaveContactCompanyClient($id)) {
-            die("esta contacto esta usado como contacto cliente de una actividad");
+           // die("client company");
+           $this->inLitter("id =".$id);  
+            return true;
+//            die("esta contacto esta usado como contacto cliente de una actividad");
         }
 
         if ($model_production->fetchHaveContactOwnCompany($id)) {
-            die("esta contacto esta usado como contacto propio de una actividad");
+           // die("own company");
+            $this->inLitter("id =".$id);
+            return true;   
+//            die("esta contacto esta usado como contacto propio de una actividad");
         }
-
+   //     die("va borrar");
         $table = $this->getTable();
         $table->delete('id = ' . (int) $id);
     }
@@ -91,7 +97,11 @@ class Company_Model_Contact {
         $data["in_Litter"] = (int) "1";
         return $table->update($data, $where);
     }
-
+    public function outLitter($where) {
+        $table = $this->getTable();
+        $data["in_Litter"] = (int) "0";
+        return $table->update($data, $where);
+    }
     /**
      * Fetch all entries
      * 
@@ -157,7 +167,20 @@ class Company_Model_Contact {
 //        die();
         return $data;
     }
-
+    
+    
+     
+     public function isOwnContact($contact_id) {
+         
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select ->where('id = ?', $contact_id)
+                ->where('company_id = '.$_SESSION["company"]["id"])
+                ->where('contacts.in_litter = "0"')
+        ;
+        return $data = $table->fetchAll($select)->toarray();
+     }
     /**
      *  Fetch all sql entries for the $role_id
      * 

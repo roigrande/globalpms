@@ -20,15 +20,18 @@ class Managementtype_CompanytypeController extends Zend_Controller_Action {
         $data=$model->fetchEntries();
         
         //paginator
+        if ($data){
         $paginator = Zend_Paginator::factory($data);
         $managementtype = Zend_Registry::get('managementtype');
         $paginator->setItemCountPerPage($managementtype->paginator);
         $paginator->setCurrentPageNumber($page);
         $paginator->setPageRange($managementtype->paginator);
+        $this->view->paginator = $paginator;
         
+        }else{$this->view->paginator = null;}
         //send information to the view
         $this->view->title = "Companytypes list";
-        $this->view->paginator = $paginator;
+        
     }
 
     /**

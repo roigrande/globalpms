@@ -33,7 +33,7 @@ class Login_IndexController extends Zend_Controller_Action
                     $this->production->id = null;
                     $this->production->name = null;
                     $this->production->activity_id = null;
-                     $this->production->activity_name = null;
+                    $this->production->activity_name = null;
                     $this->gpms = new Zend_Session_Namespace('gpms');
                     $this->gpms->storage->out_production=0;
                     $this->gpms->role_application=$this->gpms->storage->role_id;

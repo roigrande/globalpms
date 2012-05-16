@@ -70,12 +70,22 @@ class User_Model_Users {
     public function update(array $data, $where) {
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+         //check if the user want have contat
+        $data_contact=$data;
+        $data_contact['acl_users_id']=$data["id"];
+        unset($data_contact["id"]);
+         
+        if($data_contact["add_contact"]){
+           $model = new Company_Model_Contact;  
+           $model->save($data_contact);
+        }
+       
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
-
+         
         if ($data['password']!=""){
             $data['password'] = hash('SHA256', $data['password']);
         }else{ unset($data['password']);}
@@ -175,7 +185,27 @@ class User_Model_Users {
         return $data;
    
     }
-    
+    public function haveContact($user_id) {
+//        echo $_SESSION["company"]["id"];
+//        echo $user_id;
+//        
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select ->from(array('contacts'), array('contact_id' =>'id'))
+                ->where('contacts.company_id='.$_SESSION["company"]["id"])
+                ->where('contacts.acl_users_id='.$user_id)
+                ->where('acl_users.id='.$user_id)
+                
+                
+         ;
+        $data = $table->fetchAll($select)->toArray();
+//        Zend_Debug::dump($data);
+//        die();
+       
+        return $data;
+   
+    }
     /**
      *  Fetch all sql entries for the $role_id
      * 

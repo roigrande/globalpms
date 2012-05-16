@@ -1,8 +1,8 @@
  #!/bin/bash
 echo El nombre del modulo en minuscula $1
-echo El nombre del modulo en mayuscula $4
 echo El nombre del nuevo controlador en mayusculas $2
 echo El nombre del nuevo controlador en minusculas $3
+echo El nombre del modulo en mayuscula $4
 echo El nombre de la base de datosen minuscula $5
 
 
@@ -36,7 +36,7 @@ find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | x
 find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | xargs sed -i 's/modeloejemplo/'$3'/g' 
 
 echo db 
-find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | xargs sed -i 's/modelodbejemplos/'$5'/g' 
+// find /var/www/globalpms/application/modules/$1/models/DbTable/$2.php -type f | xargs sed -i 's/modelodbejemplos/'$5'/g' 
 
 echo forms
 

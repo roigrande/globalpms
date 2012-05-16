@@ -1,6 +1,6 @@
 <div class="container">
     <div class="conthead">
-        <h2>Edit Company Client</h2>
+        <h2>Edit Company</h2>
     </div>
     <div id="idformcompany" class="contentbox">
 
@@ -13,11 +13,11 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Contacts")); ?></h1>
-         
+       <h1><?php echo $this->translate("Contacts of ").$this->escape($this->select_company['name']); ?></h1>
+<!--         
         <div id="iDformcontact" class="contentbox">
 
-        </div>
+        </div>-->
 
     </div>
 
@@ -26,10 +26,7 @@
     <div class="contentbox">
         <table width="100%">
             <thead>
-                <tr>
-
-                </tr>
-
+               
                 <tr>
                     <th><?php echo $this->translate('Contact name'); ?></th>
                     <th><?php echo $this->translate('Status'); ?></th>
@@ -43,7 +40,7 @@
             <tbody>
                 <?php foreach ($this->paginator as $contact) : ?>
                     <tr id="rowcontact<?php echo $contact->id; ?>">
-                     <td><?php echo $this->escape($contact["name"]); ?></td>                         
+                        <td><?php echo $this->escape($contact["name"]); ?></td>                         
                         <td><?php echo $this->escape($contact["company"]); ?></td>                         
                         <td><?php echo $this->escape($contact["email"]); ?></td>
                         <td><?php echo $this->escape($contact["telephone"]); ?></td>
@@ -54,15 +51,7 @@
                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                             <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'inlitter', 'id' => $contact["id"])); ?>">
                                 <img src="/styles/images/icons/icon_in_litter.png" alt="Delete" /></a>
-                            <?php if (isset($contact["user_id"])) {
-                                    if (($_SESSION["gpms"]["role_application"] == 1) OR ($_SESSION["gpms"]["role_application"] == 2)) {
-                                    ?>
-                                    <a href="<?php echo $this->url(array('module' => 'user','controller' => 'user', 'action' => 'edit', 'id' => $contact["user_id"])); ?>">
-                                    <img src="/styles/images/icons/icon_edit_user.png" alt="Editar usuario" /></a>
-                                    <?php } else {?>
-                                        tiene usuario
-                                    <?php } ?>
-                            <?php } ?>
+                             
                          </td>     
                     </tr>
 

@@ -20,6 +20,7 @@
                 <tr>
                     <th><?php echo $this->translate('Company name'); ?></th>
                     <th><?php echo $this->translate('Fiscal name'); ?></th>
+                    <th><?php echo $this->translate('Type'); ?></th>
                     <th><?php echo $this->translate('Telephone'); ?></th>
                     <th><?php echo $this->translate('Email'); ?></th>
                     <th><?php echo $this->translate('City'); ?></th>
@@ -33,7 +34,8 @@
 
                 <tr>
                     <td><?php echo $this->escape($this->select_company['name']); ?></td>                         
-                    <td><?php echo $this->escape($this->select_company['fiscal_name']); ?></td>                         
+                    <td><?php echo $this->escape($this->select_company['fiscal_name']); ?></td>
+                    <td><?php echo $this->escape($this->select_company['company_types_name']); ?></td> 
                     <td><?php echo $this->escape($this->select_company['telephone']); ?></td>
                     <td><?php echo $this->escape($this->select_company['email']); ?></td>
                     <td><?php echo $this->escape($this->select_company['city']); ?></td>
@@ -41,7 +43,7 @@
                     <td>
 
                         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "edit")) { ?>
-                            <a href="<?php echo $this->url(array('controller' => 'company', 'action' => 'edit', 'company_id' => $this->select_company['id'])); ?>">
+                            <a href="<?php echo $this->url(array('controller' => 'company', 'action' => 'edit')); ?>">
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                         <?php } ?>
                         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "delete")) { ?>
@@ -74,7 +76,7 @@
 
     <div class="container">
         <div class="conthead">
-            <h1><?php echo $this->escape($this->translate("My Contacts")); ?></h1>
+            <h1><?php echo $this->translate("Contacts of ").$this->escape($this->select_company['name']); ?></h1>
             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:contact", "add")) { ?>
             <p><a href="<?php  echo $this->url(array('controller' => 'contact','action' => 'add'));
             ?>">Add Contact</a></p>
@@ -140,7 +142,7 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Companies Client")); ?></h1>
+         <h1><?php echo $this->translate("Clients of ").$this->escape($this->select_company['name']); ?></h1>
         <p><a href="<?php
                 echo $this->url(array('controller' => 'company',
                     'action' => 'add'));
@@ -150,9 +152,7 @@
     <div class="contentbox">
         <table width="100%">
             <thead>
-                <tr>
-
-                </tr>
+            
 
                 <tr>
                     <th><?php echo $this->translate('Company name'); ?></th>
@@ -216,11 +216,12 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Permissionproductions")); ?></h1>
-        <p><a href="<?php echo $this->url(array('controller' => 'permissionproduction',
-    'action' => 'add'));
-?>">Add new permissionproduction</a></p>
-
+        <h1><?php echo $this->translate("Users of ").$this->escape($this->select_company['name']);  ?></h1>
+         
+          <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:userscompanies", "add")) { ?>
+            <p><a href="<?php  echo $this->url(array('controller' => 'userscompanies','action' => 'add'));
+            ?>">Add new User</a></p>
+            <?php } ?> 
     </div>
     <div class="contentbox">
         <table width="100%">

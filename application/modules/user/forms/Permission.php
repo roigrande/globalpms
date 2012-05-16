@@ -14,14 +14,14 @@ class User_Form_Permission extends Zend_Form {
     }
 
     public function _selectOptionsResources() {
-        $resources = new User_Model_DbTable_Resources();
-        $resources = $resources->fetchAll();
-        foreach ($resources as $resource) {
-
-            $array_resource[$resource["id"]] = $resource["resource"];
-        }
-
-        return $array_resource;
+         $sql = "SELECT id,resource
+                FROM acl_resources                 
+                ORDER by resource
+               ";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
     }
 
     public function init() {

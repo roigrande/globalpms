@@ -21,12 +21,12 @@ class Production_ProductionController extends Zend_Controller_Action {
             $this->production = new Zend_Session_Namespace('production');
             $this->production->id = null;
             $this->production->name = null;
-            $this->production->client_company = null; 
+            $this->production->client_company = null;
             $this->production->own_company = null;
             //$this->production->own_company_name = null;
             $this->production->activity_name = null;
             $this->production->activity_id = null;
-            
+
             $this->gpms = new Zend_Session_Namespace('gpms');
             if ($this->gpms->storage->out_production == 0) {
                 $this->gpms->storage->out_production = 1;
@@ -78,11 +78,11 @@ class Production_ProductionController extends Zend_Controller_Action {
 
         $model = new Production_Model_Production();
         $production = $model->fetchEntry($id);
-         
+
         $this->production = new Zend_Session_Namespace('production');
         $this->production->id = $id;
         $this->production->name = $production["name"];
-         
+
         $this->production->activity_users = null;
         $this->production->activity = null;
         return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
@@ -93,43 +93,43 @@ class Production_ProductionController extends Zend_Controller_Action {
 
         $this->production = new Zend_Session_Namespace('production');
         if ($this->production->id == null) {
-           return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         }
         $page = $this->_getParam('page', 1);
-     
+
         //get the dates for the table
         $model = new Production_Model_Production();
         $data = $model->fetchEntryProduction();
         $this->production->client_company = $data["client_companies_id"];
-        $this->production->own_company = $data["companies_id"];  
+        $this->production->own_company = $data["companies_id"];
         $this->production->own_company_name = $data["own_company_name"];
         $this->production->client_company_name = $data["client_company_name"];
         $this->view->production = $data;
-         
+
         //send information to the view
         $this->view->title = "Production Consult";
 
         //get the dates for the table Activity
         $model = new Production_Model_Activity();
-        
+
 //        Zend_Debug::dump($_SESSION);
 //               die();
         //TODO cambiar hardcode por roles que pueden verse
-        if ($_SESSION['gpms']['role']=="Encargado Actividad" OR $_SESSION['gpms']['role']=="public") {
+        if ($_SESSION['gpms']['role'] == "Encargado Actividad" OR $_SESSION['gpms']['role'] == "public") {
 
             $data_activities = $model->fetchOwnActivities();
         } else {
-           
+
             $data_activities = $model->fetchActivities();
         }
-          
+
         if ($data_activities) {
             $paginator = Zend_Paginator::factory($data_activities);
             $production = Zend_Registry::get('production');
             $paginator->setItemCountPerPage($production->paginator);
             $paginator->setCurrentPageNumber($page);
             $paginator->setPageRange($production->paginator);
-           
+
             $this->view->paginator = $paginator;
         } else {
             $this->view->paginator = null;
@@ -164,37 +164,57 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function addAction() {
-
+//        
         $this->view->headTitle("Add New Production", 'APPEND');
         $request = $this->getRequest();
-        $form = new Production_Form_Production();
+        $production_form = new Production_Form_Production();
+        $form = new Production_Form_Client();
+        $company_form = new Company_Form_Company();
+        if ($data_client['client_companies_id'] = $this->_getParam('client_companies_id')) {
+            if ($this->getRequest()->isPost()) {
+                if ($production_form->isValid($request->getPost())) {
+                    $form = new Production_Form_Production();
+                }
+                $this->view->form = $form;
+            } else {
+                
+                $production_form->populate($data_client);
+             
+            }
+            $this->view->production_form = $production_form;
+        }
 
         if ($this->getRequest()->isPost()) {
-
             if ($form->isValid($request->getPost())) {
-
-                $model = new Production_Model_Production();
                 $data = $form->getValues();
-
-                $model->save($data);
-
-
-
-                return $this->_helper->_redirector->gotoSimple('select', 'production', 'production', array('id' => $_SESSION["production"]["id"]));
+                // check if its a new client
+                if (!isset($data["client_companies_id"])) {
+                    //check the valid dates of the new  client
+                    if ($company_form->isValid($request->getPost())) {
+                        $data_client = $company_form->getValues();
+                        $model = new Production_Model_Production();
+                        $model_company = new Company_Model_Company();
+                        $client_companies_id = $model_company->saveClient($data_client);
+                        return $this->_helper->_redirector->gotoSimple('add', 'production', 'production', array('client_companies_id' => $client_companies_id));
+                    }
+                } else {
+                    return $this->_helper->_redirector->gotoSimple('add', 'production', 'production', array('client_companies_id' => $data["client_companies_id"]));
+                }
             }
         } else {
 
             $data = $form->getValues();
+            if ($this->_request->isXmlHttpRequest()) {
 
-//            //TODO para poner por defecto el status
-//            $production = Zend_Registry::get('production');
-//            $data["status_id"] = $production->status_default;
-//            $data["status_id"] = "26";
+                $this->_helper->layout->disableLayout();
+                $form->submit->setOptions(array('onClick' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
+                // $this->_helper->viewRenderer->setNoRender(true);
+            }
             $form->populate($data);
             //  $form->removeElement('status_id');
+            $this->view->form = $form;
+            $this->view->company_form = $company_form;
         }
-
-        $this->view->form = $form;
     }
 
     /**

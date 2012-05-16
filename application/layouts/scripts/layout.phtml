@@ -6,7 +6,9 @@ echo $this->doctype();
 
     <?php echo $this->headMeta(); ?>
     <?= $this->headTitle($this->escape($this->title)) ?>
-    <?php echo $this->headLink()->prependStylesheet($this->baseUrl() . '/css/site.css'); ?>
+    <?php echo $this->headLink()->prependStylesheet($this->baseUrl() . '/css/site.css');
+    ?>
+
     <!-- Calendar Styles -->
     <link href="/styles/css/fullcalendar.css" rel="stylesheet" type="text/css" />
     <!-- Fancybox/Lightbox Effect -->
@@ -16,16 +18,16 @@ echo $this->doctype();
     <!-- Main Controlling Styles -->
     <link href="/styles/css/main.css" rel="stylesheet" type="text/css" />
     <!-- Blue Theme Styles -->
-    <link href="/styles/themes/blue/styles.css" rel="stylesheet" type="text/css" />
+    <link href="/styles/themes/grey/styles.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/scripts/ajax_functions.js"></script>
     <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/onclick/onclick.js" ></script>  
     <?php
     if ($this->dojo()->isEnabled()) {
-        
+
         $this->dojo()->setDjConfigOption('isDebug', false)
-                //     ->setLocalPath(DOJO_PATH)
-                ;  
+        //     ->setLocalPath(DOJO_PATH)
+        ;
         echo $this->dojo();
     }
     ?>
@@ -35,8 +37,11 @@ echo $this->doctype();
     <?php $acl = Login_Model_Acl::getInstance(); ?>
     <!-- Top header/black bar start -->
     <div id="header">
-        <img src="/styles/images/logo.png" alt="GlobalPMS" class="logo" />
-     
+        <img src="/styles/images/logo.png" alt="AdminCP" class="logo" />
+        <div id="searchbox">
+            <input type="text" class="searchinput" />
+            <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />
+        </div>
 
 
     </div>
@@ -49,31 +54,53 @@ echo $this->doctype();
 
         <!-- Toolbox dropdown start -->
         <div id="openCloseIdentifier"></div>
-      
+        <!--        <div id="slider">
+                    <ul id="sliderContent">
+                        <li><a href="#" title="">Change Username</a></li>
+                        <li class="alt"><a href="#" title="">Change Password</a></li>
+                        <li><a href="#" title="">Change Address</a></li>
+                        <li class="alt"><a href="#" title="">Payment Details</a></li>
+                        <li><a href="#" title="">Log Out</a></li>
+                    </ul>
+                    <div id="openCloseWrap">
+                        <div id="toolbox">
+                            <a href="#" title="Toolbox Dropdown" class="toolboxdrop">Toolbox <img src="/styles/images/icon_expand_grey.png" alt="Expand" /></a>
+                        </div>
+                    </div>
+                </div>-->
         <!-- Toolbox dropdown end -->   
 
         <!-- Userbox/logged in start -->
         <div id="userbox">
-            <p>Welcome <?php
-    //TODO hacer 
-    echo $_SESSION["gpms"]["storage"]->name;
-    ?></p>
+            <p>Welcome <?php echo $_SESSION["gpms"]["storage"]->name; ?></p>
             <p><span>LOGGED : <?php echo $_SESSION["gpms"]["role"] ?> </span></p>
-            <p><span>PRODUCTION: <?php echo $_SESSION["production"]["name"]; ?></span></p>  
-            <p><span>ACTIVITY: <?php echo $_SESSION["production"]["activity_name"]; ?></span></p>
+<!--            <p><span>PRODUCTION: <?php echo $_SESSION["production"]["name"]; ?></span></p>  -->
+<!--            <p><span>ACTIVITY: <?php echo $_SESSION["production"]["activity_name"]; ?></span></p>-->
             <ul>
-               <li><a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'edit', 'id' => $_SESSION["gpms"]["storage"]->id)); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
-               <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
+                <li><a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'editownuser')); ?>" title="Configure"><img src="/styles/images/icons/icon_cog.png" alt="Configure" /></a></li>
+                <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
             </ul> 
         </div>
-        <!-- Userbox/logged in end -->  
+        
+        <?php
+        if (isset($_SESSION["company"]["id"])) {
+            $list = $acl->listResourceByUser();
+//                Zend_Debug::dump($list);
+            echo $this->navigation()
+                    ->menu()
+                    ->setPartial(array('_element_menu.phtml', 'default'))
+                    ->setMaxDepth(1)
+                    ->setTranslator(Zend_Registry::get('Zend_Translate'))
+                    ->setUlClass('navigation')
+                    ->setOnlyActiveBranch(false)
+                    ->setAcl($acl)
+                    ->setRole($list['role']);
+        }
+        ?>
+    </div>
+    <!-- Main navigation end -->
 
-        <!-- Main navigation start -->         
-        <ul id="nav">
 
-        </ul>
-    </div>      
-    <!-- Main navigation end --> 
 
     <!-- Left side bar start end -->   
 
@@ -81,58 +108,81 @@ echo $this->doctype();
     <div id="right">
 
         <!-- Breadcrumb start -->  
-         
+        <div id="breadcrumb">
+            <ul>	
+                <li><img src="images/icon_breadcrumb.png" alt="Location" /></li>
+
+                <li>
+                    <?php
+                    $list = $acl->listResourceByUser();
+                    echo $this->navigation()
+                            ->breadcrumbs()
+                            ->setMinDepth(0)
+                            ->setLinkLast(false)
+                            ->setSeparator(" / ")
+                            ->setAcl($acl)
+                            ->setRole($list['role'])
+                    //->render()
+                    ;
+                    ?>
+                </li>
+            </ul>
+        </div>
         <!-- Breadcrumb end -->  
 
         <!-- Top/large buttons start -->  
         <ul id="topbtns">
             <li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
-            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "controlmodule:controlmodule", "index"))  { ?>  
-            <li>
-                <a href="<?php echo $this->url(array('module' => 'controlmodule', 'controller' => 'controlmodule', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="control de modulos" /><br />modulos</a>
-            </li>
-             <?php } ?>
-              <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "user:user", "index")) { ?>  
-            
-            <li>
-                <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "controlmodule:controlmodule", "index")) { ?>  
+                <li>
+                    <a href="<?php echo $this->url(array('module' => 'controlmodule', 'controller' => 'controlmodule', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="control de modulos" /><br />modulos</a>
+                </li>
+            <?php } ?>
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "user:user", "index")) { ?>  
 
-            </li>
-            <?php } ?> 
+                <li>
+                    <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+
+                </li>
+            <?php } ?>
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "managementtype:managementtype", "select")) { ?>  
+
+                <li>
+                    <a href="<?php echo $this->url(array('module' => 'managementtype', 'controller' => 'managementtype', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Production" /><br />Types Configure</a>
+
+                </li> 
+            <?php } ?>
+
             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index") and isset($_SESSION["company"]["id"])) { ?>  
-  
-            <li>
-                <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'company', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
 
-            </li>
+                <li>
+                    <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'company', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
+
+                </li>
             <?php } ?> 
-             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index")and isset($_SESSION["company"]["id"])) { ?> 
-          
-            <li>
-                <a href="<?php echo $this->url(array('module' => 'production', 'controller' => 'production', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_claketa.png" alt="Production" /><br />Production</a>
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index") and isset($_SESSION["company"]["id"])) { ?>       
+                <li>
+                    <a href="<?php echo $this->url(array('module' => 'production', 'controller' => 'production', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_claketa.png" alt="Production" /><br />Production</a>
 
-            </li>
+                </li>
             <?php } ?> 
-            <!--
+
             <li>
-                <a href="<?php echo $this->url(array('module' => 'finances', 'controller' => 'finances', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Finances" /><br />Finances</a>
+                <a href="<?php echo $this->url(array('module' => 'supplier', 'controller' => 'supplier', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Suplier" /><br />Supliers</a>
 
             </li>
-            <li>
-                <a href="<?php echo $this->url(array('module' => 'managementtype', 'controller' => 'managementtype', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Production" /><br />Types Configure</a>
 
-            </li> 
-            -->
-            <li>
-                LANGUAGE
-               <?php
-               
-                include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
-                $form = new Default_Form_Languages();
-                echo $form;
-                ?>
-            </li>
-             <li> 
+
+
+            <!--            <li>
+                            LANGUAGE
+            <?php
+            include_once(APPLICATION_PATH . '/modules/default/forms/Languages.php');
+            $form = new Default_Form_Languages();
+            echo $form;
+            ?>
+                        </li>-->
+            <li> 
                 COMPANIES : 
                 <?php
                 include_once(APPLICATION_PATH . '/modules/default/forms/companies.php');
@@ -140,7 +190,7 @@ echo $this->doctype();
                 echo $form;
                 ?>
             </li>
-           
+
         </ul>
         <!-- Top/large buttons end -->  
 
@@ -148,7 +198,7 @@ echo $this->doctype();
 
         <div id="content">
 
-<?php echo $this->layout()->content; ?> 
+            <?php echo $this->layout()->content; ?> 
         </div>
 
         <!-- Footer start --> 
@@ -157,17 +207,18 @@ echo $this->doctype();
 
     </div>
     <!-- Right side end --> 
-<?php /*
-    <script type="text/javascript" src="http://dwpe.googlecode.com/svn/trunk/_shared/EnhanceJS/enhance.js"></script>	
+
+    <script type="text/javascript" src="http://dwpe.googlecode.com/svn/trunk/_shared/EnhanceJS/enhance.js"></script>
     <script type='text/javascript' src='http://dwpe.googlecode.com/svn/trunk/charting/js/excanvas.js'></script>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js'></script>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js'></script>
-    <script type='text/javascript' src='js/jquery.fancybox-1.3.4.pack.js'></script>
-    <script type='application/javascript' src='js/fullcalendar.min.js'></script>
-    <script type='text/javascript' src='js/jquery.wysiwyg.js'></script>
-    <script type='text/javascript' src='js/visualize.jQuery.js'></script>
-    <script type='application/javascript' src='js/functions.js'></script>
-*/?>
-  </body>
- </html>
+    <script type='text/javascript' src='<?php echo $this->baseUrl(); ?>/js/jquery.fancybox-1.3.4.pack.js'></script>
+    <script type='application/javascript' src='<?php echo $this->baseUrl(); ?>/js/fullcalendar.min.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl(); ?>/js/jquery.wysiwyg.js'></script>
+    <script type='text/javascript' src='<?php echo $this->baseUrl(); ?>/js/visualize.jQuery.js'></script>
+
+    <script type='application/javascript' src='<?php echo $this->baseUrl(); ?>/js/functions.js'></script>
+
+</body>
+</html>
 

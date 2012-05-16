@@ -12,7 +12,10 @@ class Company_CompanyController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
-
+        $this->company= new Zend_Session_Namespace('company');
+        if ($this->company->id==null){
+            return $this->_helper->_redirector->gotoSimple('index', 'index', 'default');
+        }
         $this->view->title = "Companies list";
         $page = $this->_getParam('page', 1);
         $models = new Company_Model_Company();
@@ -63,7 +66,7 @@ class Company_CompanyController extends Zend_Controller_Action {
     }
 
     /**
-     * deleteAction for Productions
+     * selectAction for Productions
      *
      * @return void
      */
@@ -143,12 +146,48 @@ class Company_CompanyController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
+        $this->view->title = "Edit Company";
+        
+        $form = new Company_Form_Company();
+        //get the dates for the table
+        $model = new Company_Model_Company();
+        $select_company= $model->fetchEntry($_SESSION["company"]["id"]);
+        $this->view->select_company = $select_company;
+        if ($this->getRequest()->isPost()) {
+            if ($form->isValid($this->getRequest()->getPost())) {
+                $model = new Company_Model_Company();
+                $id = $this->getRequest()->getPost('id');
+                $model->update($form->getValues(), 'id = ' . (int) $id);
+                return $this->_helper->redirector('index');
+            } else {
+                $form->populate($this->getRequest()->getPost());
+            }
+        } else {
+
+            $id = $_SESSION["company"]["id"];
+            if ($id > 0) {
+                $page = $this->_getParam('page', 1);
+                $models = new Company_Model_Contact();
+                $paginator = Zend_Paginator::factory($models->fetchCompany($id));
+                $contact = Zend_Registry::get('company');
+                $paginator->setItemCountPerPage($contact->paginator);
+                $paginator->setCurrentPageNumber($page);
+                $paginator->setPageRange($contact->paginator);
+                $this->view->paginator = $paginator;
+
+                $model = new Company_Model_Company();
+                $form->populate($model->fetchEntry($id));
+            }
+        }
+
+        $this->view->form = $form;
+    }
+    
+    public function editclientAction() {
         $this->view->title = "Edit Companies";
         //
         $form = new Company_Form_Company();
-
-
-
+ 
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Company_Model_Company();
@@ -170,7 +209,6 @@ class Company_CompanyController extends Zend_Controller_Action {
                 $paginator->setCurrentPageNumber($page);
                 $paginator->setPageRange($contact->paginator);
                 $this->view->paginator = $paginator;
-
                 $model = new Company_Model_Company();
                 $form->populate($model->fetchEntry($id));
             }
@@ -178,7 +216,6 @@ class Company_CompanyController extends Zend_Controller_Action {
 
         $this->view->form = $form;
     }
-
     /**
      * deleteAction for Companys
      *
@@ -199,7 +236,6 @@ class Company_CompanyController extends Zend_Controller_Action {
             if ($id > 0) {
                 $model = new Company_Model_Company();
                 $data = $model->fetchEntry($id);
-
                 $model_production = new Production_Model_Production();
                 $this->view->company = $data;
                 //TODO comprobar si tiene resources

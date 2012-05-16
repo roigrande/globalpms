@@ -44,6 +44,23 @@ class Company_Model_Company {
           
         return $table->lastInsertId();
     }
+    
+    public function saveClient(array $data) {
+   
+//        Zend_Debug::dump($data);
+//        die();
+        $table = $this->getTable();
+        $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+        foreach ($data as $field => $value) {
+            if (!in_array($field, $fields)) {
+                unset($data[$field]);
+            }
+        }
+        $table->insert($data);
+         
+          
+        return $table->lastInsertId();
+    }
 
     /* Update entry
      * 
@@ -126,14 +143,20 @@ class Company_Model_Company {
      * @return null|Zend_Db_Table_Row_Abstract
      */
     public function fetchEntry($id) {
-        $table = $this->getTable();
-        $select = $table->select()->where('id = ?', $id);
-
-        $data = $table->fetchRow($select)->toArray();
         
+         $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('ct' => 'company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+                ->where('ct.id = company_types_id')
+                ->where('companies.id='.$id)
+              //  ->where('in_litter = 0')
+        ;
+        $data = $table->fetchAll($select)->toarray();
+      
 //        Zend_Debug::dump($data);
 //        die();
-        return $data;
+        return $data["0"];
     }
 
     /**
@@ -151,18 +174,7 @@ class Company_Model_Company {
               //  ->where('in_litter = 0')
         ;
         $data = $table->fetchAll($select)->toArray();
-
-//        $i = 0;
-//        $company_no_own = '';
-//        foreach ($table as $key => $field) {
-//            //check all the compannies dont have company_id in the table own_companies 
-//            if ($field["id"] != $field["company_id"]) {
-//                $i++;
-//
-//                $company_no_own[$i] = $field;
-//                $company_no_own[$i]["activity_types_id"] = explode(",", $company_no_own[$i]["activity_types_id"]);
-//            }
-//        }
+ 
         return $data;
     }
     
@@ -180,67 +192,29 @@ class Company_Model_Company {
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('ct' => 'company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
-               ->from(array('companies_has_productions'))
-                ->from(array('permission_production'),array('acl_users_id', 'productions_id'))
-            //   ->from(array('own_company' => 'companies'), array('own_company_id' => 'id'))
+        $select->from(array('companies_has_productions'))
+               ->from(array('permission_production'),array('acl_users_id'))
+               //->from(array('own_company' => 'companies'), array('own_company_id' => 'id'))
                ->from(array('productions'),array('production_id' => 'id'))
-               ->where('ct.id=companies.company_types_id') 
+               ->where('company_types_id=company_types.id') 
 //               ->where('acl_users_has_companies.acl_users_id = '.$_SESSION["gpms"]["storage"]->id)
+               ->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
                
-               ->where('companies_has_productions.productions_id=productions.id')
+               
                ->where('companies_has_productions.companies_id= '.$_SESSION["company"]["id"])
+               ->where('companies_has_productions.productions_id=productions.id')
                ->where('productions.client_companies_id=companies.id')
                // ->where('in_litter = 0')
                ->where('productions.id=permission_production.productions_id')
                ->where('permission_production.acl_users_id='.$_SESSION["gpms"]["storage"]->id)
-              
+               ->order('name')
                 
         ;
         $data = $table->fetchAll($select)->toArray();
-//        Zend_Debug::dump($data);
-//        die();  
-         
-        
-//        $i = 0;
-//        $company_no_own = '';
-//        foreach ($table as $key => $field) {
-//            //check all the compannies dont have company_id in the table own_companies 
-//            if ($field["id"] != $field["company_id"]) {
-//                $i++;
-//
-//                $company_no_own[$i] = $field;
-//                $company_no_own[$i]["activity_types_id"] = explode(",", $company_no_own[$i]["activity_types_id"]);
-//            }
-//        }
+    
         return $data;
     }
-    
-    /**
-     *  Fetch all sql entries for the $role_id
-     * 
-     * @return array
-     */
-    public function noOwnCompany($id) {
-        $model_own_company = new Company_Model_Owncompany;
-        $arrayowncompanies = $model_own_company->fetchEntries();
-        Zend_Debug::dump($arraycompanies, "---------------------------------");
-        foreach ($arrayowncompanies as $owncompany => $ownfield) {
-            foreach ($arraycompanies as $company => $field) {
-                Zend_Debug::dump($field["id"], "---------------------------------");
-                Zend_Debug::dump($ownfield, "---------------------------------");
-
-                if ($field['id'] == $ownfield["company_id"])
-                    unset($arraycompanies[$company]);
-            }
-        }
-        Zend_Debug::dump($arraycompanies, "---------------------------------");
-        die();
-        $table = $this->getTable();
-        $select = $table->select()->where('type_id =' . (int) $type_id);
-
-        return $table->fetchAll($select)->toArray();
-    }
+     
 
 }
 

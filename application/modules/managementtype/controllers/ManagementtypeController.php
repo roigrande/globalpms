@@ -12,7 +12,7 @@ class Managementtype_ManagementtypeController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
-
+        
         $models = new Managementtype_Model_Managementtype();
         $this->view->title = "Managementtypes list";
         $page = $this->_getParam('page', 1);
@@ -26,7 +26,26 @@ class Managementtype_ManagementtypeController extends Zend_Controller_Action {
         $paginator->setPageRange($managementtype->paginator);
         $this->view->paginator = $paginator;
     }
+    
+     /**
+     * selectAction for Productions
+     *
+     * @return void
+     */
+    public function selectAction() {
 
+        $this->gpms = new Zend_Session_Namespace('gpms');
+//        echo $this->gpms->storage->role_id;
+//        echo $this->gpms->role_application;
+//        Zend_Debug::dump($this->gpms->storage);
+//        die();
+        $this->gpms->storage->out_production = 1;
+        $this->gpms->storage->role_id = $this->gpms->role_application;
+//       
+
+        return $this->_helper->_redirector->gotoSimple('index', 'managementtype', 'managementtype');
+    }
+    
     /**
      * AddAction for Managementtypes
      *

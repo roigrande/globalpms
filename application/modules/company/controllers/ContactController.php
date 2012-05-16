@@ -12,7 +12,7 @@ class Company_ContactController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
-
+        
         $models = new Company_Model_Contact();
         $this->view->title = "Contacts list";
         $page = $this->_getParam('page', 1);
@@ -48,10 +48,10 @@ class Company_ContactController extends Zend_Controller_Action {
             if ($form->isValid($request->getPost())) {
                 $model = new Company_Model_Contact();
                 $data = $form->getValues();
-                $data["company_id"] = $request->getParam('company_id');
+                $data["company_id"] = $_SESSION["company"]["id"];
                 // Zend_Debug::dump($data);
                 $model->save($data);
-                $model = new Company_Model_Owncompany();
+             
                  
                     return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
              
@@ -97,7 +97,7 @@ class Company_ContactController extends Zend_Controller_Action {
                 } else {
                     //check if its ownCompany
                     $id = $this->_getParam('company_id', 0);
-                    $model = new Company_Model_Owncompany();
+                  
                      return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
                 }
             } else {
@@ -114,6 +114,11 @@ class Company_ContactController extends Zend_Controller_Action {
         } else {
 
             $id = $this->_getParam('id', 0);
+            $model = new Company_Model_Contact();
+            //comprobar si tiene permiso para editar el contacto solo los de su empresa
+            if (!$model->isOwnContact($id)){
+               return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
+            }
             $company_id = $this->_getParam('company_id', 0);
 
             if ($id > 0) {
@@ -124,7 +129,7 @@ class Company_ContactController extends Zend_Controller_Action {
                     $form->submit->setOptions(array('onClick' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
                     // $this->_helper->viewRenderer->setNoRender(true);
                 }
-                $model = new Company_Model_Contact();
+               
                 $form->populate($model->fetchEntry($id));
             }
         }
@@ -146,15 +151,10 @@ class Company_ContactController extends Zend_Controller_Action {
                 $model = new Company_Model_Contact();
                 $model->delete($id);
                 
-                $model = new Company_Model_Owncompany();
-                
-                if ($own_company = $model->fetchIsOwnCompany($company_id)) {
-                   die("own");
-                    return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
-                } else {
-              
-                    return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $company_id));
-                }
+               
+               
+                    return $this->_helper->_redirector->gotoSimple('index', 'company', 'company' );
+               
             }
         } else {
 
@@ -180,13 +180,10 @@ class Company_ContactController extends Zend_Controller_Action {
             $company_id = $this->getRequest()->getPost('company_id');
 
             //check if its ownCompany
-            $model = new Company_Model_Owncompany();
-            if ($own_company = $model->fetchIsOwnCompany($company_id)) {
-
-                return $this->_helper->_redirector->gotoSimple('edit', 'owncompany', 'company', array('own_company_id' => $own_company['id']));
-            } else {
-                return $this->_helper->_redirector->gotoSimple('edit', 'company', 'company', array('company_id' => $company_id));
-            }
+          
+           
+                return $this->_helper->_redirector->gotoSimple('index', 'company', 'company', array('company_id' => $company_id));
+           
         } else {
 
             $id = $this->_getParam('id', 0);

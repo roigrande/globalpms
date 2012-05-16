@@ -136,7 +136,7 @@ class Production_Model_Activity {
     public function fetchHaveContactCompanyClient($contact_id) {
 
         $table = $this->getTable();
-        $select = $table->select()->where('contact_company_client_id = ?', $contact_id);
+        $select = $table->select()->where('contact_client_company_id = ?', $contact_id);
         $row = $table->fetchRow($select);
         return $row;
     }
@@ -146,6 +146,8 @@ class Production_Model_Activity {
         $table = $this->getTable();
         $select = $table->select()->where('contact_own_company_id = ?', $contact_id);
         $row = $table->fetchRow($select);
+//          Zend_Debug::dump($row);
+//        die();
         return $row;
     }
 
@@ -179,6 +181,10 @@ class Production_Model_Activity {
                 ->where('cc.id=contact_client_company_id')
                 ->where('activity_types_id = pt.id')
                 ->where('activities.productions_id = '.$_SESSION["production"]["id"])
+                ->order('date_start')
+                ->order('status_id')
+               
+               
         ;
 
         $data = $table->fetchAll($select)->toarray();
@@ -211,6 +217,9 @@ class Production_Model_Activity {
                 ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
                 ->where('cc.id=contact_client_company_id')
                 ->where('activity_types_id = pt.id')
+                
+                ->order('date_start')
+                ->order('status_id')
         ;
 
         $data = $table->fetchAll($select)->toarray();

@@ -5,7 +5,7 @@
 class Company_Model_DbTable_Userscompanies extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'acl_users_has_companies';
+    protected $_name    = 'modelodbejemplos';
     /** Primary key */
     protected $_primary = 'id';
 

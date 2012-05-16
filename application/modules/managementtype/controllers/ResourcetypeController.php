@@ -20,15 +20,18 @@ class Managementtype_ResourcetypeController extends Zend_Controller_Action {
         $data=$model->fetchEntries();
         
         //paginator
+        if ($data){
         $paginator = Zend_Paginator::factory($data);
         $managementtype = Zend_Registry::get('managementtype');
         $paginator->setItemCountPerPage($managementtype->paginator);
         $paginator->setCurrentPageNumber($page);
         $paginator->setPageRange($managementtype->paginator);
+        $this->view->paginator = $paginator;
         
+        }else{$this->view->paginator = null;}
         //send information to the view
         $this->view->title = "Resourcetypes list";
-        $this->view->paginator = $paginator;
+        
     }
 
     /**
@@ -103,6 +106,32 @@ class Managementtype_ResourcetypeController extends Zend_Controller_Action {
                 $model = new Managementtype_Model_Resourcetype();
 
                 $this->view->resourcetype= $model->fetchEntry($id);
+            }
+        }
+    }
+    
+    /**
+     * inlitterAction for Resourcetypes
+     *
+     * @return void
+     */
+    
+    public function inlitterAction() {
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+                $id = $this->getRequest()->getPost('id');
+                $model = new Managementtype_Model_Resourcetype();
+                $model->inLitter('id = ' . (int) $id);
+            }
+            return $this->_helper->redirector('index');
+        } else {
+
+            $id = $this->_getParam('id', 0);
+            if ($id > 0) {
+                $model = new Managementtype_Model_Resourcetype();
+
+                $this->view->resourcetype = $model->fetchEntry($id);
             }
         }
     }

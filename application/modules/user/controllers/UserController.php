@@ -79,21 +79,13 @@ class User_UserController extends Zend_Controller_Action {
         $form->removeElement('company_id');
         $id = $this->_getParam('id', 0);
         $this->gpms = new Zend_Session_Namespace('gpms');
-        //TODO pasar el role implementador y administrador sin hardcode
-        //si es un usuario sin permiso solo puede editar su usuario y no su role_id
-        if (!($this->gpms->role_application == 1 or $this->gpms->role_application == 2)) {
-            $form->removeElement('role_id');
-            $id = $this->gpms->storage->id;
-        };
+         
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new User_Model_Users();
                 $id = $this->getRequest()->getPost('id');
                 $model->update($form->getValues(), 'id = ' . (int) $id);
-                //TODO pasar el role implementador y administrador sin hardcode
-                if (!($this->gpms->role_application == 1 or $this->gpms->role_application == 2)) {
-                    $this->_helper->redirector('index', 'production', 'production');
-                }
+                //TODO pasar el role implementador y administrador sin hardcode               
                 return $this->_helper->redirector('index');
             } else {
                 $form->populate($this->getRequest()->getPost());
@@ -105,12 +97,65 @@ class User_UserController extends Zend_Controller_Action {
 
                 
                 $model = new User_Model_Users();
-                $form->populate($model->fetchEntry($id));
+                $data = $model->fetchEntry($id);
+                if ($model->haveContact($id)){
+                   
+                    $form->removeElement('add_contact');
+                }
+               
+                $form->populate($data);
             }
         }
         $this->view->form = $form;
     }
+    /**
+     * EditAction for Users
+     *
+     * @return void
+     */
+    public function editownuserAction() {
+        $this->view->title = "Edit Users";
+        $form = new User_Form_User();
+        $form->submit->setLabel('Save');
+        $form->removeElement('password');
+        $form->removeElement('company_id');
+        $id =  $_SESSION["gpms"]["storage"]->id;
+        $this->gpms = new Zend_Session_Namespace('gpms');
+        //TODO pasar el role implementador y administrador sin hardcode
+        //si es un usuario sin permiso solo puede editar su usuario y no su role_id
+        
+            $form->removeElement('role_id');
+            $id = $this->gpms->storage->id;
+        
+        if ($this->getRequest()->isPost()) {
+            if ($form->isValid($this->getRequest()->getPost())) {
+                $model = new User_Model_Users();
+                $id = $this->getRequest()->getPost('id');
+                $model->update($form->getValues(), 'id = ' . (int) $id);
+                
+                $this->_helper->redirector('index', 'company', 'company');
+               
+            } else {
+                $form->populate($this->getRequest()->getPost());
+            }
+        } else {
 
+
+            if ($id > 0) {
+
+                
+                $model = new User_Model_Users();
+                $data = $model->fetchEntry($id);
+                if ($model->haveContact($id)){
+                   
+                    $form->removeElement('add_contact');
+                }
+               
+                $form->populate($data);
+            }
+        }
+        $this->view->form = $form;
+    }
     /**
      * deleteAction for Users
      *

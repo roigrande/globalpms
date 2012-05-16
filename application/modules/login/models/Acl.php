@@ -201,7 +201,7 @@ class Login_Model_Acl extends Zend_Acl {
                 $this->_db->select()
                         ->from('acl_resources')
                         ->from('acl_permissions')
-                        ->where('resource_uid = uid'));
+                        ->where('resource_id = acl_resources.id'));
     }
 
     public function listResourcesByGroup($group) {
@@ -256,6 +256,7 @@ class Login_Model_Acl extends Zend_Acl {
 
     public function listResourceByUser($role_id=null) {
         //$this->view->role = $this->_getUserRoleName.":".$this->_acl->_user;
+    
         if ($role_id == null)
             $list['role'] = $this->_UserRoleName;
         else

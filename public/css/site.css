@@ -11,7 +11,7 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 body,html {
-    margin: 0 5px;
+/*    margin: 0 5px;*/
     font-family: Verdana,sans-serif;
 }
 h1 {

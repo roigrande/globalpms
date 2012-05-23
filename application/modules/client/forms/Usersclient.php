@@ -1,9 +1,8 @@
 <?php
 
-class Company_Form_Userscompanies extends Zend_Form {
-
-    public function init() {
-        $this->setName('userscompanies');
+class Client_Form_Usersclient extends Zend_Form {
+public function init() {
+        $this->setName('usersclients');
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');

@@ -3,8 +3,8 @@
 /**
  * This is the Data Mapper class for the Acl_clients table.
  */
-class Company_Model_Client {
-
+class Client_Model_Client {
+ 
     /** Model_Resource_Table */
     protected $_table;
 
@@ -15,7 +15,7 @@ class Company_Model_Client {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Company_Model_DbTable_Client();
+            $this->_table = new Client_Model_DbTable_Client();
         }
         return $this->_table;
         
@@ -83,7 +83,7 @@ class Company_Model_Client {
                 ->setIntegrityCheck(false);
         $select->from(array('companies_has_productions'))
                 ->from(array('permission_production'), array('acl_users_id'))
-                //->from(array('own_company' => 'companies'), array('own_company_id' => 'id'))
+                
                 ->from(array('productions'), array('production_id' => 'id'))
                 ->where('company_types_id=company_types.id')
 //               ->where('acl_users_has_companies.acl_users_id = '.$_SESSION["gpms"]["storage"]->id)

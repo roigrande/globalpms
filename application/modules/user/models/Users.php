@@ -185,6 +185,12 @@ class User_Model_Users {
         return $data;
    
     }
+    public function fetchUserByEmail($email){
+         $table = $this->getTable();
+        $select = $table->select()->where('email = ?', $email);
+        $data= $table->fetchRow($select);
+        return $data["id"];
+    }
     public function haveContact($user_id) {
 //        echo $_SESSION["company"]["id"];
 //        echo $user_id;

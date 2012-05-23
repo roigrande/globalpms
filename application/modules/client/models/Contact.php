@@ -3,9 +3,9 @@
 /**
  * This is the Data Mapper class for the Acl_contacts table.
  */
-class Company_Model_Contact {
+class Client_Model_Contact {
 
-    /** Model_Resource_Table */
+   /** Model_Resource_Table */
     protected $_table;
 
     /**
@@ -15,7 +15,7 @@ class Company_Model_Contact {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Company_Model_DbTable_Contact();
+            $this->_table = new Client_Model_DbTable_Contact();
         }
         return $this->_table;
     }
@@ -34,14 +34,8 @@ class Company_Model_Contact {
                 unset($data[$field]);
             }
         }
-        if(!isset($data["company_id"])){
-        $data["company_id"]=$_SESSION["company"]["id"];
-        }
-        unset($data["id"]);
-
-//         Zend_Debug::dump($data);
-//        die();
-
+        
+     
         $table->insert($data);
         return $table->lastInsertId();
     }
@@ -87,17 +81,21 @@ class Company_Model_Contact {
             return true;   
 //            die("esta contacto esta usado como contacto propio de una actividad");
         }
+//        echo $id;
 //        die("va borrar");
         $table = $this->getTable();
+        
         $table->delete('id = ' . (int) $id);
     }
-
+   
+    
     public function inLitter($where) {
         $table = $this->getTable();
         $data["in_Litter"] = (int) "1";
         return $table->update($data, $where);
     }
     public function outLitter($where) {
+        
         $table = $this->getTable();
         $data["in_Litter"] = (int) "0";
         return $table->update($data, $where);
@@ -125,7 +123,7 @@ class Company_Model_Contact {
         return $data;
     }
 
-    public function fetchHaveCompanyContact($company_id) {
+    public function fetchHaveClientContact($company_id) {
 
         $table = $this->getTable();
         $select = $table->select()->where('company_id = ?', $company_id);
@@ -151,7 +149,7 @@ class Company_Model_Contact {
         return $table;
     }
 
-    public function fetchCompany($id_company) {
+    public function fetchClient($id_company) {
 
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
@@ -159,7 +157,7 @@ class Company_Model_Contact {
         $select->from(array('c' => 'companies'), array('company' => 'name', 'id_company' => 'id'))
                 ->where('company_id = ?', $id_company)
                 ->where('company_id = c.id')
-                ->where('contacts.in_litter = "0"')
+             //   ->where('contacts.in_litter = "0"')
         ;
         $data = $table->fetchAll($select)->toarray();
 //       
@@ -193,6 +191,4 @@ class Company_Model_Contact {
 
         return $table->fetchAll($select)->toArray();
     }
-
 }
-

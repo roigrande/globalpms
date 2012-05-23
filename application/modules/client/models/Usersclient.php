@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_userscompaniess table.
+ * This is the Data Mapper class for the Acl_usersclients table.
  */
-class Company_Model_Userscompanies {
+class Client_Model_Usersclient {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Company_Model_Userscompanies {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Company_Model_DbTable_Userscompanies();
+            $this->_table = new Client_Model_DbTable_Usersclient();
         }
         return $this->_table;
     }
@@ -62,32 +62,13 @@ class Company_Model_Userscompanies {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($user_id, $company_id) {
-        
-        $model_contact = new Company_Model_Contact();
+    public function delete($user_id,$company_id) {
+        $model_contact = new Client_Model_Contact();
         $data["acl_users_id"] = 0;
         $model_contact->update($data, 'acl_users_id = ' . (int) $user_id . ' and company_id =' . $company_id);
-
         //delete resource
         $table = $this->getTable();
         $table->delete('acl_users_id = ' . (int) $user_id . ' and companies_id =' . $company_id);
-    }
-
-    public function fetchUsersCompany($company_id) {
-
-        $table = $this->getTable();
-        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
-                ->setIntegrityCheck(false);
-        $select->from(array('acl_users'))
-                ->from(array('acl_roles'), array('role_name' => 'name'))
-                ->where('companies_id=' . $company_id)
-                ->where('acl_users_id=acl_users.id')
-                ->where('acl_users.role_id=acl_roles.id')
-        ;
-        $data = $table->fetchAll($select)->toArray();
-//        Zend_Debug::dump($data);
-//        die();
-        return $data;
     }
 
     /**
@@ -99,6 +80,23 @@ class Company_Model_Userscompanies {
         return $this->getTable()->fetchAll('1');
     }
 
+    public function fetchEntriesClient($client_id) {
+
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('acl_users'))
+                ->from(array('acl_roles'), array('role_name' => 'name'))
+                ->where('companies_id=' . $client_id)
+                ->where('acl_users_id=acl_users.id')
+                ->where('acl_users.role_id=acl_roles.id')
+        ;
+        $data = $table->fetchAll($select)->toArray();
+//        Zend_Debug::dump($data);
+//        die();
+        return $data;
+    }
+
     /**
      * Fetch an individual entry
      * 
@@ -106,21 +104,9 @@ class Company_Model_Userscompanies {
      * @return null|Zend_Db_Table_Row_Abstract
      */
     public function fetchEntry($id) {
-
-
         $table = $this->getTable();
-        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
-                ->setIntegrityCheck(false);
-        $select->from(array('acl_users'), array('role_id', 'name'))
-                ->where('acl_users_id=acl_users.id')
-                ->where('acl_users.id=' . $id)
-                ->where('companies_id=' . $_SESSION["company"]["id"])
-        ;
-
-        $data = $table->fetchAll($select)->toArray();
-//           Zend_Debug::dump($data);
-//        die();
-        return $data;
+        $select = $table->select()->where('id = ?', $id);
+        return $table->fetchRow($select)->toArray();
     }
 
     /**
@@ -129,14 +115,14 @@ class Company_Model_Userscompanies {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchSql() {
-        $sql = "SELECT userscompaniess.id, userscompaniess.name, date,
+        $sql = "SELECT usersclients.id, usersclients.name, date,
                     email,status, roles.name as role
-          FROM userscompaniess, roles
-          WHERE userscompaniess.role_id = roles.id              
+          FROM usersclients, roles
+          WHERE usersclients.role_id = roles.id              
           ORDER BY roles.id";
 
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
-        //   Zend_Debug::dump($table,"Userscompanies");
+        //   Zend_Debug::dump($table,"Usersclient");
 
         return $table;
     }
@@ -146,10 +132,10 @@ class Company_Model_Userscompanies {
      * 
      * @return array
      */
-    public function fetchTypeUserscompaniess($type_id) {
+    public function fetchTypeUsersclients($type_id) {
 
         $table = $this->getTable();
-        $select = $table->select()->where('userscompanies_type_id =' . (int) $type_id);
+        $select = $table->select()->where('usersclient_type_id =' . (int) $type_id);
 
         return $table->fetchAll($select)->toArray();
     }

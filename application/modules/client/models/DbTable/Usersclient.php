@@ -1,16 +1,14 @@
 <?php
-
 /**
- * This is the DbTable class for the Userscompanies table.
+ * This is the DbTable class for the Usersclient table.
  */
-class Company_Model_DbTable_Userscompanies extends Zend_Db_Table_Abstract {
-
+class Client_Model_DbTable_Usersclient extends Zend_Db_Table_Abstract
+{
     /** Table name */
-    protected $_name = 'acl_users_has_companies';
-
+    protected $_name    = 'acl_users_has_companies';
+   
     /** Primary key */
     protected $_primary = array( 'companies_id','acl_users_id');
- 
 
     /**
      * Insert new row
@@ -20,18 +18,20 @@ class Company_Model_DbTable_Userscompanies extends Zend_Db_Table_Abstract {
      * @param  array $data 
      * @return int
      */
-
-    /**
+    
+     /**
      * Last insertId
      *
      * 
      * @return int
      */
-    public function lastInsertId() {
+    public function lastInsertId()
+    {
         return $this->_db->lastInsertId();
     }
-
-    public function insert(array $data) {
+    
+    public function insert(array $data)
+    {
         return parent::insert($data);
     }
 
@@ -45,22 +45,21 @@ class Company_Model_DbTable_Userscompanies extends Zend_Db_Table_Abstract {
      * @return void
      * @throws Exception
      */
-    public function update(array $data, $where) {
-        return parent::update($data, $where);
+    public function update(array $data, $where)
+    {     
+        return parent::update($data,$where);            
     }
-
+    
     /**
      * delete row(s)         
      * 
      * @param  array $data 
      * @return int
      */
-    public function delete($where) {
+    public function delete($where)
+    {
         return parent::delete($where);
     }
-
-   
-
+    
 }
-
 ?>

@@ -133,7 +133,7 @@ class Production_Model_Activity {
         return $data[0];
     }
 
-    public function fetchHaveContactCompanyClient($contact_id) {
+    public function fetchHaveContactClient($contact_id) {
 
         $table = $this->getTable();
         $select = $table->select()->where('contact_client_company_id = ?', $contact_id);
@@ -141,7 +141,7 @@ class Production_Model_Activity {
         return $row;
     }
 
-    public function fetchHaveContactOwnCompany($contact_id) {
+    public function fetchHaveContactCompany($contact_id) {
 
         $table = $this->getTable();
         $select = $table->select()->where('contact_own_company_id = ?', $contact_id);

@@ -1,20 +1,22 @@
-          
+<?php $acl = Login_Model_Acl::getInstance(); ?>         
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Userscompaniess")); ?></h1>
-        <p><a href="<?php echo $this->url(array('controller' => 'userscompanies',
-    'action' => 'add'));
-?>">Add new userscompanies</a></p>
-
+        <h1><?php echo $this->translate("Users of ").$this->escape($this->select_company['name']);  ?></h1>
+         
+          <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:userscompanies", "add")) { ?>
+            <p><a href="<?php  echo $this->url(array('controller' => 'userscompanies','action' => 'add'));
+            ?>">Add new User</a></p>
+            <?php } ?> 
     </div>
     <div class="contentbox">
         <table width="100%">
             <thead>
          
                 <tr>
-                    <th><?php echo $this->translate('name'); ?></th>
-
+                    <th><?php echo $this->translate('Name'); ?></th>
+                    <th><?php echo $this->translate('Role'); ?></th>            
+                    <th><?php echo $this->translate('Email'); ?></th>
                     <th><?php echo $this->translate('Actions'); ?></th>
 
                 </tr>
@@ -22,22 +24,28 @@
 
             <tbody>
                 <?php if ($this->paginator) {
-                    foreach ($this->paginator as $userscompanies) :
+                    foreach ($this->paginator as $user_company) :
+                     
+                        if ($user_company["acl_users_id"]!=$_SESSION["gpms"]["storage"]->id) {
                         ?>
                         <tr>
-                            <td><?php echo $this->escape($userscompanies->name); ?></td>                         
+                            <td><?php echo $this->escape($user_company["name"]); ?></td>
+                            <td><?php echo $this->escape($user_company["role_name"]); ?></td>
+                            <td><?php echo $this->escape($user_company["email"]); ?></td> 
+                            
                             <td>
-                                <a href="<?php echo $this->url(array('controller' => 'userscompanies', 'action' => 'edit', 'id' => $userscompanies->id)); ?>">
-                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
-                                <a href="<?php echo $this->url(array('controller' => 'userscompanies', 'action' => 'delete', 'id' => $userscompanies->id)); ?>">
-                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                               <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:userscompanies", "delete")) { ?>
+                                    <a href="<?php echo $this->url(array('controller' => 'userscompanies', 'action' => 'delete', 'id' => $user_company["acl_users_id"])); ?>">
+                                        <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                                <?php } ?> 
                             </td>                        
                         </tr>
-                <?php endforeach;
+                <?php }
+                endforeach;
             } ?>
         </table>
         <div class="extrabottom">
-<?php echo $this->paginator; ?>           
+<?php echo $this->paginator_user_company; ?>           
         </div>
     </div>
 </div>

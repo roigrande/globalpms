@@ -1,8 +1,9 @@
 <?php
 
-class Company_Form_Client extends Zend_Form {
-
+class Client_Form_Client extends Zend_Form {
+   
     public function init() {
+
         $this->setName('client');
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
@@ -183,15 +184,5 @@ class Company_Form_Client extends Zend_Form {
         //TODO comprobar que no hay roles
         return $result;
     }
-//   public function _selectOptions_Types() {
-//
-//     $sql = "SELECT id,name
-//                  FROM client";
-//        $db = Zend_Registry::get('db');
-//        $result = $db->fetchPairs($sql);
-//        //TODO comprobar que no hay roles
-//        return $result;
-//    }
-    
-}
-
+ 
+}  

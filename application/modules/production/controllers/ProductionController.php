@@ -164,57 +164,45 @@ class Production_ProductionController extends Zend_Controller_Action {
      * @return void
      */
     public function addAction() {
-//        
+
         $this->view->headTitle("Add New Production", 'APPEND');
         $request = $this->getRequest();
+        //form for a new production
         $production_form = new Production_Form_Production();
-        $form = new Production_Form_Client();
+
+        //form for a new client
         $company_form = new Company_Form_Company();
-        if ($data_client['client_companies_id'] = $this->_getParam('client_companies_id')) {
-            if ($this->getRequest()->isPost()) {
-                if ($production_form->isValid($request->getPost())) {
-                    $form = new Production_Form_Production();
-                }
-                $this->view->form = $form;
-            } else {
-                
-                $production_form->populate($data_client);
-             
-            }
-            $this->view->production_form = $production_form;
-        }
-
+        // check if there is a selection client
+        $data_clients['client_companies_id'] = $this->_getParam('client_companies_id');
+        $production_form->populate($data_clients);
+ 
         if ($this->getRequest()->isPost()) {
-            if ($form->isValid($request->getPost())) {
-                $data = $form->getValues();
-                // check if its a new client
-                if (!isset($data["client_companies_id"])) {
-                    //check the valid dates of the new  client
-                    if ($company_form->isValid($request->getPost())) {
-                        $data_client = $company_form->getValues();
-                        $model = new Production_Model_Production();
-                        $model_company = new Company_Model_Company();
-                        $client_companies_id = $model_company->saveClient($data_client);
-                        return $this->_helper->_redirector->gotoSimple('add', 'production', 'production', array('client_companies_id' => $client_companies_id));
-                    }
+            $data_post = $request->getPost();
+            if (isset($data_post["status_id"])) {
+                if ($production_form->isValid($request->getPost())) {
+                    $data_production = $production_form->getValues();
+                    $model_production = new Production_Model_Production();
+                    $id_production=$model_production->save($data_production); 
+                    return $this->_helper->_redirector->gotoSimple('select', 'production', 'production', array('id' => $id_production));
                 } else {
-                    return $this->_helper->_redirector->gotoSimple('add', 'production', 'production', array('client_companies_id' => $data["client_companies_id"]));
+                    $production_form->populate($production_form->getValues());
                 }
-            }
-        } else {
+            } elseif ($company_form->isValid($request->getPost())) {
+                $data_clients = $company_form->getValues();
+              
+                $model_company = new Company_Model_Company();
+                $client_companies_id = $model_company->saveClient($data_clients);
 
-            $data = $form->getValues();
-            if ($this->_request->isXmlHttpRequest()) {
-
-                $this->_helper->layout->disableLayout();
-                $form->submit->setOptions(array('onClick' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
-                // $this->_helper->viewRenderer->setNoRender(true);
+                return $this->_helper->_redirector->gotoSimple('add', 'production', 'production', array('client_companies_id' => $client_companies_id));
+            } else {
+                $company_form->populate($company_form->getValues());
             }
-            $form->populate($data);
-            //  $form->removeElement('status_id');
-            $this->view->form = $form;
-            $this->view->company_form = $company_form;
         }
+        
+        $this->view->production_form = $production_form;
+
+        $this->view->company_form = $company_form;
+ 
     }
 
     /**

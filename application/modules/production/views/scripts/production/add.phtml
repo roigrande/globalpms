@@ -1,82 +1,36 @@
+ 
 
---><div class="container half leftt">
+<!-- Charts box start -->          
+<div class="container half " id="graphs">
     <div class="conthead">
-        <h2>Production</h2>
-    </div>
-    <div class="contentbox">
-        <?php
-            echo $this->production_form;
-        ?>
-          </div>
-</div> <!--
 
-<!-- Generic style tabbing start -->                 
-                <div class="container half leftt" id="tabs">
-                	<div class="conthead">
-                        <h2 class="left">Client</h2>
-                        <ul class="tabhead">
-                            <li><a href="#tabs-2">Select Client </a></li>
-                            <li><a href="#tabs-1">New Client</a></li>
-                        </ul>
-                    </div>
-                	<div class="contentbox">
-                        <div id="tabs-1">
-                              <?php
-                                    echo $this->company_form;
-                              ?>
-                        </div>
-                        <div id="tabs-2">
-                        	
-                            <?php
-                                    echo $this->form;
-                             ?>
-                        </div>
-                             <?php
-                         
-                 
-                      ?>
-                       
-                    </div>
-                </div>
-<!-- Generic style tabbing start -->  
-
-<!--
-
-
- Website stats start                
-<div class="container half left">
-    <div class="conthead">
-        <h2>Select Client</h2>
-    </div>
-    <div class="contentbox">
-        <p><strong>Select a client for the new production</strong></p>
-        <ul class="summarystats">
-            <li>
-                
-                <p>Add new client</p>  <p class="statview"> <a style='cursor: pointer;' onclick="getAjaxResponse('http://globalpms.es/company/client/add/' ,'formclient')">ADD</a> </p>
-            </li>
-            <li>
-                <?php
-                echo $this->form;
-                ?>
-            </li>    
+        <h2 class="left">Client</h2>
+        <ul class="tabhead">
+   
+             <li><a href="#tabs-1">New production</a></li>
+                     
+            <li><a href="#tabs-2">New Client</a></li>
         </ul>
+    </div>
+    <!-- Tabbed navigation start -->                    
+    <div class="contentbox">
+        <!-- Tabbed boxes end -->  
+
+        <div id="tabs-1">
+            <?php
+                echo $this->production_form;
+            ?>
+        </div>
+        <div id="tabs-2">
+            <?php
+              echo $this->company_form;              
+            ?>
+        </div>
+        <?php
+        ?>
+
 
     </div>
 </div>
 
-<div class="container half right">
-    <div class="conthead">
-        <h2>CLIENT</h2>
-    </div>
-    <div id="formclient" class="contentbox">
-        
-
-    </div>
-</div>
-
-
- Website stats end   
-
-
- -->
+ 

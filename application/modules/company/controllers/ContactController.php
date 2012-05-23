@@ -151,8 +151,6 @@ class Company_ContactController extends Zend_Controller_Action {
                 $model = new Company_Model_Contact();
                 $model->delete($id);
                 
-               
-               
                     return $this->_helper->_redirector->gotoSimple('index', 'company', 'company' );
                
             }

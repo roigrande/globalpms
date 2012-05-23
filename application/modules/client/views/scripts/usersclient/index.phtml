@@ -1,0 +1,52 @@
+<?php $acl = Login_Model_Acl::getInstance(); ?>         
+
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->translate("Users of ").$this->escape($this->select_client['name']);  ?></h1>
+         
+          <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "client:usersclient", "add")) { ?>
+            <p><a href="<?php  echo $this->url(array('controller' => 'usersclient','action' => 'add'));
+            ?>">Add new User</a></p>
+            <?php } ?> 
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+         
+                <tr>
+                    <th><?php echo $this->translate('Name'); ?></th>
+                    <th><?php echo $this->translate('Role'); ?></th>            
+                    <th><?php echo $this->translate('Email'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if ($this->paginator) {
+                    foreach ($this->paginator as $user_client) :
+                     
+                        if ($user_client["acl_users_id"]!=$_SESSION["gpms"]["storage"]->id) {
+                        ?>
+                        <tr>
+                            <td><?php echo $this->escape($user_client["name"]); ?></td>
+                            <td><?php echo $this->escape($user_client["role_name"]); ?></td>
+                            <td><?php echo $this->escape($user_client["email"]); ?></td> 
+                            
+                            <td>
+                               <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "client:usersclient", "delete")) { ?>
+                                    <a href="<?php echo $this->url(array('controller' => 'usersclient', 'action' => 'delete', 'id' => $user_client["acl_users_id"])); ?>">
+                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                                <?php } ?> 
+                            </td>                        
+                        </tr>
+                <?php }
+                endforeach;
+            } ?>
+        </table>
+        <div class="extrabottom">
+<?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table styles end -->  

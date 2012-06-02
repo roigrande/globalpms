@@ -38,10 +38,10 @@ echo $this->doctype();
     <!-- Top header/black bar start -->
     <div id="header">
         <img src="/styles/images/logo.png" alt="AdminCP" class="logo" />
-        <div id="searchbox">
+<!--        <div id="searchbox">
             <input type="text" class="searchinput" />
             <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />
-        </div>
+        </div>-->
 
 
     </div>
@@ -81,7 +81,7 @@ echo $this->doctype();
                 <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
             </ul> 
         </div>
-        
+
         <?php
         if (isset($_SESSION["company"]["id"])) {
             $list = $acl->listResourceByUser();
@@ -113,7 +113,7 @@ echo $this->doctype();
                 <li><img src="images/icon_breadcrumb.png" alt="Location" /></li>
 
                 <li>
-                    <?php
+                    <?php 
                     $list = $acl->listResourceByUser();
                     echo $this->navigation()
                             ->breadcrumbs()
@@ -133,26 +133,15 @@ echo $this->doctype();
         <!-- Top/large buttons start -->  
         <ul id="topbtns">
             <li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
-            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "controlmodule:controlmodule", "index")) { ?>  
-                <li>
-                    <a href="<?php echo $this->url(array('module' => 'controlmodule', 'controller' => 'controlmodule', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_media.png" alt="control de modulos" /><br />modulos</a>
-                </li>
-            <?php } ?>
+            
             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "user:user", "index")) { ?>  
 
                 <li>
-                    <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'user', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Users</a>
+                    <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Admin</a>
 
                 </li>
             <?php } ?>
-            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "managementtype:managementtype", "select")) { ?>  
-
-                <li>
-                    <a href="<?php echo $this->url(array('module' => 'managementtype', 'controller' => 'managementtype', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_lrg_support.png" alt="Production" /><br />Types Configure</a>
-
-                </li> 
-            <?php } ?>
-
+            
             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index") and isset($_SESSION["company"]["id"])) { ?>  
 
                 <li>
@@ -160,19 +149,13 @@ echo $this->doctype();
 
                 </li>
             <?php } ?> 
-            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index") and isset($_SESSION["company"]["id"])) { ?>       
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:production", "index") and isset($_SESSION["company"]["id"])) { ?>       
                 <li>
                     <a href="<?php echo $this->url(array('module' => 'production', 'controller' => 'production', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_claketa.png" alt="Production" /><br />Production</a>
 
                 </li>
             <?php } ?> 
-
-            <li>
-                <a href="<?php echo $this->url(array('module' => 'client', 'controller' => 'client', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_finances.png" alt="Suplier" /><br />Client</a>
-
-            </li>
-
-
+ 
 
             <!--            <li>
                             LANGUAGE

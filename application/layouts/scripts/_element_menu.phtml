@@ -1,15 +1,23 @@
 <ul id="nav">
     <?php
+    //die();
     $acl = Login_Model_Acl::getInstance();
     $list = $acl->listResourceByUser();
-//Zend_Debug::dump($this->container);
+//Zend_Debug::dump($this->container,"container");
+//    Zend_Debug::dump($list, "lust");
 
 
 
     $html = array();
 
+
     foreach ($this->container as $page) {
-        $permission = $list['allowed'][$page->resource . ' - ' . $page->privilege];
+
+        if (isset($list['allowed'][$page->resource . ' - ' . $page->privilege])) {
+            $permission = $list['allowed'][$page->resource . ' - ' . $page->privilege];
+        } else {
+            $permission = "denied";
+        }
         if ($permission == 'allowed') {
             $html[] = "<li>";
             $html[] = "<a class='collapsed heading' \">";
@@ -18,7 +26,20 @@
             if (!empty($page->pages)) {
                 $html[] = "<ul class='navigation'>";
                 foreach ($page->pages as $subpage) {
-                    $permission_sub = $list['allowed'][$subpage->resource . ' - ' . $subpage->privilege];
+                    //echo $subpage->action;
+                    if (isset($list['allowed'][$subpage->resource . ' - ' . $subpage->privilege])) {
+                        $permission_sub = $list['allowed'][$subpage->resource . ' - ' . $subpage->privilege];
+                        
+                        if ($subpage->resource . ' - ' . $subpage->privilege == "production:production - consult") {
+                            
+                            if (!isset($_SESSION["production"]["id"])) {
+                                $permission_sub = "denied";
+                            }
+                        }
+                    } else {
+                        $permission_sub = "denied";
+                    }
+//                  
                     if ($permission_sub == 'allowed') {
                         $html[] = "<li>";
                         if ($href = $subpage->getHref())
@@ -42,67 +63,5 @@
     }
 
     echo join(PHP_EOL, $html);
-
-//
-//
-//
-//$html = array();
-//foreach ($this->container as $page) 
-//{
-//    $permission=$list['allowed'][$page->resource.' - '.$page->privilege];
-//	if($permission=='allowed'){
-//		$html[] = "<li>";
-//	    $href = $page->getHref();
-//	    		if ($href) {
-//	            	$html[] = "<a href=\"{$href}\"";
-//	            	if($page->isActive(true)) $html[] = " class=\"selected_lk\"";
-//	            	$html[] = ">";
-//	            }
-//	            else $html[] = "<span>";
-//	            $html[] = "<span class=\"l\"><span></span></span><span class=\"m\">";
-//	            //$html[] = "<img src=\"/ui/cms/img/icons/edit.png\" alt=\"\"/>";
-//	            $html[] = "<em>".$this->translate($page->getLabel())."</em>";
-//	            $html[] = "<span></span></span><span class=\"r\"><span></span></span>";
-//	            if ($href) $html[] = "</a>";
-//	            else $html[] = "</span>";
-//	            
-//	    //$html[] = $this->menu()->htmlify($page) . PHP_EOL;
-//		if($page->isActive(true))
-//		    if (!empty($page->pages))
-//		    {
-//		        $html[] = "<ul>";
-//		        $a=0;
-//		    	
-//		        foreach ($page->pages as $subpage) 
-//		        {            
-//		        	$permission_sub=$list['allowed'][$subpage->resource.' - '.$subpage->privilege];
-//		        	if($permission_sub=='allowed'){
-//			            $html[] = "<li>";
-//			            $href = $subpage->getHref();
-//			            if ($href) {
-//			            	$html[] = "<a href=\"{$href}\"";
-//			            	if($subpage->isActive(true)) $html[] = " class=\"selected_lk\"";
-//			            	$html[] = ">";
-//			            }
-//			            else $html[] = "<span>";
-//			            $html[] = "<span class=\"l\"><span></span></span><span class=\"m\">";
-//			            //$html[] = "<img src=\"/ui/cms/img/icons/edit.png\" alt=\"\"/>";
-//			            $html[] = "<em>".$this->translate($subpage->getLabel())."</em>";
-//			            $html[] = "<span></span></span><span class=\"r\"><span></span></span>";
-//			            if ($href) $html[] = "</a>";
-//			            else $html[] = "</span>";            
-//			            $html[] = "</li>";
-//					}
-//		        }
-//		        $html[] = "</ul>";
-//		    }
-//	
-//	    $html[] = "</li>";
-//	}
-//}
-//
-//echo join(PHP_EOL, $html);
-//
-//
     ?>
 </ul>

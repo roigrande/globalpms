@@ -91,6 +91,26 @@ class Production_ActivityController extends Zend_Controller_Action {
          if ($this->production->activity_id==null){          
             return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
         }
+        
+        $page = $this->_getParam('page', 1);
+        
+        //get the dates for the table
+        $model = new Production_Model_Resource();
+        $data_resource=$model->fetchEntries();
+        
+        //paginator
+        if ($data_resource){
+        $paginator = Zend_Paginator::factory($data_resource);
+        $production = Zend_Registry::get('production');
+        $paginator->setItemCountPerPage($production->paginator);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setPageRange($production->paginator);
+        $this->view->paginator = $paginator;
+        
+        }else{$this->view->paginator = null;}
+        //send information to the view
+        $this->view->title = "Resources list";
+        
         //get the dates for the table
         $model = new Production_Model_Activity();
         $data = $model->fetchEntryActivity();

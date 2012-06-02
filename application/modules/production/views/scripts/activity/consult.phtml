@@ -1,4 +1,5 @@
 <?php $acl = Login_Model_Acl::getInstance(); ?>
+<!-- Table activity end -->  
 <div class="container">
     <div class="conthead">
         <h1><?php echo $this->escape($this->translate("My Activity")); ?></h1>
@@ -10,11 +11,11 @@
                  
                 <tr>
                     <th><?php echo $this->translate('Name'); ?></th>
-                    <th><?php echo $this->translate('Activity_types'); ?></th>
-                    <th><?php echo $this->translate('Client_resp_name'); ?></th>
-                    <th><?php echo $this->translate('own_resp_name'); ?></th>
-                    <th><?php echo $this->translate('Date_start'); ?></th>
-                    <th><?php echo $this->translate('Date_end'); ?></th>
+                    <th><?php echo $this->translate('Activity types'); ?></th>
+                    <th><?php echo $this->translate('Contact Client'); ?></th>
+                    <th><?php echo $this->translate('Contact Company'); ?></th>
+                    <th><?php echo $this->translate('Date start'); ?></th>
+                    <th><?php echo $this->translate('Date end'); ?></th>
                     <th><?php echo $this->translate('Type'); ?></th> 
                     <th><?php echo $this->translate('Status'); ?></th>
                 </tr>
@@ -48,4 +49,58 @@
     </div>
     
 </div>
-<!-- Table styles end -->  
+<!-- Table activity end -->  
+
+
+<!-- Table resource -->  
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Resources")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'resource',
+    'action' => 'add'));
+?>">Add new resource</a></p>
+
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+         
+                <tr>
+                    <th><?php echo $this->translate('name'); ?></th>
+                    <th><?php echo $this->translate('resource'); ?></th>
+                    <th><?php echo $this->translate('supplier'); ?></th>
+                    <th><?php echo $this->translate('supplier contact'); ?></th>
+                    <th><?php echo $this->translate('unbilled hours'); ?></th>
+                    <th><?php echo $this->translate('observation'); ?></th>
+                    <th><?php echo $this->translate('Actions'); ?></th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if ($this->paginator) {
+                    foreach ($this->paginator as $resource) :
+                        ?>
+                        <tr>
+                            <td><?php echo $this->escape($resource->name); ?></td>
+                            <td><?php echo $this->escape($resource->resource_name); ?></td>
+                            <td><?php echo $this->escape($resource->supplier_name); ?></td>
+                            <td><?php echo $this->escape($resource->supplier_contact_name); ?></td>
+                            <td><?php echo $this->escape($resource->unbilled_hours); ?></td>
+                            <td><?php echo $this->escape($resource->observation); ?></td>
+                            <td>
+                                <a href="<?php echo $this->url(array('controller' => 'resource', 'action' => 'edit', 'id' => $resource->id)); ?>">
+                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                                <a href="<?php echo $this->url(array('controller' => 'resource', 'action' => 'delete', 'id' => $resource->id)); ?>">
+                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                            </td>                        
+                        </tr>
+                <?php endforeach;
+            } ?>
+        </table>
+        <div class="extrabottom">
+<?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table resource end -->  

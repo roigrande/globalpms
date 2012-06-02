@@ -277,8 +277,9 @@ class Production_ProductionController extends Zend_Controller_Action {
 
                 $model = new Production_Model_Production();
                 $model->delete($id);
+                  return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
             }
-            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+            return $this->_helper->_redirector->gotoSimple('consult', 'production', 'production');
         } else {
 
             $id = $_SESSION['production']['id'];

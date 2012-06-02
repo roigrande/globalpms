@@ -29,8 +29,15 @@ class Production_Model_Activity {
     public function save(array $data) {
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+         
+         if ($data["contact_client_company_id"]== null){
+           unset($data["contact_client_company_id"]);   
+         }
+         if ($data["contact_own_company_id"]== null){
+             unset($data["contact_own_company_id"]);
+         }
 //         Zend_Debug::dump($data);
-
+//         die();
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
@@ -175,10 +182,10 @@ class Production_Model_Activity {
                 ->from(array('pt' => 'activity_types'), array('activity_type_name' => 'name'))
               
                 ->where('status_id = s.id')
-                ->where('oc.company_id =' . $_SESSION["production"]["own_company"])
-                ->where('oc.id=contact_own_company_id')
-                ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
-                ->where('cc.id=contact_client_company_id')
+                //->where('oc.company_id =' . $_SESSION["production"]["own_company"])
+                ->where('oc.id=contact_own_company_id ' )
+            //    ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
+                ->where('cc.id=contact_client_company_id ')
                 ->where('activity_types_id = pt.id')
                 ->where('activities.productions_id = '.$_SESSION["production"]["id"])
                 ->order('date_start')
@@ -189,7 +196,7 @@ class Production_Model_Activity {
 
         $data = $table->fetchAll($select)->toarray();
 //         Zend_Debug::dump($data);
-//        die("33");
+//        die("");
         return $data;
     }
 

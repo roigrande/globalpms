@@ -172,7 +172,7 @@ class Production_Model_Production {
     
     public function fetchProductions() {
 
-        //, array('companies_has_productions_companies_id' =>'companies_id')
+     
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
@@ -188,8 +188,7 @@ class Production_Model_Production {
                ->where('status_id = s.id')
                ->where('companies_id = oc.id')
                ->where('client_companies_id = cc.id')
-               ->where('client_companies_id ='.$_SESSION["company"]["id"].' OR companies_has_productions.companies_id='.$_SESSION["company"]["id"] )
-     
+               ->where('client_companies_id ='.$_SESSION["company"]["id"].' OR companies_has_productions.companies_id='.$_SESSION["company"]["id"] )     
                ->where('production_types_id = pt.id')
                ->where('permission_production.productions_id = productions.id') 
                ->where('permission_production.acl_users_id =' .$_SESSION["gpms"]["storage"]->id)

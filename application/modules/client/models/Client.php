@@ -99,7 +99,10 @@ class Client_Model_Client {
         ;
         $data = $table->fetchAll($select)->toarray();
         //TODO la select deberias sustituir este codigo por un distinct en la select para no repetir resultados
+        if($data != null)
+        {
         $data=$this->elimina_duplicados($data, "id");
+        }
 //        Zend_Debug::dump($data);
 //        die();
         return $data;

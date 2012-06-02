@@ -1,13 +1,13 @@
 <?php
 /**
- * This is the DbTable class for the Client table.
+ * This is the DbTable class for the Productionssupplier table.
  */
-class Company_Model_DbTable_Client extends Zend_Db_Table_Abstract
+class Supplier_Model_DbTable_Productionssupplier extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'companies';
+    protected $_name    = 'productions_has_suppliers';
     /** Primary key */
-    protected $_primary = 'id';
+    protected $_primary = array( 'productions_id','suppliers_id');
 
     /**
      * Insert new row

@@ -45,6 +45,20 @@ class Company_Model_Company {
         return $table->lastInsertId();
     }
     
+     public function saveSupplier(array $data) {
+   
+        
+        $table = $this->getTable();
+        $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+        foreach ($data as $field => $value) {
+            if (!in_array($field, $fields)) {
+                unset($data[$field]);
+            }
+        }
+        $table->insert($data);
+          
+        return $table->lastInsertId();
+    }
     public function saveClient(array $data) {
    
 //        Zend_Debug::dump($data);

@@ -27,7 +27,9 @@ class Supplier_Model_Supplier {
      */
 
     public function save(array $data) {
-       
+        unset($data["id"]);
+//        Zend_Debug::dump($data);
+//        die();
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -35,10 +37,9 @@ class Supplier_Model_Supplier {
                 unset($data[$field]);
             }
         }
-        
+      
         $table->insert($data);
-        Zend_Debug::dump($data,"sup");
-         die();
+         
         return $table->lastInsertId();
     }
 
@@ -49,15 +50,17 @@ class Supplier_Model_Supplier {
      */
 
     public function update(array $data, $where) {
-        $table = $this->getTable();
-        $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-        foreach ($data as $field => $value) {
-            if (!in_array($field, $fields)) {
-                unset($data[$field]);
-            }
-        }
-
-        return $table->update($data, $where);
+        $model_company= new Company_Model_Company();
+        return $model_company->update($data, $where);
+//        $table = $this->getTable();
+//        $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+//        foreach ($data as $field => $value) {
+//            if (!in_array($field, $fields)) {
+//                unset($data[$field]);
+//            }
+//        }
+//        
+//        return $table->update($data, $where);
     }
 
     /**
@@ -78,21 +81,67 @@ class Supplier_Model_Supplier {
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    public function fetchEntries() {
-        return $this->getTable()->fetchAll('1');
-    }
+    
+    
+     public function fetchEntries() {
+         
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select  ->from(array('companies'))
+                ->from(array('companies_has_suppliers'))
+               
+               ->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+               ->where('company_types_id=company_types.id')
+               ->where('suppliers.companies_id=companies.id')
+               ->where('suppliers.id=companies_has_suppliers.suppliers_id')
+               ->where('companies_has_suppliers.companies_id='.$_SESSION["company"]["id"])
+ 
+               ->order('name')
 
+        ;
+        $data = $table->fetchAll($select);
+        //TODO la select deberias sustituir este codigo por un distinct en la select para no repetir resultados
+//        
+//        Zend_Debug::dump($data);
+//        die();
+        return $data;
+     }
     /**
      * Fetch an individual entry
      * 
      * @param  int|string $id 
      * @return null|Zend_Db_Table_Row_Abstract
      */
-    public function fetchEntry($id) {
-        $table = $this->getTable();
-        $select = $table->select()->where('id = ?', $id);
-        return $table->fetchRow($select)->toArray();
-    }
+   public function fetchEntry($id) {
+        
+         $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('ct' => 'company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+//               ->join(array('suppliers_has_activity_types'),
+//                    'suppliers_has_activity_types.suppliers_id = suppliers.id')
+                ->from("companies")
+                ->where('ct.id = company_types_id')
+                ->where('companies.id='.$id)
+                ->where('companies.id=suppliers.companies_id')
+              //  ->where('in_litter = 0')
+        ;
+        $data = $table->fetchAll($select)->toarray(); 
+        
+     $sql = "SELECT id,name
+                From suppliers_has_activity_types
+                INNER JOIN activity_types ON activity_types.id = suppliers_has_activity_types.activity_types_id
+                WHERE suppliers_has_activity_types.suppliers_id = ".$id
+            ;
+       
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        $result= implode(",", $result);
+        $data["0"]["activity_types_name"]=$result;
+         
+        return $data["0"];
+  }
 
     /**
      *  Fetch all sql entries

@@ -1,0 +1,43 @@
+          
+<!-- Table productionssupplier -->
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("Suppliers of NAME OF PRODUCTION")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'productionssupplier',
+    'action' => 'add'));
+?>">Add new supplier in the production</a></p>
+
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+         
+                <tr>
+                    <th><?php echo $this->translate('name'); ?></th>
+
+                    <th><?php echo $this->translate('Actions'); ?></th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if ($this->paginator) {
+                    foreach ($this->paginator as $productionssupplier) :
+                        ?>
+                        <tr>
+                            <td><?php echo $this->escape($productionssupplier->name); ?></td>                         
+                            <td>
+                           
+                                <a href="<?php echo $this->url(array('controller' => 'productionssupplier', 'action' => 'delete', 'id' => $productionssupplier->id)); ?>">
+                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                            </td>                        
+                        </tr>
+                <?php endforeach;
+            } ?>
+        </table>
+        <div class="extrabottom">
+<?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table productionssupplier end -->  

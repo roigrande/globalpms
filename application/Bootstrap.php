@@ -8,7 +8,24 @@
  * @version SVN $Id: Bootstrap.php 1457 2010-07-06 10:33:27Z agustincl $
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
-
+    protected function _initNavigation()
+   {
+        
+               $this->bootstrap('layout');
+               $config = $this->getOptions();
+               $layout = $this->getResource('layout');
+               $view = $layout->getView();
+               
+               $confignav = new Zend_Config_Xml($config['navigationMenu'], 'nav');
+               //Zend_Debug::dump($confignav);
+               
+               $container = new Zend_Navigation($confignav);
+        
+              // Zend_Debug::dump($container->toArray());
+             //  Zend_Debug::dump($container);
+//               die;
+               $view->navigation($container);
+       }
     protected function _initAutoload() {
         $autoloader = Zend_Loader_Autoloader::getInstance();
     }
@@ -72,5 +89,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         Zend_Registry::set("db", $db);
         return $db;
     }
+    
 
 }

@@ -29,32 +29,34 @@ class Login_Model_Acl extends Zend_Acl {
     }
 
     protected function _initialize() {
+        
         $user = Zend_Auth::getInstance()->getIdentity();
         $this->_user = $user ? $user->name : 'Guest';
-        
+
 
         $front = Zend_Controller_Front::getInstance();
-       
-        
+
+
         $this->_db = Zend_Registry::get('db');
 
         self::initRoles();
         self::initResources();
         self::initPermissions();
-        
+
         $getUserRole = $this->_db->fetchRow(
-                       $this->_db->select()
-                                ->from(array('acl_roles'), array('role_name' => 'name'))
-                                ->from('acl_users')
-                                ->where('acl_users.name = "' . $this->_user . '"')
-                                ->where('acl_users.role_id = acl_roles.id'));
+                $this->_db->select()
+                        ->from(array('acl_roles'), array('role_name' => 'name'))
+                        ->from('acl_users')
+                        ->where('acl_users.name = "' . $this->_user . '"')
+                        ->where('acl_users.role_id = acl_roles.id'));
 
         $login = Zend_Registry::get('login');
-         
-        $this->_UserRoleId = isset($getUserRole->role_id) ?  $getUserRole->role_id : $login->publicid;
+        
+        $this->_UserRoleId = isset($getUserRole->role_id) ? $getUserRole->role_id : $login->publicid;
         $this->_UserRoleName = isset($getUserRole->role_name) ? $getUserRole->role_name : 'public';
 
         $this->addRole(new Zend_Acl_Role($this->_user), $this->_UserRoleName);
+       
     }
 
     private function getRoots($roles) {
@@ -102,10 +104,10 @@ class Login_Model_Acl extends Zend_Acl {
 
     private function initRoles() {
         $roles = $this->_db->fetchAll(
-                        $this->_db->select()
-                                ->from('acl_roles')
-                                //->order(array('role_id DESC')));
-                                ->order(array('role_parent ASC')));
+                $this->_db->select()
+                        ->from('acl_roles')
+                        //->order(array('role_id DESC')));
+                        ->order(array('role_parent ASC')));
 
 
         $root = $this->getRoots($roles);
@@ -132,9 +134,14 @@ class Login_Model_Acl extends Zend_Acl {
 
     private function initResources() {
         $resources = $this->_db->fetchAll(
-                        $this->_db->select()
-                                ->from('acl_resources'));
-
+                $this->_db->select()
+                        ->from('acl_resources')
+//                        ->from('acl_modules')
+//                        ->where('acl_modules.id=acl_resources.module_id')
+//                        ->where('acl_modules.active=1')
+              
+                );
+          
         foreach ($resources as $key => $value) {
             //Returns true if and only if the Resource exists in the ACL
             if (!$this->has($value->resource)) {
@@ -151,6 +158,9 @@ class Login_Model_Acl extends Zend_Acl {
                 ->from('acl_permissions')
                 ->where('acl_roles.id = acl_permissions.role_id')
                 ->where('acl_resources.id = acl_permissions.resource_id')
+                 ->from('acl_modules')
+                        ->where('acl_modules.id=acl_resources.module_id')
+                        ->where('acl_modules.active=1')
         ;
         //Zend_Debug::dump($select . "select");
         $acl = $this->_db->fetchAll($select);
@@ -168,17 +178,17 @@ class Login_Model_Acl extends Zend_Acl {
 
     public function getRoleId($roleName) {
         return $this->_db->fetchRow(
-                $this->_db->select()
-                        ->from('acl_roles', 'id')
-                        ->where('acl_roles.name = "' . $roleName . '"'));
+                        $this->_db->select()
+                                ->from('acl_roles', 'id')
+                                ->where('acl_roles.name = "' . $roleName . '"'));
     }
 
     public function getRoleName($roleId) {
 
         return $this->_db->fetchRow(
-                $this->_db->select()
-                        ->from('acl_roles', 'name')
-                        ->where('acl_roles.id = "' . $roleId . '"'));
+                        $this->_db->select()
+                                ->from('acl_roles', 'name')
+                                ->where('acl_roles.id = "' . $roleId . '"'));
     }
 
     /* public function insertAclUser() 
@@ -192,25 +202,25 @@ class Login_Model_Acl extends Zend_Acl {
 
     public function listRoles() {
         return $this->_db->fetchAll(
-                $this->_db->select()
-                        ->from('acl_roles'));
+                        $this->_db->select()
+                                ->from('acl_roles'));
     }
 
     public function listResources() {
         return $this->_db->fetchAll(
-                $this->_db->select()
-                        ->from('acl_resources')
-                        ->from('acl_permissions')
-                        ->where('resource_id = acl_resources.id'));
+                        $this->_db->select()
+                                ->from('acl_resources')
+                                ->from('acl_permissions')
+                                ->where('resource_id = acl_resources.id'));
     }
 
     public function listResourcesByGroup($group) {
         $result = null;
         $group = $this->_db->fetchAll($this->_db->select()
-                                ->from('acl_resources')
-                                ->from('acl_permissions')
-                                ->where('acl_resources.resource = "' . $group . '"')
-                                ->where('uid = resource_uid')
+                        ->from('acl_resources')
+                        ->from('acl_permissions')
+                        ->where('acl_resources.resource = "' . $group . '"')
+                        ->where('uid = resource_uid')
         );
         foreach ($group as $key => $value) {
             if ($this->isAllowed($this->_user, $value->resource, $value->permission)) {
@@ -220,14 +230,14 @@ class Login_Model_Acl extends Zend_Acl {
         return $result;
     }
 
-    public function getArrayResourceNavByUser($role_id=null) {
+    public function getArrayResourceNavByUser($role_id = null) {
         $acl = Users_Model_Acl::getInstance();
         $list = array();
         $modules = new Users_Model_Modules();
         if ($role_id == null)
             $role = $this->_UserRoleName;
         else
-            $role=$this->getRoleName($role_id)->role_name;
+            $role = $this->getRoleName($role_id)->role_name;
 
         foreach ($this->listResources() as $key => $r) {
             $module = $modules->fetchEntry($r->module_id);
@@ -254,9 +264,10 @@ class Login_Model_Acl extends Zend_Acl {
         return $list;
     }
 
-    public function listResourceByUser($role_id=null) {
+    public function listResourceByUser($role_id = null) {
+
         //$this->view->role = $this->_getUserRoleName.":".$this->_acl->_user;
-    
+
         if ($role_id == null)
             $list['role'] = $this->_UserRoleName;
         else
@@ -277,21 +288,26 @@ class Login_Model_Acl extends Zend_Acl {
                 print_r($e->getMessage());
             }
         }
+
         return $list;
     }
 
     public function isUserAllowed($role, $resource, $permission) {
-       
+     
+        if (!array_key_exists($resource, $this->_resources)) {
+            return 0;
+        }
+         
         return ($this->isAllowed($role, $resource, $permission));
     }
 
     public function statusModule($module) {
-     
+
 
         if ($model = $this->_db->fetchRow(
-                        $this->_db->select()
-                                ->from('acl_modules')
-                                ->where('acl_modules.name = "' . $module . '"')
+                $this->_db->select()
+                        ->from('acl_modules')
+                        ->where('acl_modules.name = "' . $module . '"')
         )) {
 //              Zend_Debug::dump($model);
 //              die();
@@ -301,9 +317,13 @@ class Login_Model_Acl extends Zend_Acl {
         return "uninstall";
     }
 
+    public function isResource($resource) {
+        Zend_Debug::dump($this->_resources["comdpany:error"], "dentro");
+    }
+
     public function isModule($module) {
-         echo $module;
-        
+        echo $module;
+
         $dir = APPLICATION_PATH;
         $dir .= Zend_Registry::get('login')->dir;
         if (is_dir($dir)) {

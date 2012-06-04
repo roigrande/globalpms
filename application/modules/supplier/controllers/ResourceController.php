@@ -100,7 +100,7 @@ class Supplier_ResourceController extends Zend_Controller_Action {
                 $model = new Supplier_Model_Resource();
                 $model->delete('id = ' . (int) $id);
             }
-            return $this->_helper->redirector('index');
+          return $this->_helper->_redirector->gotoSimple('consult', 'supplier', 'supplier');
         } else {
 
             $id = $this->_getParam('id', 0);
@@ -112,12 +112,11 @@ class Supplier_ResourceController extends Zend_Controller_Action {
         }
     }
     
-    /**
-     * inlitterAction for Resources
+       /**
+     * inlitterAction for Contacts
      *
      * @return void
      */
-    
     public function inlitterAction() {
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
@@ -126,16 +125,43 @@ class Supplier_ResourceController extends Zend_Controller_Action {
                 $model = new Supplier_Model_Resource();
                 $model->inLitter('id = ' . (int) $id);
             }
-            return $this->_helper->redirector('index');
+            return $this->_helper->_redirector->gotoSimple('consult', 'supplier', 'supplier');
         } else {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
+                
                 $model = new Supplier_Model_Resource();
 
-                $this->view->resource = $model->fetchEntry($id);
+                $this->view->contact = $model->fetchEntry($id);
             }
         }
     }
+              
+    public function outlitterAction() {
+        
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+
+                $id = $this->getRequest()->getPost('id');
+                $model = new Supplier_Model_Resource();
+
+                $model->outLitter($id);
+            }
+
+            return $this->_helper->_redirector->gotoSimple('consult', 'supplier', 'supplier');
+        } else {
+            
+            $id = $this->_getParam('id', 0);
+
+            if ($id > 0) {
+                $model = new Supplier_Model_Resource();
+
+                $this->view->contact = $model->fetchEntry($id);
+            }
+        }
+    }
+
 
 }

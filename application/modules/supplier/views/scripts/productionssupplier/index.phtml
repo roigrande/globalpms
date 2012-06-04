@@ -27,9 +27,11 @@
                         <tr>
                             <td><?php echo $this->escape($productionssupplier->name); ?></td>                         
                             <td>
-                           
-                                <a href="<?php echo $this->url(array('controller' => 'productionssupplier', 'action' => 'delete', 'id' => $productionssupplier->id)); ?>">
+                                 <a href="<?php echo $this->url(array('module' => 'supplier','controller' => 'productionssupplier', 'action' => 'select', 'id' => $productionssupplier->id)); ?>">
+                                    Consult</a>
+                                <a href="<?php echo $this->url(array('controller' => 'productionssupplier', 'action' => 'delete', 'id' => $productionssupplier->suppliers_id)); ?>">
                                     <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                                
                             </td>                        
                         </tr>
                 <?php endforeach;

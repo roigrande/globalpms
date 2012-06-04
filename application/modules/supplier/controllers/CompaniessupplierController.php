@@ -30,11 +30,10 @@ class Supplier_CompaniessupplierController extends Zend_Controller_Action {
         
         }else{$this->view->paginator = null;}
         //send information to the view
-        $this->view->title = "Companiessuppliers list";
+        $this->view->title = "Companies suppliers list";
         
     }
-
-    /**
+        /**
      * AddAction for Companiessuppliers
      *
      * @return void
@@ -55,14 +54,15 @@ class Supplier_CompaniessupplierController extends Zend_Controller_Action {
         }
         $this->view->form = $form;
     }
-
+    
+    
     /**
      * EditAction for Companiessuppliers
      *
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Companiessuppliers";
+        $this->view->title = "Edit Companies suppliers";
         $form = new Supplier_Form_Companiessupplier();     
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {

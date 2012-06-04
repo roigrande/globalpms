@@ -67,7 +67,7 @@ class Production_Form_Production extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
 
-        $date_start = new Zend_Form_Element_Date('date_start');
+        $date_start = new Zend_Form_Element_Text('date_start');
         $date_start->setLabel('Date Start')
                 ->setRequired(true)
                 ->addfilter('StripTags')

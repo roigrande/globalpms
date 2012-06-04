@@ -7,9 +7,11 @@
             <a href="<?php echo $this->url(array('controller' => 'permissionproduction', 'action' => 'index')); ?>"> user production     </a>
             </div>
         <?php } ?>
+         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:productionssupplier", "index")) { ?>
             <div>
             <a href="<?php echo $this->url(array('module' => 'supplier','controller' => 'productionssupplier', 'action' => 'index')); ?>"> supplier production   </a>
-            </div>                                                                      
+            </div>  
+        <?php } ?>
     </div>
     <div class="contentbox">
         <table width="100%">

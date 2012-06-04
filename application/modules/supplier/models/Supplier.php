@@ -69,11 +69,16 @@ class Supplier_Model_Supplier {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($where) {
-
+    public function delete($id) {
+        $model_production = new Production_Model_Production();
+        if ($model_production->fetchHaveCompanyClient($id)!=null) {
+            die("esta compañia esta trabajando como cliente de una produccion");
+        }
+          
         //delete resource
         $table = $this->getTable();
-        $table->delete($where);
+        $table->delete('companies_id = ' . (int) $id);
+     
     }
 
     /**
@@ -173,6 +178,19 @@ class Supplier_Model_Supplier {
 
         return $table->fetchAll($select)->toArray();
     }
-
+     public function inLitter($where) {
+        $table = $this->getTable();
+        $model = new Company_Model_Company();
+        return   $model->inLitter($where);
+        
+    }
+    
+    public function outLitter($where) {
+  
+        $table = $this->getTable();
+        $data["in_Litter"] = (int) "0";
+         //die("outlitter");
+        return $table->update($data, $where);
+    }
 }
 

@@ -135,5 +135,30 @@ class Supplier_ContactController extends Zend_Controller_Action {
             }
         }
     }
+     public function outlitterAction() {
+
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+
+                $id = $this->getRequest()->getPost('id');
+                $model = new Supplier_Model_Contact();
+
+                $model->outLitter($id);
+            }
+
+          return $this->_helper->_redirector->gotoSimple('consult', 'supplier', 'supplier');
+        } else {
+
+            $id = $this->_getParam('id', 0);
+
+            if ($id > 0) {
+                $model = new Supplier_Model_Contact();
+
+                $this->view->contact = $model->fetchEntry($id);
+            }
+        }
+    }
+
 
 }

@@ -169,7 +169,8 @@ class User_Form_User extends Zend_Form {
 
     protected function _selectOptionsRole() {
         $sql = "SELECT id,name
-                  FROM acl_roles";
+                  FROM acl_roles
+                  ORDER by name";
         $db = Zend_Registry::get('db');
         
         $result = $db->fetchPairs($sql);

@@ -136,6 +136,17 @@ class Supplier_Model_Resource {
 
         return $table->fetchAll($select)->toArray();
     }
+    
+     public function inLitter($where) {
+        $table = $this->getTable();
+        $data["in_Litter"] = (int) "1";
+        return $table->update($data, $where);
+    }
+    public function outLitter($where) {
+        $table = $this->getTable();
+        $data["in_Litter"] = (int) "0";
+        return $table->update($data, $where);
+    }
 
 }
 

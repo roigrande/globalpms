@@ -210,12 +210,12 @@ class Supplier_SupplierController extends Zend_Controller_Action {
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
                 $model = new Supplier_Model_Supplier();
-                $model->delete('id = ' . (int) $id);
+                $model->delete($id);
             }
             return $this->_helper->redirector('index');
         } else {
 
-            $id = $this->_getParam('id', 0);
+            $id = $_SESSION["supplier"]["id"];
             if ($id > 0) {
                 $model = new Supplier_Model_Supplier();
 
@@ -224,8 +224,8 @@ class Supplier_SupplierController extends Zend_Controller_Action {
         }
     }
 
-    /**
-     * inlitterAction for Suppliers
+      /**
+     * inlitterAction for Contacts
      *
      * @return void
      */
@@ -237,14 +237,40 @@ class Supplier_SupplierController extends Zend_Controller_Action {
                 $model = new Supplier_Model_Supplier();
                 $model->inLitter('id = ' . (int) $id);
             }
-            return $this->_helper->redirector('index');
+            return $this->_helper->_redirector->gotoSimple('index', 'supplier', 'supplier');
         } else {
 
-            $id = $this->_getParam('id', 0);
+            $id = $_SESSION["supplier"]["id"];
+            if ($id > 0) {
+                
+                $model = new Supplier_Model_Supplier();
+
+                $this->view->contact = $model->fetchEntry($id);
+            }
+        }
+    }
+              
+    public function outlitterAction() {
+        
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Yes') {
+
+                $id = $this->getRequest()->getPost('id');
+                $model = new Supplier_Model_Supplier();
+
+                $model->outLitter($id);
+            }
+
+            return $this->_helper->_redirector->gotoSimple('index', 'supplier', 'supplier');
+        } else {
+            die();
+            $id = $_SESSION["supplier"]["id"];
+
             if ($id > 0) {
                 $model = new Supplier_Model_Supplier();
 
-                $this->view->supplier = $model->fetchEntry($id);
+                $this->view->contact = $model->fetchEntry($id);
             }
         }
     }

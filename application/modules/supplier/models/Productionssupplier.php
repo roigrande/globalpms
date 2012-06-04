@@ -79,7 +79,7 @@ class Supplier_Model_Productionssupplier {
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
         $select->from(array('companies'))
-                ->from(array('suppliers'))
+                ->from(array('suppliers'), array('suppliers_id' =>'id'))
                 ->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
                 ->where('company_types_id=company_types.id')
                 ->where('suppliers.id=productions_has_suppliers.suppliers_id')
@@ -90,7 +90,7 @@ class Supplier_Model_Productionssupplier {
         ;
         $data = $table->fetchAll($select);
         //TODO la select deberias sustituir este codigo por un distinct en la select para no repetir resultados
-//        
+        
 //        Zend_Debug::dump($data);
 //        die();
         return $data;

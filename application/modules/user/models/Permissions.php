@@ -141,7 +141,8 @@ class User_Model_Permissions {
               FROM acl_permissions, acl_roles, acl_resources
               WHERE acl_permissions.role_id = acl_roles.id AND
                     acl_permissions.resource_id = acl_resources.id
-              ORDER BY resource"
+                    
+              ORDER BY resource, acl_permissions.name"
         ;
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
         return $table;

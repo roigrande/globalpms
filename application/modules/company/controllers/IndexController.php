@@ -12,8 +12,7 @@ class Company_IndexController extends Zend_Controller_Action {
      * @return void
      */
     function indexAction() {
-
-        $this->_helper->redirector('index','company');
+ 
     }
 
 }

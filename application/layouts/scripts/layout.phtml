@@ -134,7 +134,7 @@ echo $this->doctype();
         <ul id="topbtns">
             <li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
             
-            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "user:user", "index")) { ?>  
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "user:index", "index")) { ?>  
 
                 <li>
                     <a href="<?php echo $this->url(array('module' => 'user', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_lrg_user.png" alt="Users" /><br />Admin</a>
@@ -142,10 +142,10 @@ echo $this->doctype();
                 </li>
             <?php } ?>
             
-            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "index") and isset($_SESSION["company"]["id"])) { ?>  
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:index", "index") and isset($_SESSION["company"]["id"])) { ?>  
 
                 <li>
-                    <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'company', 'action' => 'select')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
+                    <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
 
                 </li>
             <?php } ?> 

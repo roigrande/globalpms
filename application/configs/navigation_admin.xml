@@ -252,9 +252,9 @@
                     <label>Production</label>
                     <module>production</module>
                     <controller>production</controller> 
-                    <action>select</action>
+                    <action>consult</action>
                     <resource>production:production</resource>
-                    <privilege>select</privilege>
+                    <privilege>consult</privilege>
                     <pages>                       
                         <consult>
                             <label>Consultar Producción</label>

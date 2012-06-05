@@ -88,6 +88,7 @@ class Production_Model_Resource {
                ->where('resource_id=resources.id')
                ->where('companies.id=resources.companies_id')
                ->where('contacts_id=contacts.id')
+              
                
             
                ->order('name')
@@ -100,7 +101,37 @@ class Production_Model_Resource {
 //        die();
         return $data;
     }
+    
+     /**
+     * Fetch all entries
+     * 
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function fetchEntriesActivity() {
+       
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('resources'), array('resource_name' => 'name', 'id_resource' => 'id'))
+               ->from(array('contacts'), array('supplier_contact_name' => 'name'))
+               ->from(array('companies'), array('supplier_name' => 'name', 'id_supplier' => 'id'))
+               ->where('resource_id=resources.id')
+               ->where('companies.id=resources.companies_id')
+               ->where('contacts_id=contacts.id')
+               ->where('activities_id='.$_SESSION["production"]["activity_id"])
+              
+               
+            
+               ->order('name')
 
+        ;
+        $data = $table->fetchAll($select);
+        //TODO la select deberias sustituir este codigo por un distinct en la select para no repetir resultados
+       
+        return $data;
+    }
+
+    
     /**
      * Fetch an individual entry
      * 

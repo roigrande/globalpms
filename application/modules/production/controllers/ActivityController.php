@@ -96,7 +96,7 @@ class Production_ActivityController extends Zend_Controller_Action {
         
         //get the dates for the table
         $model = new Production_Model_Resource();
-        $data_resource=$model->fetchEntries();
+        $data_resource=$model->fetchEntriesActivity();
         
         //paginator
         if ($data_resource){

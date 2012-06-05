@@ -108,7 +108,7 @@ class Production_PermissionproductionController extends Zend_Controller_Action {
                 $model = new Production_Model_Permissionproduction();
                 if($model->fetchisEntryProduction($id,$_SESSION["production"]["id"])){
                     $data=$model->fetchEntry($id);
-                          Zend_Debug::dump($data,"data");
+                      //    Zend_Debug::dump($data,"data");
                 
                     $form->populate($data["0"]);
                 }else{

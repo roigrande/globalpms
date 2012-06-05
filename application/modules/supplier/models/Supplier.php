@@ -37,9 +37,9 @@ class Supplier_Model_Supplier {
                 unset($data[$field]);
             }
         }
-      
+
         $table->insert($data);
-         
+
         return $table->lastInsertId();
     }
 
@@ -49,18 +49,21 @@ class Supplier_Model_Supplier {
      * @return int|string
      */
 
-    public function update(array $data, $where) {
-        $model_company= new Company_Model_Company();
-        return $model_company->update($data, $where);
-//        $table = $this->getTable();
-//        $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-//        foreach ($data as $field => $value) {
-//            if (!in_array($field, $fields)) {
-//                unset($data[$field]);
-//            }
-//        }
-//        
-//        return $table->update($data, $where);
+    public function update(array $data, $id) {
+        $model_company = new Company_Model_Company();
+        $data_company = $data;
+        $data_company["id"] = $data_company["companies_id"];
+        $model_company->update($data_company, 'id = ' . (int) $data["companies_id"]);
+
+        $table = $this->getTable();
+        $fields = $table->info(Zend_Db_Table_Abstract::COLS);
+        foreach ($data as $field => $value) {
+            if (!in_array($field, $fields)) {
+                unset($data[$field]);
+            }
+        }
+
+        return $table->update($data, 'id = ' . (int) $id);
     }
 
     /**
@@ -71,14 +74,13 @@ class Supplier_Model_Supplier {
      */
     public function delete($id) {
         $model_production = new Production_Model_Production();
-        if ($model_production->fetchHaveCompanyClient($id)!=null) {
+        if ($model_production->fetchHaveCompanyClient($id) != null) {
             die("esta compañia esta trabajando como cliente de una produccion");
         }
-          
+
         //delete resource
         $table = $this->getTable();
         $table->delete('companies_id = ' . (int) $id);
-     
     }
 
     /**
@@ -86,23 +88,19 @@ class Supplier_Model_Supplier {
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    
-    
-     public function fetchEntries() {
-         
+    public function fetchEntries() {
+
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select  ->from(array('companies'))
+        $select->from(array('companies'))
                 ->from(array('companies_has_suppliers'))
-               
-               ->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
-               ->where('company_types_id=company_types.id')
-               ->where('suppliers.companies_id=companies.id')
-               ->where('suppliers.id=companies_has_suppliers.suppliers_id')
-               ->where('companies_has_suppliers.companies_id='.$_SESSION["company"]["id"])
- 
-               ->order('name')
+                ->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+                ->where('company_types_id=company_types.id')
+                ->where('suppliers.companies_id=companies.id')
+                ->where('suppliers.id=companies_has_suppliers.suppliers_id')
+                ->where('companies_has_suppliers.companies_id=' . $_SESSION["company"]["id"])
+                ->order('name')
 
         ;
         $data = $table->fetchAll($select);
@@ -111,42 +109,45 @@ class Supplier_Model_Supplier {
 //        Zend_Debug::dump($data);
 //        die();
         return $data;
-     }
+    }
+
     /**
      * Fetch an individual entry
      * 
      * @param  int|string $id 
      * @return null|Zend_Db_Table_Row_Abstract
      */
-   public function fetchEntry($id) {
-        
-         $table = $this->getTable();
+    public function fetchEntry($id) {
+        $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
-        $select->from(array('ct' => 'company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+        $select->from(array('ct' => 'company_types'), array('company_types_name' => 'name', 'company_types_id' => 'id'))
 //               ->join(array('suppliers_has_activity_types'),
 //                    'suppliers_has_activity_types.suppliers_id = suppliers.id')
-                ->from("companies")
+                ->from("companies", array('companies_id' => 'id', 'name', 'fiscal_name', 'email'
+                    , 'direction', 'postal_code', 'city', 'country', 'telephone', 'fax', 'observation'))
                 ->where('ct.id = company_types_id')
-                ->where('companies.id='.$id)
+                ->where('companies.id=' . $id)
                 ->where('companies.id=suppliers.companies_id')
-              //  ->where('in_litter = 0')
+        //  ->where('in_litter = 0')
         ;
-        $data = $table->fetchAll($select)->toarray(); 
-        
-     $sql = "SELECT id,name
+        $data = $table->fetchAll($select)->toarray();
+//          Zend_Debug::dump($data);
+//          die();
+        $sql = "SELECT id,name
                 From suppliers_has_activity_types
                 INNER JOIN activity_types ON activity_types.id = suppliers_has_activity_types.activity_types_id
-                WHERE suppliers_has_activity_types.suppliers_id = ".$id
-            ;
-       
+                WHERE suppliers_has_activity_types.suppliers_id = " . $data["0"]["id"];
+        ;
+
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
-        $result= implode(",", $result);
-        $data["0"]["activity_types_name"]=$result;
-         
+        $result = implode(",", $result);
+        $data["0"]["activity_types_name"] = $result;
+//          Zend_Debug::dump($data);
+//        die();
         return $data["0"];
-  }
+    }
 
     /**
      *  Fetch all sql entries
@@ -162,7 +163,7 @@ class Supplier_Model_Supplier {
 
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
         //   Zend_Debug::dump($table,"Supplier");
-     
+
         return $table;
     }
 
@@ -178,19 +179,18 @@ class Supplier_Model_Supplier {
 
         return $table->fetchAll($select)->toArray();
     }
-     public function inLitter($where) {
+
+    public function inLitter($where) {
         $table = $this->getTable();
         $model = new Company_Model_Company();
-        return   $model->inLitter($where);
-        
+        return $model->inLitter($where);
     }
-    
+
     public function outLitter($where) {
-  
-        $table = $this->getTable();
-        $data["in_Litter"] = (int) "0";
-         //die("outlitter");
-        return $table->update($data, $where);
+      $table = $this->getTable();
+        $model = new Company_Model_Company();
+        return $model->outLitter($where);
     }
+
 }
 

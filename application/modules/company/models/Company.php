@@ -83,20 +83,22 @@ class Company_Model_Company {
      */
 
     public function update(array $data, $where) {
-        
+          
           $table = $this->getTable();
-         $data["activity_types_id"] = implode(",", $data["activity_types_id"]);
-          if ($data["activity_types_id"]==0){
-              $data["activity_types_id"]=1;
-        }
-        
+//         $data["activity_types_id"] = implode(",", $data["activity_types_id"]);
+//          if ($data["activity_types_id"]==0){
+//              $data["activity_types_id"]=1;
+//        }
+//         Zend_Debug::dump($data);
+//                 die();
          $fields = $table->info(Zend_Db_Table_Abstract::COLS);
          foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
-      
+//       Zend_Debug::dump($data);
+//                 die();
         return $table->update($data, $where);
     }
 

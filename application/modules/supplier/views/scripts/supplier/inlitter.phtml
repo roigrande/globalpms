@@ -1,16 +1,16 @@
 <?php
-$this->title = "In little Contact";
+$this->title = "In little Supplier";
 $this->headTitle($this->title);
 ?>
-<p>Are you sure that you want to send to little this contact
-    '<?php echo $this->escape($this->contact['name']); ?>' by
+<p>Are you sure that you want to send to little this supplier to
+    '<?php echo $this->escape($this->supplier['name']);  ?>' 
     
 </p>
 <form action="<?php echo $this->url(array('action' => 'inlitter')); ?>" method="post">
     <div>
         
-        <input type="hidden" name="id" value="<?php echo $this->contact['id']; ?>" />
-        <input type="hidden" name="company_id" value="<?php echo $this->contact['company_id']; ?>" />
+        <input type="hidden" name="id" value="<?php echo $this->supplier['companies_id']; ?>" />
+         
         <input type="submit" name="del" value="Yes" />
         <input type="submit" name="del" value="No" />
     </div>

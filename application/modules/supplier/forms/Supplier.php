@@ -7,7 +7,12 @@ class Supplier_Form_Supplier extends Zend_Form {
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
+        
+        $companies_id = new Zend_Form_Element_Hidden('companies_id');
+        $companies_id->addFilter('Int');
+        $companies_id->removeDecorator('label');
 
+        
         $name = new Zend_Form_Element_Text('name');
         $name->setLabel('name')
                 ->setRequired(true)
@@ -180,6 +185,7 @@ class Supplier_Form_Supplier extends Zend_Form {
                 ->removeDecorator('label')
         ;
         $this->addElements(array($id,
+            $companies_id,
             $name,
             $activity_types_id,
             $fiscal_name,

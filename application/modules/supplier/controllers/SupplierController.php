@@ -23,7 +23,6 @@ class Supplier_SupplierController extends Zend_Controller_Action {
         if ($data) {
             $paginator = Zend_Paginator::factory($data);
             $supplier = Zend_Registry::get('supplier');
-
             $paginator->setItemCountPerPage($supplier->paginator);
             $paginator->setCurrentPageNumber($page);
             $paginator->setPageRange($supplier->paginator);
@@ -51,6 +50,7 @@ class Supplier_SupplierController extends Zend_Controller_Action {
 //        $model = new Production_Model_Production();
 //        $production = $model->fetchEntry($id);
         //  Zend_Debug::dump($_SESSION);
+        
         $this->supplier = new Zend_Session_Namespace('supplier');
         $this->supplier->id = $id;
 
@@ -131,13 +131,15 @@ class Supplier_SupplierController extends Zend_Controller_Action {
                 $model_companies_supplier->save($data_companies_supplier);
                  $db = Zend_Registry::get('db');
                 //add types of activity for the supplier
+                 Zend_Debug::dump($data_activity_types,"tipos a insertar");
                 foreach ($data_activity_types["activity_types_id"] as $value) {
                    
                     $data_activity_type["activity_types_id"] = $value;
+                    Zend_Debug::dump($data_activity_type,"inserta bd");
                     $db->insert("suppliers_has_activity_types", $data_activity_type);
                 }
-
-                return $this->_helper->redirector('index');
+ 
+              return $this->_helper->_redirector->gotoSimple('select', 'supplier', 'supplier', array('id' => $data_supplier["companies_id"]));
             }
         } else {
             $form->populate($form->getValues());
@@ -158,12 +160,13 @@ class Supplier_SupplierController extends Zend_Controller_Action {
                 $model = new Supplier_Model_Supplier();
                 $id = $this->getRequest()->getPost('id');
                 $data = $form->getValues();
-
-
+                
+//                Zend_Debug::dump($data);
+//                 die();
                 //add types of activity for the supplier
                 $db = Zend_Registry::get('db');
 
-                $db->delete("suppliers_has_activity_types", "suppliers_id=" . $data["id"]);
+                $db->delete("suppliers_has_activity_types", "suppliers_id=" . $id);
                 $data_activity_type["suppliers_id"] = $data["id"];
                 foreach ($data["activity_types_id"] as $value) {
 
@@ -172,7 +175,7 @@ class Supplier_SupplierController extends Zend_Controller_Action {
 //                 Zend_Debug::dump($data_activity_type);
                 }
 //                die();
-                $model->update($data, 'id = ' . (int) $id);
+                $model->update($data, $id);
                 return $this->_helper->redirector('consult');
             } else {
                 $form->populate($this->getRequest()->getPost());
@@ -187,12 +190,13 @@ class Supplier_SupplierController extends Zend_Controller_Action {
                 $db = Zend_Registry::get('db');
                 $sql = "SELECT activity_types_id
                 FROM suppliers_has_activity_types
-                WHERE suppliers_has_activity_types.suppliers_id=" . $id;
+                WHERE suppliers_has_activity_types.suppliers_id=" . $data["id"];
+//                Zend_Debug::dump($data);
                 $data_type = $db->fetchAll($sql);
                 foreach ($data_type as $key => $value) {      
                     $data["activity_types_id"][$key] = $value->activity_types_id;
                 }
-
+//                Zend_Debug::dump($data);
                 $form->populate($data);
             }
         }
@@ -234,18 +238,19 @@ class Supplier_SupplierController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
                 $id = $this->getRequest()->getPost('id');
+               
                 $model = new Supplier_Model_Supplier();
                 $model->inLitter('id = ' . (int) $id);
             }
             return $this->_helper->_redirector->gotoSimple('index', 'supplier', 'supplier');
         } else {
 
-            $id = $_SESSION["supplier"]["id"];
+            $id =    $id = $this->_getParam('id', 0);
             if ($id > 0) {
                 
                 $model = new Supplier_Model_Supplier();
-
-                $this->view->contact = $model->fetchEntry($id);
+                
+                $this->view->supplier = $model->fetchEntry($id);
             }
         }
     }
@@ -264,13 +269,13 @@ class Supplier_SupplierController extends Zend_Controller_Action {
 
             return $this->_helper->_redirector->gotoSimple('index', 'supplier', 'supplier');
         } else {
-            die();
-            $id = $_SESSION["supplier"]["id"];
+           
+            $id =    $id = $this->_getParam('id', 0);
 
             if ($id > 0) {
                 $model = new Supplier_Model_Supplier();
 
-                $this->view->contact = $model->fetchEntry($id);
+                $this->view->supplier = $model->fetchEntry($id);
             }
         }
     }

@@ -72,6 +72,7 @@ class Production_ResourceController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
+        
         $this->view->title = "Edit Resources";
         $form = new Production_Form_Resource();     
         if ($this->getRequest()->isPost()) {

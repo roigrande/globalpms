@@ -21,7 +21,15 @@ echo $this->doctype();
     <link href="/styles/themes/grey/styles.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/scripts/ajax_functions.js"></script>
-    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/onclick/onclick.js" ></script>  
+<!--    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/onclick/onclick.js" ></script>  
+    <script type="text/javascript" language="javascript" src="/app/public/js/jquery.js"></script>
+    <script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl(); ?>/scripts/listasEncadenadas.js"></script>
+    <script type="text/javascript">
+            //Si estas trabajando con mas de un framework, como por ejemplo prototype agrega este codigo aqui en la vista.
+            jQuery.noConflict();
+    </script>-->
+
+
     <?php
     if ($this->dojo()->isEnabled()) {
 
@@ -38,10 +46,10 @@ echo $this->doctype();
     <!-- Top header/black bar start -->
     <div id="header">
         <img src="/styles/images/logo.png" alt="AdminCP" class="logo" />
-<!--        <div id="searchbox">
-            <input type="text" class="searchinput" />
-            <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />
-        </div>-->
+        <!--        <div id="searchbox">
+                    <input type="text" class="searchinput" />
+                    <input type="image" src="/styles/images/search_btn.png" class="searchbtn" />
+                </div>-->
 
 
     </div>
@@ -81,7 +89,7 @@ echo $this->doctype();
                 <li><a href="<?php echo $this->url(array('module' => 'login', 'controller' => 'index', 'action' => 'logout')); ?>" title="Logout"><img src="/styles/images/icons/icon_unlock.png" alt="Logout" /></a></li>
             </ul> 
         </div>
-
+        
         <?php
         if (isset($_SESSION["company"]["id"])) {
             $list = $acl->listResourceByUser();
@@ -106,14 +114,15 @@ echo $this->doctype();
 
     <!-- Right side start -->     
     <div id="right">
-
+        
         <!-- Breadcrumb start -->  
         <div id="breadcrumb">
-            <ul>            
+            <ul>    
+                
                 <li><img src="/styles/images/icon_breadcrumb.png" alt="Location" /></li>
 
                 <li>
-                    <?php 
+                    <?php
                     $list = $acl->listResourceByUser();
                     echo $this->navigation()
                             ->breadcrumbs()
@@ -132,8 +141,9 @@ echo $this->doctype();
 
         <!-- Top/large buttons start -->  
         <ul id="topbtns">
+          
             <li class="desc"><strong>Quick Links</strong><br />Popular shortcuts</li>
-            
+
             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "user:index", "index")) { ?>  
 
                 <li>
@@ -141,10 +151,11 @@ echo $this->doctype();
 
                 </li>
             <?php } ?>
-            
+
             <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:index", "index") and isset($_SESSION["company"]["id"])) { ?>  
 
                 <li>
+
                     <a href="<?php echo $this->url(array('module' => 'company', 'controller' => 'index', 'action' => 'index')); ?>"><img src="/styles/images/icons/icon_company.png" alt="Companies" /><br />Companies</a>
 
                 </li>
@@ -155,7 +166,7 @@ echo $this->doctype();
 
                 </li>
             <?php } ?> 
- 
+
 
             <!--            <li>
                             LANGUAGE
@@ -165,23 +176,43 @@ echo $this->doctype();
             echo $form;
             ?>
                         </li>-->
-            <li> 
-                COMPANIES : 
+
+            
+            <?php if (isset($_SESSION["production"]["name"])) { ?>
+
+                <li class="desc"> <strong>Production</strong><br />
+                    <a style ="display: inline !important " href="<?php
+            echo $this->url(array('module' => 'production', 'controller' => 'production',
+                'action' => 'consult'));
+            ?>"> <?php echo $_SESSION["production"]["name"] ?></a> 
+                </li>
+            <?php } ?>
+<?php if (isset($_SESSION["production"]["activity_name"])) { ?>
+
+                <li class="desc"> <strong>Activity</strong><br />
+                <a style ="display: inline !important " href="<?php
+            echo $this->url(array('module' => 'production', 'controller' => 'activity',
+                'action' => 'consult'));
+            ?>"> <?php echo $_SESSION["production"]["activity_name"] ?></a> 
+                </li>
+                <?php } ?>
+         
+          <li class="desc" style="float:right">  
                 <?php
                 include_once(APPLICATION_PATH . '/modules/default/forms/companies.php');
                 $form = new Default_Form_Companies();
                 echo $form;
                 ?>
-            </li>
-
+            </li>   
         </ul>
+        
         <!-- Top/large buttons end -->  
 
         <!-- Main content start -->      
 
         <div id="content">
 
-            <?php echo $this->layout()->content; ?> 
+<?php echo $this->layout()->content; ?> 
         </div>
 
         <!-- Footer start --> 

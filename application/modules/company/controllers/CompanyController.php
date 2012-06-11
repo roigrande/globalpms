@@ -183,39 +183,39 @@ class Company_CompanyController extends Zend_Controller_Action {
         $this->view->form = $form;
     }
     
-    public function editclientAction() {
-        $this->view->title = "Edit Companies";
-        //
-        $form = new Company_Form_Company();
- 
-        if ($this->getRequest()->isPost()) {
-            if ($form->isValid($this->getRequest()->getPost())) {
-                $model = new Company_Model_Company();
-                $id = $this->getRequest()->getPost('id');
-                $model->update($form->getValues(), 'id = ' . (int) $id);
-                return $this->_helper->redirector('index');
-            } else {
-                $form->populate($this->getRequest()->getPost());
-            }
-        } else {
-
-            $id = $this->_getParam('company_id', 0);
-            if ($id > 0) {
-                $page = $this->_getParam('page', 1);
-                $models = new Company_Model_Contact();
-                $paginator = Zend_Paginator::factory($models->fetchCompany($id));
-                $contact = Zend_Registry::get('company');
-                $paginator->setItemCountPerPage($contact->paginator);
-                $paginator->setCurrentPageNumber($page);
-                $paginator->setPageRange($contact->paginator);
-                $this->view->paginator = $paginator;
-                $model = new Company_Model_Company();
-                $form->populate($model->fetchEntry($id));
-            }
-        }
-
-        $this->view->form = $form;
-    }
+//    public function editclientAction() {
+//        $this->view->title = "Edit Companies";
+//        //
+//        $form = new Company_Form_Company();
+// 
+//        if ($this->getRequest()->isPost()) {
+//            if ($form->isValid($this->getRequest()->getPost())) {
+//                $model = new Company_Model_Company();
+//                $id = $this->getRequest()->getPost('id');
+//                $model->update($form->getValues(), 'id = ' . (int) $id);
+//                return $this->_helper->redirector('index');
+//            } else {
+//                $form->populate($this->getRequest()->getPost());
+//            }
+//        } else {
+//
+//            $id = $this->_getParam('company_id', 0);
+//            if ($id > 0) {
+//                $page = $this->_getParam('page', 1);
+//                $models = new Company_Model_Contact();
+//                $paginator = Zend_Paginator::factory($models->fetchCompany($id));
+//                $contact = Zend_Registry::get('company');
+//                $paginator->setItemCountPerPage($contact->paginator);
+//                $paginator->setCurrentPageNumber($page);
+//                $paginator->setPageRange($contact->paginator);
+//                $this->view->paginator = $paginator;
+//                $model = new Company_Model_Company();
+//                $form->populate($model->fetchEntry($id));
+//            }
+//        }
+//
+//        $this->view->form = $form;
+//    }
     /**
      * deleteAction for Companys
      *

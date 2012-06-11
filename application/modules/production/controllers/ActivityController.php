@@ -201,10 +201,13 @@ class Production_ActivityController extends Zend_Controller_Action {
 
             
              
-
+                
                 $model = new Production_Model_Activity();
                 $form->populate($model->fetchEntry($_SESSION["production"]["activity_id"]));
             
+        }
+        if ($_SESSION["gpms"]["role"]=="Encargado Actividad"){
+             $form->removeElement('$contact_own_company_id');
         }
         $this->view->form = $form;
     }

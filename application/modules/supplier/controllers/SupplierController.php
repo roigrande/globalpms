@@ -131,11 +131,11 @@ class Supplier_SupplierController extends Zend_Controller_Action {
                 $model_companies_supplier->save($data_companies_supplier);
                  $db = Zend_Registry::get('db');
                 //add types of activity for the supplier
-                 Zend_Debug::dump($data_activity_types,"tipos a insertar");
+//                 Zend_Debug::dump($data_activity_types,"tipos a insertar");
                 foreach ($data_activity_types["activity_types_id"] as $value) {
                    
                     $data_activity_type["activity_types_id"] = $value;
-                    Zend_Debug::dump($data_activity_type,"inserta bd");
+//                    Zend_Debug::dump($data_activity_type,"inserta bd");
                     $db->insert("suppliers_has_activity_types", $data_activity_type);
                 }
  

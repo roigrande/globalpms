@@ -171,6 +171,9 @@ class Production_Model_Permissionproduction {
         $select->from(array('productions'), array('production_name' =>'name'))
                ->from(array('acl_roles'), array('production_role_name' =>'name'))
                ->from(array('acl_users'), array('production_user_name' =>'name','email'))
+//               ->from(array('contacts'), array('contact_id' =>'id','contact_name'=>'name'))
+//               ->where('contacts.company_id ='. (int)  $_SESSION['company']['id'])
+//                ->where('contacts.acl_users_id = acl_users.id')
                ->where('productions_id ='. (int)  $_SESSION['production']['id'])
                ->where('productions.id=permission_production.productions_id')
                ->where('acl_roles.id=permission_production.acl_roles_id')
@@ -180,6 +183,9 @@ class Production_Model_Permissionproduction {
                         
 
         $data=$table->fetchAll($select)->toArray();
+//        foreach ($data as $value) {
+//            if ($this->
+//        }
 //        Zend_Debug::dump($data);
 //        die();
         return $data;

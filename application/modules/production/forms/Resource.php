@@ -23,12 +23,12 @@ class Production_Form_Resource extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
+     
         $suppliers_id = new Zend_Form_Element_Select('suppliers_id');
         $suppliers_id->setLabel('suppliers') 
                 ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsSuppliers())
-                ->setAttrib('maxlength', 200)
+                ->setOptions(array('onChange'=>'javascript:getAjaxResponse("http://globalpms.es/production/resource/getdataresource/id/"+this.value,"resource_id");javascript:getAjaxResponse("http://globalpms.es/production/resource/getdata/id/"+this.value,"contacts_id");'))
                 ->setAttrib('size', 1)
                 ->setAttrib("class", "toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
@@ -37,7 +37,7 @@ class Production_Form_Resource extends Zend_Form {
         
         $contacts_id = new Zend_Form_Element_Select('contacts_id');
         $contacts_id->setLabel('supplier contact ')
-                ->addValidator('NotEmpty', true)
+              //  ->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsContactSuppliers())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
@@ -48,7 +48,7 @@ class Production_Form_Resource extends Zend_Form {
         
         $resource_id = new Zend_Form_Element_Select('resource_id');
         $resource_id->setLabel('resource')
-                ->addValidator('NotEmpty', true)
+                //->addValidator('NotEmpty', true)
                 ->setmultiOptions($this->_selectOptionsResources())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
@@ -81,28 +81,7 @@ class Production_Form_Resource extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-//        
-//        $resource_types_id = new Zend_Form_Element_Select('resource_types_id');
-//        $resource_types_id->setLabel('resource types') 
-//                ->addValidator('NotEmpty', true)
-//                ->setmultiOptions($this->_selectOptions_types())
-//                ->setAttrib('maxlength', 200)
-//                ->setAttrib('size', 1)
-//                ->setAttrib("class", "toolboxdrop")
-//                ->setDecorators(array(array('ViewScript', array(
-//                            'viewScript' => 'forms/_element_select.phtml'))))
-//        ;
-//        
-//        $resource_types_id = new Zend_Form_Element_Multiselect('$resource_types_id');
-//        $resource_types_id->setLabel('resource types')              
-//                ->setmultiOptions($this->_selectOptions_types())
-//                ->setAttrib('maxlength', 200)
-//                ->setAttrib('size', 5)
-//                ->setDecorators(array(array('ViewScript', array(
-//                            'viewScript' => 'forms/_element_select.phtml'))))
-//                ->setAttrib("class","toolboxdrop")
-//        ;
-//        
+ 
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setValue('Guardar')
                 ->setAttrib('id', 'submitbutton')
@@ -125,7 +104,6 @@ class Production_Form_Resource extends Zend_Form {
         
      $sql = "SELECT resources.id,resources.name
                   FROM resources
-                 
                   WHERE resources.companies_id =".$this->_supplier_id;
                 ;
        
@@ -144,9 +122,12 @@ class Production_Form_Resource extends Zend_Form {
                   INNER JOIN productions_has_suppliers ON suppliers.id = productions_has_suppliers.suppliers_id
                   WHERE productions_has_suppliers.productions_id =".$_SESSION["production"]["id"]
                 ;
-       
+        
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
+       
+//        $this->_supplier_id= key($result);
+        
         //TODO comprobar que no hay roles
         return $result;
     }

@@ -139,11 +139,31 @@ class Production_Model_Resource {
      * @return null|Zend_Db_Table_Row_Abstract
      */
     public function fetchEntry($id) {
+        echo $id;
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
         return $table->fetchRow($select)->toArray();
     }
-
+    
+    public function getData($id)
+    {
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+         $select->from(array('resources'), array('resource_name' => 'name', 'id_resource' => 'id'))
+//               ->from(array('contacts'), array('supplier_contact_name' => 'name'))
+//               ->from(array('companies'), array('supplier_name' => 'name', 'id_supplier' => 'id'))
+               ->where('resource_id=resources.id')
+//               ->where('companies.id=resources.companies_id')
+//               ->where('contacts_id=contacts.id')
+//               ->where('activities_id='.$_SESSION["production"]["activity_id"])
+               //->where('resources.id = ?', (int) $id)
+               ;
+        $data= $table->fetchRow($select)->toarray();
+//     Zend_Debug::dump($data,"Resource");
+//     die();
+     return $data;
+    }
     /**
      *  Fetch all sql entries
      * 

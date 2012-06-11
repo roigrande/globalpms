@@ -4,11 +4,41 @@
         <h2>Add new Resources</h2>
     </div>
     <div class="contentbox">
-        <?php        
-        $this->title = "Add new Resources";
-        $this->headTitle($this->title);
-        echo $this->form;
-        ?>
+<?php
+$this->title = "Add new Resources";
+$this->headTitle($this->title);
+echo $this->form;
+?>
         
     </div>
 </div>
+<!--<div class="container">
+    <div class="conthead">
+
+        <h2>Add new Resources</h2>
+    </div>
+    <div class="contentbox">
+        <table>
+            <tr>
+                <td>PAISES</td>
+                <td>
+                    <select name="lstPaises" id="lstPaises" onchange="cargarRegionesPais(this)">
+                        <option value="0">[SELECCIONE UN PAIS]</option>
+                        <?php //foreach ($this->optListaPaises as $item): ?>
+                            <option value="<?php //echo $this->escape($item->PAIS_ID); ?>"><?php echo $this->escape($item->PAIS_NOMBRE); ?></option>
+                        <?php// endforeach; ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>REGIONES</td>
+                <td>
+                    <select name="lstRegiones" id="lstRegiones">
+                        <option value="0">[SELECCIONE UNA REGION]</option>
+                    </select>
+                </td>
+            </tr> 
+            <table>
+                </div>
+
+                </div>-->

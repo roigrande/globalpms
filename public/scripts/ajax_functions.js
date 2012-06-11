@@ -49,4 +49,23 @@ function getAjaxResponsePost(form, strurl, strcontainer) {
         }
     });
 }
+ 
+    function AutoFill()
+    {
+        new Ajax.Request(
+        "<?=$this->url(array('controller'=>'resource','action'=>'getdata'))?>",
+            {
+                method:'get',
+                parameters: {id: value},
+                onSuccess: FillForm
+        })
+}
 
+function FillForm(rsp)
+{
+    var card = eval('(' + rsp.responseText + ')');
+    $('address1').value = card.items[0].address1;
+    $('address2').value = card.items[0].address2;
+    $('postalcode').value = card.items[0].postalcode;
+} 
+ 

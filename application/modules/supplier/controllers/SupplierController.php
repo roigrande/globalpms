@@ -163,18 +163,7 @@ class Supplier_SupplierController extends Zend_Controller_Action {
                 
 //                Zend_Debug::dump($data);
 //                 die();
-                //add types of activity for the supplier
-                $db = Zend_Registry::get('db');
-
-                $db->delete("suppliers_has_activity_types", "suppliers_id=" . $id);
-                $data_activity_type["suppliers_id"] = $data["id"];
-                foreach ($data["activity_types_id"] as $value) {
-
-                    $data_activity_type["activity_types_id"] = $value;
-                    $db->insert("suppliers_has_activity_types", $data_activity_type);
-//                 Zend_Debug::dump($data_activity_type);
-                }
-//                die();
+               
                 $model->update($data, $id);
                 return $this->_helper->redirector('consult');
             } else {
@@ -187,15 +176,7 @@ class Supplier_SupplierController extends Zend_Controller_Action {
 
                 $model = new Supplier_Model_Supplier();
                 $data = $model->fetchEntry($id);
-                $db = Zend_Registry::get('db');
-                $sql = "SELECT activity_types_id
-                FROM suppliers_has_activity_types
-                WHERE suppliers_has_activity_types.suppliers_id=" . $data["id"];
-//                Zend_Debug::dump($data);
-                $data_type = $db->fetchAll($sql);
-                foreach ($data_type as $key => $value) {      
-                    $data["activity_types_id"][$key] = $value->activity_types_id;
-                }
+                
 //                Zend_Debug::dump($data);
                 $form->populate($data);
             }

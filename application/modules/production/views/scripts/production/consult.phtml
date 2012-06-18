@@ -9,7 +9,12 @@
         <?php } ?>
          <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:productionssupplier", "index")) { ?>
             <div>
-            <a href="<?php echo $this->url(array('module' => 'supplier','controller' => 'productionssupplier', 'action' => 'index')); ?>"> supplier production   </a>
+            <a href="<?php echo $this->url(array('module' => 'supplier','controller' => 'productionssupplier', 'action' => 'index')); ?>"> supplier company   </a>
+            </div>  
+        <?php } ?>
+          <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:productionsuppliers", "index")) { ?>
+            <div>
+            <a href="<?php echo $this->url(array('module' => 'production','controller' => 'productionsuppliers', 'action' => 'index')); ?>"> supplier production   </a>
             </div>  
         <?php } ?>
     </div>

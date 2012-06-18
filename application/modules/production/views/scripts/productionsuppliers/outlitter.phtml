@@ -1,0 +1,17 @@
+<?php
+$this->title = "In little supplier";
+$this->headTitle($this->title);
+?>
+<p>Are you sure that you want to put available this supplier
+    '<?php echo $this->escape($this->supplier['name']); ?>'
+    
+</p>
+<form action="<?php echo $this->url(array('action' => 'outlitter')); ?>" method="post">
+    <div>
+        
+        <input type="hidden" name="id" value="<?php echo $this->supplier['companies_id']; ?>" />
+         
+        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

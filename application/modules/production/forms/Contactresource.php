@@ -1,7 +1,8 @@
 <?php
 
-class Supplier_Form_Contact extends Zend_Form {
-   
+class Production_Form_Contactresource extends Zend_Form {
+
+    
       public function init() {
         $this->setName('contact');
         $id = new Zend_Form_Element_Hidden('id');
@@ -28,7 +29,7 @@ class Supplier_Form_Contact extends Zend_Form {
       
         $email = new Zend_Form_Element_Text('email');
         $email->setLabel('Email')
-               
+                
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('emailAddress', TRUE)
@@ -42,7 +43,7 @@ class Supplier_Form_Contact extends Zend_Form {
         
         $telephone = new Zend_Form_Element_Text('telephone');
         $telephone->setLabel('Telephone')
-             
+                 
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
@@ -98,16 +99,5 @@ class Supplier_Form_Contact extends Zend_Form {
             $status,
             $submit));
     }
-//
-//    protected function _selectOptions() {
-//        $sql = "SELECT id,name
-//                  FROM companies";
-//        $db = Zend_Registry::get('db');
-//        $result = $db->fetchPairs($sql);
-//        //TODO comprobar que no hay roles
-//        return $result;
-//    }
-
-    
 }
 

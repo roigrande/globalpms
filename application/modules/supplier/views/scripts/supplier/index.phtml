@@ -31,7 +31,9 @@
                             <td><?php echo $this->escape($supplier["name"]); ?></td>
 
                             <td>
+                               <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "select")) { ?>
                                 <a href="<?php echo $this->url(array('controller' => 'supplier', 'action' => 'select', 'id' => $supplier["id"])); ?>">consult</a>
+                                <?php } ?>
                                 <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "inlitter")) { ?>
 
                                     <?php if ($supplier["in_litter"] == 0) { ?>

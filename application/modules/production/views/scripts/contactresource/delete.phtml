@@ -1,0 +1,15 @@
+<?php
+$this->title = "Delete Contactresource";
+$this->headTitle($this->title);
+?>
+<p>Are you sure that you want to delete
+    '<?php echo $this->escape($this->contactresource['name']); ?>' by
+    
+</p>
+<form action="<?php echo $this->url(array('action' => 'delete')); ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo $this->contactresource['id']; ?>" />
+        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

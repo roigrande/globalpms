@@ -38,15 +38,11 @@
                     <td><?php echo $this->escape($this->select_supplier['observation']); ?></td>
                     <td>
 
-                        <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "edit")) { ?>
-                            <a href="<?php echo $this->url(array('controller' => 'supplier', 'action' => 'edit')); ?>">
+                        <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:productionsuppliers", "edit")) { ?>
+                            <a href="<?php echo $this->url(array('controller' => 'productionsuppliers', 'action' => 'edit')); ?>">
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                         <?php } ?>
-                        <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "delete")) { ?>
 
-                            <a href="<?php echo $this->url(array('controller' => 'supplier', 'action' => 'delete')); ?>">
-                                <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                        <?php } ?>
                     </td>        
                 </tr>
         </table>
@@ -59,9 +55,9 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->translate("Contacts of ") . $this->escape($this->select_supplier['name']); ?></h1>
-        <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:contact", "add")) { ?>
-            <p><a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'add'));
+        <h1><?php echo $this->translate("Contacts - Supplier"); ?></h1>
+        <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:contactresource", "add")) { ?>
+            <p><a href="<?php echo $this->url(array('controller' => 'contactresource', 'action' => 'add'));
             ?>">Add Contact</a></p>
             <?php } ?> 
 
@@ -98,26 +94,13 @@
                         </td>
                         <td>
                             <?php if (!$contact['in_litter']) { ?>
-                                <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:contact", "edit")) { ?>
-                                    <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'edit', 'id' => $contact["id"])); ?>">
+                                <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:contactresource", "edit")) { ?>
+                                    <a href="<?php echo $this->url(array('controller' => 'contactresource', 'action' => 'edit', 'id' => $contact["id"])); ?>">
                                         <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                                 <?php } ?>
 
-                                <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "inlitter")) { ?>
-
-                                    <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'inlitter', 'id' => $contact["id"])); ?>">
-                                        <img src="/styles/images/icons/icon_in_litter.png" alt="In litter" /></a>
-                                <?php } ?>   
-                            <?php } else { ?>
-
-                                <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'outlitter', 'id' => $contact["id"])); ?>">
-                                    <img src="/styles/images/icons/icon_in_out.png" alt="Out litter" /></a>
-
-                            <?php } ?>
-                            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "delete")) { ?>
-                                <a href="<?php echo $this->url(array('controller' => 'contact', 'action' => 'delete', 'id' => $contact["id"])); ?>">
-                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                            <?php } ?>
+                                 <?php } ?>   
+                            
 
 
 
@@ -136,14 +119,14 @@
 <div class="container">
     <div class="conthead">
         <h1><?php echo $this->escape($this->translate("Resources - Supplier")); ?></h1>
-        <p> <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:resource", "add")) { ?>
-             <a href="<?php
-            echo $this->url(array('controller' => 'resource',
-                'action' => 'add'));
-            ?>">Add new resource</a></p>
+        <p> <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:resource", "addresourcesupplier")) { ?>
+                <a href="<?php
+                echo $this->url(array('controller' => 'resource',
+                    'action' => 'addresourcesupplier'));
+                ?>">Add new resource</a></p>
             <?php } ?> 
-            
-             
+
+
 
     </div>
     <div class="contentbox">
@@ -174,29 +157,17 @@
                             <td><?php echo $this->escape($resource->description); ?></td>
 
                             <td>
-                                
-                                <?php if (!$resource['in_litter']) { ?>
-                                <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:resource", "edit")) { ?>
-                                    <a href="<?php echo $this->url(array('controller' => 'resource', 'action' => 'edit', 'id' => $resource->id)); ?>">
-                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
 
-                                <?php } ?>
+                                <?php if (!$resource->in_litter) { ?>
+                                    <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:resource", "editresourcesupplier")) { ?>
+                                        <a href="<?php echo $this->url(array('controller' => 'resource', 'action' => 'editresourcesupplier', 'id' => $resource->id)); ?>">
+                                            <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
 
-                                <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:resource", "inlitter")) { ?>
+                                    <?php } ?>
 
-                                    <a href="<?php echo $this->url(array('controller' => 'resource', 'action' => 'inlitter', 'id' => $resource->id)); ?>">
-                                        <img src="/styles/images/icons/icon_in_litter.png" alt="In litter" /></a>
-                                <?php } ?>   
-                            <?php } else { ?>
 
-                                <a href="<?php echo $this->url(array('controller' => 'resource', 'action' => 'outlitter', 'id' => $resource->id)); ?>">
-                                    <img src="/styles/images/icons/icon_in_out.png" alt="Out litter" /></a>
+                                <?php } ?>    
 
-                            <?php } ?>    
-                                 <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:resource", "delete")) { ?>
-                                <a href="<?php echo $this->url(array('controller' => 'resource', 'action' => 'delete', 'id' => $resource->id)); ?>">
-                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                             <?php } ?>   
                             </td>                        
                         </tr>
                         <?php

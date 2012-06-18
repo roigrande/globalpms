@@ -88,9 +88,6 @@ class Production_Model_Resource {
                ->where('resource_id=resources.id')
                ->where('companies.id=resources.companies_id')
                ->where('contacts_id=contacts.id')
-              
-               
-            
                ->order('name')
 
         ;
@@ -101,6 +98,29 @@ class Production_Model_Resource {
 //        die();
         return $data;
     }
+    
+    /**
+     * Fetch all entries
+     * 
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function fetchEntriesSupplier() {
+         $sql = "SELECT resources.id, resources.name ,description ,direction, num_resources, resource_types.name as resource_types_name, in_litter 
+          FROM resources, resource_types
+          WHERE resources.companies_id =".$_SESSION["supplier"]["id"]."
+              AND resource_types.id=resources.resources_types_id  
+          ORDER BY name"
+        ;
+
+        $data = $this->getTable()->getAdapter()->fetchAll($sql);
+         
+        //TODO la select deberias sustituir este codigo por un distinct en la select para no repetir resultados
+//        
+//        Zend_Debug::dump($data);
+//        die();
+        return $data;
+    }
+    
     
      /**
      * Fetch all entries

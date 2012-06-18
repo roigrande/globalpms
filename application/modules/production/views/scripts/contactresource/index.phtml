@@ -1,11 +1,11 @@
           
-<!-- Table productionssupplier -->
+<!-- Table contactresource -->
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("Suppliers of NAME OF PRODUCTION")); ?></h1>
-        <p><a href="<?php echo $this->url(array('controller' => 'productionssupplier',
+        <h1><?php echo $this->escape($this->translate("My Contactresources")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'contactresource',
     'action' => 'add'));
-?>">Add new supplier in the production</a></p>
+?>">Add new contactresource</a></p>
 
     </div>
     <div class="contentbox">
@@ -22,15 +22,15 @@
 
             <tbody>
                 <?php if ($this->paginator) {
-                    foreach ($this->paginator as $productionssupplier) :
+                    foreach ($this->paginator as $contactresource) :
                         ?>
                         <tr>
-                            <td><?php echo $this->escape($productionssupplier->name); ?></td>                         
+                            <td><?php echo $this->escape($contactresource->name); ?></td>                         
                             <td>
-                                 
-                                <a href="<?php echo $this->url(array('controller' => 'productionssupplier', 'action' => 'delete', 'id' => $productionssupplier->suppliers_id)); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'contactresource', 'action' => 'edit', 'id' => $contactresource->id)); ?>">
+                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                                <a href="<?php echo $this->url(array('controller' => 'contactresource', 'action' => 'delete', 'id' => $contactresource->id)); ?>">
                                     <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                                
                             </td>                        
                         </tr>
                 <?php endforeach;
@@ -41,4 +41,4 @@
         </div>
     </div>
 </div>
-<!-- Table productionssupplier end -->  
+<!-- Table contactresource end -->  

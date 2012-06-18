@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_suppliers table.
+ * This is the Data Mapper class for the Acl_productionsupplierss table.
  */
-class Supplier_Model_Supplier {
+class Production_Model_Productionsuppliers {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Supplier_Model_Supplier {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Supplier_Model_DbTable_Supplier();
+            $this->_table = new Production_Model_DbTable_Productionsuppliers();
         }
         return $this->_table;
     }
@@ -39,8 +39,12 @@ class Supplier_Model_Supplier {
         }
 
         $table->insert($data);
-
-        return $table->lastInsertId();
+        $db = Zend_Registry::get('db');
+        $production_suppliers["productions_id"] = $_SESSION["production"]["id"];
+        $production_suppliers["suppliers_id"] = $table->lastInsertId();
+//                    Zend_Debug::dump($data_activity_type,"inserta bd");
+        $db->insert("productions_has_suppliers", $production_suppliers);
+        return $production_suppliers["suppliers_id"];
     }
 
     /* Update entry
@@ -50,13 +54,11 @@ class Supplier_Model_Supplier {
      */
 
     public function update(array $data, $id) {
-
         $model_company = new Company_Model_Company();
         if ($model_company->existSupplierCompany($data["fiscal_name"], $id)) {
             //TODO ENVIAR UN MENSAJE
             die("supplier existe");
         }
-
         //add types of activity for the supplier
         $db = Zend_Registry::get('db');
 
@@ -92,15 +94,11 @@ class Supplier_Model_Supplier {
      * @param  array|string $where SQL WHERE clause(s)
      * @return int|string
      */
-    public function delete($id) {
-        $model_production = new Production_Model_Production();
-        if ($model_production->fetchHaveCompanyClient($id) != null) {
-            die("esta compañia esta trabajando como cliente de una produccion");
-        }
+    public function delete($where) {
 
         //delete resource
         $table = $this->getTable();
-        $table->delete('companies_id = ' . (int) $id);
+        $table->delete($where);
     }
 
     /**
@@ -114,12 +112,12 @@ class Supplier_Model_Supplier {
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
         $select->from(array('companies'))
-                ->from(array('companies_has_suppliers'))
+                ->from(array('productions_has_suppliers'))
                 ->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
                 ->where('company_types_id=company_types.id')
                 ->where('suppliers.companies_id=companies.id')
-                ->where('suppliers.id=companies_has_suppliers.suppliers_id')
-                ->where('companies_has_suppliers.companies_id=' . $_SESSION["company"]["id"])
+                ->where('suppliers.id=productions_has_suppliers.suppliers_id')
+                ->where('productions_has_suppliers.productions_id=' . $_SESSION["production"]["id"])
                 ->order('name')
 
         ;
@@ -178,47 +176,24 @@ class Supplier_Model_Supplier {
         return $data["0"];
     }
 
-    /**
-     *  Fetch all sql entries
-     * 
-     * @return Zend_Db_Table_Rowset_Abstract
-     */
-    public function fetchSql() {
-        $sql = "SELECT suppliers.id, suppliers.name, date,
-                    email,status, roles.name as role
-          FROM suppliers, roles
-          WHERE suppliers.role_id = roles.id              
-          ORDER BY roles.id";
-
-        $table = $this->getTable()->getAdapter()->fetchAll($sql);
-        //   Zend_Debug::dump($table,"Supplier");
-
-        return $table;
-    }
-
-    /**
-     *  Fetch all sql entries for the $role_id
-     * 
-     * @return array
-     */
-    public function fetchTypeSuppliers($type_id) {
-
+    public function isSupplierInProduction($id) {
         $table = $this->getTable();
-        $select = $table->select()->where('supplier_type_id =' . (int) $type_id);
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from("companies", array('companies_id' => 'id', 'name', 'fiscal_name', 'email'
+                    , 'direction', 'postal_code', 'city', 'country', 'telephone', 'fax', 'observation'))
+                ->from("productions_has_suppliers")
+                ->where("productions_has_suppliers.productions_id=" . $_SESSION["production"]["id"])
+                ->where("productions_has_suppliers.suppliers_id=suppliers.id")
+                ->where('companies.id=' . $id)
+                ->where('companies.id=suppliers.companies_id')
+                ->where('in_litter = 0')
+        ;
+        $data = $table->fetchAll($select)->toarray();
 
-        return $table->fetchAll($select)->toArray();
-    }
-
-    public function inLitter($where) {
-        $table = $this->getTable();
-        $model = new Company_Model_Company();
-        return $model->inLitter($where);
-    }
-
-    public function outLitter($where) {
-        $table = $this->getTable();
-        $model = new Company_Model_Company();
-        return $model->outLitter($where);
+//        Zend_Debug::dump($data);
+//        die();
+        return $data["0"];
     }
 
 }

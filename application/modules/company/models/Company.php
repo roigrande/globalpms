@@ -47,7 +47,12 @@ class Company_Model_Company {
     
      public function saveSupplier(array $data) {
    
-        
+           if ($this->existSupplierCompany($data["fiscal_name"],0))
+                     {
+                         //TODO ENVIAR UN MENSAJE
+                         die("supplier existe");
+                     }
+              
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -202,9 +207,7 @@ class Company_Model_Company {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchClientCompanies() {
-//            Zend_Debug::dump($_SESSION);
-//        echo "go";
-//        die();
+//           
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
@@ -229,6 +232,41 @@ class Company_Model_Company {
         $data = $table->fetchAll($select)->toArray();
     
         return $data;
+    }
+    
+    public function existSupplierCompany($fiscal_name,$id){
+      
+        $table = $this->getTable();
+       
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->from(array('companies_has_suppliers'))
+               ->from(array('suppliers'))
+               //->from(array('permission_production'),array('acl_users_id'))
+               //->from(array('own_company' => 'companies'), array('own_company_id' => 'id'))
+               //->from(array('productions'),array('production_id' => 'id'))
+               //->where('company_types_id=company_types.id') 
+//               ->where('acl_users_has_companies.acl_users_id = '.$_SESSION["gpms"]["storage"]->id)
+               //->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+               
+               ->where('companies.fiscal_name= ?',$fiscal_name)
+               ->where('companies_has_suppliers.companies_id= '.$_SESSION["company"]["id"])
+               ->where('companies_has_suppliers.suppliers_id=suppliers.id')
+               ->where('suppliers.companies_id=companies.id')
+                
+               // ->where('in_litter = 0')
+//               ->where('productions.id=permission_production.productions_id')
+//               ->where('permission_production.acl_users_id='.$_SESSION["gpms"]["storage"]->id)
+               ->order('name')
+                
+        ;
+        $data = $table->fetchAll($select)->toArray();
+//         Zend_Debug::dump($data);
+//        die();
+        if ($data["0"]["id"]===$id){
+            $data=FALSE;
+        }
+        return $data;   
     }
      
 

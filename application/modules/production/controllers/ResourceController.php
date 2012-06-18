@@ -6,33 +6,33 @@ class Production_ResourceController extends Zend_Controller_Action {
         
     }
 
-    /**
-     * IndexAction for Permissions
-     *
-     * @return void
-     */
-    function indexAction() {
-        //get the page of the table 
-        $page = $this->_getParam('page', 1);
-
-        //get the dates for the table
-        $model = new Production_Model_Resource();
-        $data = $model->fetchEntries();
-
-        //paginator
-        if ($data) {
-            $paginator = Zend_Paginator::factory($data);
-            $production = Zend_Registry::get('production');
-            $paginator->setItemCountPerPage($production->paginator);
-            $paginator->setCurrentPageNumber($page);
-            $paginator->setPageRange($production->paginator);
-            $this->view->paginator = $paginator;
-        } else {
-            $this->view->paginator = null;
-        }
-        //send information to the view
-        $this->view->title = "Resources list";
-    }
+//    /**
+//     * IndexAction for Permissions
+//     *
+//     * @return void
+//     */
+//    function indexAction() {
+//        //get the page of the table 
+//        $page = $this->_getParam('page', 1);
+//
+//        //get the dates for the table
+//        $model = new Production_Model_Resource();
+//        $data = $model->fetchEntries();
+//
+//        //paginator
+//        if ($data) {
+//            $paginator = Zend_Paginator::factory($data);
+//            $production = Zend_Registry::get('production');
+//            $paginator->setItemCountPerPage($production->paginator);
+//            $paginator->setCurrentPageNumber($page);
+//            $paginator->setPageRange($production->paginator);
+//            $this->view->paginator = $paginator;
+//        } else {
+//            $this->view->paginator = null;
+//        }
+//        //send information to the view
+//        $this->view->title = "Resources list";
+//    }
 
     /**
      * AddAction for Resources
@@ -184,30 +184,82 @@ $this->view->form = $form;
             }
         }
     }
-
-    /**
-     * inlitterAction for Resources
+    
+     /**
+     * AddAction for Resources
      *
      * @return void
      */
-    public function inlitterAction() {
+    public function addresourcesupplierAction() {
+        $this->view->headTitle("Add New Resource", 'APPEND');
+        $request = $this->getRequest();
+        $form = new Production_Form_Resourcesupplier();
+
         if ($this->getRequest()->isPost()) {
-            $del = $this->getRequest()->getPost('del');
-            if ($del == 'Yes') {
-                $id = $this->getRequest()->getPost('id');
-                $model = new Production_Model_Resource();
-                $model->inLitter('id = ' . (int) $id);
+            if ($form->isValid($request->getPost())) {
+                $model = new Supplier_Model_Resource();
+                $data=$form->getValues();
+                $data["companies_id"]=$_SESSION["supplier"]["id"];
+                $model->save($data);
+               return $this->_helper->_redirector->gotoSimple('consult', 'productionsuppliers', 'production');
             }
-            return $this->_helper->redirector('index');
+        } else {
+            $form->populate($form->getValues());
+        }
+        $this->view->form = $form;
+    }
+
+    /**
+     * EditAction for Resources
+     *
+     * @return void
+     */
+    public function editresourcesupplierAction() {
+        $this->view->title = "Edit Resources";
+        $form = new Production_Form_Resourcesupplier();     
+        if ($this->getRequest()->isPost()) {
+            if ($form->isValid($this->getRequest()->getPost())) {
+                $model = new Supplier_Model_Resource();
+                $id = $this->getRequest()->getPost('id');
+                $model->update($form->getValues(), 'id = ' . (int) $id);
+                return $this->_helper->_redirector->gotoSimple('consult', 'productionsuppliers', 'production');
+            } else {
+                $form->populate($this->getRequest()->getPost());
+            }
         } else {
 
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
-                $model = new Production_Model_Resource();
 
-                $this->view->resource = $model->fetchEntry($id);
+                $model = new Supplier_Model_Resource();
+                $form->populate($model->fetchEntry($id));
             }
         }
+        $this->view->form = $form;
     }
+//    /**
+//     * inlitterAction for Resources
+//     *
+//     * @return void
+//     */
+//    public function inlitterAction() {
+//        if ($this->getRequest()->isPost()) {
+//            $del = $this->getRequest()->getPost('del');
+//            if ($del == 'Yes') {
+//                $id = $this->getRequest()->getPost('id');
+//                $model = new Production_Model_Resource();
+//                $model->inLitter('id = ' . (int) $id);
+//            }
+//            return $this->_helper->redirector('index');
+//        } else {
+//
+//            $id = $this->_getParam('id', 0);
+//            if ($id > 0) {
+//                $model = new Production_Model_Resource();
+//
+//                $this->view->resource = $model->fetchEntry($id);
+//            }
+//        }
+//    }
 
 }

@@ -3,9 +3,11 @@
     <nav>
         <administration>
             <label>Administration</label>
-            <uri>/user/index</uri>
+            <module>user</module>
+            <controller>index</controller> 
+            <action>index</action>
             <resource>user:index</resource>
-            <privilege>index</privilege>            
+            <privilege>index</privilege>              
             <pages>
                 <control_module>
                     <label>Modulos</label>
@@ -22,7 +24,7 @@
                             <privilege>index</privilege>                   
                         </index>             
                         <add>
-                            <label>Añadir Modulo</label>
+                            <label>Alta Modulo</label>
                             <module>controlmodule</module>
                             <controller>controlmodule</controller> 
                             <action>add</action>
@@ -56,7 +58,7 @@
                             <privilege>index</privilege>                   
                         </index>             
                         <add>
-                            <label>Añadir Usuario</label>
+                            <label>Alta Usuario</label>
                             <module>user</module>
                             <controller>user</controller> 
                             <action>add</action>
@@ -98,7 +100,7 @@
                             <privilege>index</privilege>                   
                         </index>
                         <add>
-                            <label>Añadir role</label>
+                            <label>Alta role</label>
                             <module>user</module>
                             <controller>role</controller> 
                             <action>add</action>
@@ -140,7 +142,7 @@
                             <privilege>index</privilege>                   
                         </index>
                         <add>
-                            <label>Añadir permisos</label>
+                            <label>Alta permisos</label>
                             <module>user</module>
                             <controller>permission</controller> 
                             <action>add</action>
@@ -182,7 +184,7 @@
                             <privilege>index</privilege>                   
                         </index>
                         <add>
-                            <label>Añadir recurso</label>
+                            <label>Alta recurso</label>
                             <module>user</module>
                             <controller>resource</controller> 
                             <action>add</action>
@@ -227,6 +229,7 @@
         </administration>
            
         <productions>
+            
             <label>Productions</label>
             <uri>/production/production/index</uri>
             <resource>production:production</resource>
@@ -241,7 +244,7 @@
                     <privilege>index</privilege>
                 </listproduction>       
                 <add>
-                    <label>Agregar Producción</label>
+                    <label>Alta Producción</label>
                     <module>production</module>
                     <controller>production</controller> 
                     <action>add</action>
@@ -280,10 +283,93 @@
                             <resource>production:production</resource>
                             <privilege>delete</privilege>                   
                         </delete>
-                       
+                        <productionsupplier>                            
+                            <label>Proveedores</label>
+                            <module>production</module>
+                            <controller>productionsuppliers</controller> 
+                            <action>index</action>
+                            <resource>production:productionsuppliers</resource>
+                            <privilege>index</privilege>
+                            <pages>
+                                <index>
+                                    <label>Listar</label>
+                                    <module>production</module>
+                                    <controller>productionsuppliers</controller> 
+                                    <action>index</action>
+                                    <resource>production:productionsuppliers</resource>
+                                    <privilege>index</privilege>
+                                </index>
+                                <add>
+                                    <label>Alta Proveedor</label>
+                                    <module>production</module>
+                                    <controller>productionsuppliers</controller> 
+                                    <action>add</action>
+                                    <resource>production:productionsuppliers</resource>
+                                    <privilege>add</privilege>
+                                </add>
+                                <select>
+                                    <label>Proveedor</label>
+                                    <module>production</module>
+                                    <controller>productionsuppliers</controller> 
+                                    <action>consult</action>
+                                    <resource>production:productionsuppliers</resource>
+                                    <privilege>consult</privilege>
+                                    <pages>
+                                        <consult>       
+                                            <label>Consultar Datos</label>
+                                            <module>production</module>
+                                            <controller>productionsuppliers</controller> 
+                                            <action>consult</action>
+                                            <resource>production:productionsuppliers</resource>
+                                            <privilege>consult</privilege>
+                                        </consult>
+                                        <edit>       
+                                            <label>Editar Datos</label>
+                                            <module>production</module>
+                                            <controller>productionsuppliers</controller> 
+                                            <action>edit</action>
+                                            <resource>production:productionsuppliers</resource>
+                                            <privilege>edit</privilege>
+                                        </edit>
+                                         <addresource>
+                                            <label>Alta Recurso</label>
+                                            <module>production</module>
+                                            <controller>resource</controller> 
+                                            <action>addresourcesupplier</action>
+                                            <resource>production:resource</resource>
+                                            <privilege>addresourcesupplier</privilege>    
+                                        </addresource>
+                                        <editresource>
+                                            <label>Editar Recurso</label>
+                                            <module>production</module>
+                                            <controller>resource</controller> 
+                                            <action>editresourcesupplier</action>
+                                            <resource>production:resource</resource>
+                                            <privilege>editresourcesupplier</privilege>    
+                                        </editresource>
+                                         <addcontact>
+                                            <label>Alta Contacto</label>
+                                            <module>production</module>
+                                            <controller>contactresource</controller> 
+                                            <action>add</action>
+                                            <resource>production:resource</resource>
+                                            <privilege>add</privilege>    
+                                        </addcontact>
+                                        <editcontact>
+                                            <label>Editar Contacto</label>
+                                            <module>production</module>
+                                            <controller>contactresource</controller> 
+                                            <action>edit</action>
+                                            <resource>production:resource</resource>
+                                            <privilege>edit</privilege>    
+                                        </editcontact>
+                                    </pages> 
+                                </select>
+                            </pages> 
+                        </productionsupplier>
                         <supplierproduction>
                              
-                            <label>Proveedores</label>
+                            <label>Proveedores Compañia</label>
                             <module>supplier</module>
                             <controller>productionssupplier</controller> 
                             <action>index</action>
@@ -298,125 +384,26 @@
                                     <resource>supplier:productionssupplier</resource>
                                     <privilege>index</privilege>
                                 </index>
-                                <select>
-                                    <label>Proveedor</label>
+                                 <add>
+                                    <label>Agregar Proveedor</label>
                                     <module>supplier</module>
-                                    <controller>supplier</controller> 
-                                    <action>consult</action>
-                                    <resource>supplier:supplier</resource>
-                                    <privilege>consult</privilege>
-                            
-                                    <pages>
-                                        <consult>       
-                                            <label>Consultar Datos</label>
-                                            <module>supplier</module>
-                                            <controller>supplier</controller> 
-                                            <action>consult</action>
-                                            <resource>supplier:supplier</resource>
-                                            <privilege>consult</privilege>
-                                        </consult>
-                                        <edit>       
-                                            <label>Editar</label>
-                                            <module>supplier</module>
-                                            <controller>supplier</controller> 
-                                            <action>edit</action>
-                                            <resource>supplier:supplier</resource>
-                                            <privilege>edit</privilege>
-                                        </edit>     
-                                        <add>
-                                            <label>Agregar Compañia</label>
-                                            <module>supplier</module>
-                                            <controller>supplier</controller> 
-                                            <action>add</action>
-                                            <resource>supplier:supplier</resource>
-                                            <privilege>add</privilege>    
-                                        </add>
-                                        <inlitter>       
-                                            <label>Bloquear</label>
-                                            <module>supplier</module>
-                                            <controller>supplier</controller> 
-                                            <action>inlitter</action>
-                                            <resource>supplier:supplier</resource>
-                                            <privilege>inlitter</privilege>
-                                        </inlitter>
-                                        <delete>       
-                                            <label>Eliminar</label>
-                                            <module>supplier</module>
-                                            <controller>supplier</controller> 
-                                            <action>delete</action>
-                                            <resource>supplier:supplier</resource>
-                                            <privilege>delete</privilege>
-                                        </delete>  
-                                        <addresource>
-                                            <label>Agregar Recurso</label>
-                                            <module>supplier</module>
-                                            <controller>resource</controller> 
-                                            <action>add</action>
-                                            <resource>supplier:resource</resource>
-                                            <privilege>add</privilege>    
-                                        </addresource>
-                                        <editresource>
-                                            <label>Editar Recurso</label>
-                                            <module>supplier</module>
-                                            <controller>resource</controller> 
-                                            <action>edit</action>
-                                            <resource>supplier:resource</resource>
-                                            <privilege>edit</privilege>    
-                                        </editresource>
-                                        <inlitterresource>
-                                            <label>Bloquear Recurso</label>
-                                            <module>supplier</module>
-                                            <controller>resource</controller> 
-                                            <action>inlitter</action>
-                                            <resource>supplier:resource</resource>
-                                            <privilege>inlitter</privilege>    
-                                        </inlitterresource>
-                                        <deleteresource>
-                                            <label>Eliminar Recurso</label>
-                                            <module>supplier</module>
-                                            <controller>resource</controller> 
-                                            <action>delete</action>
-                                            <resource>supplier:contact</resource>
-                                            <privilege>delete</privilege>    
-                                        </deleteresource>
-                                        <addcontact>
-                                            <label>Agregar Contacto</label>
-                                            <module>supplier</module>
-                                            <controller>contact</controller> 
-                                            <action>add</action>
-                                            <resource>supplier:contact</resource>
-                                            <privilege>add</privilege>    
-                                        </addcontact>
-                                        <editcontact>
-                                            <label>Editar Contacto</label>
-                                            <module>supplier</module>
-                                            <controller>contact</controller> 
-                                            <action>edit</action>
-                                            <resource>supplier:contact</resource>
-                                            <privilege>edit</privilege>    
-                                        </editcontact>
-                                        <inlittercontact>
-                                            <label>Bloquear Contacto</label>
-                                            <module>supplier</module>
-                                            <controller>contact</controller> 
-                                            <action>inlitter</action>
-                                            <resource>supplier:contact</resource>
-                                            <privilege>inlitter</privilege>    
-                                        </inlittercontact>
-                                        <deletecontact>
-                                            <label>Eliminar Contacto</label>
-                                            <module>supplier</module>
-                                            <controller>contact</controller> 
-                                            <action>delete</action>
-                                            <resource>supplier:contact</resource>
-                                            <privilege>delete</privilege>    
-                                        </deletecontact>
-                                    </pages>
-                                </select>
+                                    <controller>productionssupplier</controller> 
+                                    <action>add</action>
+                                    <resource>supplier:productionssupplier</resource>
+                                    <privilege>add</privilege>
+                                </add>
+                                  <delete>
+                                    <label>quitar Proveedor</label>
+                                    <module>supplier</module>
+                                    <controller>productionssupplier</controller> 
+                                    <action>delete</action>
+                                    <resource>supplier:productionssupplier</resource>
+                                    <privilege>delete</privilege>
+                                </delete>
                             </pages> 
                         </supplierproduction>
                         <addactivity>
-                            <label>Agregar Actividad</label>
+                            <label>Alta Actividad</label>
                             <module>production</module>
                             <controller>activity</controller> 
                             <action>add</action>
@@ -424,7 +411,7 @@
                             <privilege>add</privilege>    
                         </addactivity>
                         <addpermissionproduction>
-                            <label>Agregar Usuario Producción</label>
+                            <label>Alta Usuario Producción</label>
                             <module>production</module>
                             <controller>permissionproduction</controller> 
                             <action>add</action>
@@ -483,7 +470,7 @@
                                     <privilege>edit</privilege>                   
                                 </edit>
                                 <aggregateresource>
-                                    <label>Agregar Recurso</label>
+                                    <label>Alta Recurso</label>
                                     <module>production</module>
                                     <controller>resource</controller> 
                                     <action>add</action>
@@ -506,9 +493,12 @@
         </productions>
         <Information>
             <label>Companies</label>
-            <uri>/company/company/index</uri>
-            <resource>company:company</resource>
-            <privilege>index</privilege>
+            <module>company</module>
+            <controller>index</controller> 
+            <action>index</action>
+            <resource>company:index</resource>
+            <privilege>index</privilege>        
+             
             <pages>
                 <company>
                     <label>company</label>
@@ -533,7 +523,7 @@
                             <privilege>edit</privilege>
                         </edit>     
                         <add>
-                            <label>Agregar Compañia</label>
+                            <label>Alta Compañia</label>
                             <module>company</module>
                             <controller>company</controller> 
                             <action>add</action>
@@ -557,7 +547,7 @@
                             <privilege>delete</privilege>
                         </delete>  
                         <addcontact>
-                            <label>Agregar Recurso</label>
+                            <label>Alta Recurso</label>
                             <module>company</module>
                             <controller>contact</controller> 
                             <action>add</action>
@@ -639,7 +629,7 @@
                                     <privilege>edit</privilege>
                                 </edit>     
                                 <add>
-                                    <label>Agregar Compañia</label>
+                                    <label>Alta Compañia</label>
                                     <module>client</module>
                                     <controller>client</controller> 
                                     <action>add</action>
@@ -663,7 +653,7 @@
                                     <privilege>delete</privilege>
                                 </delete>  
                                 <addcontact>
-                                    <label>Agregar Contacto</label>
+                                    <label>Alta Contacto</label>
                                     <module>client</module>
                                     <controller>contact</controller> 
                                     <action>add</action>
@@ -737,7 +727,7 @@
                                     <privilege>edit</privilege>
                                 </edit>     
                                 <add>
-                                    <label>Agregar Compañia</label>
+                                    <label>Alta Compañia</label>
                                     <module>supplier</module>
                                     <controller>supplier</controller> 
                                     <action>add</action>
@@ -761,7 +751,7 @@
                                     <privilege>delete</privilege>
                                 </delete>  
                                 <addresource>
-                                    <label>Agregar Recurso</label>
+                                    <label>Alta Recurso</label>
                                     <module>supplier</module>
                                     <controller>resource</controller> 
                                     <action>add</action>
@@ -793,7 +783,7 @@
                                     <privilege>delete</privilege>    
                                 </deleteresource>
                                 <addcontact>
-                                    <label>Agregar Contacto</label>
+                                    <label>Alta Contacto</label>
                                     <module>supplier</module>
                                     <controller>contact</controller> 
                                     <action>add</action>

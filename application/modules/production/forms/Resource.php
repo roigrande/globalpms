@@ -69,6 +69,31 @@ class Production_Form_Resource extends Zend_Form {
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
         
+        $facturation_types_id = new Zend_Form_Element_Select('facturation_types_id');
+        $facturation_types_id->setLabel('Facturation type')
+                ->addValidator('NotEmpty', true)
+                ->setmultiOptions($this->_selectOptionsFacturation_types())
+                ->setAttrib('maxlength', 200)
+                ->setAttrib('size', 1)
+                ->setAttrib("class", "toolboxdrop")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_select.phtml'))))
+        ;
+
+        
+        $price = new Zend_Form_Element_Text('price');
+        $price->setLabel('Price')
+                ->setRequired(true)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->addValidator('NotEmpty')
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class","inputbox")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
+        ;
+        
         $observation = new Zend_Form_Element_Text('observation');
         $observation->setLabel('observation')
                 ->setRequired(true)
@@ -96,10 +121,23 @@ class Production_Form_Resource extends Zend_Form {
             $resource_id,
             $contacts_id,
             $unbilled_hours,
+            $facturation_types_id,
+            $price,
             $observation,
             $submit));
     }  
     
+     
+     
+    public function _selectOptionsFacturation_Types() {
+
+        $sql = "SELECT id,name
+                  FROM facturation_types";
+        $db = Zend_Registry::get('db');
+        $result = $db->fetchPairs($sql);
+        //TODO comprobar que no hay roles
+        return $result;
+    }
      public function _selectOptionsResources() {
         
      $sql = "SELECT resources.id,resources.name

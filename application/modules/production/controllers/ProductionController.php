@@ -13,9 +13,10 @@ class Production_ProductionController extends Zend_Controller_Action {
      */
     function indexAction() {
         //get the page of the table 
-        if (isset($_SESSION["company"]["id"])) {
-
-
+        if (!isset($_SESSION["company"]["id"])) {
+            
+            return $this->_helper->_redirector->gotoSimple('index', 'index', 'index');
+        };
             $page = $this->_getParam('page', 1);
 
             $this->production = new Zend_Session_Namespace('production');
@@ -54,7 +55,7 @@ class Production_ProductionController extends Zend_Controller_Action {
             }
             //send information to the view
             $this->view->title = "Productions list";
-        };
+       
     }
 
     /**

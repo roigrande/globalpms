@@ -136,7 +136,8 @@ if ($this->getRequest()->isPost()) {
     if (1//$form->isValid($this->getRequest()->getPost())
             ) {
         $data=$this->getRequest()->getPost();
-        Zend_Debug::dump($data);
+//        Zend_Debug::dump($data);
+//        die();
         $model = new Production_Model_Resource();
         $id = $this->getRequest()->getPost('id');
        

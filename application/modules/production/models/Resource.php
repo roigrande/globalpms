@@ -49,6 +49,8 @@ class Production_Model_Resource {
      */
 
     public function update(array $data, $where) {
+       
+      
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -56,7 +58,7 @@ class Production_Model_Resource {
                 unset($data[$field]);
             }
         }
-
+         
         return $table->update($data, $where);
     }
 

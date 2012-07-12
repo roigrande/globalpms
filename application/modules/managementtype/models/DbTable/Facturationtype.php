@@ -1,11 +1,11 @@
 <?php
 /**
- * This is the DbTable class for the Finances table.
+ * This is the DbTable class for the Facturationtype table.
  */
-class Finances_Model_DbTable_Finances extends Zend_Db_Table_Abstract
+class Managementtype_Model_DbTable_Facturationtype extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'finances';
+    protected $_name    = 'facturation_types';
     /** Primary key */
     protected $_primary = 'id';
 
@@ -17,6 +17,18 @@ class Finances_Model_DbTable_Finances extends Zend_Db_Table_Abstract
      * @param  array $data 
      * @return int
      */
+    
+     /**
+     * Last insertId
+     *
+     * 
+     * @return int
+     */
+    public function lastInsertId()
+    {
+        return $this->_db->lastInsertId();
+    }
+    
     public function insert(array $data)
     {
         return parent::insert($data);

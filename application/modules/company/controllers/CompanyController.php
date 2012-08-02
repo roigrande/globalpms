@@ -16,63 +16,7 @@ class Company_CompanyController extends Zend_Controller_Action {
         if ($this->company->id==null){
             return $this->_helper->_redirector->gotoSimple('index', 'index', 'default');
         }
-        $this->view->title = "Companies list";
-        $page = $this->_getParam('page', 1);
-        $models = new Company_Model_Company();
-      
-          //get the own_companies
-        $select_company= $models->fetchEntry($_SESSION["company"]["id"]);
-       
-        $this->view->select_company = $select_company;
-        
-          //get all the clients        
-        $data_model = $models->fetchClientCompanies();
-        if ($data_model) {
-            $paginator = Zend_Paginator::factory($data_model);
-            $company = Zend_Registry::get('company');
-            $paginator->setItemCountPerPage($company->paginator);
-            $paginator->setCurrentPageNumber($page);
-            $paginator->setPageRange($company->paginator);
-            $this->view->paginator = $paginator;
-        } else {
-            $this->view->paginator = null;
-        }
-        
-        //get all contacts 
-        $page_contact = $this->_getParam('page_contact', 1);
-        $models = new Company_Model_Contact();
-        $paginator_contact = Zend_Paginator::factory($models->fetchCompany($_SESSION["company"]["id"]));
-        $contact = Zend_Registry::get('company');
-        $paginator_contact->setItemCountPerPage($contact->paginator);
-        $paginator_contact->setCurrentPageNumber($page_contact);
-        $paginator_contact->setPageRange($contact->paginator);
-        $this->view->paginator_contact = $paginator_contact; 
-        
-        // get all permission
-        $model = new User_Model_Users();
-        $data_company_user=$model->fetchUsersCompany($_SESSION["company"]["id"]);
-        
-        //paginator
-        if ($data_company_user){
-        $paginator = Zend_Paginator::factory($data_company_user);
-        $production = Zend_Registry::get('production');
-        $paginator->setItemCountPerPage($production->paginator);
-        $paginator->setCurrentPageNumber($page);
-        $paginator->setPageRange($production->paginator);
-        }
-        
-        $this->view->paginator_user_company = $paginator;
-        
-    }
-
-    /**
-     * selectAction for Productions
-     *
-     * @return void
-     */
-    public function selectAction() {
-
-        $this->gpms = new Zend_Session_Namespace('gpms');
+         $this->gpms = new Zend_Session_Namespace('gpms');
 //        echo $this->gpms->storage->role_id;
 //        echo $this->gpms->role_application;
 //        Zend_Debug::dump($this->gpms->storage);
@@ -81,16 +25,39 @@ class Company_CompanyController extends Zend_Controller_Action {
         $this->gpms->storage->role_id = $this->gpms->role_application;
 //       
 
-        return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
+        return $this->_helper->_redirector->gotoSimple('consult', 'company', 'company');
+        
     }
+
+//    /**
+//     * selectAction for Productions
+//     *
+//     * @return void
+//     */
+//    public function selectAction() {
+//
+//        $this->gpms = new Zend_Session_Namespace('gpms');
+////        echo $this->gpms->storage->role_id;
+////        echo $this->gpms->role_application;
+////        Zend_Debug::dump($this->gpms->storage);
+////        die();
+//        $this->gpms->storage->out_production = 1;
+//        $this->gpms->storage->role_id = $this->gpms->role_application;
+////       
+//
+//        return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
+//    }
     
     function consultAction() {
+      
         //get the page of the table
-        $this->company= new Zend_Session_Namespace('company');
-        if ($this->company->id==null){
-            return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
+      
+       $this->gpms= new Zend_Session_Namespace('gpms');
+        if($this->gpms->storage->out_production ==0){
+              return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
         }
-        
+//         die();  
+        $this->company= new Zend_Session_Namespace('company');
         $page = $this->_getParam('page', 1);
         $models = new Company_Model_Contact();
         $paginator = Zend_Paginator::factory($models->fetchCompany($this->company->id));
@@ -117,7 +84,7 @@ class Company_CompanyController extends Zend_Controller_Action {
         $this->gpms = new Zend_Session_Namespace('gpms');
         
         if ($this->gpms->storage->out_production == 0) {
-            return $this->_helper->_redirector->gotoSimple('select', 'company', 'company');
+            return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
         }
 //        
 //        echo $this->gpms->storage->out_production;
@@ -146,8 +113,11 @@ class Company_CompanyController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Company";
         
+        if ($this->gpms->storage->out_production == 0) {
+            return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');
+        }
+        $this->view->title = "Edit Company";
         $form = new Company_Form_Company();
         //get the dates for the table
         $model = new Company_Model_Company();
@@ -166,15 +136,7 @@ class Company_CompanyController extends Zend_Controller_Action {
 
             $id = $_SESSION["company"]["id"];
             if ($id > 0) {
-                $page = $this->_getParam('page', 1);
-                $models = new Company_Model_Contact();
-                $paginator = Zend_Paginator::factory($models->fetchCompany($id));
-                $contact = Zend_Registry::get('company');
-                $paginator->setItemCountPerPage($contact->paginator);
-                $paginator->setCurrentPageNumber($page);
-                $paginator->setPageRange($contact->paginator);
-                $this->view->paginator = $paginator;
-
+                
                 $model = new Company_Model_Company();
                 $form->populate($model->fetchEntry($id));
             }

@@ -1,6 +1,6 @@
 <?php
 
-class User_ErrorController extends Zend_Controller_Action
+class Controlmodule_ErrorController extends Zend_Controller_Action
 {
 
     public function errorAction()

@@ -1,6 +1,6 @@
 <?php
 
-class Company_Form_Contact extends Zend_Form {
+class Company_Form_Contactajax extends Zend_Form {
 
     public function init() {
         $this->setName('contact');

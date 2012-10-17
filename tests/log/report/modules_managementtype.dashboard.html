@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>modules/managementtype</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!--[if IE]><script src="excanvas.compressed.js"></script><![endif]-->
+    <script src="RGraph.common.js" ></script>
+    <script src="RGraph.bar.js" ></script>
+    <script src="RGraph.scatter.js" ></script>
+  </head>
+
+  <body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="title">modules/managementtype</td></tr>
+      <tr><td><div align="center"><p><a href="modules_managementtype.html">Back to Code Coverage report</a></p></div></td></tr>
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+    </table>
+
+    <br />
+
+    <center>
+      <table width="90%" cellpadding="2" cellspacing="1" border="0">
+        <tr>
+          <td valign="top">
+            <h2>Class Coverage Distribution</h2>
+            <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
+            <script>
+            var ccd = new RGraph.Bar('classCoverageDistribution', [24,0,0,0,0,0,0,0,0,1,0,0]);
+            ccd.Set('chart.background.barcolor1', 'white');
+            ccd.Set('chart.background.barcolor2', 'white');
+            ccd.Set('chart.colors', ['blue']);
+            ccd.Set('chart.shadow', true);
+            ccd.Set('chart.shadow.offsetx', 3);
+            ccd.Set('chart.shadow.offsety', 3);
+            ccd.Set('chart.labels', ['0%','0-10%','10-20%','20-30%','30-40%','40-50%','50-60%','60-70%','70-80%','80-90%','90-100%','100%']);
+            ccd.Set('chart.text.size', 5);
+            ccd.Draw();
+            </script>
+          </td>
+
+          <td valign="top">
+            <h2>Class Complexity</h2>
+            <canvas id="classComplexity" width="475" height="200"></canvas>
+            <script>
+            var cc = new RGraph.Scatter('classComplexity', [[88.888888888889,2,"blue","Managementtype_Bootstrap"],[0,18,"blue","Managementtype_ActivitytypeController"],[0,18,"blue","Managementtype_CompanytypeController"],[0,9,"blue","Managementtype_ErrorController"],[0,18,"blue","Managementtype_FacturationtypeController"],[0,2,"blue","Managementtype_IndexController"],[0,14,"blue","Managementtype_ManagementtypeController"],[0,18,"blue","Managementtype_ProductiontypeController"],[0,18,"blue","Managementtype_ResourcetypeController"],[0,1,"blue","Managementtype_Form_Activitytype"],[0,1,"blue","Managementtype_Form_Companytype"],[0,1,"blue","Managementtype_Form_Facturationtype"],[0,1,"blue","Managementtype_Form_Productiontype"],[0,1,"blue","Managementtype_Form_Resourcetype"],[0,13,"blue","Managementtype_Model_Activitytype"],[0,13,"blue","Managementtype_Model_Companytype"],[0,4,"blue","Managementtype_Model_DbTable_Activitytype"],[0,4,"blue","Managementtype_Model_DbTable_Companytype"],[0,4,"blue","Managementtype_Model_DbTable_Facturationtype"],[0,4,"blue","Managementtype_Model_DbTable_Productiontype"],[0,4,"blue","Managementtype_Model_DbTable_Resourcetype"],[0,13,"blue","Managementtype_Model_Facturationtype"],[0,19,"blue","Managementtype_Model_Managementtype"],[0,13,"blue","Managementtype_Model_Productiontype"],[0,13,"blue","Managementtype_Model_Resourcetype"]]);
+            cc.Set('chart.xmax', 100);
+            cc.Set('chart.background.barcolor1', 'white');
+            cc.Set('chart.background.barcolor2', 'white');
+            cc.Set('chart.tickmarks', 'plus');
+            cc.Set('chart.ticksize', 5);
+            cc.Set('chart.text.size', 5);
+            cc.Set('chart.ylabels', false);
+            cc.Draw();
+            </script>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+            <h2>Top Project Risks</h2>
+            <ul>
+              <li><a href="modules_managementtype_controllers_ActivitytypeController.php.html#3">Managementtype_ActivitytypeController</a> (342)</li>
+              <li><a href="modules_managementtype_controllers_FacturationtypeController.php.html#3">Managementtype_FacturationtypeController</a> (342)</li>
+              <li><a href="modules_managementtype_controllers_ResourcetypeController.php.html#3">Managementtype_ResourcetypeController</a> (342)</li>
+              <li><a href="modules_managementtype_controllers_ManagementtypeController.php.html#3">Managementtype_ManagementtypeController</a> (210)</li>
+              <li><a href="modules_managementtype_models_Activitytype.php.html#6">Managementtype_Model_Activitytype</a> (182)</li>
+              <li><a href="modules_managementtype_models_Resourcetype.php.html#6">Managementtype_Model_Resourcetype</a> (182)</li>
+              <li><a href="modules_managementtype_models_Productiontype.php.html#6">Managementtype_Model_Productiontype</a> (182)</li>
+              <li><a href="modules_managementtype_models_Facturationtype.php.html#6">Managementtype_Model_Facturationtype</a> (182)</li>
+              <li><a href="modules_managementtype_models_Companytype.php.html#6">Managementtype_Model_Companytype</a> (182)</li>
+              <li><a href="modules_managementtype_controllers_ErrorController.php.html#3">Managementtype_ErrorController</a> (90)</li>
+
+            </ul>
+          </td>
+
+          <td valign="top">
+            <h2>Least Tested Methods</h2>
+            <ul>
+              <li><a href="modules_managementtype_models_DbTable_Productiontype.php.html#58">Managementtype_Model_DbTable_Productiontype::delete</a> (0%)</li>
+              <li><a href="modules_managementtype_models_DbTable_Resourcetype.php.html#27">Managementtype_Model_DbTable_Resourcetype::lastInsertId</a> (0%)</li>
+              <li><a href="modules_managementtype_models_DbTable_Productiontype.php.html#47">Managementtype_Model_DbTable_Productiontype::update</a> (0%)</li>
+              <li><a href="modules_managementtype_models_DbTable_Productiontype.php.html#32">Managementtype_Model_DbTable_Productiontype::insert</a> (0%)</li>
+              <li><a href="modules_managementtype_models_DbTable_Facturationtype.php.html#58">Managementtype_Model_DbTable_Facturationtype::delete</a> (0%)</li>
+              <li><a href="modules_managementtype_models_DbTable_Productiontype.php.html#27">Managementtype_Model_DbTable_Productiontype::lastInsertId</a> (0%)</li>
+              <li><a href="modules_managementtype_models_DbTable_Resourcetype.php.html#32">Managementtype_Model_DbTable_Resourcetype::insert</a> (0%)</li>
+              <li><a href="modules_managementtype_models_DbTable_Resourcetype.php.html#47">Managementtype_Model_DbTable_Resourcetype::update</a> (0%)</li>
+              <li><a href="modules_managementtype_models_Facturationtype.php.html#47">Managementtype_Model_Facturationtype::update</a> (0%)</li>
+              <li><a href="modules_managementtype_models_Facturationtype.php.html#65">Managementtype_Model_Facturationtype::delete</a> (0%)</li>
+
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </center>
+
+    <br />
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.14</a> and PHPUnit 3.5.15 at Tue Oct 16 20:15:03 CEST 2012.</td></tr>
+    </table>
+
+    <br/>
+  </body>
+</html>

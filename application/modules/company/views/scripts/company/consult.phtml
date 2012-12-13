@@ -44,11 +44,7 @@
                             <a href="<?php echo $this->url(array('controller' => 'company', 'action' => 'edit')); ?>">
                                 <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
                         <?php } ?>
-                        <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "delete")) { ?>
-
-                            <a href="<?php echo $this->url(array('controller' => 'company', 'action' => 'delete', 'company_id' => $this->select_company['id'])); ?>">
-                                <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                        <?php } ?>
+                      
                         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "inlitter")) { ?>
 
                             <?php if ($this->select_company['in_litter'] == 0) { ?>
@@ -59,6 +55,11 @@
                                 <a href="<?php echo $this->url(array('controller' => 'company', 'action' => 'outlitter', 'id' => $this->select_company['id'])); ?>">
                                     <img src="/styles/images/icons/icon_in_litter.png" alt="Oulitter" /></a>
                             <?php } ?>
+                        <?php } ?>
+                         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "company:company", "delete")) { ?>
+
+                            <a href="<?php echo $this->url(array('controller' => 'company', 'action' => 'delete', 'company_id' => $this->select_company['id'])); ?>">
+                                <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                         <?php } ?>
                     </td>        
 

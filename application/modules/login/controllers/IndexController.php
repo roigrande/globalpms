@@ -68,7 +68,7 @@ class Login_IndexController extends Zend_Controller_Action
             return true;
         }
          
-        return false;
+//        return false;
        
     }
            
@@ -78,7 +78,7 @@ class Login_IndexController extends Zend_Controller_Action
         session_start();
         session_unset();
         session_destroy();
-        $this->_helper->redirector('index'); // back to login page
+        $this->_helper->redirector( 'index','index','login'); // back to login page
     }
 
 }

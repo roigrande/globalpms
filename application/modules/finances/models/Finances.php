@@ -112,7 +112,7 @@ class Finances_Model_Finances {
      * 
      * @return array
      */
-    public function fetchFinancess($type_id) {
+    public function fetchFinances($type_id) {
 
         $table = $this->getTable();
         $select = $table->select()->where('type_id =' . (int) $type_id);

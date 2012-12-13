@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My supplier")); ?></h1>
+        <h1><?php echo $this->escape($this->translate("Supplier")); ?></h1>
         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "add")) { ?>
             <p><a href="<?php echo $this->url(array('controller' => 'supplier', 'action' => 'add'));
             ?>"><?php echo $this->translate("Add supplier") ?>
@@ -15,8 +15,8 @@
             <thead>
 
                 <tr>
-                    <th><?php echo $this->translate('name'); ?></th>
-
+                    <th><?php echo $this->translate('Name'); ?></th>
+                     <th><?php echo $this->translate('Description'); ?></th>
                     <th><?php echo $this->translate('Actions'); ?></th>
 
                 </tr>
@@ -29,7 +29,7 @@
                         ?>
                         <tr>
                             <td><?php echo $this->escape($supplier["name"]); ?></td>
-
+                            <td><?php echo $this->escape($supplier["description"]); ?></td>
                             <td>
                                <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "select")) { ?>
                                 <a href="<?php echo $this->url(array('controller' => 'supplier', 'action' => 'select', 'id' => $supplier["id"])); ?>">consult</a>

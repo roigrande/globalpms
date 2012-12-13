@@ -16,12 +16,19 @@ class Company_CompanyController extends Zend_Controller_Action {
         if ($this->company->id==null){
             return $this->_helper->_redirector->gotoSimple('index', 'index', 'default');
         }
+          $this->production = new Zend_Session_Namespace('production');
+            $this->production->id = null;
+            $this->production->name = null;
+            $this->production->client_company = null;
+            $this->production->own_company = null;
+            //$this->production->own_company_name = null;
+            $this->production->activity_name = null;
+            $this->production->activity_id = null;
+            
          $this->gpms = new Zend_Session_Namespace('gpms');
 //        echo $this->gpms->storage->role_id;
 //        echo $this->gpms->role_application;
-//        Zend_Debug::dump($this->gpms->storage);
-//        die();
-        $this->gpms->storage->out_production = 1;
+         $this->gpms->storage->out_production = 1;
         $this->gpms->storage->role_id = $this->gpms->role_application;
 //       
 

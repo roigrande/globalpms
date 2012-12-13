@@ -24,7 +24,7 @@ class Supplier_Form_Resource extends Zend_Form {
         $resources_types_id = new Zend_Form_Element_Select('resources_types_id');
         $resources_types_id->setLabel('resource type')
                 ->addValidator('NotEmpty', true)
-                ->setmultiOptions($this->_selectOptionsResource_types())
+                ->setmultiOptions($this->_selectOptionsResources_types())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
                 ->setAttrib("class", "toolboxdrop")
@@ -69,8 +69,8 @@ class Supplier_Form_Resource extends Zend_Form {
         ;
         
 //        
-//        $resource_types_id = new Zend_Form_Element_Select('resource_types_id');
-//        $resource_types_id->setLabel('resource types') 
+//        $resources_types_id = new Zend_Form_Element_Select('resources_types_id');
+//        $resources_types_id->setLabel('resource types') 
 //                ->addValidator('NotEmpty', true)
 //                ->setmultiOptions($this->_selectOptions_types())
 //                ->setAttrib('maxlength', 200)
@@ -80,8 +80,8 @@ class Supplier_Form_Resource extends Zend_Form {
 //                            'viewScript' => 'forms/_element_select.phtml'))))
 //        ;
 //        
-//        $resource_types_id = new Zend_Form_Element_Multiselect('$resource_types_id');
-//        $resource_types_id->setLabel('resource types')              
+//        $resources_types_id = new Zend_Form_Element_Multiselect('$resources_types_id');
+//        $resources_types_id->setLabel('resource types')              
 //                ->setmultiOptions($this->_selectOptions_types())
 //                ->setAttrib('maxlength', 200)
 //                ->setAttrib('size', 5)
@@ -108,10 +108,10 @@ class Supplier_Form_Resource extends Zend_Form {
             $submit));
     }  
     
-     public function _selectOptionsResource_Types() {
+     public function _selectOptionsResources_Types() {
 
         $sql = "SELECT id,name
-                  FROM resource_types";
+                  FROM resources_types";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
         //TODO comprobar que no hay roles

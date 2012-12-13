@@ -174,10 +174,10 @@
 <span class="lineNum" id="container16"><a name="16"></a><a href="#16" id="line16">      16</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">_initConfiguration</span><span class="keyword">(</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span>                            
 <span class="lineNum" id="container17"><a name="17"></a><a href="#17" id="line17">      17</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">//&nbsp;Todo</span>                                                          
 <span class="lineNum" id="container18"><a name="18"></a><a href="#18" id="line18">      18</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">//Set&nbsp;config&nbsp;in&nbsp;bootstrap&nbsp;as&nbsp;application&nbsp;config</span>                  
-<span class="lineNum" id="container19"><a name="19"></a><a href="#19" id="line19">      19</a> </span><span class="lineCov">              5 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$configFile</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">dirname</span><span class="keyword">(</span><span class="default">__FILE__</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">.</span><span class="default">&nbsp;</span><span class="default">'/config.ini'</span><span class="keyword">;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>                 </span>
-<span class="lineNum" id="container20"><a name="20"></a><a href="#20" id="line20">      20</a> </span><span class="lineCov">              5 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$config</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">new</span><span class="default">&nbsp;</span><span class="default">Zend_Config_Ini</span><span class="keyword">(</span><span class="default">$configFile</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">'controlmodule'</span><span class="keyword">)</span><span class="keyword">;</span>     </span>
-<span class="lineNum" id="container21"><a name="21"></a><a href="#21" id="line21">      21</a> </span><span class="lineCov">              5 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">Zend_Registry</span><span class="keyword">::</span><span class="default">set</span><span class="keyword">(</span><span class="default">&quot;controlmodule&quot;</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$config</span><span class="keyword">)</span><span class="keyword">;</span>                    </span>
-<span class="lineNum" id="container22"><a name="22"></a><a href="#22" id="line22">      22</a> </span><span class="lineCov">              5 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                                    </span>
+<span class="lineNum" id="container19"><a name="19"></a><a href="#19" id="line19">      19</a> </span><span class="lineCov">              3 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$configFile</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">dirname</span><span class="keyword">(</span><span class="default">__FILE__</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">.</span><span class="default">&nbsp;</span><span class="default">'/config.ini'</span><span class="keyword">;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>                 </span>
+<span class="lineNum" id="container20"><a name="20"></a><a href="#20" id="line20">      20</a> </span><span class="lineCov">              3 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$config</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">new</span><span class="default">&nbsp;</span><span class="default">Zend_Config_Ini</span><span class="keyword">(</span><span class="default">$configFile</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">'controlmodule'</span><span class="keyword">)</span><span class="keyword">;</span>     </span>
+<span class="lineNum" id="container21"><a name="21"></a><a href="#21" id="line21">      21</a> </span><span class="lineCov">              3 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">Zend_Registry</span><span class="keyword">::</span><span class="default">set</span><span class="keyword">(</span><span class="default">&quot;controlmodule&quot;</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">$config</span><span class="keyword">)</span><span class="keyword">;</span>                    </span>
+<span class="lineNum" id="container22"><a name="22"></a><a href="#22" id="line22">      22</a> </span><span class="lineCov">              3 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                                    </span>
 <span class="lineNum" id="container23"><a name="23"></a><a href="#23" id="line23">      23</a> </span>                :                                                                          
 <span class="lineNum" id="container24"><a name="24"></a><a href="#24" id="line24">      24</a> </span>                : <span class="keyword">}</span>                                                                        
 
@@ -188,7 +188,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.14</a> and PHPUnit 3.5.15 at Tue Oct 16 20:15:03 CEST 2012.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.2</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.14</a> and PHPUnit 3.5.15 at Tue Oct 23 20:06:03 CEST 2012.</td></tr>
     </table>
 
     <br />
@@ -199,23 +199,23 @@
       YAHOO.namespace("phpunit.container");
       YAHOO.phpunit.container.panelsData = {
         "panel19": {
-          "header": "5 tests cover line 19",
-          "body": "<ul><li class=\"testPassed\">Uddsers_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">IndexControllerTest::testAboutAction</li><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
+          "header": "3 tests cover line 19",
+          "body": "<ul><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
           "footer": ""
         },
         "panel20": {
-          "header": "5 tests cover line 20",
-          "body": "<ul><li class=\"testPassed\">Uddsers_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">IndexControllerTest::testAboutAction</li><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
+          "header": "3 tests cover line 20",
+          "body": "<ul><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
           "footer": ""
         },
         "panel21": {
-          "header": "5 tests cover line 21",
-          "body": "<ul><li class=\"testPassed\">Uddsers_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">IndexControllerTest::testAboutAction</li><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
+          "header": "3 tests cover line 21",
+          "body": "<ul><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
           "footer": ""
         },
         "panel22": {
-          "header": "5 tests cover line 22",
-          "body": "<ul><li class=\"testPassed\">Uddsers_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">IndexControllerTest::testAboutAction</li><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
+          "header": "3 tests cover line 22",
+          "body": "<ul><li class=\"testPassed\">Users_IndexControllerTest::testIndexAction</li><li class=\"testPassed\">Model_StatsTest::testCanAddCountry</li><li class=\"testPassed\">User_Model_UsersTest::testCanAddCountry</li></ul>",
           "footer": ""
         },
       "dummy": ""

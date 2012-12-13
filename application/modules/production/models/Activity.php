@@ -29,13 +29,13 @@ class Production_Model_Activity {
     public function save(array $data) {
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
-         
-         if ($data["contact_client_company_id"]== null){
-           unset($data["contact_client_company_id"]);   
-         }
-         if ($data["contact_own_company_id"]== null){
-             unset($data["contact_own_company_id"]);
-         }
+
+        if ($data["contact_client_company_id"] == null) {
+            unset($data["contact_client_company_id"]);
+        }
+        if ($data["contact_own_company_id"] == null) {
+            unset($data["contact_own_company_id"]);
+        }
 //         Zend_Debug::dump($data);
 //         die();
         foreach ($data as $field => $value) {
@@ -66,8 +66,8 @@ class Production_Model_Activity {
 
         $table->update($data, $where);
         //change the name of the activy in Session
-        if ($_SESSION["production"]["activity_name"]!=$data["name"]){
-            $_SESSION["production"]["activity_name"]=$data["name"];
+        if ($_SESSION["production"]["activity_name"] != $data["name"]) {
+            $_SESSION["production"]["activity_name"] = $data["name"];
         }
         return true;
     }
@@ -121,23 +121,76 @@ class Production_Model_Activity {
         $select->from(array('s' => 'status'), array('status' => 'name'))
                 ->from(array('oc' => 'contacts'), array('contact_own_company_name' => 'name'))
                 ->from(array('cc' => 'contacts'), array('contact_client_company_name' => 'name'))
-                ->from(array('pt' => 'activity_types'), array('activity_type_name' => 'name'))
-                // ->from(array('permission_production'), array('id_permission_production' =>'id'))
+                ->from(array('at' => 'activity_types'), array('activity_type_name' => 'name'))
+                ->from(array('permission_production'), array('id_permission_production' => 'id'))
                 ->where('status_id = s.id')
                 ->where('oc.company_id =' . $_SESSION["production"]["own_company"])
                 ->where('oc.id=contact_own_company_id')
-                ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
-                ->where('cc.id=contact_client_company_id')
-                ->where('activity_types_id = pt.id')
-                ->where("activities.id=" . $_SESSION["production"]["activity_id"]);
-//               ->where('permission_production.productions_id = productions.id') 
-//               ->where('permission_production.acl_users_id =' .$_SESSION["gpms"]["storage"]->id )               
+//                ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
+//                ->where('cc.id=contact_client_company_id')
+                ->where('activity_types_id = at.id')
+                ->where("activities.id=" . $_SESSION["production"]["activity_id"])
+                ->where('permission_production.productions_id = activities.productions_id')
+                ->where('permission_production.acl_users_id =' . $_SESSION["gpms"]["storage"]->id)
         ;
 
         $data = $table->fetchAll($select)->toarray();
 //         Zend_Debug::dump($data);
 //        die();
         return $data[0];
+    }
+
+    /**
+     * Devuelve la diferencia entre 2 fechas según los parámetros ingresados
+     * @author Gerber Pacheco
+     * @param string $fecha_principal Fecha Principal o Mayor
+     * @param string $fecha_secundaria Fecha Secundaria o Menor
+     * @param string $obtener Tipo de resultado a obtener, puede ser SEGUNDOS, MINUTOS, HORAS, DIAS, SEMANAS
+     * @param boolean $redondear TRUE retorna el valor entero, FALSE retorna con decimales
+     * @return int Diferencia entre fechas
+     */
+    function diferenciaEntreFechas($fecha_principal, $fecha_secundaria, $obtener = 'SEGUNDOS', $redondear = false) {
+        $f0 = strtotime($fecha_principal);
+        $f1 = strtotime($fecha_secundaria);
+        if ($f0 < $f1) {
+            $tmp = $f1;
+            $f1 = $f0;
+            $f0 = $tmp;
+        }
+        $resultado = ($f0 - $f1);
+        echo $f1;
+        echo $f0;
+        echo $resultado;
+//        die();
+        switch ($obtener) {
+            default: break;
+            case "MINUTOS" : $resultado = $resultado / 60;
+                break;
+            case "HORAS" : $resultado = $resultado / 60 / 60;
+                break;
+            case "DIAS" : $resultado = $resultado / 60 / 60 / 24;
+                break;
+            case "SEMANAS" : $resultado = $resultado / 60 / 60 / 24 / 7;
+                break;
+        }
+        if ($redondear)
+            $resultado = round($resultado);
+        return $resultado;
+    }
+
+    public function hours_activity($resources_activities_id) {
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->join(array("ra" => 'resources_activities'), 'activities.id=ra.activities_id and ra.id=' . $resources_activities_id, array('receipts_id' => 'ra.id','unbilled_hours'));
+        $data = $table->fetchAll($select)->toarray();
+         
+        $date_start = DateTime::createFromFormat('Y-m-d H:i:s',$data[0]["date_start"]);
+        $date_end = DateTime::createFromFormat('Y-m-d H:i:s',$data[0]["date_end"]);
+        $intervalo = date_diff($date_start, $date_end);
+        $hours = (int)$intervalo->format('%h')-(int)$data[0]["unbilled_hours"];
+  
+        return $hours;
     }
 
     public function fetchHaveContactClient($contact_id) {
@@ -172,7 +225,7 @@ class Production_Model_Activity {
      * @return Zend_Db_Table_Rowset_Abstract
      */
     public function fetchActivities() {
-        
+
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
@@ -180,18 +233,17 @@ class Production_Model_Activity {
                 ->from(array('oc' => 'contacts'), array('contact_own_company_name' => 'name'))
                 ->from(array('cc' => 'contacts'), array('contact_client_company_name' => 'name'))
                 ->from(array('pt' => 'activity_types'), array('activity_type_name' => 'name'))
-              
                 ->where('status_id = s.id')
                 //->where('oc.company_id =' . $_SESSION["production"]["own_company"])
-                ->where('oc.id=contact_own_company_id ' )
-            //    ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
+                ->where('oc.id=contact_own_company_id ')
+                //    ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
                 ->where('cc.id=contact_client_company_id ')
                 ->where('activity_types_id = pt.id')
-                ->where('activities.productions_id = '.$_SESSION["production"]["id"])
+                ->where('activities.productions_id = ' . $_SESSION["production"]["id"])
                 ->order('date_start')
                 ->order('status_id')
-               
-               
+
+
         ;
 
         $data = $table->fetchAll($select)->toarray();
@@ -224,7 +276,6 @@ class Production_Model_Activity {
                 ->where('cc.company_id=' . $_SESSION["production"]["client_company"])
                 ->where('cc.id=contact_client_company_id')
                 ->where('activity_types_id = pt.id')
-                
                 ->order('date_start')
                 ->order('status_id')
         ;

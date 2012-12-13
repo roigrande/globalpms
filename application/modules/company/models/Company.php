@@ -234,6 +234,29 @@ class Company_Model_Company {
         return $data;
     }
     
+    
+        /**
+     *  Fetch all sql entries
+     * 
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function fetchProductionClientCompany($production_id) {
+//           
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select ->from(array('productions'),array('production_id' => 'id','client_companies_id','client_name' => 'name'))
+               ->where('company_types_id=company_types.id') 
+               ->from(array('company_types'), array('company_types_name' => 'name', 'id_company_types' => 'id'))
+               ->where('companies.id=productions.client_companies_id')
+               ->where('productions.id='.$production_id)
+               
+        ;
+        $data = $table->fetchAll($select)->toArray();
+      
+        return $data["0"];
+    }
+    
     public function existSupplierCompany($fiscal_name,$id){
       
         $table = $this->getTable();

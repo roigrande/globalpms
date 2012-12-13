@@ -7,9 +7,10 @@ class Default_IndexController extends Zend_Controller_Action {
     }
 
     function indexAction() {
-    
+//        Zend_Debug::dump(Zend_Auth::getInstance()->hasIdentity());
+//    Zend_Debug::dump(Zend_Auth::getInstance());
     	$p = $this->_getParam('m');
-    	
+    	 
     	if ($p)
     		$this->view->message = $p;
     	else
@@ -37,7 +38,7 @@ class Default_IndexController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
       
         $request = $this->getRequest();
-        
+         
         if ($this->getRequest()->isPost()) {
    
            // $locale = new Zend_Locale($request->getPost('language'));
@@ -58,6 +59,7 @@ class Default_IndexController extends Zend_Controller_Action {
         }
             $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         } else {
+            $this->_helper->_redirector->gotoSimple('index', 'index', 'default');
             return;
         }
         return;

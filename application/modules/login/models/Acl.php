@@ -32,13 +32,13 @@ class Login_Model_Acl extends Zend_Acl {
         
         $user = Zend_Auth::getInstance()->getIdentity();
         $this->_user = $user ? $user->name : 'Guest';
-
+   
 
         $front = Zend_Controller_Front::getInstance();
-
+ 
 
         $this->_db = Zend_Registry::get('db');
-
+          
         self::initRoles();
         self::initResources();
         self::initPermissions();
@@ -54,7 +54,7 @@ class Login_Model_Acl extends Zend_Acl {
         
         $this->_UserRoleId = isset($getUserRole->role_id) ? $getUserRole->role_id : $login->publicid;
         $this->_UserRoleName = isset($getUserRole->role_name) ? $getUserRole->role_name : 'public';
-
+ 
         $this->addRole(new Zend_Acl_Role($this->_user), $this->_UserRoleName);
        
     }

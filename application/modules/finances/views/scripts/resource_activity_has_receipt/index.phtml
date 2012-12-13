@@ -1,0 +1,44 @@
+          
+<!-- Table resource_activity_has_receipt -->
+<div class="container">
+    <div class="conthead">
+        <h1><?php echo $this->escape($this->translate("My Resource_activity_has_receipts")); ?></h1>
+        <p><a href="<?php echo $this->url(array('controller' => 'resource_activity_has_receipt',
+    'action' => 'add'));
+?>">Add new resource_activity_has_receipt</a></p>
+
+    </div>
+    <div class="contentbox">
+        <table width="100%">
+            <thead>
+         
+                <tr>
+                    <th><?php echo $this->translate('name'); ?></th>
+
+                    <th><?php echo $this->translate('Actions'); ?></th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if ($this->paginator) {
+                    foreach ($this->paginator as $resource_activity_has_receipt) :
+                        ?>
+                        <tr>
+                            <td><?php echo $this->escape($resource_activity_has_receipt->name); ?></td>                         
+                            <td>
+                                <a href="<?php echo $this->url(array('controller' => 'resource_activity_has_receipt', 'action' => 'edit', 'id' => $resource_activity_has_receipt->id)); ?>">
+                                    <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
+                                <a href="<?php echo $this->url(array('controller' => 'resource_activity_has_receipt', 'action' => 'delete', 'id' => $resource_activity_has_receipt->id)); ?>">
+                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+                            </td>                        
+                        </tr>
+                <?php endforeach;
+            } ?>
+        </table>
+        <div class="extrabottom">
+<?php echo $this->paginator; ?>           
+        </div>
+    </div>
+</div>
+<!-- Table resource_activity_has_receipt end -->  

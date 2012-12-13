@@ -56,12 +56,9 @@ class Finances_FinancesController extends Zend_Controller_Action {
 //            }
 //            //send information to the view
 //            $this->view->title = "Productions list";
-       
-
     }
-    
-    
-     /**
+
+    /**
      * deleteAction for Productions
      *
      * @return void
@@ -85,8 +82,8 @@ class Finances_FinancesController extends Zend_Controller_Action {
 
         $this->production = new Zend_Session_Namespace('production');
         $this->production->id = $id;
-        $this->production->name = $production["name"];
 
+        $this->production->name = $production["name"];
         $this->production->activity_users = null;
         $this->production->activity = null;
         return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
@@ -100,66 +97,106 @@ class Finances_FinancesController extends Zend_Controller_Action {
             return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
         }
         $page = $this->_getParam('page', 1);
+//        $model_resource_activities = new Finances_Model_Resourceactivityhasreceipt();
+        $model_resource_activities = new Production_Model_Resource();
 
-//        //get the dates for the table
-//        $model = new Production_Model_Production();
-//        $data = $model->fetchEntryProduction();
-//        $this->production->client_company = $data["client_companies_id"];
-//        $this->production->own_company = $data["companies_id"];
-//        $this->production->own_company_name = $data["own_company_name"];
-//        $this->production->client_company_name = $data["client_company_name"];
-//        $this->view->production = $data;
+        $model_receipts = new Finances_Model_Receipts();
+        $data = $model_receipts->fetchProductionHasOpenReceipt($this->production->id);
+        //        Zend_Debug::dump($data,"receipt");
+
+        $data_resource_activities = $model_resource_activities->fetchEntriesProduction($this->production->id);
+//       Zend_Debug::dump($data_resource_activities);
+//       die();
+        if ($data_resource_activities) {
+            $paginator = Zend_Paginator::factory($data_resource_activities);
+            $finances = Zend_Registry::get('finances');
+            $paginator->setItemCountPerPage($finances->paginator);
+            $paginator->setCurrentPageNumber($page);
+            $paginator->setPageRange($finances->paginator);
+            $this->view->paginator = $paginator;
+        } else {
+            $this->view->paginator = null;
+        }
+
+        //get the dates for permission
+        $page = $this->_getParam('page', 1);
+    }
+
+    /**
+     * AddAction for Receipt
+     *
+     * @return void
+     */
+    public function addreceiptAction() {
+        $id = $this->_getParam('id', 0);
+        if ($id==0) {
+            return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
+        }
+       
+        $model_resource_activity_has_receipt = new Finances_Model_Resourceactivityhasreceipt();
+        // Comprobar que no esta añadido en el recibo
+        $receipt_id = $model_resource_activity_has_receipt->fetchEntryActivityResource($id);
+        
+        
+        if ($receipt_id != null) {
+            return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
+        }
+        
+        // Comprobar que los campos de : tipo de facturación, precio estan rellenados
+
+        $model_receipt = new Finances_Model_Receipts();
+
+        
+        $data_receipt = $model_receipt->fetchProductionHasOpenReceipt($_SESSION["production"]["id"]);
+        
+        $receipt_id = $data_receipt["id"];
+        // Comprobar que no hay ningun recibo abierto en la produccion
+        if (!$receipt_id) {
+            // Si no lo hay introducir crear un recibo
+            $receipt_id = $model_receipt->save($id);
+        }
+
+        $model_activity_resource = new Production_Model_Resource();
+        $data_activity_resource["iva_type"] = $model_activity_resource->fetchIvaType($id);
+        $data_activity_resource["receipts_id"] = $receipt_id;
+        $data_activity_resource["resources_activities_id"] = $id;
+        $data_activity_resource["price"] = 100;
+        $data_activity_resource["facturation_types_id"] = 33;
+
+           $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["iva_type"],$data_activity_resource["facturation_types_id"]);
+        $model_resource_activity_has_receipt->save($data_activity_resource);
+        return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
+    }
+
+    /**
+     * AddAction for Financess
+     *
+     * @return void
+     */
+    public function addFacturationAjaxAction() {
+
+        $id = $this->_getParam('id', 0);
+
+        $model_resource_activity_has_receipt = new Finances_Model_Resource_activity_has_receipt();
+        die($id);
+        $model_resource_activity_has_receipt->fetch();
+
+        $model_resource_activity_has_receipt->save();
+//        $this->view->headTitle("Add New Finances", 'APPEND');
+//        $request = $this->getRequest();
+//        $form = new Finances_Form_Finances();
 //
-//        //send information to the view
-//        $this->view->title = "Production Consult";
-//
-//        //get the dates for the table Activity
-//        $model = new Production_Model_Activity();
-//
-////        Zend_Debug::dump($_SESSION);
-////               die();
-//        //TODO cambiar hardcode por roles que pueden verse
-//        if ($_SESSION['gpms']['role'] == "Encargado Actividad" OR $_SESSION['gpms']['role'] == "public") {
-//
-//            $data_activities = $model->fetchOwnActivities();
+//        if ($this->getRequest()->isPost()) {
+//            if ($form->isValid($request->getPost())) {
+//                $model = new Finances_Model_Finances();
+//                $model->save($form->getValues());
+//                return $this->_helper->redirector('index');
+//            }
 //        } else {
-//
-//            $data_activities = $model->fetchActivities();
+//            $form->populate($form->getValues());
 //        }
-//
-//        if ($data_activities) {
-//            $paginator = Zend_Paginator::factory($data_activities);
-//            $production = Zend_Registry::get('production');
-//            $paginator->setItemCountPerPage($production->paginator);
-//            $paginator->setCurrentPageNumber($page);
-//            $paginator->setPageRange($production->paginator);
-//
-//            $this->view->paginator = $paginator;
-//        } else {
-//            $this->view->paginator = null;
-//        }
-//
-//        //get the dates for permission
-//        $page = $this->_getParam('page', 1);
-//
-//        //get the dates for the table
-//        $model_permission = new Production_Model_Permissionproduction();
-//        $data_permission = $model_permission->fetchUserPermissionproductions();
-//
-//        //paginator
-//        if ($data) {
-//            $paginator2 = Zend_Paginator::factory($data_permission);
-//            $production = Zend_Registry::get('production');
-//            $paginator2->setItemCountPerPage($production->paginator);
-//            $paginator2->setCurrentPageNumber($page);
-//            $paginator2->setPageRange($production->paginator);
-//
-//
-//            $this->view->paginator2 = $paginator2;
-//        } else {
-//            $this->view->paginator = null;
-//        }
-        //send information to the view
+        $form->submit->setOptions(array('onChange' => "javascript:getAjaxResponsePost('contact','http://globalpms.es/company/contact/edit/company_id/$company_id','iDformcontact'); return false;"));
+        $this->view->form = $form;
     }
 
     /**
@@ -191,7 +228,7 @@ class Finances_FinancesController extends Zend_Controller_Action {
      */
     public function editAction() {
         $this->view->title = "Edit Financess";
-        $form = new Finances_Form_Finances();     
+        $form = new Finances_Form_Finances();
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Finances_Model_Finances();
@@ -219,23 +256,34 @@ class Finances_FinancesController extends Zend_Controller_Action {
      * @return void
      */
     public function deleteAction() {
-        if ($this->getRequest()->isPost()) {
-            $del = $this->getRequest()->getPost('del');
-            if ($del == 'Yes') {
-                $id = $this->getRequest()->getPost('id');
-                $model = new Finances_Model_Finances();
-                $model->delete('id = ' . (int) $id);
-            }
-            return $this->_helper->redirector('index');
-        } else {
-
-            $id = $this->_getParam('id', 0);
-            if ($id > 0) {
-                $model = new Finances_Model_Finances();
-
-                $this->view->finances = $model->fetchEntry($id);
-            }
+    
+          $id = $this->_getParam('id', 0);
+       if ($id > 0) {
+            
+          $model_resource_activity_has_receipt = new Finances_Model_Resourceactivityhasreceipt();
+//           $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["iva_type"],$data_activity_resource["facturation_types_id"]);
+        $model_resource_activity_has_receipt->delete('resources_activities_id= '.$id);
         }
+        return $this->_helper->redirector->gotoSimple('consult', 'finances', 'finances');
+    
+    }
+
+    /**
+     * deleteAction for Financess
+     *
+     * @return void
+     */
+    
+    public function deletereceiptAction() {
+       die();
+       $id = $this->_getParam('id', 0);
+       if ($id > 0) {
+            
+          $model_resource_activity_has_receipt = new Finances_Model_Resourceactivityhasreceipt();
+//           $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["iva_type"],$data_activity_resource["facturation_types_id"]);
+        $model_resource_activity_has_receipt->delete('resources_activities_id= '.$id);
+        }
+        return $this->_helper->redirector->gotoSimple('consult', 'finances', 'finances');
     }
 
 }

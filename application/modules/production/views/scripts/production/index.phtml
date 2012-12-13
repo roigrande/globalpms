@@ -1,7 +1,7 @@
 <?php $acl = Login_Model_Acl::getInstance(); ?>
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Productions")); ?></h1>
+        <h1><?php echo $this->escape($this->translate("Productions")); ?></h1>
         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:production", "add")) { ?>
             <p><a href="<?php
             echo $this->url(array('controller' => 'production',

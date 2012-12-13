@@ -27,6 +27,7 @@ class Supplier_Model_Resource {
      */
 
     public function save(array $data) {
+       
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
         foreach ($data as $field => $value) {
@@ -52,7 +53,7 @@ class Supplier_Model_Resource {
                 unset($data[$field]);
             }
         }
-
+         
         return $table->update($data, $where);
     }
 
@@ -79,8 +80,8 @@ class Supplier_Model_Resource {
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
         $select->from(array('companies'), array('company_name' => 'name'))
-               ->from(array('resource_types'), array('resource_types_name' => 'name', 'id_resource_types' => 'id'))
-               ->where('resources_types_id=resource_types.id')
+               ->from(array('resources_types'), array('resources_types_name' => 'name', 'id_resources_types' => 'id'))
+               ->where('resources_types_id=resources_types.id')
                ->where('companies_id=companies.id')
                ->where('companies_id='.$_SESSION["supplier"]["id"])
                ->order('name')
@@ -132,7 +133,7 @@ class Supplier_Model_Resource {
     public function fetchTypeResources($type_id) {
 
         $table = $this->getTable();
-        $select = $table->select()->where('resource_type_id =' . (int) $type_id);
+        $select = $table->select()->where('resources_type_id =' . (int) $type_id);
 
         return $table->fetchAll($select)->toArray();
     }

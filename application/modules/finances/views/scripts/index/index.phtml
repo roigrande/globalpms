@@ -1,0 +1,27 @@
+<?php $acl = Login_Model_Acl::getInstance(); ?>          
+<div class="container sml Left">
+    <div class="conthead">
+        <h2>Menu Companies</h2>
+    </div>
+    <div class="contentbox">
+        <ul class="summarystats">
+            
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "client:client", "index")) { ?>  
+
+                <li>
+                    <p class="statcount">Clients</p>   <p class="statview"> <a href="<?php echo $this->url(array('module' => 'client', 'controller' => 'client' )); ?>"> Consult</a></p>
+
+                </li>
+            <?php } ?>
+            <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:supplier", "index")) { ?>  
+
+                <li>
+                    <p class="statcount">Suppliers</p>   <p class="statview"> <a href="<?php echo $this->url(array('module' => 'supplier', 'controller' => 'supplier')); ?>"> Consult</a></p>
+
+                </li>
+            <?php } ?>
+            
+        </ul>
+
+    </div>
+</div>

@@ -70,7 +70,7 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Activitys")); ?></h1>
+        <h1><?php echo $this->escape($this->translate("Activitys")); ?></h1>
         <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "production:activity", "add")) { ?>
             <p><a href="<?php
             echo $this->url(array('controller' => 'activity',

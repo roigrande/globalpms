@@ -135,7 +135,7 @@
 <!-- Table resource -->
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Resources")); ?></h1>
+        <h1><?php echo $this->escape($this->translate("Resources")); ?></h1>
         <p> <?php if ($acl->isUserAllowed($_SESSION["gpms"]["role"], "supplier:resource", "add")) { ?>
              <a href="<?php
             echo $this->url(array('controller' => 'resource',
@@ -168,7 +168,7 @@
                         ?>
                         <tr>
                             <td><?php echo $this->escape($resource->name); ?></td>
-                            <td><?php echo $this->escape($resource->resource_types_name); ?></td>
+                            <td><?php echo $this->escape($resource->resources_types_name); ?></td>
                             <td><?php echo $this->escape($resource->direction); ?></td>
                             <td><?php echo $this->escape($resource->num_resources); ?></td>
                             <td><?php echo $this->escape($resource->description); ?></td>

@@ -40,7 +40,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->setmultiOptions($this->_selectOptionsContactOwnCompanies())
                 ->setAttrib('maxlength', 200)
                 ->setAttrib('size', 1)
-                ->setAttribadd_contact("class", "toolboxdrop")
+//                ->setAttribadd_contact("class", "toolboxdrop")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;

@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Clients")); ?></h1>
+        <h1><?php echo $this->escape($this->translate("Clients")); ?></h1>
       
 
     </div>
@@ -20,10 +20,13 @@
 
             <tbody>
                 <?php if ($this->paginator) {
+                   ;
                     foreach ($this->paginator as $client) :
+                         Zend_Debug::dump($client)
                         ?>
                         <tr>
-                            <td><?php echo $this->escape($client["name"]); ?></td>                         
+                            <td><?php echo $this->escape($client["name"]); ?></td>
+                             <td><?php echo $this->escape($client["observation"]); ?></td>
                             <td>
                                 <a href="<?php echo $this->url(array('controller' => 'client', 'action' => 'select', 'id' => $client["id"])); ?>">consult</a>
 

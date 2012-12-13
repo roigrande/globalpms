@@ -251,6 +251,24 @@
                     <resource>production:production</resource>
                     <privilege>add</privilege>    
                 </add>
+                <productionfinances>       
+                    <label>Financies production</label>
+                    <module>finanaces</module>
+                    <controller>finances</controller> 
+                    <action>consult</action>
+                    <resource>finances:finances</resource>
+                    <privilege>consult</privilege>
+                    <pages>                       
+                        <consult>
+                            <label>Consultar Financias</label>
+                            <module>finances</module>
+                            <controller>finances</controller> 
+                            <action>consult</action>
+                            <resource>finances:finances</resource>
+                            <privilege>consult</privilege>                   
+                        </consult>
+                   </pages>     
+                   </productionfinances>       
                 <production>       
                     <label>Production</label>
                     <module>production</module>

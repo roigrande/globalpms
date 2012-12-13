@@ -23,6 +23,7 @@ class Client_ClientController extends Zend_Controller_Action {
         //paginator
         if ($data){
         $paginator = Zend_Paginator::factory($data);
+        
         $client = Zend_Registry::get('client');
         $paginator->setItemCountPerPage($client->paginator);
         $paginator->setCurrentPageNumber($page);

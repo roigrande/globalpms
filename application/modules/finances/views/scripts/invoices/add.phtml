@@ -1,0 +1,69 @@
+<?php
+$this->title = "Add Invoices";
+$this->headTitle($this->title);
+?>
+<div class="container">
+    <div class="conthead">
+        <h2><?php echo $this->translate('Add Invoice '); ?></h2>
+    </div>
+    <div class="contentbox">
+
+        <p><?php echo $this->translate('Are you sure that you want to create one invoice for the production : ' . $this->invoices[1][0]['production_name']); ?></p>
+        <ul class="features">
+            <?php
+            if ($this->invoices) {
+
+//                $iva_type = $this->invoices[0][0]["iva_type"];
+
+                foreach ($this->invoices as $types) :
+                    if (isset($types)) {
+
+                        $iva_type = $types[0]["iva_type"];
+                        $final_price[$types[0]["iva_type"]] = 0;
+//                Zend_Debug::dump($types,"types");
+                        foreach ($types as $invoices) :
+                            ?>
+                            <li>
+                            <td><?php
+                echo $this->escape($invoices["final_price"]) . " euros  | ";
+                $final_price[$iva_type] = $final_price[$iva_type] + $invoices["final_price"]
+                            ?></td>  
+                            <td><?php echo $this->escape($invoices["resource_name"]); ?></td>                 
+                            </li>
+
+
+
+                            <?php
+//                            $iva_type = $invoices["iva_type"];
+
+                        endforeach;
+                        ?>
+                        </br> 
+                        <td>importe total sin iva: <?php echo $this->escape($final_price[$iva_type] . " euros "); ?> </td> 
+                        </br> 
+                        <td>iva del <?php echo $this->escape($iva_type); ?>%</td>
+                        </br> 
+                        <td>importe total con iva:<strong> <?php echo $this->escape(($final_price[$iva_type] + $final_price[$iva_type] * $iva_type / 100) . " euros "); ?></strong> </td>   
+                        <td><?php echo "</br>" . "---------------------------------------------------" . "</br>"; ?></td>
+                        <?php
+                    }
+
+                endforeach;
+            }
+            ?>
+
+        </ul>
+
+
+    </div>
+</div>
+
+
+</p>
+<form action="<?php echo $this->url(array('action' => 'add')); ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo $this->invoices['16']['0']['id']; ?>" />
+        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

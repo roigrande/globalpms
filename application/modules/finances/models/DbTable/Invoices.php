@@ -2,7 +2,7 @@
 /**
  * This is the DbTable class for the Invoices table.
  */
-class Invoices_Model_DbTable_Invoices extends Zend_Db_Table_Abstract
+class Finances_Model_DbTable_Invoices extends Zend_Db_Table_Abstract
 {
     /** Table name */
     protected $_name    = 'invoice';

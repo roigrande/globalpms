@@ -2,11 +2,11 @@
 
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("Financess")); ?></h1>
+        <h1><?php echo $this->escape($this->translate("Finances")); ?></h1>
         <p><a href="<?php
-echo $this->url(array('controller' => 'finances',
+echo $this->url(array('controller' => 'invoices',
     'action' => 'add'));
-?>">Add new finances</a></p>
+?>"><?php echo $this->escape($this->translate("Crear Factura")); ?></a></p>
 
     </div>
     <div class="contentbox">
@@ -23,15 +23,15 @@ echo $this->url(array('controller' => 'finances',
                     <th><?php echo $this->translate('iva'); ?></th>
                     <th><?php echo $this->translate('status'); ?></th>
                     <th><?php echo $this->translate('facturation_type'); ?></th>
-                    <th><?php echo $this->translate('price'); ?></th>
-                    <th><?php echo $this->translate('final price'); ?></th>
+                    <th><?php echo $this->translate('price Activity/Hour'); ?></th>
+                    <th><?php echo $this->translate('Total Price'); ?></th>
                     <th><?php echo $this->translate('Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($this->paginator as $finances) : ?>
                     <tr>
-                        <td><?php echo $this->escape($finances->name); ?></td>                         
+                        <td><?php echo $this->escape($finances->resource_name); ?></td>                         
                         <td><?php echo $this->escape($finances->activity_name); ?></td>
                         <td><?php echo $this->escape($finances->date_start); ?></td>
                         <td><?php echo $this->escape($finances->date_end); ?></td>
@@ -47,9 +47,9 @@ echo $this->url(array('controller' => 'finances',
                         <td><?php echo $this->escape($finances->final_price);  ?></td>
                         <td>
                             
-                            <?php  if ($finances->invoice_id) { ?>
-                            FACTURADA   
-                            <?php } elseif(! $finances->resources_activities_has_receipt_id) { ?>
+                            <?php  if ($finances->invoice_id) { 
+                             echo $this->translate('Facturado nº fac : '.$finances->invoice_id);   
+                           } elseif(! $finances->resources_activities_has_receipt_id) { ?>
                               <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'addreceipt', 'id' => $finances->id)); ?>">
                                     <img src="/styles/images/icons/icon_arrow.png" alt="Add Facture" /></a>
                             <?php } else {?>

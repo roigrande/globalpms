@@ -3,7 +3,7 @@
 /**
  * This is the Data Mapper class for the Acl_invoicess table.
  */
-class Invoices_Model_Invoices {
+class Finances_Model_Invoices {
 
     /** Model_Resource_Table */
     protected $_table;
@@ -15,7 +15,7 @@ class Invoices_Model_Invoices {
      */
     public function getTable() {
         if (null === $this->_table) {
-            $this->_table = new Invoices_Model_DbTable_Invoices();
+            $this->_table = new Finances_Model_DbTable_Invoices();
         }
         return $this->_table;
     }

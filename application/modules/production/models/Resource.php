@@ -162,13 +162,7 @@ class Production_Model_Resource {
 
 
         $select
-
-                //               ->from(array('contacts'), array('supplier_contact_name' => 'name'))
-//               ->from(array('companies'), array('supplier_name' => 'name', 'id_supplier' => 'id'))
-                ////        
-//                 ->from(array('ra'=>'resources_activities'), array('resources_activities_id' => 'id','name','unbilled_hours','quantity'))                
-//                ->from('resource_activity_has_receipt', array('resoursce_activity_has_receipt_id' => 'id'))
-                ->joinLeft(array("rahc"=>'resource_activity_has_receipt'), 'resources_activities.id=rahc.resources_activities_id',array('resources_activities_has_receipt_id' => 'id','iva_type','receipt_price'=>'price','facturation_types_id','final_price'))
+       ->joinLeft(array("rahc"=>'resource_activity_has_receipt'), 'resources_activities.id=rahc.resources_activities_id',array('resources_activities_has_receipt_id' => 'id','iva_type','receipt_price'=>'price','facturation_types_id','final_price'))
              
                 ->from(array('resources'), array('resource_name' => 'name', 'id_resource' => 'id','resources_types_id'))
                 ->where('resources_activities.resource_id=resources.id')
@@ -186,13 +180,12 @@ class Production_Model_Resource {
                 ->from(array('iva_types'), array('iva_type_name' => 'name','iva_type_id' => 'id'))
                 ->where('iva_types.id=resources_types.iva_types_id')
                 ->joinLeft(array('i' => 'invoice'), 'i.receipt_id = r.id',array('invoice_id'=>'id'))
-                ->joinLeft(array('is' => 'invoices_status'), 'is.id=i.invoices_status_id',array('invoice_id'=>'id','invoices_status_name' => 'name'))
+                ->joinLeft(array('is' => 'invoices_status'), 'is.id=i.invoices_status_id',array('invoice_status_id'=>'id','invoices_status_name' => 'name'))
                 ->joinLeft(array('ft' => 'facturation_types'), 'rahc.facturation_types_id = ft.id',array('facturation_types_id'=>'id','facturation_types_name'=>'name'))
                 ->order('date_start')
         ;
         $data = $table->fetchAll($select);
-        //TODO la select deberias sustituir este codigo por un distinct en la select para no repetir resultados
-
+       
         return $data;
     }
 

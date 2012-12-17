@@ -1,6 +1,6 @@
 <?php
 
-class Invoices_Form_Invoices extends Zend_Form {
+class Finances_Form_Invoices extends Zend_Form {
 
     public function init() {
         $this->setName('invoices');

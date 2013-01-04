@@ -92,7 +92,14 @@ class Production_Form_Production extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-
+        $start_time = new Zend_Form_Element_Text('start_time');
+        $start_time->setLabel('Start date')
+                   ->setRequired(true)
+                   ->addValidator('Date', false, array('yyyy-mm-dd hh:ii:ss'))
+                   ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_datapicker.phtml'))))
+//                   ->setDecorators($this->decorators)
+                ;
 
         $observation = new Zend_Form_Element_Text('observation');
         $observation->setLabel('Observation')
@@ -134,6 +141,7 @@ class Production_Form_Production extends Zend_Form {
             $status_id,
             $production_types_id,
             $direction,
+            $start_time,
             $date_start,
             $date_end,
             $observation,

@@ -120,6 +120,8 @@ class Company_CompanyController extends Zend_Controller_Action {
      * @return void
      */
     public function editAction() {
+         
+         $this->gpms = new Zend_Session_Namespace('gpms');
         
         if ($this->gpms->storage->out_production == 0) {
             return $this->_helper->_redirector->gotoSimple('index', 'company', 'company');

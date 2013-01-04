@@ -1,13 +1,17 @@
           
-
+    
 <div class="container">
     <div class="conthead">
         <h1><?php echo $this->escape($this->translate("Finances")); ?></h1>
         <p><a href="<?php
 echo $this->url(array('controller' => 'invoices',
     'action' => 'add'));
-?>"><?php echo $this->escape($this->translate("Crear Factura")); ?></a></p>
-
+    ?>"><?php echo $this->escape($this->translate("Crear Factura")); ?></a></p>
+    
+        <p><a href="<?php
+            echo $this->url(array('controller' => 'invoices',
+                'action' => 'index'));
+    ?>"><?php echo $this->escape($this->translate("Consultar Facturas")); ?></a></p>
     </div>
     <div class="contentbox">
         <table width="100%">
@@ -39,31 +43,33 @@ echo $this->url(array('controller' => 'invoices',
                         <td><?php echo $this->escape($finances->price); ?></td>
                         <td><?php echo $this->escape($finances->quantity); ?></td>
                         <td><?php echo $this->escape($finances->iva_type_name); ?></td>
-                       
+
                         <td><?php echo $this->escape($finances->invoices_status_name); ?></td>
-                        <td><?php echo $this->escape($finances->facturation_types_name);?></td>
-                       
-                        <td><?php echo $this->escape($finances->receipt_price);  ?></td>
-                        <td><?php echo $this->escape($finances->final_price);  ?></td>
+                        <td><?php echo $this->escape($finances->facturation_types_name); ?></td>
+
+                        <td><?php echo $this->escape($finances->receipt_price); ?></td>
+                        <td><?php echo $this->escape($finances->final_price); ?></td>
                         <td>
-                            
-                            <?php  if ($finances->invoice_id) { 
-                             echo $this->translate('Facturado nº fac : '.$finances->invoice_id);   
-                           } elseif(! $finances->resources_activities_has_receipt_id) { ?>
-                              <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'addreceipt', 'id' => $finances->id)); ?>">
+
+                            <?php
+                            if ($finances->invoice_id) {
+                                echo $this->translate('Facturado nº fac : ' . $finances->invoice_id);
+                            } elseif (!$finances->resources_activities_has_receipt_id) {
+                                ?>
+                                <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'addreceipt', 'id' => $finances->id)); ?>">
                                     <img src="/styles/images/icons/icon_arrow.png" alt="Add Facture" /></a>
-                            <?php } else {?>
-                            Añadida pendiente de facturar
-                            <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'delete', 'id' => $finances->id)); ?>">
-                                 <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                                <?php }?>
-                            
+    <?php } else { ?>
+                                Añadida pendiente de facturar
+                                <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'delete', 'id' => $finances->id)); ?>">
+                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
+    <?php } ?>
+
                         </td>                        
                     </tr>
-                <?php endforeach; ?>
+            <?php endforeach; ?>
         </table>
         <div class="extrabottom">
-            <?php echo $this->paginator; ?>           
+<?php echo $this->paginator; ?>           
         </div>
     </div>
 </div>

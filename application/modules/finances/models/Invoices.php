@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is the Data Mapper class for the Acl_invoicess table.
+ * This is the Data Mapper class for the Acl_invoices table.
  */
 class Finances_Model_Invoices {
 
@@ -74,8 +74,19 @@ class Finances_Model_Invoices {
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    public function fetchEntries() {
-        return $this->getTable()->fetchAll('1');
+    public function fetchEntries($production_id) {
+
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select
+                ->join(array("r" => "receipts"), 'r.id= invoice.receipt_id', array('receipts_id' => 'id', 'productions_id'))
+                ->where('r.productions_id = ?', $production_id);
+        ;
+        $data = $table->fetchAll($select);
+//Zend_Debug::dump($data);
+//die();
+        return $data;
     }
 
     /**
@@ -88,6 +99,108 @@ class Finances_Model_Invoices {
         $table = $this->getTable();
         $select = $table->select()->where('id = ?', $id);
         return $table->fetchRow($select)->toArray();
+    }
+
+    /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function fetchInvoiceBelongProduction($invoice_id, $production_id) {
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select
+                ->join(array("r" => "receipts"), 'r.id= invoice.receipt_id', array('receipts_id' => 'id', 'productions_id'))
+                ->where('r.productions_id = ?', $production_id)
+                ->where('invoice.id = ?', $invoice_id)
+        ;
+        $data = $table->fetchRow($select);
+
+        return $data;
+    }
+
+    /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function fetchEntriesByIva($invoice_id, $iva_type) {
+
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->where('invoice.id = ?', $invoice_id)
+                ->join(array("r" => "receipts"), 'r.id= invoice.receipt_id', array('receipts_id' => 'id'))
+                ->join(array("rahc" => 'resource_activity_has_receipt'), 'r.id=rahc.receipts_id', array('resources_activities_has_receipt_id' => 'id', 'iva_type', 'receipt_price' => 'price', 'facturation_types_id', 'final_price','quantity'))
+                ->where('iva_type=' . $iva_type)
+                ->join(array("ra" => 'resources_activities'), 'ra.id=rahc.resources_activities_id', array('resource_activity_id' => 'ra.id', 'observation'))
+                ->from(array('resources'), array('resource_name' => 'name', 'id_resource' => 'id', 'resources_types_id'))
+                ->where('ra.resource_id=resources.id')
+                ->from(array('resources_types'), array('resources_types_id' => 'id'))
+                ->where('resources_types.id=resources_types_id')
+                ->from(array('facturation_types'), array('facturation_types_id' => 'id', 'facturation_types_name' => 'name'))
+                ->where('facturation_types.id=facturation_types_id')
+                ->order('iva_type')
+        ;
+
+        $data = $table->fetchAll($select)->toarray();
+//          Zend_Debug::dump($data, "Receipts");
+//        die("ddd");
+//       
+        if ($data)
+            return $data;
+
+        return null;
+    }
+
+    /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function fetchInvoice($id) {
+        //group all the elements of the receipt for type of iva
+        $sql = "SELECT id,name
+                  FROM iva_types
+                  ORDER BY name";
+        $db = Zend_Registry::get('db');
+        $iva_types = $db->fetchPairs($sql);
+
+        foreach ($iva_types as $value) {
+
+            $receipt[$value] = $this->fetchEntriesByIva($id, $value);
+//            Zend_Debug::dump($receipt[$value]);
+        }
+
+
+//        Zend_Debug::dump($receipt, "Receipts");
+//        die("dffffd");
+        return $receipt;
+    }
+
+    /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function fetchDatasReceiptEntry($invoice_id) {
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select
+                ->joinleft(array("r" => "receipts"), 'r.id= invoice.receipt_id')
+                ->where('invoice.id=' . $invoice_id);
+
+        $data = $table->fetchAll($select)->toarray();
+//       
+//        Zend_Debug::dump($data[0], "Receipts");
+//        die("ddd");
+        return $data[0];
     }
 
     /**
@@ -104,7 +217,7 @@ class Finances_Model_Invoices {
 
         $table = $this->getTable()->getAdapter()->fetchAll($sql);
         //   Zend_Debug::dump($table,"Invoices");
-     
+
         return $table;
     }
 

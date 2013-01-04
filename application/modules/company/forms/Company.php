@@ -38,7 +38,18 @@ class Company_Form_Company extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
+         $cif = new Zend_Form_Element_Text('cif');
+        $cif->setLabel('Cif')
+//                ->setRequired(true)
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->addValidator('NotEmpty')
+                ->setAttrib('size', 30)
+                ->setAttrib('maxlength', 80)
+                ->setAttrib("class","inputbox")
+                ->setDecorators(array(array('ViewScript', array(
+                            'viewScript' => 'forms/_element_text.phtml'))))
+        ;
         
         $company_types_id = new Zend_Form_Element_Select('company_types_id');
         $company_types_id->setLabel('Type')
@@ -166,6 +177,7 @@ class Company_Form_Company extends Zend_Form {
         $this->addElements(array($id,
             $name,
             $fiscal_name,
+            $cif,
             $company_types_id,
             $email,
             $telephone,

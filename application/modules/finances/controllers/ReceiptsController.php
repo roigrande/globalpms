@@ -33,7 +33,7 @@ class Finances_ReceiptsController extends Zend_Controller_Action {
         $this->view->title = "Receiptss list";
         
     }
-
+    
     /**
      * AddAction for Receiptss
      *

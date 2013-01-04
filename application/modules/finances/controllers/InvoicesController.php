@@ -17,8 +17,8 @@ class Finances_InvoicesController extends Zend_Controller_Action {
 
         //get the dates for the table
         $model = new Finances_Model_Invoices();
-        $data = $model->fetchEntries();
-
+        $data = $model->fetchEntries($_SESSION["production"]["id"]);
+//       
         //paginator
         if ($data) {
             $paginator = Zend_Paginator::factory($data);
@@ -31,11 +31,33 @@ class Finances_InvoicesController extends Zend_Controller_Action {
             $this->view->paginator = null;
         }
         //send information to the view
-        $this->view->title = "Invoicess list";
+        $this->view->title = "Invoices list";
+    }
+
+    function consultAction() {
+ 
+            $this->_helper->layout->disableLayout();
+        //check if the user select a production
+        $this->production = new Zend_Session_Namespace('production');
+        if ($this->production->id == null) {
+            return $this->_helper->_redirector->gotoSimple('index', 'production', 'production');
+        }
+
+        $model = new Finances_Model_Invoices();
+
+        $this->view->title = "Consult Invoice";
+        $invoice_id = $this->_getParam('id', 1);
+        if (!$model->fetchInvoiceBelongProduction($invoice_id, $_SESSION["production"]["id"])) {
+            return $this->_helper->_redirector->gotoSimple('index');
+        }
+        $production_model= new Company_Model_Company();
+        $this->view->company = $production_model->fetchEntry($_SESSION["company"]["id"]);   
+        $this->view->client = $model->fetchDatasReceiptEntry($invoice_id);      
+        $this->view->invoices = $model->fetchInvoice($invoice_id);
     }
 
     /**
-     * AddAction for Invoicess
+     * AddAction for Invoices
      *
      * @return void
      */
@@ -45,7 +67,8 @@ class Finances_InvoicesController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Yes') {
                 $invoice["receipt_id"] = $this->getRequest()->getPost('id');
-
+//                Zend_Debug::dump($invoice); 
+//                die();
 
                 $model = new Finances_Model_Invoices();
                 $model->save($invoice);
@@ -55,18 +78,20 @@ class Finances_InvoicesController extends Zend_Controller_Action {
             $id = $_SESSION["production"]["id"];
             if ($id > 0) {
                 $model = new Finances_Model_Receipts();
+
+                $this->view->client = $model->fetchReceiptEntry($id);
                 $this->view->invoices = $model->fetchReceiptEntries($id);
             }
         }
     }
 
     /**
-     * EditAction for Invoicess
+     * EditAction for Invoices
      *
      * @return void
      */
     public function editAction() {
-        $this->view->title = "Edit Invoicess";
+        $this->view->title = "Edit Invoices";
         $form = new Finances_Form_Invoices();
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
@@ -90,7 +115,7 @@ class Finances_InvoicesController extends Zend_Controller_Action {
     }
 
     /**
-     * deleteAction for Invoicess
+     * deleteAction for Invoices
      *
      * @return void
      */
@@ -115,7 +140,7 @@ class Finances_InvoicesController extends Zend_Controller_Action {
     }
 
     /**
-     * inlitterAction for Invoicess
+     * inlitterAction for Invoices
      *
      * @return void
      */

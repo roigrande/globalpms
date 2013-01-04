@@ -1,0 +1,118 @@
+<head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <link href="/styles/css/invoice_style.css" rel="stylesheet" type="text/css" />
+    
+</head>
+<div id="tableinvoice">
+    <header>
+        <h1>Invoice</h1>
+        <address>
+            <p><?php echo $this->translate($this->company['fiscal_name']); ?></p>
+            <p><?php echo $this->translate($this->company['direction']); ?></p>
+            <p><?php echo $this->translate($this->company['telephone']); ?></p>
+        </address>
+        <span><img alt="" src="/styles/images/logo.png"><input type="file" accept="/styles/images/logo.png"></span>
+    </header>
+    <article>
+        <h1>Recipient</h1>
+        <address>
+            <p><?php echo $this->translate($this->client['fiscal_name']); ?>
+                <br><?php echo $this->translate($this->client['direction']); ?>
+                <br><?php echo $this->translate($this->client['cif']); ?>
+            </p>
+        </address>
+        <table class="meta">
+            <tr>
+                <th><span>Invoice #</span></th>
+                <td><span><?php echo $this->translate($this->client['id']); ?></span></td>
+            </tr>
+            <tr>
+                <th><span>Date</span></th>
+                <td><span><?php echo $this->translate($this->client['date']); ?></span></td>
+            </tr>
+
+        </table>
+        <?php
+        if ($this->invoices) {
+
+            foreach ($this->invoices as $iva_type => $types) :
+                if (isset($types)) {
+                    //iva de los items en $types           
+                    $final_price_by_iva[$iva_type] = 0;
+                    $final_price [$iva_type] = 0;
+                    ?>
+                    <table class="inventory">
+                        <thead>
+                            <tr>
+                                <th><span><?php echo $this->translate("Item"); ?></span></th>
+                                <th><span><?php echo $this->translate("Description"); ?></span></th>
+                                <th><span><?php echo $this->translate("Rate"); ?></span></th>
+                                <th><span><?php echo $this->translate("Quantity"); ?></span></th>
+                                <th><span><?php echo $this->translate("Price"); ?></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($types as $invoices) :
+                                ?>
+
+                            <td><a class="cut">-</a><span><?php echo $this->escape($invoices["resource_name"]); ?></span></td>   
+                            <td><span><?php echo $this->escape($invoices["observation"]); ?></span></td>
+                            <td><span data-prefix>€</span><span><?php
+                   echo $this->escape($invoices["final_price"]); 
+                $final_price_by_iva[$iva_type] = $final_price_by_iva[$iva_type] + $invoices["final_price"] * $invoices["quantity"]
+                                ?></span></td> 
+                            <td><span><?php echo $this->escape($invoices["quantity"]); ?></span></td>
+                            <td><span data-prefix>€</span><span><?php echo $this->escape($invoices["quantity"] * $invoices["final_price"]); ?></span></td>          
+
+
+
+
+                            <?php
+//                            $iva_type = $invoices["iva_type"];
+
+                        endforeach;
+                        ?>
+
+
+                        </tbody>
+                    </table>
+
+                    <table class="balance">
+                        <tr>
+                            <th><span>Total</span></th>
+                            <td><span data-prefix>€</span><span><?php echo $this->escape($final_price_by_iva[$iva_type]); ?></span></td>          
+
+                        </tr>
+                        <tr>
+                            <th><span>Iva</span></th>
+                            <td><span data-prefix>% 0.</span><span> <?php echo $this->escape($iva_type); ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><span>Balance Due</span></th>
+                            <td><span data-prefix>€</span><span><?php echo $final_price[$iva_type] = $final_price_by_iva[$iva_type] + $final_price_by_iva[$iva_type] * $iva_type / 100; ?></span></td>
+                        </tr>
+                    </table>
+
+                    <?php
+                }
+
+            endforeach;
+        }
+        ?>
+    </article>
+    </br> 
+    <article> 
+        <table class="balance">
+            <tr>
+                <th><span>Final price</span></th>
+                <td><span data-prefix>€</span><span><?php echo $this->escape(array_sum($final_price)); ?></span></td>          
+
+            </tr>
+
+        </table>
+    </article>
+    </br> 
+
+</div>

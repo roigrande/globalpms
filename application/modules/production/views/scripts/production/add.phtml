@@ -27,6 +27,16 @@
             ?>
         </div>
         <?php
+ 
+$this->headLink()->appendStylesheet('http://code.jquery.com/ui/1.8.23/themes/smoothness/jquery-ui.css', 'screen');
+$this->headScript()->appendFile('/js/jquery-ui-sliderAccess.js');
+$this->headScript()->appendFile('/js/jquery-ui-timepicker-addon.js');
+$this->headScript()->appendScript('
+    $(function() {
+        $("#start_time").datetimepicker({showSecond: true, dateFormat: "yy-mm-dd", timeFormat: "hh:mm:ss"});
+        $("#end_time").datetimepicker({showSecond: true, dateFormat: "yy-mm-dd", timeFormat: "hh:mm:ss"});
+    });
+');
         ?>
 
 

@@ -8,25 +8,22 @@ $this->headTitle($this->title);
     </div>
     <div class="contentbox">
 
-        <p><?php echo $this->translate('Are you sure that you want to create one invoice for the production : ' . $this->invoices[1][0]['production_name']); ?></p>
+        <p><?php echo $this->translate('Are you sure that you want to create one invoice for the production : ' . $this->client['production_name']); ?></p>
         <ul class="features">
             <?php
             if ($this->invoices) {
-
-//                $iva_type = $this->invoices[0][0]["iva_type"];
 
                 foreach ($this->invoices as $types) :
                     if (isset($types)) {
 
                         $iva_type = $types[0]["iva_type"];
                         $final_price[$types[0]["iva_type"]] = 0;
-//                Zend_Debug::dump($types,"types");
                         foreach ($types as $invoices) :
                             ?>
                             <li>
                             <td><?php
-                echo $this->escape($invoices["final_price"]) . " euros  | ";
-                $final_price[$iva_type] = $final_price[$iva_type] + $invoices["final_price"]
+                            echo $this->escape($invoices["final_price"]) . " euros  | ";
+                            $final_price[$iva_type] = $final_price[$iva_type] + $invoices["final_price"]
                             ?></td>  
                             <td><?php echo $this->escape($invoices["resource_name"]); ?></td>                 
                             </li>
@@ -62,7 +59,7 @@ $this->headTitle($this->title);
 </p>
 <form action="<?php echo $this->url(array('action' => 'add')); ?>" method="post">
     <div>
-        <input type="hidden" name="id" value="<?php echo $this->invoices['16']['0']['id']; ?>" />
+        <input type="hidden" name="id" value="<?php echo $this->client['id']; ?>" />
         <input type="submit" name="del" value="Yes" />
         <input type="submit" name="del" value="No" />
     </div>

@@ -2,8 +2,9 @@
 <!-- Table invoices -->
 <div class="container">
     <div class="conthead">
-        <h1><?php echo $this->escape($this->translate("My Invoicess")); ?></h1>
-        <p><a href="<?php echo $this->url(array('controller' => 'invoices',
+        <h1><?php echo $this->escape($this->translate("My Invoices")); ?></h1>
+        <p><a href="<?php
+echo $this->url(array('controller' => 'invoices',
     'action' => 'add'));
 ?>">Add new invoices</a></p>
 
@@ -11,30 +12,31 @@
     <div class="contentbox">
         <table width="100%">
             <thead>
-         
-                <tr>
-                    <th><?php echo $this->translate('name'); ?></th>
 
+                <tr>
+                    <th><?php echo $this->translate('Invoices number'); ?></th>
+                    <th><?php echo $this->translate('Facture date'); ?></th>
                     <th><?php echo $this->translate('Actions'); ?></th>
 
                 </tr>
             </thead>
 
             <tbody>
-                <?php if ($this->paginator) {
+                <?php
+                if ($this->paginator) {
                     foreach ($this->paginator as $invoices) :
                         ?>
                         <tr>
-                            <td><?php echo $this->escape($invoices->name); ?></td>                         
+                            <td><?php echo $this->escape($invoices->id); ?></td>
+                            <td><?php echo $this->escape($invoices->date); ?></td>
                             <td>
-                                <a href="<?php echo $this->url(array('controller' => 'invoices', 'action' => 'edit', 'id' => $invoices->id)); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'invoices', 'action' => 'consult', 'id' => $invoices->id)); ?>">
                                     <img src="/styles/images/icons/icon_edit.png" alt="Edit" /></a>
-                                <a href="<?php echo $this->url(array('controller' => 'invoices', 'action' => 'delete', 'id' => $invoices->id)); ?>">
-                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
                             </td>                        
                         </tr>
-                <?php endforeach;
-            } ?>
+    <?php endforeach;
+}
+?>
         </table>
         <div class="extrabottom">
 <?php echo $this->paginator; ?>           

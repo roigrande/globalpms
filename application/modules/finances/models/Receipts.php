@@ -34,8 +34,7 @@ class Finances_Model_Receipts {
         $data_receipt["production_name"] = $data_receipt["name"];
         unset($data_receipt["id"]);
         unset($data_receipt["name"]);
-        // seguir aqui coger los datos del cliente y devolver los que necesites en un array
-
+      
         $table = $this->getTable();
         $fields = $table->info(Zend_Db_Table_Abstract::COLS);
 
@@ -127,12 +126,19 @@ class Finances_Model_Receipts {
      * @return null|Zend_Db_Table_Row_Abstract
      */
     public function fetchReceiptEntry($production_id) {
-        $table = $this->getTable();
-        $select = $table->select()
-                ->where('productions_id = ?', $production_id)
-
-        ;
-        return $table->fetchRow($select);
+      
+          $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select->where('productions_id = ?', $production_id)
+                 ->joinleft(array("i" => "invoice"), 'receipts.id= i.receipt_id', array('invoice_id' => 'id', 'invoices_status_id'))
+                ->where('i.receipt_id IS NULL');
+ 
+        $data = $table->fetchAll($select)->toarray();
+//       
+//        Zend_Debug::dump($data[0], "Receipts");
+//        die("ddd");
+        return $data[0];
     }
 
     /**
@@ -208,11 +214,13 @@ class Finances_Model_Receipts {
         ;
         
         $data = $table->fetchAll($select)->toarray();
-        if ($data)
-           
-//        Zend_Debug::dump($data, "Receipts");
+//          Zend_Debug::dump($data, "Receipts");
 //        die("ddd");
-        return $data;
+       
+        if ($data)           
+          return $data;
+        
+        return null;
     }
     
     /**
@@ -240,41 +248,12 @@ class Finances_Model_Receipts {
 //          ORDER BY roles.id";
 //
 //        $table = $this->getTable()->getAdapter()->fetchAll($sql);
-        //   Zend_Debug::dump($table,"Receipts");
+//Zend_Debug::dump($table,"Receipts");
+//die();
 //        return $table;
         return $data;
     }
-
-    /**
-     *  Fetch all sql entries
-     * 
-     * @return Zend_Db_Table_Rowset_Abstract
-     */
-    public function fetchSql() {
-        $sql = "SELECT receiptss.id, receiptss.name, date,
-                    email,status, roles.name as role
-          FROM receiptss, roles
-          WHERE receiptss.role_id = roles.id              
-          ORDER BY roles.id";
-
-        $table = $this->getTable()->getAdapter()->fetchAll($sql);
-        //   Zend_Debug::dump($table,"Receipts");
-
-        return $table;
-    }
-
-    /**
-     *  Fetch all sql entries for the $role_id
-     * 
-     * @return array
-     */
-    public function fetchTypeReceiptss($type_id) {
-
-        $table = $this->getTable();
-        $select = $table->select()->where('receipts_type_id =' . (int) $type_id);
-
-        return $table->fetchAll($select)->toArray();
-    }
+ 
 
 }
 

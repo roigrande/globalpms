@@ -20,26 +20,16 @@ echo $this->doctype();
     
     <!-- Blue Theme Styles -->
     <link href="/styles/themes/grey/styles.css" rel="stylesheet" type="text/css" />
-    
-    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/scripts/ajax_functions.js"></script>
+ 
+    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/javascript/jquery/jquery.js"></script>
+<!--    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/scripts/jquery.js"></script>-->
 <!--    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/onclick/onclick.js" ></script>  
-    <script type="text/javascript" language="javascript" src="/app/public/js/jquery.js"></script>
-    <script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl(); ?>/scripts/listasEncadenadas.js"></script>
-    <script type="text/javascript">
-            //Si estas trabajando con mas de un framework, como por ejemplo prototype agrega este codigo aqui en la vista.
-            jQuery.noConflict();
-    </script>-->
+    
+ <!--   <script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl(); ?>/scripts/listasEncadenadas.js"></script>
+-->    
 
 
-    <?php
-    if ($this->dojo()->isEnabled()) {
-
-        $this->dojo()->setDjConfigOption('isDebug', false)
-        //     ->setLocalPath(DOJO_PATH)
-        ;
-        echo $this->dojo();
-    }
-    ?>
+    
 </head>
 
 <body>

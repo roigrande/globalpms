@@ -103,7 +103,13 @@ class Finances_FinancesController extends Zend_Controller_Action {
         $model_receipts = new Finances_Model_Receipts();
         $data = $model_receipts->fetchProductionHasOpenReceipt($this->production->id);
         //        Zend_Debug::dump($data,"receipt");
-
+        $sql = "SELECT id,name
+                  FROM facturation_types";
+        $db = Zend_Registry::get('db');
+        $ec= $db->fetchPairs($sql);
+        
+        $this->view->iva_type = $db->fetchPairs($sql);
+        
         $data_resource_activities = $model_resource_activities->fetchEntriesProduction($this->production->id);
 //       Zend_Debug::dump($data_resource_activities);
 //       die();
@@ -128,7 +134,20 @@ class Finances_FinancesController extends Zend_Controller_Action {
      * @return void
      */
     public function addreceiptAction() {
-        $id = $this->_getParam('id', 0);
+        
+        if ($this->_request->isXmlHttpRequest()) {
+
+            $this->_helper->viewRenderer->setNoRender(true);
+
+            $this->_helper->layout->disableLayout();
+        }
+       
+        $id = $this->_getParam('id', 10);
+        $price = $this->_getParam('price', 32);
+        $facturation_type = $this->_getParam('facturation_type', 32);
+//        Zend_Debug::dump($price,"facturation_type");
+//        Zend_Debug::dump($facturation_type,"facturation_type");
+//        die();
         if ($id==0) {
             return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
         }
@@ -160,12 +179,15 @@ class Finances_FinancesController extends Zend_Controller_Action {
         $data_activity_resource["iva_type"] = $model_activity_resource->fetchIvaType($id);
         $data_activity_resource["receipts_id"] = $receipt_id;
         $data_activity_resource["resources_activities_id"] = $id;
-        $data_activity_resource["price"] = 100;
-        $data_activity_resource["facturation_types_id"] = 33;
+        $data_activity_resource["price"] = (int)$price;
+        $data_activity_resource["facturation_types_id"] = (int)$facturation_type;
+        $data_activity_resource["quantity"] = $model_activity_resource->fetchQuantity($id);
 
-           $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["iva_type"],$data_activity_resource["facturation_types_id"]);
-        $model_resource_activity_has_receipt->save($data_activity_resource);
-        return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
+        $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["facturation_types_id"],$data_activity_resource["quantity"]);
+        $data_actitity_resource["id"]=$model_resource_activity_has_receipt->save($data_activity_resource);
+        $json = Zend_Json::encode($data_activity_resource);
+         echo $json;
+//        return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
     }
 
     /**
@@ -262,7 +284,7 @@ class Finances_FinancesController extends Zend_Controller_Action {
             
           $model_resource_activity_has_receipt = new Finances_Model_Resourceactivityhasreceipt();
 //           $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["iva_type"],$data_activity_resource["facturation_types_id"]);
-        $model_resource_activity_has_receipt->delete('resources_activities_id= '.$id);
+        $model_resource_activity_has_receipt->delete('id= '.$id);
         }
         return $this->_helper->redirector->gotoSimple('consult', 'finances', 'finances');
     

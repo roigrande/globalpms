@@ -34,7 +34,7 @@ echo $this->url(array('controller' => 'invoices',
             </thead>
             <tbody>
                 <?php foreach ($this->paginator as $finances) : ?>
-                    <tr>
+                    <tr id ="tr<?php echo $this->escape($finances->id); ?>">
                         <td><?php echo $this->escape($finances->resource_name); ?></td>                         
                         <td><?php echo $this->escape($finances->activity_name); ?></td>
                         <td><?php echo $this->escape($finances->date_start); ?></td>
@@ -45,10 +45,19 @@ echo $this->url(array('controller' => 'invoices',
                         <td><?php echo $this->escape($finances->iva_type_name); ?></td>
 
                         <td><?php echo $this->escape($finances->invoices_status_name); ?></td>
-                        <td><?php echo $this->escape($finances->facturation_types_name); ?></td>
-
-                        <td><?php echo $this->escape($finances->receipt_price); ?></td>
-                        <td><?php echo $this->escape($finances->final_price); ?></td>
+                        <td><?php if (!$this->escape($finances->final_price) ) { ?>
+                            <select id ="facturation_type<?php echo $this->escape($finances->id); ?>"  width=" 150px">
+                                <?php 
+                                foreach($this->iva_type as $key => $value) echo "<option value='$key'>$value</option>";
+                                ?>
+                            </select>   
+                            <?php }else{ echo $this->escape($finances->facturation_types_name);
+                                }?>
+                        </td>
+                        <td><?php if (!$this->escape($finances->final_price) ) { ?>
+                            <input id ="final_price<?php echo $this->escape($finances->id); ?>" type="text">  <?php  }else{ echo $this->escape($finances->price) ;} ?>
+                        </td>
+                        <td> <?php echo $this->escape($finances->final_price); ?></td>
                         <td>
 
                             <?php
@@ -56,44 +65,56 @@ echo $this->url(array('controller' => 'invoices',
                                 echo $this->translate('Facturado nº fac : ' . $finances->invoice_id);
                             } elseif (!$finances->resources_activities_has_receipt_id) {
                                 ?>
-                                <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'addreceipt', 'id' => $finances->id)); ?>">
+                           
+                                <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'addreceipt', 'id' => $finances->id,'price' => '200','facturation_type' => '32' )); ?>">
                                     <img src="/styles/images/icons/icon_arrow.png" alt="Add Facture" /></a>
-    <?php } else { ?>
+                             
+                              <?php } else { ?>
                                 Añadida pendiente de facturar
-                                <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'delete', 'id' => $finances->id)); ?>">
+                                <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'delete', 'id' => $finances->resources_activities_has_receipt_id)); ?>">
                                     <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-    <?php } ?>
+                            <?php } ?>
 
                         </td>                        
                     </tr>
             <?php endforeach; ?>
         </table>
         <div class="extrabottom">
-<?php echo $this->paginator; ?>           
+<?php echo $this->paginator; ?>          
+            
         </div>
     </div>
 </div>
+
 <!-- Table styles end -->  
 
-
-<!-- EOF Advertencia de borrado de Idioma -->
+<input type="button"  id="pruebaajax" value="Ver datos usando ajax" />
+<div id=verajax"> </div>
+<!--<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/javascript/jquery/jquery.js"></script>-->
 <script type="text/javascript">
+$(document).ready(function(){
+   //cuando hago clic en el boton id=veralbumes
+        $('#pruebaajax').click(function(event){
 
-    window.managementfacturation = {
-        // Cambia la Publicación
-        changeFacturationResource: function (oArgs) {
-	    	
-            var elementId = 'elementId' in oArgs ? oArgs.elementId : undefined;
-            if ('undefined' != typeof(elementId)) {
-                jQuery.post("/finances/finances/addFacturationAjax/id/<?php echo $this->elementId; ?>/format/json",
-                {elementId: elementId},
-                function (data) {
-                    jQuery("#videos_at").trigger("reloadGrid");
-                }
-            );
-            }
-        }
-	    
-	    
-    };
+            var url = "<?php echo $this->url(array('module' => 'finances', 'controller' => 'finances',
+    'action' => 'addrecipt' , 'id' => '41','price' => '200','facturation_type' => '32')); ?>";
+
+            var datos = "";
+            //funcion que hace llamada a ajax esperando un
+            // arreglo json de respuesta
+            $.getJSON(url,  function(data)
+            {
+                //por cada elemento
+                //(recordar que recibimos un arreglo de arreglos)
+                $.each(data, function(i,row){
+                    //guardo sus datos en un texto
+                    var fila = i + ')' + row.facturation_type + " - " + row.price + " - " + row.quantity ;
+
+                    datos += fila + '<br/>';
+                });
+                //coloco resultado en capa id=albumesdiv
+                $('#verajax').html(datos);
+            });
+        });
+  });
 </script>

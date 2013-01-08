@@ -113,7 +113,7 @@ class Finances_Model_Resourceactivityhasreceipt {
      * 
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    public function calculateFinalPrice( $resources_activities_id,$price,$iva_type,$facturaction_type_id) {
+    public function calculateFinalPrice( $resources_activities_id,$price,$facturaction_type_id,$quantity) {
         
         //por hora
         //comprobar que es por hora el facturation_type
@@ -126,7 +126,7 @@ class Finances_Model_Resourceactivityhasreceipt {
         $hours = $model_activity->hours_activity($resources_activities_id);
       
         //multiplicar por el precio de la hora
-        $final_price= $hours*(int)$price;
+        $final_price= $hours*(int)$price*$quantity;
     
         //multiplicar por el iva
 //        $final_price=$final_price+$final_price/(int)$iva_type;

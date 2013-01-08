@@ -162,7 +162,7 @@ class Production_Model_Resource {
 
 
         $select
-       ->joinLeft(array("rahc"=>'resource_activity_has_receipt'), 'resources_activities.id=rahc.resources_activities_id',array('resources_activities_has_receipt_id' => 'id','iva_type','receipt_price'=>'price','facturation_types_id','final_price'))
+       ->joinLeft(array("rahc"=>'resource_activity_has_receipt'), 'resources_activities.id=rahc.resources_activities_id',array('resources_activities_has_receipt_id' => 'id','iva_type','price','facturation_types_id','final_price'))
              
                 ->from(array('resources'), array('resource_name' => 'name', 'id_resource' => 'id','resources_types_id'))
                 ->where('resources_activities.resource_id=resources.id')
@@ -209,7 +209,7 @@ class Production_Model_Resource {
      * @return null|Zend_Db_Table_Row_Abstract
      */
     public function fetchIvaType($id) {
-echo $id;
+ 
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
@@ -230,19 +230,29 @@ echo $id;
     //        die();
         return $data["0"]["iva_type"];
     }
-
+    
+     /**
+     * Fetch an individual entry
+     * 
+     * @param  int|string $id 
+     * @return null|Zend_Db_Table_Row_Abstract
+     */
+    public function fetchQuantity($id) {
+ 
+        $table = $this->getTable();
+        $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
+                ->setIntegrityCheck(false);
+        $select ->where('resources_activities.id= '.$id);
+        $data = $table->fetchAll($select)->toarray();           
+        return $data["0"]["quantity"];
+    }
+    
     public function getData($id) {
         $table = $this->getTable();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART)
                 ->setIntegrityCheck(false);
         $select->from(array('resources'), array('resource_name' => 'name', 'id_resource' => 'id'))
-//               ->from(array('contacts'), array('supplier_contact_name' => 'name'))
-//               ->from(array('companies'), array('supplier_name' => 'name', 'id_supplier' => 'id'))
                 ->where('resource_id=resources.id')
-//               ->where('companies.id=resources.companies_id')
-//               ->where('contacts_id=contacts.id')
-//               ->where('activities_id='.$_SESSION["production"]["activity_id"])
-        //->where('resources.id = ?', (int) $id)
         ;
         $data = $table->fetchRow($select)->toarray();
 //     Zend_Debug::dump($data,"Resource");

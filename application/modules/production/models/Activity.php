@@ -189,7 +189,7 @@ class Production_Model_Activity {
         $date_end = DateTime::createFromFormat('Y-m-d H:i:s',$data[0]["date_end"]);
         $intervalo = date_diff($date_start, $date_end);
         $hours = (int)$intervalo->format('%h')-(int)$data[0]["unbilled_hours"];
-  
+       
         return $hours;
     }
 

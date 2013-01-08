@@ -5,7 +5,7 @@
 class Managementtype_Model_DbTable_Resourcetype extends Zend_Db_Table_Abstract
 {
     /** Table name */
-    protected $_name    = 'resources_type';
+    protected $_name    = 'resources_types';
     /** Primary key */
     protected $_primary = 'id';
 

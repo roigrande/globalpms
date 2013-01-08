@@ -36,7 +36,7 @@ class Finances_InvoicesController extends Zend_Controller_Action {
 
     function consultAction() {
  
-            $this->_helper->layout->disableLayout();
+        $this->_helper->layout->disableLayout();
         //check if the user select a production
         $this->production = new Zend_Session_Namespace('production');
         if ($this->production->id == null) {

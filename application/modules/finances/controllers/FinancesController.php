@@ -143,8 +143,9 @@ class Finances_FinancesController extends Zend_Controller_Action {
         }
        
         $id = $this->_getParam('id', 10);
-        $price = $this->_getParam('price', 32);
+        $price = $this->_getParam('price', 0);
         $facturation_type = $this->_getParam('facturation_type', 32);
+        
 //        Zend_Debug::dump($price,"facturation_type");
 //        Zend_Debug::dump($facturation_type,"facturation_type");
 //        die();
@@ -185,7 +186,8 @@ class Finances_FinancesController extends Zend_Controller_Action {
 
         $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["facturation_types_id"],$data_activity_resource["quantity"]);
         $data_actitity_resource["id"]=$model_resource_activity_has_receipt->save($data_activity_resource);
-        $json = Zend_Json::encode($data_activity_resource);
+         
+        $json = Zend_Json::encode($model_resource_activity_has_receipt->fetchEntry( $data_actitity_resource["id"]));
          echo $json;
 //        return $this->_helper->_redirector->gotoSimple('consult', 'finances', 'finances');
     }

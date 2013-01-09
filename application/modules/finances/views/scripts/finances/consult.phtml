@@ -1,17 +1,17 @@
           
-    
+
 <div class="container">
     <div class="conthead">
         <h1><?php echo $this->escape($this->translate("Finances")); ?></h1>
         <p><a href="<?php
 echo $this->url(array('controller' => 'invoices',
     'action' => 'add'));
-    ?>"><?php echo $this->escape($this->translate("Crear Factura")); ?></a></p>
-    
+?>"><?php echo $this->escape($this->translate("Crear Factura")); ?></a></p>
+
         <p><a href="<?php
-            echo $this->url(array('controller' => 'invoices',
-                'action' => 'index'));
-    ?>"><?php echo $this->escape($this->translate("Consultar Facturas")); ?></a></p>
+              echo $this->url(array('controller' => 'invoices',
+                  'action' => 'index'));
+?>"><?php echo $this->escape($this->translate("Consultar Facturas")); ?></a></p>
     </div>
     <div class="contentbox">
         <table width="100%">
@@ -34,7 +34,7 @@ echo $this->url(array('controller' => 'invoices',
             </thead>
             <tbody>
                 <?php foreach ($this->paginator as $finances) : ?>
-                    <tr id ="tr<?php echo $this->escape($finances->id); ?>">
+                    <tr id ="<?php echo $this->escape($finances->id); ?>">
                         <td><?php echo $this->escape($finances->resource_name); ?></td>                         
                         <td><?php echo $this->escape($finances->activity_name); ?></td>
                         <td><?php echo $this->escape($finances->date_start); ?></td>
@@ -45,76 +45,129 @@ echo $this->url(array('controller' => 'invoices',
                         <td><?php echo $this->escape($finances->iva_type_name); ?></td>
 
                         <td><?php echo $this->escape($finances->invoices_status_name); ?></td>
-                        <td><?php if (!$this->escape($finances->final_price) ) { ?>
-                            <select id ="facturation_type<?php echo $this->escape($finances->id); ?>"  width=" 150px">
-                                <?php 
-                                foreach($this->iva_type as $key => $value) echo "<option value='$key'>$value</option>";
-                                ?>
-                            </select>   
-                            <?php }else{ echo $this->escape($finances->facturation_types_name);
-                                }?>
-                        </td>
-                        <td><?php if (!$this->escape($finances->final_price) ) { ?>
-                            <input id ="final_price<?php echo $this->escape($finances->id); ?>" type="text">  <?php  }else{ echo $this->escape($finances->price) ;} ?>
-                        </td>
-                        <td> <?php echo $this->escape($finances->final_price); ?></td>
-                        <td>
+                        <?php if (!$this->escape($finances->final_price)) { ?>
+                            <td class ="facturation_type">
+                                <select  width=" 150px">
+                                    <?php
+                                    foreach ($this->iva_type as $key => $value)
+                                        echo "<option value='$key'>$value</option>";
+                                    ?>
+                                </select>
+                            </td>
+                        <?php } else { ?>
+                            <td> 
+                                <?php echo $this->escape($finances->facturation_types_name); ?>
+                            </td>
+                        <?php } ?>
 
-                            <?php
-                            if ($finances->invoice_id) {
-                                echo $this->translate('Facturado nº fac : ' . $finances->invoice_id);
-                            } elseif (!$finances->resources_activities_has_receipt_id) {
-                                ?>
-                           
-                                <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'addreceipt', 'id' => $finances->id,'price' => '200','facturation_type' => '32' )); ?>">
-                                    <img src="/styles/images/icons/icon_arrow.png" alt="Add Facture" /></a>
-                             
-                              <?php } else { ?>
-                                Añadida pendiente de facturar
+                        <?php if (!$this->escape($finances->final_price)) { ?>
+                            <td class ="price">
+                                <input type="text" value="0"/> 
+                            </td>
+                        <?php } else { ?>
+                            <td> 
+                                <?php echo $this->escape($finances->price); ?>
+
+                            </td> 
+
+                        <?php } ?>
+                        <?php if (!$this->escape($finances->final_price)) { ?>   
+                            <td class ="final_price"> 
+
+                            </td>
+                        <?php } else { ?>
+                            <td>
+                                <?php echo $this->escape($finances->final_price); ?>
+                            </td>
+                        <?php } ?>
+
+
+
+                        <?php if ($finances->invoice_id) { ?>
+                            <td>
+                                <?php echo $this->translate('Facturado nº fac : ' . $finances->invoice_id); ?>
+                            </td>
+                        <?php } elseif (!$finances->resources_activities_has_receipt_id) { ?>
+                            <td class ="mod_receipt">
+                                <input type="button"  class="pruebaajax" value="Añadir a factura" />
+                            </td>
+                        <?php } else { ?>
+                            <td>
                                 <a href="<?php echo $this->url(array('controller' => 'finances', 'action' => 'delete', 'id' => $finances->resources_activities_has_receipt_id)); ?>">
-                                    <img src="/styles/images/icons/icon_delete.png" alt="Delete" /></a>
-                            <?php } ?>
+                                    <input type="button" value="Quitar de Factura" />
+                            </td>
+                        <?php } ?>
 
-                        </td>                        
+
                     </tr>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
         </table>
         <div class="extrabottom">
-<?php echo $this->paginator; ?>          
-            
+            <?php echo $this->paginator; ?>          
+
         </div>
     </div>
 </div>
 
 <!-- Table styles end -->  
 
-<input type="button"  id="pruebaajax" value="Ver datos usando ajax" />
-<div id=verajax"> </div>
-<!--<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/javascript/jquery/jquery.js"></script>-->
+<div id="verajax"> </div>
+
 <script type="text/javascript">
-$(document).ready(function(){
-   //cuando hago clic en el boton id=veralbumes
-        $('#pruebaajax').click(function(event){
-
-            var url = "<?php echo $this->url(array('module' => 'finances', 'controller' => 'finances',
-    'action' => 'addrecipt' , 'id' => '41','price' => '200','facturation_type' => '32')); ?>";
-
-            var datos = "";
-            //funcion que hace llamada a ajax esperando un
-            // arreglo json de respuesta
-            $.getJSON(url,  function(data)
-            {
-                //por cada elemento
-                //(recordar que recibimos un arreglo de arreglos)
-                $.each(data, function(i,row){
-                    //guardo sus datos en un texto
-                    var fila = i + ')' + row.facturation_type + " - " + row.price + " - " + row.quantity ;
-
-                    datos += fila + '<br/>';
+    $(document).ready(function(){
+        //cuando hago clic en el boton id=veralbumes
+        $('.pruebaajax').click(function(event){
+                idrow= $(this).parent().parent().attr("id"),
+                price = $('#'+idrow+' .price input').val(),
+                facturation_type = $('#'+idrow+' .facturation_type select').val(),
+                facturation_type_name = $('#'+idrow+' select option:selected').html(),
+                url = "/finances/finances/addreceipt/id/"+idrow+"/price/"+price+"/facturation_type/"+facturation_type+"/facturation_type_name/"+facturation_type_name
+                $this = $(this),          
+                id = "",
+                final_price = "",
+                facturation_types_id = "",
+                mod_receipt = ""
+             
+                ;
+              price = "";
+                        
+            
+                        //funcion que hace llamada a ajax esperando un
+                        // arreglo json de respuesta
+                        $.getJSON(url,  function(data)
+                        {
+               
+                            //por cada elemento
+                            //(recordar que recibimos un arreglo de arreglos)
+                            $.each(data, function(i,row){
+                                //                    guardo sus datos en un texto
+                                switch (i){
+                                    case 'id' :
+                                        id = row;
+                                        break
+                                    case 'facturation_types_id':
+                                        // ('#facturation_type41').html(row);
+                                        facturation_types_id = row;
+                                        break
+                                    case 'price':
+                                        price = row;
+                                        break
+                                    case 'final_price':
+                                        final_price = row;
+                                        break
+                                    
+                                   
+                                }
+                                //                                 
+                            });
+                            mod_receipt = "Pendiente de facturar <a href='/finances/finances/delete/id/"+id+"'> <img src='/styles/images/icons/icon_delete.png' alt='Delete' /> </a>"                           
+                       
+                            $('#'+idrow+' .facturation_type').html(facturation_type);
+                            $('#'+idrow+' .price').html(price);
+                            $('#'+idrow+' .final_price').html(final_price);
+                            $('#'+idrow+' .mod_receipt').html(mod_receipt).removeAttr("id");
+                            
+                        });
+                    });
                 });
-                //coloco resultado en capa id=albumesdiv
-                $('#verajax').html(datos);
-            });
-        });
-  });
 </script>

@@ -71,7 +71,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $this->bootstrap('layout');
         $layout = $this->getResource('layout');
         $view = $layout->getView();
-        $view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+         $view->addHelperPath(
+                'ZendX/JQuery/View/Helper'
+                ,'ZendX_JQuery_View_Helper');
+         
+//        $view->addHelperPath('ZendX/JQuery/View/Helper/JQuery', 'ZendX_JQuery_View_Helper_JQuery');
+        $view->addHelperPath('Core/View/Helper/', 'Core_View_Helper');
+
+//        $view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
         $view->doctype('XHTML1_TRANSITIONAL');
         $view->headTitle('Globalpms');
         $view->headTitle()->setSeparator(' - ');

@@ -6,29 +6,44 @@ echo $this->doctype();
 
     <?php echo $this->headMeta(); ?>
     <?= $this->headTitle($this->escape($this->title)) ?>
-    <?php echo $this->headLink()->prependStylesheet($this->baseUrl() . '/css/site.css');
-    ?>
-
-    <!-- Calendar Styles -->
-    <link href="/styles/css/fullcalendar.css" rel="stylesheet" type="text/css" />
-    <!-- Fancybox/Lightbox Effect -->
-    <link href="/styles/css/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" />
-    <!-- WYSIWYG Editor -->
-    <link href="/styles/css/wysiwyg.css" rel="stylesheet" type="text/css" />
+    <?php echo $this->headLink()
+                    ->prependStylesheet($this->baseUrl() . '/css/site.css')
+     ?>
+    <?php echo $this->JQuery(); ?>
+  
+    <!-- jquery styles -->
+    <link href="/styles/css/ui-lightness/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css" />
+      
     <!-- Main Controlling Styles -->
     <link href="/styles/css/main.css" rel="stylesheet" type="text/css" />
-    
+ 
     <!-- Blue Theme Styles -->
-    <link href="/styles/themes/grey/styles.css" rel="stylesheet" type="text/css" />
+    <link href="/styles/themes/blue/styles.css" rel="stylesheet" type="text/css" />
  
     <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/javascript/jquery/jquery.js"></script>
 <!--    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/scripts/jquery.js"></script>-->
 <!--    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/onclick/onclick.js" ></script>  
-    
+    <!-- 
+
+-->
+<!-- import the calendar script -->
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/calendar.js"></script>
+
+<!-- import the calendar script -->
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/calendar-setup.js"></script>
+
+<!-- import the language module -->
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/calendar-es.js"></script>
+
  <!--   <script type="text/javascript" language="javascript" src="<?php echo $this->baseUrl(); ?>/scripts/listasEncadenadas.js"></script>
 -->    
+  <!-- Calendar picker --> 
+<!-- import the calendar script 
+<script type="text/javascript" src="calendar.js"></script>
 
-
+ import the language module 
+<script type="text/javascript" src="lang/calendar-en.js"></script>
+    -->
     
 </head>
 
@@ -206,9 +221,7 @@ echo $this->doctype();
 <?php echo $this->layout()->content; ?> 
         </div>
 
-        <!-- Footer start --> 
-        <p id="footer">&copy; openhost.com</p>
-        <!-- Footer end -->      
+       
 
     </div>
     <!-- Right side end --> 

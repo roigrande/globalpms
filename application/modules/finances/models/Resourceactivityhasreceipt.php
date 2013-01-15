@@ -127,7 +127,7 @@ class Finances_Model_Resourceactivityhasreceipt {
       
         //multiplicar por el precio de la hora
         $final_price= $hours*(int)$price*$quantity;
-    
+        
         //multiplicar por el iva
 //        $final_price=$final_price+$final_price/(int)$iva_type;
         return $final_price;
@@ -138,20 +138,11 @@ class Finances_Model_Resourceactivityhasreceipt {
         //TODO quitar hardcode
         if ($facturaction_type_id=='33') {
         
-        return $price;
+        return $price*$quantity;
         }
         
-        //por hora
-        //comprobar que es por hora el facturation_type
-        //TODO quitar hardcode
-        if ($facturaction_type_id=='34') {
-        //calcular la diferencia de horas entre las fechas
-            
-    
-        //multiplicar por el iva
-//        $final_price=$final_price+$final_price/(int)$iva_type;
-        return $final_price;
-        }
+         
+        
     }
  
     

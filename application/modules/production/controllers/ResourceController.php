@@ -42,23 +42,20 @@ class Production_ResourceController extends Zend_Controller_Action {
     public function addAction() {
 
         $this->view->headTitle("Add New Resource", 'APPEND');
+       
         $request = $this->getRequest();
+        
         $form = new Production_Form_Resource();
-
+         
         if ($this->getRequest()->isPost()) {
-//            if ($form->isValid($request->getPost())) {
-            if(1){
+           
                 $model = new Production_Model_Resource();
-//                $data = $form->getValues();
                 $data = $request->getPost();
-//                Zend_Debug::dump($data);
-//                die();
-                $data["activities_id"] = $_SESSION["production"]["activity_id"];
+                 $data["activities_id"] = $_SESSION["production"]["activity_id"];
                 $model->save($data);
                 return $this->_helper->_redirector->gotoSimple('consult', 'activity', 'production');
-            }
-        } else {
-//             
+            
+        } else { 
             $form->populate($form->getValues());
         }
        

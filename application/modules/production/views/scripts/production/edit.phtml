@@ -13,4 +13,24 @@
 
     </div>
 </div>
- 
+<link rel="stylesheet" type="text/css" media="all" href="/styles/css/calendar/skins/tiger/theme.css" title="Tiger" /> 
+<script type="text/javascript">
+    Calendar.setup({
+        inputField     :    "f_date_end",      // id of the input field
+        ifFormat       :    "%Y-%m-%d %H:%M:00",       // format of the input field
+        showsTime      :    true,            // will display a time selector
+        singleClick    :    false,           // double-click mode
+        timeFormat     :    "24",
+        step           :    1                // show all years in drop-down boxes (instead of every other year as default)
+    });
+    
+     Calendar.setup({
+        inputField     :    "f_date_start",      // id of the input field
+        ifFormat       :    "%Y-%m-%d %H:%M:00",       // format of the input field
+        showsTime      :    true,            // will display a time selector
+        singleClick    :    false,           // double-click mode
+        timeFormat     :    "24",
+        step           :    1                // show all years in drop-down boxes (instead of every other year as default)
+    });
+</script>                                                                                           <!--
+  

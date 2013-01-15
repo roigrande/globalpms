@@ -190,9 +190,9 @@ class Production_ActivityController extends Zend_Controller_Action {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $model = new Production_Model_Activity();
                 $id = $_SESSION["production"]["activity_id"];
-                $data=$form->getValues();
-                
+                $data=$form->getValues();            
                 $model->update($data, 'id = ' . (int) $id);
+                
                 return $this->_helper->redirector('consult');
             } else {
                 $form->populate($this->getRequest()->getPost());
@@ -209,6 +209,9 @@ class Production_ActivityController extends Zend_Controller_Action {
         if ($_SESSION["gpms"]["role"]=="Encargado Actividad"){
              $form->removeElement('$contact_own_company_id');
         }
+       
+ 
+        echo $this->view->form;
         $this->view->form = $form;
     }
 

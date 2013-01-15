@@ -56,16 +56,16 @@
                             <?php
                             foreach ($types as $invoices) :
                                 ?>
-
+                            <tr>
                             <td><a class="cut">-</a><span><?php echo $this->escape($invoices["resource_name"]); ?></span></td>   
                             <td><span><?php echo $this->escape($invoices["observation"]); ?></span></td>
                             <td><span data-prefix>€</span><span><?php
-                   echo $this->escape($invoices["final_price"]); 
-                $final_price_by_iva[$iva_type] = $final_price_by_iva[$iva_type] + $invoices["final_price"] * $invoices["quantity"]
+                            echo $this->escape($invoices["final_price"]); 
+                            $final_price_by_iva[$iva_type] = $final_price_by_iva[$iva_type] + $invoices["final_price"] * $invoices["quantity"]
                                 ?></span></td> 
                             <td><span><?php echo $this->escape($invoices["quantity"]); ?></span></td>
                             <td><span data-prefix>€</span><span><?php echo $this->escape($invoices["quantity"] * $invoices["final_price"]); ?></span></td>          
-
+                            </tr>
 
 
 

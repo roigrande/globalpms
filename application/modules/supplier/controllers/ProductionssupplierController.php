@@ -104,8 +104,10 @@ class Supplier_ProductionssupplierController extends Zend_Controller_Action {
             if ($form->isValid($request->getPost())) {
                 $model = new Supplier_Model_Productionssupplier();
                 $data = $form->getValues();
+                if ($data["suppliers_id"]){              
                 $data["productions_id"] = $_SESSION["production"]["id"];
                 $model->save($data);
+                }
                 return $this->_helper->redirector('index');
             }
         } else {

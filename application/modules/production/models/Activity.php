@@ -36,15 +36,13 @@ class Production_Model_Activity {
         if ($data["contact_own_company_id"] == null) {
             unset($data["contact_own_company_id"]);
         }
-//         Zend_Debug::dump($data);
-//         die();
+//         
         foreach ($data as $field => $value) {
             if (!in_array($field, $fields)) {
                 unset($data[$field]);
             }
         }
-//         Zend_Debug::dump($data);
-//        die();
+//         
         $table->insert($data);
         return $table->lastInsertId();
     }
@@ -65,6 +63,7 @@ class Production_Model_Activity {
         }
 
         $table->update($data, $where);
+
         //change the name of the activy in Session
         if ($_SESSION["production"]["activity_name"] != $data["name"]) {
             $_SESSION["production"]["activity_name"] = $data["name"];

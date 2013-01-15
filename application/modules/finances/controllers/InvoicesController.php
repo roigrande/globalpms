@@ -51,6 +51,7 @@ class Finances_InvoicesController extends Zend_Controller_Action {
             return $this->_helper->_redirector->gotoSimple('index');
         }
         $production_model= new Company_Model_Company();
+        Zend_Debug::dump($model->fetchInvoice($invoice_id));
         $this->view->company = $production_model->fetchEntry($_SESSION["company"]["id"]);   
         $this->view->client = $model->fetchDatasReceiptEntry($invoice_id);      
         $this->view->invoices = $model->fetchInvoice($invoice_id);

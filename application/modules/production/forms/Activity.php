@@ -2,13 +2,12 @@
 
 class Production_Form_Activity extends Zend_Form {
 
-
     public function init() {
         $this->setName('activity');
         $id = new Zend_Form_Element_Hidden('id');
         $id->addFilter('Int');
         $id->removeDecorator('label');
-        
+
         $name = new Zend_Form_Element_Text('name');
         $name->setLabel('Name')
                 ->setRequired(true)
@@ -21,7 +20,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-         
+
         $activity_types_id = new Zend_Form_Element_Select('activity_types_id');
         $activity_types_id->setLabel('activity type')
                 ->addValidator('NotEmpty', true)
@@ -55,7 +54,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
-        
+
         $status_id = new Zend_Form_Element_Select('status_id');
         $status_id->setLabel('Status')
                 ->addValidator('NotEmpty', true)
@@ -66,11 +65,11 @@ class Production_Form_Activity extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
-        
+
         $date_start = new Zend_Form_Element_Text('date_start');
-        $date_start->setLabel('Date Start')
+        $date_start->setLabel('date start')
                 ->setRequired(true)
-                ->addfilter('StripTags')
+                ->addFilter('StripTags')
                 ->addfilter('StringTrim')
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
@@ -78,19 +77,24 @@ class Production_Form_Activity extends Zend_Form {
                 ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
+                ->setAttrib('id', 'f_date_start')
         ;
-//
+
         $date_end = new Zend_Form_Element_Text('date_end');
-        $date_end->setLabel('Date End')
+        $date_end->setLabel('date end')
                 ->setRequired(true)
-                ->addfilter('StripTags')
+                ->addFilter('StripTags')
                 ->addfilter('StringTrim')
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 30)
                 ->setAttrib('maxlength', 80)
                 ->setAttrib("class", "inputbox")
+//                ->setAttrib("onclick", "return showCalendar('sel1', '%Y-%m-%d [%W] %H:%M', '24', true);")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
+                ->setAttrib('id', 'f_date_end')
+
+
         ;
 
 
@@ -105,7 +109,7 @@ class Production_Form_Activity extends Zend_Form {
                 ->setAttrib("class", "inputbox")
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
-        ; 
+        ;
 
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setValue('Guardar')
@@ -164,12 +168,12 @@ class Production_Form_Activity extends Zend_Form {
                 ";
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
-        
+
         return $result;
     }
 
     public function _selectOptionsContactClientCompanies() {
-      
+
         $sql = "SELECT id,name
                   FROM contacts WHERE contacts.company_id=" . $_SESSION["production"]["client_company"] . "
                 AND in_litter =0
@@ -177,7 +181,7 @@ class Production_Form_Activity extends Zend_Form {
 
         $db = Zend_Registry::get('db');
         $result = $db->fetchPairs($sql);
-       
+
         return $result;
     }
 

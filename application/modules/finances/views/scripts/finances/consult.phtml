@@ -45,7 +45,7 @@ echo $this->url(array('controller' => 'invoices',
                         <td><?php echo $this->escape($finances->iva_type_name); ?></td>
 
                         <td><?php echo $this->escape($finances->invoices_status_name); ?></td>
-                        <?php if (!$this->escape($finances->final_price)) { ?>
+                        <?php if (!$finances->resources_activities_has_receipt_id) { ?>
                             <td class ="facturation_type">
                                 <select  width=" 150px">
                                     <?php
@@ -60,7 +60,7 @@ echo $this->url(array('controller' => 'invoices',
                             </td>
                         <?php } ?>
 
-                        <?php if (!$this->escape($finances->final_price)) { ?>
+                        <?php if (!$finances->resources_activities_has_receipt_id) { ?>
                             <td class ="price">
                                 <input type="text" value="0"/> 
                             </td>
@@ -71,7 +71,7 @@ echo $this->url(array('controller' => 'invoices',
                             </td> 
 
                         <?php } ?>
-                        <?php if (!$this->escape($finances->final_price)) { ?>   
+                        <?php if (!$finances->resources_activities_has_receipt_id) { ?>   
                             <td class ="final_price"> 
 
                             </td>
@@ -89,7 +89,7 @@ echo $this->url(array('controller' => 'invoices',
                             </td>
                         <?php } elseif (!$finances->resources_activities_has_receipt_id) { ?>
                             <td class ="mod_receipt">
-                                <input type="button"  class="pruebaajax" value="Añadir a factura" />
+                                <input type="button"  class="addbyajax" value="Añadir a factura" />
                             </td>
                         <?php } else { ?>
                             <td>
@@ -110,64 +110,52 @@ echo $this->url(array('controller' => 'invoices',
 </div>
 
 <!-- Table styles end -->  
-
-<div id="verajax"> </div>
-
+<?php echo $this->datePicker('dp','',array()); ?>
 <script type="text/javascript">
     $(document).ready(function(){
         //cuando hago clic en el boton id=veralbumes
-        $('.pruebaajax').click(function(event){
-                idrow= $(this).parent().parent().attr("id"),
-                price = $('#'+idrow+' .price input').val(),
-                facturation_type = $('#'+idrow+' .facturation_type select').val(),
-                facturation_type_name = $('#'+idrow+' select option:selected').html(),
-                url = "/finances/finances/addreceipt/id/"+idrow+"/price/"+price+"/facturation_type/"+facturation_type+"/facturation_type_name/"+facturation_type_name
-                $this = $(this),          
-                id = "",
-                final_price = "",
-                facturation_types_id = "",
-                mod_receipt = ""
-             
-                ;
-              price = "";
-                        
-            
-                        //funcion que hace llamada a ajax esperando un
-                        // arreglo json de respuesta
-                        $.getJSON(url,  function(data)
-                        {
+        $('.addbyajax').click(function(){
+            idrow= $(this).parent().parent().attr("id"),
+            price = $('#'+idrow+' .price input').val(),
+            facturation_type = $('#'+idrow+' .facturation_type select').val(),
+            facturation_type_name = $('#'+idrow+' select option:selected').html(),
+            url = "/finances/finances/addreceipt/id/"+idrow+"/price/"+price+"/facturation_type/"+facturation_type+"/facturation_type_name/"+facturation_type_name                  
+            id = "",
+            final_price = "",             
+            mod_receipt = ""           
+            ;
+           
+            //funcion que hace llamada a ajax esperando un
+            // arreglo json de respuesta
+            $.getJSON(url,  function(data)
+            {
                
-                            //por cada elemento
-                            //(recordar que recibimos un arreglo de arreglos)
-                            $.each(data, function(i,row){
-                                //                    guardo sus datos en un texto
-                                switch (i){
-                                    case 'id' :
-                                        id = row;
-                                        break
-                                    case 'facturation_types_id':
-                                        // ('#facturation_type41').html(row);
-                                        facturation_types_id = row;
-                                        break
-                                    case 'price':
-                                        price = row;
-                                        break
-                                    case 'final_price':
-                                        final_price = row;
-                                        break
+                //por cada elemento
+                //(recordar que recibimos un arreglo de arreglos)
+                $.each(data, function(i,row){
+                    //                    guardo sus datos en un texto
+                    switch (i){
+                        case 'id' :
+                            id = row;
+                            break
+                                        
+                        case 'final_price':
+                            final_price = row;
+                            break
                                     
                                    
-                                }
-                                //                                 
-                            });
-                            mod_receipt = "Pendiente de facturar <a href='/finances/finances/delete/id/"+id+"'> <img src='/styles/images/icons/icon_delete.png' alt='Delete' /> </a>"                           
-                       
-                            $('#'+idrow+' .facturation_type').html(facturation_type);
-                            $('#'+idrow+' .price').html(price);
-                            $('#'+idrow+' .final_price').html(final_price);
-                            $('#'+idrow+' .mod_receipt').html(mod_receipt).removeAttr("id");
-                            
-                        });
-                    });
+                    }
+                    //                                 
                 });
+                mod_receipt = "<a href='/finances/finances/delete/id/"+id+"'> <input type='button' class='deletebyajax' value='Quitar de Factura' /> </a>"                           
+                       
+                $('#'+idrow+' .facturation_type').html(facturation_type_name);
+                $('#'+idrow+' .price').html(price);
+                $('#'+idrow+' .final_price').html(final_price);
+                $('#'+idrow+' .mod_receipt').html(mod_receipt).removeAttr("id").attr('id', 'itemreceiptid'+id);
+                            
+            });
+        });
+         
+    });
 </script>

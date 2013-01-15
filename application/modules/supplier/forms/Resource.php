@@ -32,18 +32,6 @@ class Supplier_Form_Resource extends Zend_Form {
                             'viewScript' => 'forms/_element_select.phtml'))))
         ;
         
-        $num_resources = new Zend_Form_Element_Text('num_resources');
-        $num_resources->setLabel('Numero')                
-                ->addfilter('StripTags')
-                ->addfilter('StringTrim')
-                ->addValidator('NotEmpty')
-                ->setAttrib('size', 30)
-                ->setAttrib('maxlength', 80)
-                ->setAttrib("class", "inputbox")
-                ->setDecorators(array(array('ViewScript', array(
-                            'viewScript' => 'forms/_element_text.phtml'))))
-        ; 
-        
         $description = new Zend_Form_Element_Text('description');
         $description->setLabel('Description')                
                 ->addfilter('StripTags')
@@ -67,29 +55,7 @@ class Supplier_Form_Resource extends Zend_Form {
                 ->setDecorators(array(array('ViewScript', array(
                             'viewScript' => 'forms/_element_text.phtml'))))
         ;
-        
-//        
-//        $resources_types_id = new Zend_Form_Element_Select('resources_types_id');
-//        $resources_types_id->setLabel('resource types') 
-//                ->addValidator('NotEmpty', true)
-//                ->setmultiOptions($this->_selectOptions_types())
-//                ->setAttrib('maxlength', 200)
-//                ->setAttrib('size', 1)
-//                ->setAttrib("class", "toolboxdrop")
-//                ->setDecorators(array(array('ViewScript', array(
-//                            'viewScript' => 'forms/_element_select.phtml'))))
-//        ;
-//        
-//        $resources_types_id = new Zend_Form_Element_Multiselect('$resources_types_id');
-//        $resources_types_id->setLabel('resource types')              
-//                ->setmultiOptions($this->_selectOptions_types())
-//                ->setAttrib('maxlength', 200)
-//                ->setAttrib('size', 5)
-//                ->setDecorators(array(array('ViewScript', array(
-//                            'viewScript' => 'forms/_element_select.phtml'))))
-//                ->setAttrib("class","toolboxdrop")
-//        ;
-//        
+ 
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setValue('Guardar')
                 ->setAttrib('id', 'submitbutton')
@@ -102,7 +68,6 @@ class Supplier_Form_Resource extends Zend_Form {
             $resources_types_id,
             $name,
             $description,
-            $num_resources,
             $direction,
            
             $submit));

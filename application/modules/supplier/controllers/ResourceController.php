@@ -53,6 +53,7 @@ class Supplier_ResourceController extends Zend_Controller_Action {
                return $this->_helper->_redirector->gotoSimple('consult', 'supplier', 'supplier');
             }
         } else {
+            
             $form->populate($form->getValues());
         }
         $this->view->form = $form;
@@ -80,7 +81,7 @@ class Supplier_ResourceController extends Zend_Controller_Action {
             $id = $this->_getParam('id', 0);
             if ($id > 0) {
 
-                $model = new Supplier_Model_Resource();
+                $model = new Supplier_Model_Resource();              
                 $form->populate($model->fetchEntry($id));
             }
         }

@@ -280,8 +280,8 @@ class Finances_FinancesController extends Zend_Controller_Action {
      * @return void
      */
     public function deleteAction() {
-    
-          $id = $this->_getParam('id', 0);
+
+       $id = $this->_getParam('id', 0);
        if ($id > 0) {
             
           $model_resource_activity_has_receipt = new Finances_Model_Resourceactivityhasreceipt();
@@ -289,25 +289,6 @@ class Finances_FinancesController extends Zend_Controller_Action {
         $model_resource_activity_has_receipt->delete('id= '.$id);
         }
         return $this->_helper->redirector->gotoSimple('consult', 'finances', 'finances');
-    
+       
     }
-
-    /**
-     * deleteAction for Financess
-     *
-     * @return void
-     */
-    
-    public function deletereceiptAction() {
-       die();
-       $id = $this->_getParam('id', 0);
-       if ($id > 0) {
-            
-          $model_resource_activity_has_receipt = new Finances_Model_Resourceactivityhasreceipt();
-//           $data_activity_resource["final_price"]=$model_resource_activity_has_receipt->calculateFinalPrice($data_activity_resource["resources_activities_id"],$data_activity_resource["price"],$data_activity_resource["iva_type"],$data_activity_resource["facturation_types_id"]);
-        $model_resource_activity_has_receipt->delete('resources_activities_id= '.$id);
-        }
-        return $this->_helper->redirector->gotoSimple('consult', 'finances', 'finances');
-    }
-
 }

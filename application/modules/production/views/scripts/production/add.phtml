@@ -25,22 +25,30 @@
             <?php
               echo $this->company_form;              
             ?>
-        </div>
-        <?php
- 
-$this->headLink()->appendStylesheet('http://code.jquery.com/ui/1.8.23/themes/smoothness/jquery-ui.css', 'screen');
-$this->headScript()->appendFile('/js/jquery-ui-sliderAccess.js');
-$this->headScript()->appendFile('/js/jquery-ui-timepicker-addon.js');
-$this->headScript()->appendScript('
-    $(function() {
-        $("#start_time").datetimepicker({showSecond: true, dateFormat: "yy-mm-dd", timeFormat: "hh:mm:ss"});
-        $("#end_time").datetimepicker({showSecond: true, dateFormat: "yy-mm-dd", timeFormat: "hh:mm:ss"});
-    });
-');
-        ?>
+       
 
 
     </div>
 </div>
 
- 
+<link rel="stylesheet" type="text/css" media="all" href="/styles/css/calendar/skins/tiger/theme.css" title="Tiger" /> 
+<script type="text/javascript">
+    Calendar.setup({
+        inputField     :    "f_date_end",      // id of the input field
+        ifFormat       :    "%Y-%m-%d %H:%M:00",       // format of the input field
+        showsTime      :    true,            // will display a time selector
+        singleClick    :    false,           // double-click mode
+        timeFormat     :    "24",
+        step           :    1                // show all years in drop-down boxes (instead of every other year as default)
+    });
+    
+     Calendar.setup({
+        inputField     :    "f_date_start",      // id of the input field
+        ifFormat       :    "%Y-%m-%d %H:%M:00",       // format of the input field
+        showsTime      :    true,            // will display a time selector
+        singleClick    :    false,           // double-click mode
+        timeFormat     :    "24",
+        step           :    1                // show all years in drop-down boxes (instead of every other year as default)
+    });
+</script>                                                                                            <!--
+  
